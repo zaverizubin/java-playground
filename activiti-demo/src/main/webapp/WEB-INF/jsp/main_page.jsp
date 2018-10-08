@@ -54,7 +54,7 @@
     <body>
     	<div class="box">
     
-        <h3>Hello  Welcome to the Activiti Example.</h3>
+        <h3>Hello <c:out value="${username}"></c:out> Welcome to the Activiti Example.</h3>
         <div class="innerbox"></div>
         <form name='logoutForm' action="<c:url value='j_spring_security_logout' />"  method='post'>
 			 <input type="submit" value="Sign Out" class="button"/>
