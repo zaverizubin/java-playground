@@ -75,7 +75,7 @@
     </dependencies>
   
     <build>
-        <finalName>my-spring-app</finalName>
+        <finalName>activiti-demo</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
