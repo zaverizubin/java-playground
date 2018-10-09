@@ -32,7 +32,7 @@
 		.button {
 		  width: 150px;
 		  height: 30px;
-		  margin: 10px 0px;
+		  margin: 10px 5px;
 		  padding: 0;
 		  font-size: 20px;
 		  color: #fff;
@@ -53,14 +53,25 @@
     </head>
     <body>
     	<div class="box">
-    
-        <h3>Hello <c:out value="${username}"></c:out> Welcome to the Activiti Example.</h3>
-        <div class="innerbox"></div>
-        <form name='logoutForm' action="<c:url value='j_spring_security_logout' />"  method='post'>
-			 <input type="submit" value="Sign Out" class="button"/>
-			 <input type="button" onclick="location.href='activiti-init'" 
-			 value="Start Activiti" class="button right"  /> 
-		</form>
- 		
+	    	<%
+	    	String processName = (String)request.getAttribute("processName");
+	    	if(processName != null){
+	    		out.println("Available process: ${processName}");
+	    		
+	    	}
+	    	%>
+<%-- 	    	<c:out value="${username}"></c:out> --%>
+	        <h3>Hello  Welcome to the Activiti Example.</h3>
+	        <div class="innerbox"></div>
+	        <form name='logoutForm' action="<c:url value='j_spring_security_logout' />"  method='post'>
+				 <input type="submit" value="Sign Out" class="button"/>
+				 <div>
+				<input type="button" onclick="location.href='activiti-create-instance'" value="Create Instance" class="button right"  />
+				<input type="button" onclick="location.href='activiti-delete-instances'" value="Delete Instances" class="button right"  /> 
+				<input type="button" onclick="location.href='activiti-init'" value="Start Activiti" class="button right"  /> 
+			</div>
+			</form>
+			
+ 		</div>
     </body>
 </html>

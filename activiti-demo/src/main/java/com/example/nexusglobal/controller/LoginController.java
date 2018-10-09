@@ -1,4 +1,4 @@
-package com.example.springmvc.controller;
+package com.example.nexusglobal.controller;
 
 import java.security.Principal;
 

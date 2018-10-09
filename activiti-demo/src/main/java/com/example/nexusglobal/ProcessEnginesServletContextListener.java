@@ -1,4 +1,4 @@
-package com.example.springmvc;
+package com.example.nexusglobal;
 /*
  * import javax.servlet.ServletContextEvent; import
  * javax.servlet.ServletContextListener;
