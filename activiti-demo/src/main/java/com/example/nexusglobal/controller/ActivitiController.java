@@ -46,10 +46,10 @@ public class ActivitiController {
 
 	@RequestMapping(value = "/activiti-delete-instances", method = RequestMethod.GET)
 	public ModelAndView activityDeleteInstances() throws Exception {
-		final ModelAndView mav = new ModelAndView();
-		
 		initActivitiService();
 		List<ProcessInstance> processInstances;
+		
+		final ModelAndView mav = new ModelAndView();
 		
 		if(processDefinitions != null) {
 			processInstances =  getProcessInstancesForDefinition(processDefinitions.get(0));

@@ -66,9 +66,10 @@
 	        <form name='logoutForm' action="<c:url value='j_spring_security_logout' />"  method='post'>
 				 <input type="submit" value="Sign Out" class="button"/>
 				 <div>
+				 <input type="button" onclick="location.href='activiti-init'" value="Start Activiti" class="button right"  /> 
 				<input type="button" onclick="location.href='activiti-create-instance'" value="Create Instance" class="button right"  />
 				<input type="button" onclick="location.href='activiti-delete-instances'" value="Delete Instances" class="button right"  /> 
-				<input type="button" onclick="location.href='activiti-init'" value="Start Activiti" class="button right"  /> 
+				
 			</div>
 			</form>
 			
