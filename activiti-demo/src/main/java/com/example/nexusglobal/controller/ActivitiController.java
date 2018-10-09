@@ -38,14 +38,14 @@ public class ActivitiController {
 	}
 	
 	@RequestMapping(value = "/activiti-create-instance", method = RequestMethod.GET)
-	public ModelAndView activityCreateInstance() throws Exception {
+	public ModelAndView activitiCreateInstance() throws Exception {
 		final ModelAndView mav = new ModelAndView();
 		createProcessInstance(processDefinitions.get(0));
 		return mav;
 	}
 
 	@RequestMapping(value = "/activiti-delete-instances", method = RequestMethod.GET)
-	public ModelAndView activityDeleteInstances() throws Exception {
+	public ModelAndView activitiDeleteInstances() throws Exception {
 		initActivitiService();
 		List<ProcessInstance> processInstances;
 		
