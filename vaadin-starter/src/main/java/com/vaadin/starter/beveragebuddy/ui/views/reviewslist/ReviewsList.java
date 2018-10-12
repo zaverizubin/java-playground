@@ -36,7 +36,7 @@ import com.vaadin.flow.templatemodel.Encode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.starter.beveragebuddy.backend.Review;
 import com.vaadin.starter.beveragebuddy.backend.ReviewService;
-import com.vaadin.starter.beveragebuddy.ui.MainLayout;
+import com.vaadin.starter.beveragebuddy.ui.ActivitiMainView;
 import com.vaadin.starter.beveragebuddy.ui.common.AbstractEditorDialog;
 import com.vaadin.starter.beveragebuddy.ui.encoders.LocalDateToStringEncoder;
 import com.vaadin.starter.beveragebuddy.ui.encoders.LongToStringEncoder;
@@ -48,7 +48,7 @@ import com.vaadin.starter.beveragebuddy.ui.views.reviewslist.ReviewsList.Reviews
  *
  * Implemented using a simple template.
  */
-@Route(value = "reviews", layout = MainLayout.class)
+@Route(value = "reviews", layout = ActivitiMainView.class)
 @PageTitle("Review List")
 @Tag("reviews-list")
 @HtmlImport("frontend://src/views/reviewslist/reviews-list.html")

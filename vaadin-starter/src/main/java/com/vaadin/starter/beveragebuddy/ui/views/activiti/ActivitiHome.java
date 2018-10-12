@@ -19,7 +19,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.starter.beveragebuddy.ui.MainLayout;
+import com.vaadin.starter.beveragebuddy.ui.ActivitiMainView;
 
 /**
  * Displays the list of available categories, with a search filter as well as
@@ -27,7 +27,7 @@ import com.vaadin.starter.beveragebuddy.ui.MainLayout;
  *
  * Implemented using a simple template.
  */
-@Route(value = "", layout = MainLayout.class)
+@Route(value = "", layout = ActivitiMainView.class)
 @PageTitle("Activti Home")
 @Tag("activiti-home")
 

@@ -13,4 +13,5 @@ public class IdentityService {
 	public User getUser(final String userId) {
 		return processEngine.getIdentityService().createUserQuery().userId(userId).singleResult();
 	}
+
 }

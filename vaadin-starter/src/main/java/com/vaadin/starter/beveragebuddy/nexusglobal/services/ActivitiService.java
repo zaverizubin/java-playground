@@ -6,36 +6,40 @@ import org.activiti.engine.ProcessEngines;
 public class ActivitiService {
 
 	ProcessEngine processEngine;
-	DeploymentService deploymentService;
-	ProcessService processService;
-	ProcessTaskService  processTaskService;
+	RepositoryService repositoryService;
+	RuntimeService runtimeService;
+	TaskService taskService;
 	IdentityService identityService;
+	HistoryService historyService;
 
 	public ActivitiService() {
 		processEngine = ProcessEngines.getDefaultProcessEngine();
-		deploymentService = new DeploymentService(processEngine);
-		processService = new ProcessService(processEngine);
-		processTaskService = new ProcessTaskService(processEngine);
+		repositoryService = new RepositoryService(processEngine);
+		runtimeService = new RuntimeService(processEngine);
+		taskService = new TaskService(processEngine);
 		identityService = new IdentityService(processEngine);
+		historyService = new HistoryService(processEngine);
 	}
 
-	public DeploymentService getDeploymentService() {
-		return deploymentService;
+	public RepositoryService getRepositoryService() {
+		return repositoryService;
 	}
 
-	public ProcessService getProcessService() {
-		return processService;
+	public RuntimeService getRuntimeService() {
+		return runtimeService;
 	}
 
-	public ProcessTaskService getProcessTaskService() {
-		return processTaskService;
+	public TaskService getTaskService() {
+		return taskService;
 	}
 
 	public IdentityService getIdentityService() {
 		return identityService;
 	}
 
-
+	public HistoryService getHistoryService() {
+		return historyService;
+	}
 
 
 }

@@ -23,4 +23,9 @@ public class TaskService {
 	public void claimTask(final String taskId, final String userId) {
 		processEngine.getTaskService().claim(taskId, userId);
 	}
+
+	public void markTaskAsComplete(final Task task) {
+		processEngine.getTaskService().complete(task.getId());
+	}
+
 }
