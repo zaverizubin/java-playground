@@ -1,4 +1,4 @@
-package com.vaadin.starter.beveragebuddy.ui.controllers;
+package com.nexusglobal.ui.controllers;
 
 import java.util.List;
 
@@ -9,10 +9,9 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
-import com.vaadin.starter.beveragebuddy.nexusglobal.models.ProcessInstanceDetail;
-import com.vaadin.starter.beveragebuddy.nexusglobal.services.ActivitiService;
-import com.vaadin.starter.beveragebuddy.ui.views.activiti.ActivitiMainView;
-import com.vaadin.starter.beveragebuddy.ui.views.activiti.ProcessInstanceSummaryView;
+import com.nexusglobal.models.ProcessInstanceDetail;
+import com.nexusglobal.services.ActivitiService;
+import com.nexusglobal.ui.views.ActivitiMainView;
 
 public class ActivitiMainController {
 
@@ -58,7 +57,7 @@ public class ActivitiMainController {
 					new ProcessInstanceDetail().createHistoricProcessInstanceDetails(historicalProcessInstances));
 		}
 		view.showProcessInstances(processInstanceDetails);
-		view.clearProcessDetails();
+		view.clearDetailsView();
 	}
 
 	public void onAddNewProcessInstance(final ProcessDefinition processDefinition) {
@@ -66,7 +65,7 @@ public class ActivitiMainController {
 			final ProcessInstance processInstance = startProcessInstance(processDefinition.getId());
 			assignUserToProcessInstance(processInstance.getId());
 			onProcessInstanceFilterClick("Running");
-			view.clearProcessDetails();
+			view.clearDetailsView();
 		}
 	}
 
@@ -74,7 +73,7 @@ public class ActivitiMainController {
 		if (processDefinition != null) {
 			cancelProcessInstances(processDefinition.getId());
 			onProcessInstanceFilterClick("All");
-			view.clearProcessDetails();
+			view.clearDetailsView();
 		}
 	}
 
@@ -118,10 +117,7 @@ public class ActivitiMainController {
 	}
 
 	public void showProcessDetails(final ProcessInstanceDetail processInstanceDetail) {
-
-		final ProcessInstanceSummaryView processInstanceSummaryView = new ProcessInstanceSummaryView(view);
-		processInstanceSummaryView.showProcessInstanceSummary(processInstanceDetail);
-		view.addProcessInstanceSummaryView(processInstanceSummaryView);
+		view.showProcessInstanceSummaryView(processInstanceDetail);
 
 	}
 

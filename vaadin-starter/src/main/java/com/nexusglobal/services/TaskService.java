@@ -1,4 +1,4 @@
-package com.vaadin.starter.beveragebuddy.nexusglobal.services;
+package com.nexusglobal.services;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class TaskService {
 	}
 
 	public List<Task> getTaskListForProcessInstance(final String processInstanceId) {
-		return processEngine.getTaskService().createTaskQuery().processInstanceId(processInstanceId).list();
+		return processEngine.getTaskService().createTaskQuery().processInstanceId(processInstanceId).active().list();
 	}
 
 	public void assignUserToTask(final String taskId, final String userId) {

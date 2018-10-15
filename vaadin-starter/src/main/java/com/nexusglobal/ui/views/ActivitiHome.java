@@ -13,29 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui.encoders;
+package com.nexusglobal.ui.views;
 
-import com.vaadin.flow.templatemodel.ModelEncoder;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 
 /**
- * @author Vaadin Ltd
+ * Displays the list of available categories, with a search filter as well as
+ * buttons to add a new category or edit existing ones.
  *
+ * Implemented using a simple template.
  */
+@Route(value = "", layout = ActivitiMainView.class)
+@PageTitle("Activti Home")
+@Tag("activiti-home")
 
-public class LongToStringEncoder implements ModelEncoder<Long, String> {
+public class ActivitiHome extends VerticalLayout {
 
-    @Override
-    public String encode(Long modelValue) {
-        if (modelValue == null)
-            return null;
-        return modelValue.toString();
-    }
+	public ActivitiHome() {
 
-    @Override
-    public Long decode(String presentationValue) {
-        if (presentationValue == null)
-            return null;
-        return Long.parseLong(presentationValue);
-    }
+
+	}
+
+
 
 }

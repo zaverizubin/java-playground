@@ -1,4 +1,4 @@
-package com.vaadin.starter.beveragebuddy.nexusglobal.services;
+package com.nexusglobal.services;
 
 import java.util.List;
 

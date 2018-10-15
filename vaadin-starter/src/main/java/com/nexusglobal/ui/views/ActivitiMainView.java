@@ -13,13 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui.views.activiti;
+package com.nexusglobal.ui.views;
 
 import java.util.List;
 
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 
+import com.nexusglobal.models.ProcessInstanceDetail;
+import com.nexusglobal.ui.controllers.ActivitiMainController;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -35,11 +38,6 @@ import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
-import com.vaadin.starter.beveragebuddy.nexusglobal.models.ProcessInstanceDetail;
-import com.vaadin.starter.beveragebuddy.ui.controllers.ActivitiMainController;
-import com.vaadin.starter.beveragebuddy.ui.views.categorieslist.CategoriesList;
-import com.vaadin.starter.beveragebuddy.ui.views.reviewslist.ReviewsList;
-
 /**
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
@@ -59,6 +57,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private VerticalLayout vertLayoutProcessInstances;
 	private VerticalLayout verticalLayout1;
 	private VerticalLayout verticalLayout2;
+	private VerticalLayout verticalLayout3;
 
 	public ActivitiMainView() {
 		controller = new ActivitiMainController(this);
@@ -81,13 +80,17 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		verticalLayout1.addClassName("verticalBoxBorder");
 		verticalLayout2 = new VerticalLayout();
 		verticalLayout2.addClassName("verticalBoxBorder");
+		verticalLayout3 = new VerticalLayout();
+		verticalLayout3.addClassName("verticalBoxBorder");
+		verticalLayout3.setVisible(false);
 
 		verticalLayout1.setWidth("400px");
 		verticalLayout2.setWidth("800px");
-
+		verticalLayout3.setWidth("800px");
 
 		horizontalLayout1.add(verticalLayout1);
 		horizontalLayout1.add(verticalLayout2);
+		horizontalLayout1.add(verticalLayout3);
 
 		verticalLayout1.add(cbProcessDefinitions);
 		horizontalLayout2.add(btnCreateNewProcessInstance);
@@ -114,12 +117,12 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		title.addClassName("main-layout__title");
 		addClassName("main-layout");
 
-		final RouterLink processess = new RouterLink(null, ReviewsList.class);
+		final RouterLink processess = new RouterLink();
 		processess.add(new Icon(VaadinIcon.LIST), new Text("Processess"));
 		processess.addClassName("main-layout__nav-item");
 		processess.setHighlightCondition(HighlightConditions.sameLocation());
 
-		final RouterLink tasks = new RouterLink(null, CategoriesList.class);
+		final RouterLink tasks = new RouterLink();
 		tasks.add(new Icon(VaadinIcon.ARCHIVES), new Text("Tasks"));
 		tasks.addClassName("main-layout__nav-item");
 
@@ -206,12 +209,12 @@ public class ActivitiMainView extends Div implements RouterLayout {
 			final Label label1 = new Label();
 			if (processInstanceDetail.isEnded()) {
 				label1.setText(
-						"Ended On: " + processInstanceDetail.getEndTime().getDay() + ":"
-								+ processInstanceDetail.getEndTime().getMonth() + ":"
+						"Ended On: " + processInstanceDetail.getEndTime().getDate() + ":"
+								+ (processInstanceDetail.getEndTime().getMonth() + 1) + ":"
 								+ (1900 + processInstanceDetail.getEndTime().getYear()));
 			} else {
-				label1.setText("Started On: " + processInstanceDetail.getStartTime().getDay() + ":"
-						+ processInstanceDetail.getStartTime().getMonth() + ":"
+				label1.setText("Started On: " + processInstanceDetail.getStartTime().getDate() + ":"
+						+ (processInstanceDetail.getStartTime().getMonth() + 1) + ":"
 						+ (1900 + processInstanceDetail.getStartTime().getYear()));
 			}
 
@@ -233,17 +236,38 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		}
 	}
 
-	public void addProcessInstanceSummaryView(final ProcessInstanceSummaryView view) {
-		clearProcessDetails();
-		verticalLayout2.add(view);
+	public void showProcessInstanceSummaryView(final ProcessInstanceDetail processInstanceDetail) {
+		clearDetailsView();
+		final ProcessInstanceSummaryView processInstanceSummaryView = new ProcessInstanceSummaryView(this);
+		processInstanceSummaryView.showProcessInstanceSummary(processInstanceDetail);
+		verticalLayout2.add(processInstanceSummaryView);
+		verticalLayout2.setVisible(true);
+		verticalLayout3.setVisible(false);
 	}
 
-	public void reserView() {
+	public void showHistoricTaskSummaryView(final HistoricTaskInstance historicTaskInstance) {
+		verticalLayout3.removeAll();
+		final HistoricTaskSummaryView taskSummaryView = new HistoricTaskSummaryView(this);
+		taskSummaryView.showTaskSummary(historicTaskInstance);
+		verticalLayout3.add(taskSummaryView);
+
+		verticalLayout2.setVisible(false);
+		verticalLayout3.setVisible(true);
+
+	}
+
+	public void hideTaskDetails() {
+		verticalLayout3.removeAll();
+		verticalLayout3.setVisible(false);
+		verticalLayout2.setVisible(true);
+	}
+
+	public void resetView() {
 		controller.onProcessInstanceFilterClick("All");
-		clearProcessDetails();
+		clearDetailsView();
 	}
 
-	public void clearProcessDetails() {
+	public void clearDetailsView() {
 		verticalLayout2.removeAll();
 	}
 

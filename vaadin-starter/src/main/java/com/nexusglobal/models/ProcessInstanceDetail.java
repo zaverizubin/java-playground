@@ -1,4 +1,4 @@
-package com.vaadin.starter.beveragebuddy.nexusglobal.models;
+package com.nexusglobal.models;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,12 +1,13 @@
-package com.vaadin.starter.beveragebuddy.ui.controllers;
+package com.nexusglobal.ui.controllers;
 
 import java.util.List;
 
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.task.Task;
 
-import com.vaadin.starter.beveragebuddy.nexusglobal.models.ProcessInstanceDetail;
-import com.vaadin.starter.beveragebuddy.nexusglobal.services.ActivitiService;
-import com.vaadin.starter.beveragebuddy.ui.views.activiti.ProcessInstanceSummaryView;
+import com.nexusglobal.models.ProcessInstanceDetail;
+import com.nexusglobal.services.ActivitiService;
+import com.nexusglobal.ui.views.ProcessInstanceSummaryView;
 
 public class ProcessInstanceSummaryController {
 
@@ -21,12 +22,13 @@ public class ProcessInstanceSummaryController {
 	private void initActivitiService() {
 		activitiService = ActivitiService.getActivitiService();
 	}
+
 	public void onCancelProcessClick(final ProcessInstanceDetail processInstanceDetail) {
-		cancelProcessInstance(processInstanceDetail.getId(), null);
+		activitiService.getRuntimeService().deleteProcessInstance(processInstanceDetail.getId(), "cancelled");
 		view.resetParentView();
 	}
 
-	public void cancelProcessInstance(final String id, final Object object) {
+	public void onDeleteProcessClick(final ProcessInstanceDetail processInstanceDetail) {
 		// TODO Auto-generated method stub
 
 	}
@@ -36,8 +38,12 @@ public class ProcessInstanceSummaryController {
 
 	}
 
-	public void onCompletedTaskClick() {
-		// TODO Auto-generated method stub
+	public void onCompletedTaskClick(final HistoricTaskInstance historicTaskInstance) {
+		view.getParentView().showHistoricTaskSummaryView(historicTaskInstance);
+	}
+
+	public List<Task> getNextTaskForProcessInstance(final ProcessInstanceDetail processInstanceDetail) {
+		return activitiService.getTaskService().getTaskListForProcessInstance(processInstanceDetail.getId());
 
 	}
 
@@ -47,5 +53,6 @@ public class ProcessInstanceSummaryController {
 				.getCompletedTaskListForProcessInstance(processInstanceDetail.getId());
 
 	}
+
 
 }

@@ -1,4 +1,4 @@
-package com.vaadin.starter.beveragebuddy.nexusglobal.services;
+package com.nexusglobal.services;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
