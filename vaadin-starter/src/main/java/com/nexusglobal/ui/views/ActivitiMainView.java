@@ -21,8 +21,8 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 
+import com.nexusglobal.controllers.ActivitiMainController;
 import com.nexusglobal.models.ProcessInstanceDetail;
-import com.nexusglobal.ui.controllers.ActivitiMainController;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;

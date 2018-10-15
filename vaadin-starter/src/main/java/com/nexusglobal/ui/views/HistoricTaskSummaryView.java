@@ -2,7 +2,7 @@ package com.nexusglobal.ui.views;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 
-import com.nexusglobal.ui.controllers.TaskSummaryController;
+import com.nexusglobal.controllers.TaskSummaryController;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;

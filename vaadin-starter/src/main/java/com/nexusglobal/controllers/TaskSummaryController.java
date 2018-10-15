@@ -1,4 +1,4 @@
-package com.nexusglobal.ui.controllers;
+package com.nexusglobal.controllers;
 
 import org.activiti.engine.repository.ProcessDefinition;
 

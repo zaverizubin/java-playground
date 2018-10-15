@@ -6,8 +6,8 @@ import java.util.List;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
 
+import com.nexusglobal.controllers.ProcessInstanceSummaryController;
 import com.nexusglobal.models.ProcessInstanceDetail;
-import com.nexusglobal.ui.controllers.ProcessInstanceSummaryController;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
