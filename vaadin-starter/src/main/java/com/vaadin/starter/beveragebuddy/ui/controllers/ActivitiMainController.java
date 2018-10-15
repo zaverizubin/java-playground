@@ -3,7 +3,6 @@ package com.vaadin.starter.beveragebuddy.ui.controllers;
 import java.util.List;
 
 import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -12,20 +11,24 @@ import org.activiti.engine.task.Task;
 
 import com.vaadin.starter.beveragebuddy.nexusglobal.models.ProcessInstanceDetail;
 import com.vaadin.starter.beveragebuddy.nexusglobal.services.ActivitiService;
+import com.vaadin.starter.beveragebuddy.ui.views.activiti.ActivitiMainView;
+import com.vaadin.starter.beveragebuddy.ui.views.activiti.ProcessInstanceSummaryView;
 
 public class ActivitiMainController {
 
+	private final ActivitiMainView view;
 	private final String deploymentKey = "incident-investigation";
 	private final String userId = "admin";
 
 	private ActivitiService activitiService;
 
-	public ActivitiMainController() {
+	public ActivitiMainController(final ActivitiMainView view) {
+		this.view = view;
 		initActivitiService();
 	}
 
 	private void initActivitiService() {
-		activitiService = new ActivitiService();
+		activitiService = ActivitiService.getActivitiService();
 	}
 
 	public String getDeploymentKey() {
@@ -34,6 +37,45 @@ public class ActivitiMainController {
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public void onProcessInstanceFilterClick(final String processInstanceFilter) {
+		List<ProcessInstanceDetail> processInstanceDetails = null;
+
+		if (processInstanceFilter.equals("Running")) {
+			final List<ProcessInstance> processInstances = getRunningProcessInstancesByUser();
+			processInstanceDetails = new ProcessInstanceDetail().createProcessInstanceDetails(processInstances);
+		} else if (processInstanceFilter.equals("Completed")) {
+			final List<HistoricProcessInstance> historicalProcessInstances = getCompletedProcessInstancesByUser();
+			processInstanceDetails = new ProcessInstanceDetail()
+					.createHistoricProcessInstanceDetails(historicalProcessInstances);
+
+		} else {
+			final List<ProcessInstance> processInstances = getRunningProcessInstancesByUser();
+			processInstanceDetails = new ProcessInstanceDetail().createProcessInstanceDetails(processInstances);
+			final List<HistoricProcessInstance> historicalProcessInstances = getCompletedProcessInstancesByUser();
+			processInstanceDetails.addAll(
+					new ProcessInstanceDetail().createHistoricProcessInstanceDetails(historicalProcessInstances));
+		}
+		view.showProcessInstances(processInstanceDetails);
+		view.clearProcessDetails();
+	}
+
+	public void onAddNewProcessInstance(final ProcessDefinition processDefinition) {
+		if (processDefinition != null) {
+			final ProcessInstance processInstance = startProcessInstance(processDefinition.getId());
+			assignUserToProcessInstance(processInstance.getId());
+			onProcessInstanceFilterClick("Running");
+			view.clearProcessDetails();
+		}
+	}
+
+	public void onDeleteAllInstancesClick(final ProcessDefinition processDefinition) {
+		if (processDefinition != null) {
+			cancelProcessInstances(processDefinition.getId());
+			onProcessInstanceFilterClick("All");
+			view.clearProcessDetails();
+		}
 	}
 
 	public List<ProcessDefinition> getProcessDefinitions() {
@@ -51,7 +93,6 @@ public class ActivitiMainController {
 		processInstances = activitiService.getRuntimeService().getRunningProcessInstancesByUser(userId);
 		return processInstances;
 	}
-
 
 	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser() {
 		return activitiService.getHistoryService().getCompletedProcessInstancesByUser(userId);
@@ -76,10 +117,20 @@ public class ActivitiMainController {
 
 	}
 
+	public void showProcessDetails(final ProcessInstanceDetail processInstanceDetail) {
+
+		final ProcessInstanceSummaryView processInstanceSummaryView = new ProcessInstanceSummaryView(view);
+		processInstanceSummaryView.showProcessInstanceSummary(processInstanceDetail);
+		view.addProcessInstanceSummaryView(processInstanceSummaryView);
+
+	}
+
+
 	public void cancelProcessInstance(final String processInstanceId, final String reason) {
 		activitiService.getRuntimeService().deleteProcessInstance(processInstanceId, reason);
 
 	}
+
 
 	public void cancelProcessInstances(final String processDefinitionId) {
 		List<ProcessInstance> processInstances = null;
@@ -88,6 +139,7 @@ public class ActivitiMainController {
 			activitiService.getRuntimeService().deleteProcessInstance(processInstance.getId(), null);
 		}
 	}
+
 
 	public String getProcessStartUserName(final ProcessInstance processInstance) {
 		String username = "<No User specified>";
@@ -103,11 +155,6 @@ public class ActivitiMainController {
 
 
 
-	public List<HistoricTaskInstance> getCompletedTasksForProcessInstance(
-			final ProcessInstanceDetail processInstanceDetail) {
-		return activitiService.getHistoryService()
-				.getCompletedTaskListForProcessInstance(processInstanceDetail.getId());
 
-	}
 
 }

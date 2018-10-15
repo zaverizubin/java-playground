@@ -36,10 +36,10 @@ import com.vaadin.flow.templatemodel.Encode;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.starter.beveragebuddy.backend.Review;
 import com.vaadin.starter.beveragebuddy.backend.ReviewService;
-import com.vaadin.starter.beveragebuddy.ui.ActivitiMainView;
 import com.vaadin.starter.beveragebuddy.ui.common.AbstractEditorDialog;
 import com.vaadin.starter.beveragebuddy.ui.encoders.LocalDateToStringEncoder;
 import com.vaadin.starter.beveragebuddy.ui.encoders.LongToStringEncoder;
+import com.vaadin.starter.beveragebuddy.ui.views.activiti.ActivitiMainView;
 import com.vaadin.starter.beveragebuddy.ui.views.reviewslist.ReviewsList.ReviewsModel;
 
 /**

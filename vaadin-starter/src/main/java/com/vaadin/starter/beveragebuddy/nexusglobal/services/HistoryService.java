@@ -22,6 +22,7 @@ public class HistoryService {
 	public List<HistoricTaskInstance> getCompletedTaskListForProcessInstance(final String processInstanceId) {
 		return processEngine.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processInstanceId)
 				.finished().list();
+
 	}
 
 }

@@ -5,20 +5,28 @@ import org.activiti.engine.ProcessEngines;
 
 public class ActivitiService {
 
-	ProcessEngine processEngine;
-	RepositoryService repositoryService;
-	RuntimeService runtimeService;
-	TaskService taskService;
-	IdentityService identityService;
-	HistoryService historyService;
+	private final ProcessEngine processEngine;
+	private static ActivitiService activitiService;
+	private final RepositoryService repositoryService;
+	private final RuntimeService runtimeService;
+	private final TaskService taskService;
+	private final IdentityService identityService;
+	private final HistoryService historyService;
 
-	public ActivitiService() {
+	private ActivitiService() {
 		processEngine = ProcessEngines.getDefaultProcessEngine();
 		repositoryService = new RepositoryService(processEngine);
 		runtimeService = new RuntimeService(processEngine);
 		taskService = new TaskService(processEngine);
 		identityService = new IdentityService(processEngine);
 		historyService = new HistoryService(processEngine);
+	}
+
+	public static ActivitiService getActivitiService() {
+		if (activitiService == null) {
+			activitiService = new ActivitiService();
+		}
+		return activitiService;
 	}
 
 	public RepositoryService getRepositoryService() {

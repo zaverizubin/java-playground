@@ -19,7 +19,6 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.starter.beveragebuddy.ui.ActivitiMainView;
 
 /**
  * Displays the list of available categories, with a search filter as well as

@@ -18,6 +18,7 @@ public class RuntimeService {
 		try {
 			processEngine.getIdentityService().setAuthenticatedUserId(userId);
 			processInstance = processEngine.getRuntimeService().startProcessInstanceById(processDefinitionId);
+
 		} finally {
 			processEngine.getIdentityService().setAuthenticatedUserId(null);
 		}
@@ -46,5 +47,6 @@ public class RuntimeService {
 
 	public void deleteProcessInstance(final String processInstanceId, final String reason) {
 		processEngine.getRuntimeService().deleteProcessInstance(processInstanceId, reason);
+
 	}
 }

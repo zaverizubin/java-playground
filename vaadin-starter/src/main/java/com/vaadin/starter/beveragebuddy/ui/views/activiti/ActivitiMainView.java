@@ -13,12 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.vaadin.starter.beveragebuddy.ui;
+package com.vaadin.starter.beveragebuddy.ui.views.activiti;
 
 import java.util.List;
 
-import org.activiti.engine.history.HistoricProcessInstance;
-import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 
@@ -52,9 +50,7 @@ import com.vaadin.starter.beveragebuddy.ui.views.reviewslist.ReviewsList;
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
 public class ActivitiMainView extends Div implements RouterLayout {
 
-	private final ActivitiMainController activitiMainController;
-
-	private final String processInstanceFilter = "Running";
+	private final ActivitiMainController controller;
 
 	private ComboBox<ProcessDefinition> cbProcessDefinitions;
 	private Button btnCreateNewProcessInstance;
@@ -65,7 +61,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private VerticalLayout verticalLayout2;
 
 	public ActivitiMainView() {
-		activitiMainController = new ActivitiMainController();
+		controller = new ActivitiMainController(this);
 		buildComponents();
 		initView();
 
@@ -106,7 +102,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 
 	private void initView() {
 
-		final List<ProcessInstance> processInstances = activitiMainController
+		final List<ProcessInstance> processInstances = controller
 				.getRunningProcessInstancesByUser();
 		final List<ProcessInstanceDetail> processInstanceDetails = new ProcessInstanceDetail()
 				.createProcessInstanceDetails(processInstances);
@@ -139,7 +135,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private void buildProcessDefinitions() {
 		cbProcessDefinitions = new ComboBox<>();
 		cbProcessDefinitions.setWidth("250px");
-		cbProcessDefinitions.setItems(activitiMainController.getProcessDefinitions());
+		cbProcessDefinitions.setItems(controller.getProcessDefinitions());
 		cbProcessDefinitions.setLabel("Process Definitions");
 		cbProcessDefinitions.setItemLabelGenerator(ProcessDefinition::getName);
 	}
@@ -147,17 +143,19 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private void buildProcessInstanceActionButtons() {
 		btnCreateNewProcessInstance = new Button();
 		btnCreateNewProcessInstance.addClickListener(event -> {
-			addNewProcessInstance();
+			final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
+			controller.onAddNewProcessInstance(processDefinition);
 		});
 		btnCreateNewProcessInstance.setWidth("150px");
 		btnCreateNewProcessInstance.setText("New Instance");
 
 		btnDeleteAllProcessInstances = new Button();
 		btnDeleteAllProcessInstances.addClickListener(event -> {
-			onDeleteAllInstancesClick();
+			final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
+			controller.onDeleteAllInstancesClick(processDefinition);
 		});
 		btnDeleteAllProcessInstances.setWidth("120px");
-		btnDeleteAllProcessInstances.setText("Delete all");
+		btnDeleteAllProcessInstances.setText("Cancel all");
 	}
 
 	private void buildProcessInstanceFilters() {
@@ -169,21 +167,21 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		button1.setText("Running");
 		button1.setWidth("120px");
 		button1.addClickListener(event ->{
-			onProcessInstanceFilterClick("Running");
+			controller.onProcessInstanceFilterClick("Running");
 		});
 
 		final Button button2 = new Button();
 		button2.setText("Complete");
 		button2.setWidth("120px");
 		button2.addClickListener(event -> {
-			onProcessInstanceFilterClick("Completed");
+			controller.onProcessInstanceFilterClick("Completed");
 		});
 
 		final Button button3 = new Button();
 		button3.setText("All");
 		button3.setWidth("50px");
 		button3.addClickListener(event -> {
-			onProcessInstanceFilterClick("All");
+			controller.onProcessInstanceFilterClick("All");
 		});
 
 		horLayoutProcessInstanceFilters.add(button1, button2, button3);
@@ -196,7 +194,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		vertLayoutProcessInstances.setClassName("processInstances");
 	}
 
-	private void showProcessInstances(final List<ProcessInstanceDetail> processInstanceDetails) {
+	public void showProcessInstances(final List<ProcessInstanceDetail> processInstanceDetails) {
 		vertLayoutProcessInstances.removeAll();
 		for (final ProcessInstanceDetail processInstanceDetail : processInstanceDetails) {
 
@@ -226,7 +224,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 			final Button button = new Button();
 			button.setText(processInstanceDetail.getName());
 			button.addClickListener(event -> {
-				showProcessDetails(processInstanceDetail);
+				controller.showProcessDetails(processInstanceDetail);
 			});
 
 			final Div navigation = new Div(horizontalLayout1, horizontalLayout2, button);
@@ -235,187 +233,19 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		}
 	}
 
-	private void onProcessInstanceFilterClick(final String processInstanceFilter) {
-		List<ProcessInstanceDetail> processInstanceDetails = null;
+	public void addProcessInstanceSummaryView(final ProcessInstanceSummaryView view) {
+		clearProcessDetails();
+		verticalLayout2.add(view);
+	}
 
-		if (processInstanceFilter.equals("Running")) {
-			final List<ProcessInstance> processInstances = activitiMainController.getRunningProcessInstancesByUser();
-			processInstanceDetails = new ProcessInstanceDetail().createProcessInstanceDetails(processInstances);
-		} else if (processInstanceFilter.equals("Completed")) {
-			final List<HistoricProcessInstance> historicalProcessInstances = activitiMainController
-					.getCompletedProcessInstancesByUser();
-			processInstanceDetails = new ProcessInstanceDetail()
-					.createHistoricProcessInstanceDetails(historicalProcessInstances);
-
-		} else {
-			final List<ProcessInstance> processInstances = activitiMainController.getRunningProcessInstancesByUser();
-			processInstanceDetails = new ProcessInstanceDetail().createProcessInstanceDetails(processInstances);
-			final List<HistoricProcessInstance> historicalProcessInstances = activitiMainController
-					.getCompletedProcessInstancesByUser();
-			processInstanceDetails.addAll(
-					new ProcessInstanceDetail().createHistoricProcessInstanceDetails(historicalProcessInstances));
-		}
-		showProcessInstances(processInstanceDetails);
+	public void reserView() {
+		controller.onProcessInstanceFilterClick("All");
 		clearProcessDetails();
 	}
 
-	private void showProcessDetails(final ProcessInstanceDetail processInstanceDetail) {
-		clearProcessDetails();
-
-		verticalLayout2.addClassName("verticalBoxBorder");
-		verticalLayout2.add(showProcessInstanceSummary(processInstanceDetail));
-		verticalLayout2.add(showActiveTask(processInstanceDetail));
-		verticalLayout2.add(showCompletedTasks(processInstanceDetail));
-
-	}
-
-	private VerticalLayout showProcessInstanceSummary(final ProcessInstanceDetail processInstanceDetail) {
-		final VerticalLayout verticalLayout = new VerticalLayout();
-		verticalLayout.addClassName("processInstanceTitleBar");
-
-		final Label title = new Label();
-		title.setText(processInstanceDetail.getName());
-		title.setWidth("400px");
-
-		final Label startedBy = new Label();
-		startedBy.setText("Started By:" + processInstanceDetail.getStartUserId());
-
-		final Label startedOn = new Label();
-		startedOn.setText(" Started On:"
-				+ processInstanceDetail.getStartTime().getDate() + ":" + processInstanceDetail.getStartTime().getMonth()
-				+ ":" + (1900 + processInstanceDetail.getStartTime().getYear()));
-
-		final Button cancelProcessButton = new Button();
-		cancelProcessButton.setText("Cancel Process");
-		cancelProcessButton.addClickListener(event -> {
-			onCancelProcessClick(processInstanceDetail);
-		});
-
-		final HorizontalLayout topHalf = new HorizontalLayout();
-		final HorizontalLayout bottomHalf = new HorizontalLayout();
-		topHalf.add(title);
-		topHalf.add(startedBy);
-		topHalf.add(startedOn);
-		bottomHalf.add(cancelProcessButton);
-
-		verticalLayout.add(topHalf);
-		verticalLayout.add(bottomHalf);
-
-		return verticalLayout;
-	}
-
-	private VerticalLayout showActiveTask(final ProcessInstanceDetail processInstanceDetail) {
-
-		final VerticalLayout verticalLayout = new VerticalLayout();
-		final HorizontalLayout horizontalLayout = new HorizontalLayout();
-
-		final Label title = new Label();
-		title.setText("Active Tasks");
-		title.setWidth("400px");
-
-		final Button activeTaskButton = new Button();
-		activeTaskButton.setWidth("300px");
-		activeTaskButton.setText("My task");
-		activeTaskButton.addClickListener(event -> {
-			onActiveTaskClick();
-		});
-
-		final Label taskCreated = new Label();
-		taskCreated.setText("Created On:");
-		taskCreated.setWidth("400px");
-
-		horizontalLayout.add(activeTaskButton);
-		horizontalLayout.add(taskCreated);
-
-		verticalLayout.add(title);
-		verticalLayout.add(horizontalLayout);
-
-		return verticalLayout;
-
-	}
-
-	private VerticalLayout showCompletedTasks(final ProcessInstanceDetail processInstanceDetail) {
-		final VerticalLayout verticalLayout = new VerticalLayout();
-
-		final Label title = new Label();
-		title.setText("Completed Tasks");
-		title.setWidth("400px");
-
-		verticalLayout.add(title);
-
-		final List<HistoricTaskInstance> historicTaskInstances = activitiMainController
-				.getCompletedTasksForProcessInstance(processInstanceDetail);
-
-		for (final HistoricTaskInstance historicTaskInstance : historicTaskInstances) {
-			final Button completedTaskButton = new Button();
-			completedTaskButton.setText(historicTaskInstance.getName());
-			completedTaskButton.addClickListener(event -> {
-				onCompletedTaskClick();
-			});
-
-			final HorizontalLayout horizontalLayout = new HorizontalLayout();
-
-			final Label taskDetails1 = new Label();
-			taskDetails1.setText("Completed By: " + historicTaskInstance.getAssignee());
-
-			final Label taskDetails2 = new Label();
-			taskDetails2
-			.setText("Took: " + Math.abs(historicTaskInstance.getDurationInMillis() / (1000 * 60 * 60))
-			+ " hrs.");
-
-			horizontalLayout.add(taskDetails1);
-			horizontalLayout.add(taskDetails2);
-
-			verticalLayout.add(completedTaskButton);
-			verticalLayout.add(horizontalLayout);
-		}
-
-		return verticalLayout;
-	}
-
-
-	private void addNewProcessInstance() {
-		final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-		if (processDefinition != null) {
-			final ProcessInstance processInstance = activitiMainController
-					.startProcessInstance(processDefinition.getId());
-			activitiMainController.assignUserToProcessInstance(processInstance.getId());
-			onProcessInstanceFilterClick("Running");
-			clearProcessDetails();
-		}
-	}
-
-	private void clearProcessDetails() {
+	public void clearProcessDetails() {
 		verticalLayout2.removeAll();
 	}
-
-	private void onDeleteAllInstancesClick() {
-		final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-		if (processDefinition != null) {
-			activitiMainController.cancelProcessInstances(processDefinition.getId());
-			onProcessInstanceFilterClick("All");
-			clearProcessDetails();
-		}
-
-	}
-
-	private void onCancelProcessClick(final ProcessInstanceDetail processInstanceDetail) {
-		activitiMainController.cancelProcessInstance(processInstanceDetail.getId(), null);
-		onProcessInstanceFilterClick("All");
-		clearProcessDetails();
-	}
-
-	private void onActiveTaskClick() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void onCompletedTaskClick() {
-		// TODO Auto-generated method stub
-
-	}
-
-
 
 
 }
