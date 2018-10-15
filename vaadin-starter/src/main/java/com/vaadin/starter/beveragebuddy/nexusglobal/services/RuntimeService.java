@@ -30,29 +30,9 @@ public class RuntimeService {
 				.singleResult();
 	}
 
-	public List<ProcessInstance> getProcessInstancesByStateAndUser(final String state, final String userId) {
-		List<ProcessInstance> activeInstances;
-		List<ProcessInstance> allInstances;
-		if (state == "Running") {
-			return processEngine.getRuntimeService().createProcessInstanceQuery().active().involvedUser(userId)
-					.orderByProcessDefinitionKey()
-					.asc().list();
-		} else if (state == "Completed") {
-			activeInstances = processEngine.getRuntimeService().createProcessInstanceQuery().involvedUser(userId)
-					.active().list();
-			allInstances = processEngine.getRuntimeService().createProcessInstanceQuery().involvedUser(userId)
-					.orderByProcessDefinitionKey()
-					.asc().list();
-			for (final ProcessInstance processInstance : activeInstances) {
-				allInstances.removeIf(item -> item.getId().equals(processInstance.getId()));
-			}
-			return allInstances;
-		} else {
-			return processEngine.getRuntimeService().createProcessInstanceQuery().involvedUser(userId)
-					.orderByProcessDefinitionKey().asc()
-					.list();
-		}
-
+	public List<ProcessInstance> getRunningProcessInstancesByUser(final String userId) {
+		return processEngine.getRuntimeService().createProcessInstanceQuery().active().involvedUser(userId)
+				.orderByProcessDefinitionKey().asc().list();
 	}
 
 	public void addUserToProcessInstance(final String processInstanceId, final String userId) {

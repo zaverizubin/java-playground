@@ -2,12 +2,15 @@ package com.vaadin.starter.beveragebuddy.ui.controllers;
 
 import java.util.List;
 
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
+import com.vaadin.starter.beveragebuddy.nexusglobal.models.ProcessInstanceDetail;
 import com.vaadin.starter.beveragebuddy.nexusglobal.services.ActivitiService;
 
 public class ActivitiMainController {
@@ -43,16 +46,16 @@ public class ActivitiMainController {
 		return processDefinitions;
 	}
 
-	public List<ProcessInstance> getProcessInstancesByStateAndUser(final String state) {
+	public List<ProcessInstance> getRunningProcessInstancesByUser() {
 		List<ProcessInstance> processInstances = null;
-		processInstances = activitiService.getRuntimeService().getProcessInstancesByStateAndUser(state, userId);
+		processInstances = activitiService.getRuntimeService().getRunningProcessInstancesByUser(userId);
 		return processInstances;
 	}
 
-	public List<ProcessInstance> getProcessInstances(final String processDefinitionId) {
-		List<ProcessInstance> processInstances = null;
-		processInstances = activitiService.getRuntimeService().getProcessInstances(processDefinitionId);
-		return processInstances;
+
+	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser() {
+		return activitiService.getHistoryService().getCompletedProcessInstancesByUser(userId);
+
 	}
 
 	public ProcessInstance startProcessInstance(final String processDefinitionId) {
@@ -97,4 +100,14 @@ public class ActivitiMainController {
 		}
 		return username;
 	}
+
+
+
+	public List<HistoricTaskInstance> getCompletedTasksForProcessInstance(
+			final ProcessInstanceDetail processInstanceDetail) {
+		return activitiService.getHistoryService()
+				.getCompletedTaskListForProcessInstance(processInstanceDetail.getId());
+
+	}
+
 }
