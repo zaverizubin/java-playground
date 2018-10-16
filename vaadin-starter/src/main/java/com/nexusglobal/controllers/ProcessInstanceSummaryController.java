@@ -33,9 +33,8 @@ public class ProcessInstanceSummaryController {
 
 	}
 
-	public void onActiveTaskClick() {
-		// TODO Auto-generated method stub
-
+	public void onActiveTaskClick(final Task task) {
+		view.getParentView().showActiveTaskView(task);
 	}
 
 	public void onCompletedTaskClick(final HistoricTaskInstance historicTaskInstance) {

@@ -20,6 +20,7 @@ import java.util.List;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 
 import com.nexusglobal.controllers.ActivitiMainController;
 import com.nexusglobal.models.ProcessInstanceDetail;
@@ -245,6 +246,17 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		verticalLayout3.setVisible(false);
 	}
 
+	public void showActiveTaskView(final Task task) {
+		verticalLayout3.removeAll();
+		final ActiveTaskView activeTaskView = new ActiveTaskView(this);
+		activeTaskView.showTaskSummary(task);
+		verticalLayout3.add(activeTaskView);
+
+		verticalLayout2.setVisible(false);
+		verticalLayout3.setVisible(true);
+
+	}
+
 	public void showHistoricTaskSummaryView(final HistoricTaskInstance historicTaskInstance) {
 		verticalLayout3.removeAll();
 		final HistoricTaskSummaryView taskSummaryView = new HistoricTaskSummaryView(this);
@@ -255,6 +267,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		verticalLayout3.setVisible(true);
 
 	}
+
 
 	public void hideTaskDetails() {
 		verticalLayout3.removeAll();
@@ -270,6 +283,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	public void clearDetailsView() {
 		verticalLayout2.removeAll();
 	}
+
 
 
 }

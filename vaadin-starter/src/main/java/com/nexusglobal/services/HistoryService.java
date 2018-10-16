@@ -20,8 +20,16 @@ public class HistoryService {
 	}
 
 	public List<HistoricTaskInstance> getCompletedTaskListForProcessInstance(final String processInstanceId) {
-		return processEngine.getHistoryService().createHistoricTaskInstanceQuery().processInstanceId(processInstanceId)
+		return processEngine.getHistoryService().createHistoricTaskInstanceQuery().includeProcessVariables()
+				.processInstanceId(processInstanceId)
 				.finished().list();
+
+	}
+
+	public HistoricTaskInstance getHistoricTaskInstance(final String taskId) {
+		return processEngine.getHistoryService().createHistoricTaskInstanceQuery().includeProcessVariables()
+				.includeTaskLocalVariables()
+				.taskId(taskId).singleResult();
 
 	}
 

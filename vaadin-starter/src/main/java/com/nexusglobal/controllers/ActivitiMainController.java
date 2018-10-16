@@ -10,14 +10,13 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 import com.nexusglobal.models.ProcessInstanceDetail;
+import com.nexusglobal.models.SessionData;
 import com.nexusglobal.services.ActivitiService;
 import com.nexusglobal.ui.views.ActivitiMainView;
 
 public class ActivitiMainController {
 
 	private final ActivitiMainView view;
-	private final String deploymentKey = "incident-investigation";
-	private final String userId = "admin";
 
 	private ActivitiService activitiService;
 
@@ -30,13 +29,6 @@ public class ActivitiMainController {
 		activitiService = ActivitiService.getActivitiService();
 	}
 
-	public String getDeploymentKey() {
-		return deploymentKey;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
 
 	public void onProcessInstanceFilterClick(final String processInstanceFilter) {
 		List<ProcessInstanceDetail> processInstanceDetails = null;
@@ -80,7 +72,8 @@ public class ActivitiMainController {
 	public List<ProcessDefinition> getProcessDefinitions() {
 		List<ProcessDefinition> processDefinitions = null;
 
-		final Deployment deployment = activitiService.getRepositoryService().getDeployment(deploymentKey);
+		final Deployment deployment = activitiService.getRepositoryService()
+				.getDeployment(SessionData.getSessionData().getDeploymentKey());
 		if (deployment != null) {
 			processDefinitions = activitiService.getRepositoryService().getProcessDefinitions(deployment.getId());
 		}
@@ -89,30 +82,33 @@ public class ActivitiMainController {
 
 	public List<ProcessInstance> getRunningProcessInstancesByUser() {
 		List<ProcessInstance> processInstances = null;
-		processInstances = activitiService.getRuntimeService().getRunningProcessInstancesByUser(userId);
+		processInstances = activitiService.getRuntimeService()
+				.getRunningProcessInstancesByUser(SessionData.getSessionData().getUserId());
 		return processInstances;
 	}
 
 	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser() {
-		return activitiService.getHistoryService().getCompletedProcessInstancesByUser(userId);
+		return activitiService.getHistoryService()
+				.getCompletedProcessInstancesByUser(SessionData.getSessionData().getUserId());
 
 	}
 
 	public ProcessInstance startProcessInstance(final String processDefinitionId) {
 		final ProcessInstance processInstance = activitiService.getRuntimeService()
-				.startProcessInstance(processDefinitionId, userId);
+				.startProcessInstance(processDefinitionId, SessionData.getSessionData().getUserId());
 		return processInstance;
 	}
 
 	public void assignUserToProcessInstance(final String processInstanceId) {
-		activitiService.getRuntimeService().addUserToProcessInstance(processInstanceId, userId);
+		activitiService.getRuntimeService().addUserToProcessInstance(processInstanceId,
+				SessionData.getSessionData().getUserId());
 	}
 
 	public void executeProcessInstance(final String processInstanceId) {
 		final ProcessInstance processInstance = activitiService.getRuntimeService()
 				.getProcessInstance(processInstanceId);
 		final List<Task> tasks = activitiService.getTaskService().getTaskListForProcessInstance(processInstanceId);
-		activitiService.getTaskService().claimTask(tasks.get(0).getId(), userId);
+		activitiService.getTaskService().claimTask(tasks.get(0).getId(), SessionData.getSessionData().getUserId());
 
 	}
 

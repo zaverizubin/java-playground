@@ -12,6 +12,7 @@ public class ActivitiService {
 	private final TaskService taskService;
 	private final IdentityService identityService;
 	private final HistoryService historyService;
+	private final FormEngineRepositoryService formEngineRepositoryService;
 
 	private ActivitiService() {
 		processEngine = ProcessEngines.getDefaultProcessEngine();
@@ -20,6 +21,7 @@ public class ActivitiService {
 		taskService = new TaskService(processEngine);
 		identityService = new IdentityService(processEngine);
 		historyService = new HistoryService(processEngine);
+		formEngineRepositoryService = new FormEngineRepositoryService(processEngine);
 	}
 
 	public static ActivitiService getActivitiService() {
@@ -49,5 +51,8 @@ public class ActivitiService {
 		return historyService;
 	}
 
+	public FormEngineRepositoryService getFormEngineRepositoryService() {
+		return formEngineRepositoryService;
+	}
 
 }

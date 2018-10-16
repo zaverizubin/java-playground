@@ -2,27 +2,27 @@ package com.nexusglobal.ui.views;
 
 import java.util.Map;
 
-import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.task.Task;
 
-import com.nexusglobal.controllers.HistoricTaskSummaryController;
+import com.nexusglobal.controllers.ActiveTaskController;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class HistoricTaskSummaryView extends VerticalLayout {
+public class ActiveTaskView extends VerticalLayout {
 
 	private final ActivitiMainView parentView;
-	private HistoricTaskInstance historicTaskInstance;
-	private final HistoricTaskSummaryController controller;
+	private Task task;
+	private final ActiveTaskController controller;
 
-	public HistoricTaskSummaryView(final ActivitiMainView parentView) {
+	public ActiveTaskView(final ActivitiMainView parentView) {
 		this.parentView = parentView;
-		controller = new HistoricTaskSummaryController(this);
+		controller = new ActiveTaskController(this);
 	}
 
-	public VerticalLayout showTaskSummary(final HistoricTaskInstance historicTaskInstance) {
-		this.historicTaskInstance = historicTaskInstance;
+	public VerticalLayout showTaskSummary(final Task task) {
+		this.task = task;
 		buildTaskInstanceSummaryView();
 		showTaskDetails();
 		return this;
@@ -39,48 +39,51 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 
 
 		final Label title = new Label();
-		title.setText(historicTaskInstance.getName());
+		title.setText(task.getName());
 		title.setWidth("500px");
 		title.addClassName("instanceDetailTitle");
 
-		final Button button = new Button();
-		button.setText("Back to Process");
-		button.addClickListener(event -> {
+		final Button buttonBackToProcess = new Button();
+		buttonBackToProcess.setWidth("200px");
+		buttonBackToProcess.setText("Back to Process");
+		buttonBackToProcess.addClickListener(event -> {
 			parentView.hideTaskDetails();
 		});
 
+		final Button buttonClaim = new Button();
+		buttonClaim.setText("Claim");
+		buttonClaim.addClickListener(event -> {
+			// controller.claimTask(task.getId(), SessionData.getSessionData().getUserId());
+			showTaskDetails();
+		});
+
+
 		final Label assignee = new Label();
-		if (historicTaskInstance.getAssignee() != null) {
-			assignee.setText("Assignee:" + historicTaskInstance.getAssignee());
+		if (task.getAssignee() != null) {
+			assignee.setText("Assignee:" + task.getAssignee());
 		} else {
 			assignee.setText("Assignee: Assigned to nobody");
 		}
 
 		final Label dueOn = new Label();
-		if (historicTaskInstance.getDueDate() != null) {
-			dueOn.setText("Due:" + historicTaskInstance.getDueDate().getDate() + ":"
-					+ (historicTaskInstance.getDueDate().getMonth() + 1) + ":"
-					+ (1900 + historicTaskInstance.getDueDate().getYear()));
+		if (task.getDueDate() != null) {
+			dueOn.setText("Due:" + task.getDueDate().getDate() + ":" + (task.getDueDate().getMonth() + 1) + ":"
+					+ (1900 + task.getDueDate().getYear()));
 		} else {
 			dueOn.setText("No due date");
 		}
 
-		final Label endedOn = new Label();
-		endedOn.setText(" Ended On:" + historicTaskInstance.getEndTime().getDate() + ":"
-				+ (historicTaskInstance.getEndTime().getMonth() + 1) + ":"
-				+ (1900 + historicTaskInstance.getEndTime().getYear()));
-
 		final Label partOfProcess = new Label();
 		partOfProcess.setText(
 				"Part of process: "
-						+ controller.getProcessDefinition(historicTaskInstance.getProcessDefinitionId()).getName());
+						+ controller.getProcessDefinition(task.getProcessDefinitionId()).getName());
 
 		horizontalLayout1.add(title);
-		horizontalLayout1.add(button);
+		horizontalLayout1.add(buttonBackToProcess);
+		horizontalLayout1.add(buttonClaim);
 
 		horizontalLayout2.add(assignee);
 		horizontalLayout2.add(dueOn);
-		horizontalLayout2.add(endedOn);
 		horizontalLayout2.add(partOfProcess);
 
 		verticalLayout.add(horizontalLayout1);
@@ -90,14 +93,15 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 	}
 
 	private void showTaskDetails() {
+
 		final VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.setWidth("100%");
 
 		int count = 1;
-		final Map<String, Object> variables = historicTaskInstance.getProcessVariables();
+		final Map<String, Object> variables = task.getProcessVariables();
 
-		// final FormDefinition formDefinition =
-		// controller.getFormDefinition(historicTaskInstance.getFormKey());
+		//final Form form = controller.getForm(task.getFormKey());
+		final Object form = controller.getTaskFormData(task.getId());
 
 		for (final String key : variables.keySet()) {
 

@@ -110,7 +110,7 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 				activeTaskButton.setWidth("300px");
 				activeTaskButton.setText(task.getName());
 				activeTaskButton.addClickListener(event -> {
-					controller.onActiveTaskClick();
+					controller.onActiveTaskClick(task);
 				});
 
 				final Label taskCreated = new Label();

@@ -31,7 +31,6 @@ public class RepositoryService {
 				.singleResult();
 	}
 
-
 	// Process Model BPMN
 	public BpmnModel getProcessDefinitionModel(final String processDefinitionId){
 		return processEngine.getRepositoryService().getBpmnModel(processDefinitionId);
