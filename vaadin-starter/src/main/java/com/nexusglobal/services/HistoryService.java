@@ -21,6 +21,7 @@ public class HistoryService {
 
 	public List<HistoricTaskInstance> getCompletedTaskListForProcessInstance(final String processInstanceId) {
 		return processEngine.getHistoryService().createHistoricTaskInstanceQuery().includeProcessVariables()
+				.includeTaskLocalVariables()
 				.processInstanceId(processInstanceId)
 				.finished().list();
 

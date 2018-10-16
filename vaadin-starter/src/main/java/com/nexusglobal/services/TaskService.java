@@ -1,6 +1,7 @@
 package com.nexusglobal.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.task.Task;
@@ -24,8 +25,8 @@ public class TaskService {
 		processEngine.getTaskService().claim(taskId, userId);
 	}
 
-	public void markTaskAsComplete(final Task task) {
-		processEngine.getTaskService().complete(task.getId());
+	public void markTaskAsComplete(final String taskId, final Map<String, Object> variables) {
+		processEngine.getTaskService().complete(taskId, variables, true);
 	}
 
 }

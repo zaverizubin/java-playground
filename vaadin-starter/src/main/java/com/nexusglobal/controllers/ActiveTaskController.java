@@ -1,5 +1,8 @@
 package com.nexusglobal.controllers;
 
+import java.util.Map;
+
+import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.form.api.Form;
 
@@ -34,7 +37,11 @@ public class ActiveTaskController {
 		return activitiService.getFormEngineRepositoryService().getForm(formDefinitionKey);
 	}
 
-	public Object getTaskFormData(final String taskId) {
+	public TaskFormData getTaskFormData(final String taskId) {
 		return activitiService.getFormEngineRepositoryService().getTaskFormData(taskId);
+	}
+
+	public void completeTask(final String taskId, final Map<String, Object> variables) {
+		activitiService.getTaskService().markTaskAsComplete(taskId, variables);
 	}
 }

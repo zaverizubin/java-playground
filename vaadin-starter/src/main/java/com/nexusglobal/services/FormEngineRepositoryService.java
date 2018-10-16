@@ -1,6 +1,7 @@
 package com.nexusglobal.services;
 
 import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.form.TaskFormData;
 import org.activiti.form.api.Form;
 
 public class FormEngineRepositoryService {
@@ -18,9 +19,9 @@ public class FormEngineRepositoryService {
 
 	}
 
-	public Object getTaskFormData(final String taskId) {
+	public TaskFormData getTaskFormData(final String taskId) {
 
-		return processEngine.getFormService().getRenderedTaskForm(taskId);
+		return processEngine.getFormService().getTaskFormData(taskId);
 
 	}
 

@@ -50,6 +50,7 @@ import com.vaadin.flow.router.RouterLink;
 public class ActivitiMainView extends Div implements RouterLayout {
 
 	private final ActivitiMainController controller;
+	private ProcessInstanceDetail currentprocessInstanceDetail;
 
 	private ComboBox<ProcessDefinition> cbProcessDefinitions;
 	private Button btnCreateNewProcessInstance;
@@ -59,6 +60,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private VerticalLayout verticalLayout1;
 	private VerticalLayout verticalLayout2;
 	private VerticalLayout verticalLayout3;
+
 
 	public ActivitiMainView() {
 		controller = new ActivitiMainController(this);
@@ -228,6 +230,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 			final Button button = new Button();
 			button.setText(processInstanceDetail.getName());
 			button.addClickListener(event -> {
+				currentprocessInstanceDetail = processInstanceDetail;
 				controller.showProcessDetails(processInstanceDetail);
 			});
 
@@ -273,6 +276,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		verticalLayout3.removeAll();
 		verticalLayout3.setVisible(false);
 		verticalLayout2.setVisible(true);
+		controller.showProcessDetails(currentprocessInstanceDetail);
 	}
 
 	public void resetView() {

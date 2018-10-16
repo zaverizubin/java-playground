@@ -94,10 +94,7 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 		verticalLayout.setWidth("100%");
 
 		int count = 1;
-		final Map<String, Object> variables = historicTaskInstance.getProcessVariables();
-
-		// final FormDefinition formDefinition =
-		// controller.getFormDefinition(historicTaskInstance.getFormKey());
+		final Map<String, Object> variables = historicTaskInstance.getTaskLocalVariables();
 
 		for (final String key : variables.keySet()) {
 
