@@ -1,0 +1,10 @@
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\bin\Debug\EnumEFDesigner.exe.config
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\bin\Debug\EnumEFDesigner.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\bin\Debug\EnumEFDesigner.pdb
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\obj\Debug\EnumEFDesigner.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\obj\Debug\EnumEFDesigner.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EnumEFDesigner\EnumEFDesigner\obj\Debug\EnumEFDesigner.pdb

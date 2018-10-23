@@ -1,0 +1,11 @@
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\bin\Debug\ModelFirstSample.exe.config
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\bin\Debug\ModelFirstSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\bin\Debug\ModelFirstSample.pdb
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\obj\Debug\ModelFirstSample.csprojResolveAssemblyReference.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\obj\Debug\ModelFirstSample.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\obj\Debug\ModelFirstSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\ModelFirstSample\ModelFirstSample\obj\Debug\ModelFirstSample.pdb

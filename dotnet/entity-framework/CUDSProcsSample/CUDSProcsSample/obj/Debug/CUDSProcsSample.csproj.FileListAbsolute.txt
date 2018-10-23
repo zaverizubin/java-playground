@@ -1,0 +1,11 @@
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\bin\Debug\CUDSProcsSample.exe.config
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\bin\Debug\CUDSProcsSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\bin\Debug\CUDSProcsSample.pdb
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\obj\Debug\CUDSProcsSample.csprojResolveAssemblyReference.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\obj\Debug\CUDSProcsSample.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\obj\Debug\CUDSProcsSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\CUDSProcsSample\CUDSProcsSample\obj\Debug\CUDSProcsSample.pdb

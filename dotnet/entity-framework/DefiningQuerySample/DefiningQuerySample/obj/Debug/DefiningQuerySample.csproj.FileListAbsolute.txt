@@ -1,0 +1,11 @@
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\bin\Debug\DefiningQuerySample.exe.config
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\bin\Debug\DefiningQuerySample.exe
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\bin\Debug\DefiningQuerySample.pdb
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\obj\Debug\DefiningQuerySample.csprojResolveAssemblyReference.cache
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\obj\Debug\DefiningQuerySample.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\obj\Debug\DefiningQuerySample.exe
+C:\Users\Zubin\Dropbox\POCs\DefiningQuerySample\DefiningQuerySample\obj\Debug\DefiningQuerySample.pdb

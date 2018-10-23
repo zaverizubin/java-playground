@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="EnumTestModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="EnumTestModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Departments" EntityType="EnumTestModel.Department" />
+  </EntityContainer>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="DepartmentID" />
+    </Key>
+    <Property Name="DepartmentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="EnumTestModel.DepartmentNames" Nullable="false" />
+    <Property Name="Budget" Type="Decimal" Nullable="false" />
+  </EntityType>
+  <EnumType Name="DepartmentNames">
+    <Member Name="English" />
+    <Member Name="Math" />
+    <Member Name="Economics" />
+  </EnumType>
+</Schema>

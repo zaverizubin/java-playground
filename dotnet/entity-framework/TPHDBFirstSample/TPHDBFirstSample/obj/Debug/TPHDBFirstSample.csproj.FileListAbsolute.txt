@@ -1,0 +1,11 @@
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\bin\Debug\TPHDBFirstSample.exe.config
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\bin\Debug\TPHDBFirstSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\bin\Debug\TPHDBFirstSample.pdb
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\obj\Debug\TPHDBFirstSample.csprojResolveAssemblyReference.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\obj\Debug\TPHDBFirstSample.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\obj\Debug\TPHDBFirstSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\TPHDBFirstSample\TPHDBFirstSample\obj\Debug\TPHDBFirstSample.pdb

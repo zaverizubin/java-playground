@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLib.Contracts", "GeoLib.Contracts\GeoLib.Contracts.csproj", "{62E03D2C-1034-426B-A2E0-E649DDF4FE0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLib.Services", "GeoLib.Services\GeoLib.Services.csproj", "{1408055B-56B9-4836-89CA-DE7CBCC639FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLib.Core", "GeoLib.Core\GeoLib.Core.csproj", "{1DFCA904-FBCA-4206-846F-273779B324E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLib.Data", "GeoLig.Data\GeoLib.Data.csproj", "{BF7129DC-97FA-46D4-94ED-56246AB195D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosting", "Hosting", "{A3DDDBE4-6B92-4373-990E-EA1DD9624A13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLib.ConsoleHost", "GeoLib.ConsoleHost\GeoLib.ConsoleHost.csproj", "{DFDF77FF-70D9-4337-87B7-1EA812AE44E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLib.WebHost", "GeoLib.WebHost\GeoLib.WebHost.csproj", "{426CB8CA-7E25-48DB-999E-2D0EAACA945E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLib.WindowsHost", "GeoLib.WindowsHost\GeoLib.WindowsHost.csproj", "{21C17495-5C7F-44B9-A3C3-10DD9D5F55C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62E03D2C-1034-426B-A2E0-E649DDF4FE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E03D2C-1034-426B-A2E0-E649DDF4FE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E03D2C-1034-426B-A2E0-E649DDF4FE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E03D2C-1034-426B-A2E0-E649DDF4FE0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1408055B-56B9-4836-89CA-DE7CBCC639FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1408055B-56B9-4836-89CA-DE7CBCC639FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1408055B-56B9-4836-89CA-DE7CBCC639FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1408055B-56B9-4836-89CA-DE7CBCC639FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DFCA904-FBCA-4206-846F-273779B324E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DFCA904-FBCA-4206-846F-273779B324E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DFCA904-FBCA-4206-846F-273779B324E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DFCA904-FBCA-4206-846F-273779B324E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF7129DC-97FA-46D4-94ED-56246AB195D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF7129DC-97FA-46D4-94ED-56246AB195D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF7129DC-97FA-46D4-94ED-56246AB195D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF7129DC-97FA-46D4-94ED-56246AB195D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFDF77FF-70D9-4337-87B7-1EA812AE44E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFDF77FF-70D9-4337-87B7-1EA812AE44E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFDF77FF-70D9-4337-87B7-1EA812AE44E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFDF77FF-70D9-4337-87B7-1EA812AE44E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{426CB8CA-7E25-48DB-999E-2D0EAACA945E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426CB8CA-7E25-48DB-999E-2D0EAACA945E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426CB8CA-7E25-48DB-999E-2D0EAACA945E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426CB8CA-7E25-48DB-999E-2D0EAACA945E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21C17495-5C7F-44B9-A3C3-10DD9D5F55C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21C17495-5C7F-44B9-A3C3-10DD9D5F55C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21C17495-5C7F-44B9-A3C3-10DD9D5F55C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21C17495-5C7F-44B9-A3C3-10DD9D5F55C8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DFDF77FF-70D9-4337-87B7-1EA812AE44E2} = {A3DDDBE4-6B92-4373-990E-EA1DD9624A13}
+		{426CB8CA-7E25-48DB-999E-2D0EAACA945E} = {A3DDDBE4-6B92-4373-990E-EA1DD9624A13}
+		{21C17495-5C7F-44B9-A3C3-10DD9D5F55C8} = {A3DDDBE4-6B92-4373-990E-EA1DD9624A13}
+	EndGlobalSection
+EndGlobal

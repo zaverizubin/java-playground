@@ -1,0 +1,19 @@
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\bin\Debug\WPF and Entity Framework.exe.config
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\bin\Debug\WPF and Entity Framework.exe
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\bin\Debug\WPF and Entity Framework.pdb
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\MainWindow.g.cs
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\App.g.cs
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework_Content.g.cs
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework_MarkupCompile.cache
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework_MarkupCompile.lref
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\MainWindow.baml
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework.g.resources
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF_and_Entity_Framework.Properties.Resources.resources
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework.csproj.GenerateResource.Cache
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework.exe
+C:\Users\Zubin\Dropbox\POCs\WPF and Entity Framework\obj\Debug\WPF and Entity Framework.pdb

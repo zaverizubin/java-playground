@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="RewardsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="RewardsModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="RewardsModel.Customer" />
+    <EntitySet Name="Purchases" EntityType="RewardsModel.Purchase" />
+    <AssociationSet Name="FK_CustomersPurchases" Association="RewardsModel.FK_CustomersPurchases">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Purchase" EntitySet="Purchases" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Purchases" Relationship="RewardsModel.FK_CustomersPurchases" FromRole="Customer" ToRole="Purchase" />
+  </EntityType>
+  <EntityType Name="Purchase">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PurchaseDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="CustomersId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="RewardsModel.FK_CustomersPurchases" FromRole="Purchase" ToRole="Customer" />
+  </EntityType>
+  <Association Name="FK_CustomersPurchases">
+    <End Type="RewardsModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="RewardsModel.Purchase" Role="Purchase" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Purchase">
+        <PropertyRef Name="CustomersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

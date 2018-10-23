@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SchoolModelStoreContainer" CdmEntityContainer="SchoolEntities">
+    <EntitySetMapping Name="People">
+      <EntityTypeMapping TypeName="SchoolModel.Person">
+        <MappingFragment StoreEntitySet="Person">
+          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="HireDate" ColumnName="HireDate" />
+          <ScalarProperty Name="EnrollmentDate" ColumnName="EnrollmentDate" />
+          <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="SchoolModel.Person">
+        <ModificationFunctionMapping>
+          <InsertFunction FunctionName="SchoolModel.Store.InsertPerson">
+            <ScalarProperty Name="Discriminator" ParameterName="Discriminator" />
+            <ScalarProperty Name="EnrollmentDate" ParameterName="EnrollmentDate" />
+            <ScalarProperty Name="HireDate" ParameterName="HireDate" />
+            <ScalarProperty Name="FirstName" ParameterName="FirstName" />
+            <ScalarProperty Name="LastName" ParameterName="LastName" />
+            <ResultBinding Name="PersonID" ColumnName="NewPersonID" />
+          </InsertFunction>
+          <UpdateFunction FunctionName="SchoolModel.Store.UpdatePerson">
+            <ScalarProperty Name="Discriminator" ParameterName="Discriminator" Version="Current" />
+            <ScalarProperty Name="EnrollmentDate" ParameterName="EnrollmentDate" Version="Current" />
+            <ScalarProperty Name="HireDate" ParameterName="HireDate" Version="Current" />
+            <ScalarProperty Name="FirstName" ParameterName="FirstName" Version="Current" />
+            <ScalarProperty Name="LastName" ParameterName="LastName" Version="Current" />
+            <ScalarProperty Name="PersonID" ParameterName="PersonID" Version="Current" />
+          </UpdateFunction>
+          <DeleteFunction FunctionName="SchoolModel.Store.DeletePerson">
+            <ScalarProperty Name="PersonID" ParameterName="PersonID" />
+          </DeleteFunction>
+        </ModificationFunctionMapping>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeletePerson" FunctionName="SchoolModel.Store.DeletePerson" />
+    <FunctionImportMapping FunctionImportName="InsertPerson" FunctionName="SchoolModel.Store.InsertPerson" />
+    <FunctionImportMapping FunctionImportName="UpdatePerson" FunctionName="SchoolModel.Store.UpdatePerson" />
+  </EntityContainerMapping>
+</Mapping>

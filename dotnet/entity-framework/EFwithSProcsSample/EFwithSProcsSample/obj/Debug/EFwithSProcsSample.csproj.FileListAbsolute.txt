@@ -1,0 +1,11 @@
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\obj\Debug\EFwithSProcsSample.csprojResolveAssemblyReference.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\obj\Debug\EFwithSProcsSample.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\bin\Debug\EFwithSProcsSample.exe.config
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\bin\Debug\EFwithSProcsSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\bin\Debug\EFwithSProcsSample.pdb
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\obj\Debug\EFwithSProcsSample.exe
+C:\Users\Zubin\Dropbox\POCs\Entity Framework\EFwithSProcsSample\EFwithSProcsSample\obj\Debug\EFwithSProcsSample.pdb

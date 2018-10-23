@@ -1,0 +1,8 @@
+-p C:\Program Files\dotnet\dotnet.exe
+-pidFile F:\work\GameOfLife\MvcMovie\MvcMovie\bin\IISSupport\pidfile.txt
+-wd F:\work\GameOfLife\MvcMovie\MvcMovie
+-a exec "F:\work\GameOfLife\MvcMovie\MvcMovie\bin\Debug\netcoreapp2.0\MvcMovie.dll"
+-pipe 99bf6cce-de4d-4101-a0e2-06abf3cc1e4b
+-pr MvcMovie
+-owningPid 9004
+-env ASPNETCORE_CONTENTROOT=F:\work\GameOfLife\MvcMovie\MvcMovie|ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=Microsoft.AspNetCore.ApplicationInsights.HostingStartup|ASPNETCORE_ENVIRONMENT=Development|COMPLUS_ForceENC=1|

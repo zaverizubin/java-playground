@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BloggingModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="BloggingModelStoreContainer">
+    <EntitySet Name="Blogs" EntityType="BloggingModel.Store.Blogs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Posts" EntityType="BloggingModel.Store.Posts" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="BlogPost" Association="BloggingModel.Store.BlogPost">
+      <End Role="Blog" EntitySet="Blogs" />
+      <End Role="Post" EntitySet="Posts" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Blogs">
+    <Key>
+      <PropertyRef Name="BlogId" />
+    </Key>
+    <Property Name="BlogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Url" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Posts">
+    <Key>
+      <PropertyRef Name="PostId" />
+    </Key>
+    <Property Name="PostId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="BlogBlogId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="BlogPost">
+    <End Role="Blog" Type="BloggingModel.Store.Blogs" Multiplicity="1" />
+    <End Role="Post" Type="BloggingModel.Store.Posts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Blog">
+        <PropertyRef Name="BlogId" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="BlogBlogId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

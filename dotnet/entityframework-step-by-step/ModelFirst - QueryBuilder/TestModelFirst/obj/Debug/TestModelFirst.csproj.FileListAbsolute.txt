@@ -1,0 +1,28 @@
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\bin\Debug\TestModelFirst.exe.config
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\bin\Debug\TestModelFirst.exe
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\bin\Debug\TestModelFirst.pdb
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\obj\Debug\TestModelFirst.csprojResolveAssemblyReference.cache
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\obj\Debug\TestModelFirst.Properties.Resources.resources
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\obj\Debug\TestModelFirst.csproj.GenerateResource.Cache
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\obj\Debug\TestModelFirst.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\obj\Debug\TestModelFirst.exe
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\obj\Debug\TestModelFirst.pdb
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst\TestModelFirst\obj\Debug\TestModelFirst.Form1.resources
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\bin\Debug\TestModelFirst.exe.config
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\bin\Debug\TestModelFirst.exe
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\bin\Debug\TestModelFirst.pdb
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\bin\Debug\EntityFramework.dll
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\bin\Debug\EntityFramework.xml
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\obj\Debug\TestModelFirst.csprojResolveAssemblyReference.cache
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\obj\Debug\TestModelFirst.Form1.resources
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\obj\Debug\TestModelFirst.Properties.Resources.resources
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\obj\Debug\TestModelFirst.csproj.GenerateResource.Cache
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\obj\Debug\TestModelFirst.csproj.CoreCompileInputs.cache
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\obj\Debug\TestModelFirst.exe
+C:\Users\Zubin\Dropbox\POCs\EntityFramework Step by step\ModelFirst - QueryBuilder\TestModelFirst\obj\Debug\TestModelFirst.pdb

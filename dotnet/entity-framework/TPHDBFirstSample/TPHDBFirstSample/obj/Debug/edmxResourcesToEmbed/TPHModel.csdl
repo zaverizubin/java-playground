@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Person" Abstract="true">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="SchoolEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="People" EntityType="Self.Person" />
+  </EntityContainer>
+  <EntityType Name="Instructor" BaseType="SchoolModel.Person">
+    <Property Name="HireDate" Type="DateTime" Precision="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Student" BaseType="SchoolModel.Person">
+    <Property Name="EnrollmentDate" Type="DateTime" Precision="3" Nullable="false" />
+  </EntityType>
+</Schema>

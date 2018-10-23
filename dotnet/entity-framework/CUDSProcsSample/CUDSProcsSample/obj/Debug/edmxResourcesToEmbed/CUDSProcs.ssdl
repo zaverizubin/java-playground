@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SchoolModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="HireDate" Type="datetime" />
+    <Property Name="EnrollmentDate" Type="datetime" />
+    <Property Name="Discriminator" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Function Name="DeletePerson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PersonID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="InsertPerson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="HireDate" Type="datetime" Mode="In" />
+    <Parameter Name="EnrollmentDate" Type="datetime" Mode="In" />
+    <Parameter Name="Discriminator" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="UpdatePerson" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PersonID" Type="int" Mode="In" />
+    <Parameter Name="LastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="FirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="HireDate" Type="datetime" Mode="In" />
+    <Parameter Name="EnrollmentDate" Type="datetime" Mode="In" />
+    <Parameter Name="Discriminator" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="SchoolModelStoreContainer">
+    <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFwithSProcsSample", "EFwithSProcsSample\EFwithSProcsSample.csproj", "{EAF4409E-AD34-4E3D-8950-C56E035701ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAF4409E-AD34-4E3D-8950-C56E035701ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF4409E-AD34-4E3D-8950-C56E035701ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF4409E-AD34-4E3D-8950-C56E035701ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF4409E-AD34-4E3D-8950-C56E035701ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63845BC0-0DD7-4EC7-A7A3-31FAB4626565}
+	EndGlobalSection
+EndGlobal

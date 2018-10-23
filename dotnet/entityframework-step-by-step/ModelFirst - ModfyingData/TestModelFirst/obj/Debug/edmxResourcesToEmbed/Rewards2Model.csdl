@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Rewards2Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="Rewards2ModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Rewards2Model.Customers" />
+    <EntitySet Name="Purchases" EntityType="Rewards2Model.Purchases" />
+    <AssociationSet Name="CustomersPurchases" Association="Rewards2Model.CustomersPurchases">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="Purchases" EntitySet="Purchases" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" Nullable="false" />
+    <NavigationProperty Name="Purchases" Relationship="Rewards2Model.CustomersPurchases" FromRole="Customers" ToRole="Purchases" />
+  </EntityType>
+  <EntityType Name="Purchases">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PurchaseDate" Type="DateTime" Nullable="false" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" Scale="2" />
+    <NavigationProperty Name="Customer" Relationship="Rewards2Model.CustomersPurchases" FromRole="Purchases" ToRole="Customers" />
+    <Property Name="CustomersId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="CustomersPurchases">
+    <End Type="Rewards2Model.Customers" Role="Customers" Multiplicity="1" />
+    <End Type="Rewards2Model.Purchases" Role="Purchases" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Purchases">
+        <PropertyRef Name="CustomersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
