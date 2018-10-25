@@ -22,6 +22,9 @@
 		<vaadin.version>10.0.5</vaadin.version>
 	    <vaadin.confirmdialog.version>1.0.0</vaadin.confirmdialog.version>
 	    <vaadin.cookieconsent.version>1.0.0</vaadin.cookieconsent.version>
+	    <frontend.maven.plugin.version>1.6</frontend.maven.plugin.version>
+	    <node.version>v8.1.2</node.version>
+        <yarn.version>v0.27.5</yarn.version>
 	</properties>
     
   	<repositories>
@@ -104,7 +107,11 @@
       		<version>3.8.1</version>
       		<scope>test</scope>
     	</dependency>
-    
+    	<!-- <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency> -->
+    	
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -137,6 +144,7 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -145,6 +153,7 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
         </dependency>
+         -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -152,7 +161,7 @@
         <!-- End Spring -->
   </dependencies>
   
-  	<build>
+  <build>
   	
   	<pluginManagement>
          <plugins>
@@ -171,11 +180,19 @@
                  <artifactId>vaadin-maven-plugin</artifactId>
                  <version>${vaadin.version}</version>
              </plugin>
-             
+             <plugin>
+                 <groupId>com.github.eirslett</groupId>
+                 <artifactId>frontend-maven-plugin</artifactId>
+                 <version>${frontend.maven.plugin.version}</version>
+                 <configuration>
+                     <nodeVersion>${node.version}</nodeVersion>
+                     <yarnVersion>${yarn.version}</yarnVersion>
+                 </configuration>
+             </plugin>
          </plugins>
      </pluginManagement>
   	
-  	 <plugins>
+  	<plugins>
          <plugin>
              <groupId>org.springframework.boot</groupId>
              <artifactId>spring-boot-maven-plugin</artifactId>
