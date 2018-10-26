@@ -10,11 +10,11 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.templatemodel.TemplateModel;
 
-import in.focalworks.ui.BaseView;
+import in.focalworks.ui.MainView;
 
 @Tag("home-view")
 @HtmlImport("src/views/home-view.html")
-@Route(value = "", layout = BaseView.class)
+@Route(value = "", layout = MainView.class)
 @PageTitle("Game of Project Life")
 
 public class HomeView extends PolymerTemplate<TemplateModel> implements RouterLayout {
