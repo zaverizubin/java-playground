@@ -22,7 +22,7 @@ import in.focalworks.ui.utils.AppConst;
 
 @Tag("main-view")
 @HtmlImport("src/main-view.html")
-@PageTitle("Game of Project Life")
+@PageTitle(AppConst.TITLE_DEFAULT)
 @Viewport(AppConst.VIEWPORT)
 public class MainView extends PolymerTemplate<TemplateModel> implements RouterLayout {
 

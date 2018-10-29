@@ -49,8 +49,8 @@ public class AppNavigation extends PolymerTemplate<TemplateModel> implements Aft
 		if (idx >= 0 && idx < hrefs.size()) {
 			final String href = hrefs.get(idx);
 			if (href.equals(logoutHref)) {
-				// The logout button is a 'normal' URL, not Flow-managed but
-				// handled by Spring Security.
+				// The logout button is a 'normal' URL, not Flow-managed but handled by Spring
+				// Security.
 				UI.getCurrent().getPage().executeJavaScript("location.assign('logout')");
 			} else if (!href.equals(currentHref)) {
 				UI.getCurrent().navigate(href);
