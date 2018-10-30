@@ -27,10 +27,9 @@ public class Session extends AbstractEntity {
 	@NotBlank
 	private Date endDate;
 
-
 	private String sessionData;
-	@NotBlank
 
+	@NotBlank
 	private Date createdOn;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -76,6 +75,14 @@ public class Session extends AbstractEntity {
 
 	public void setEndDate(final Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getSessionData() {
+		return sessionData;
+	}
+
+	public void setSessionData(final String sessionData) {
+		this.sessionData = sessionData;
 	}
 
 	public Date getCreatedOn() {
