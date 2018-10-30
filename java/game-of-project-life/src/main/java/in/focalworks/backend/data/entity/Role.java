@@ -8,7 +8,7 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Entity(name = "Role")
+@Entity
 public class Role extends AbstractEntity {
 
 	@NotBlank

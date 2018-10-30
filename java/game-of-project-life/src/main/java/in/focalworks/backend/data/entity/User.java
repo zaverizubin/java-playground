@@ -1,6 +1,5 @@
 package in.focalworks.backend.data.entity;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,13 +8,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity(name = "User")
+@Entity
+@Table(name = "\"User\"")
 public class User extends AbstractEntity {
 
 	@NotBlank
@@ -29,9 +28,6 @@ public class User extends AbstractEntity {
 	@NotBlank
 	private boolean enabled;
 
-	@NotBlank
-	private Date createdOn;
-
 	@OneToMany(mappedBy = "facilitator", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Room> roomsAsFacilitator;
 
@@ -42,11 +38,7 @@ public class User extends AbstractEntity {
 	@JoinTable(name = "userrole", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "role"))
 	private Set<Role> roles;
 
-	@PrePersist
-	@PreUpdate
-	private void prepareData(){
-		createdOn = createdOn == null ? new Date() : createdOn;
-	}
+
 
 	public User() {
 		// An empty constructor is needed for all beans
@@ -76,13 +68,6 @@ public class User extends AbstractEntity {
 		this.enabled = enabled;
 	}
 
-	public Date getCreatedOn() {
-		return createdOn;
-	}
-
-	public void setCreatedOn(final Date createdOn) {
-		this.createdOn = createdOn;
-	}
 
 	public Set<Role> getRoles() {
 		return roles;

@@ -1,10 +1,16 @@
 package in.focalworks.backend.data.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
@@ -13,14 +19,34 @@ public abstract class AbstractEntity implements Serializable {
 	@GeneratedValue
 	protected Long id;
 
+	@Transient
 	protected int version;
+
+	@NotBlank
+	@Column(name = "createdon")
+	private Date createdOn;
 
 	public Long getId() {
 		return id;
 	}
 
+
 	public int getVersion() {
 		return version;
+	}
+
+	@PrePersist
+	@PreUpdate
+	private void prepareData() {
+		createdOn = createdOn == null ? new Date() : createdOn;
+	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(final Date createdOn) {
+		this.createdOn = createdOn;
 	}
 
 	@Override

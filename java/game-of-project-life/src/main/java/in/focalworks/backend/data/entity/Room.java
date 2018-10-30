@@ -1,6 +1,5 @@
 package in.focalworks.backend.data.entity;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,13 +10,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity(name = "Room")
+@Entity
 public class Room extends AbstractEntity {
 
 	@NotBlank
@@ -32,9 +29,6 @@ public class Room extends AbstractEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User scorer;
 
-	@NotBlank
-	private Date createdOn;
-
 	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Session> sessions;
 
@@ -42,11 +36,6 @@ public class Room extends AbstractEntity {
 	@JoinTable(name = "roomteam", joinColumns = @JoinColumn(name = "room"), inverseJoinColumns = @JoinColumn(name = "team"))
 	private Set<Team> teams;
 
-	@PrePersist
-	@PreUpdate
-	private void prepareData(){
-		createdOn = createdOn == null ? new Date() : createdOn;
-	}
 
 	public Room() {
 		// An empty constructor is needed for all beans
@@ -76,13 +65,6 @@ public class Room extends AbstractEntity {
 		this.scorer = scorer;
 	}
 
-	public Date getCreatedOn() {
-		return createdOn;
-	}
-
-	public void setCreatedOn(final Date createdOn) {
-		this.createdOn = createdOn;
-	}
 
 	public Set<Session> getSessions() {
 		return sessions;

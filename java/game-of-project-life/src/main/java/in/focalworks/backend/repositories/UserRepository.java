@@ -12,6 +12,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	Page<User> findBy(Pageable page);
 
+	Page<User> findByUsernameNotIgnoreCaseOrderByUsernameAsc(String usernameNot, Pageable page);
+
+	Page<User> findByUsernameNotIgnoreCaseOrderByUsernameDesc(String usernameNot, Pageable page);
+
+	Page<User> findByUsernameNotIgnoreCaseOrderByEnabledAsc(String usernameNot, Pageable page);
+
+	Page<User> findByUsernameNotIgnoreCaseOrderByEnabledDesc(String usernameNot, Pageable page);
+
 	Page<User> findByUsernameLikeIgnoreCase(String username, Pageable page);
 
 	Page<User> findByUsernameLikeAndUsernameNotIgnoreCaseOrderByUsernameAsc(String usernameLike, String usernameNot,
@@ -26,7 +34,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	Page<User> findByUsernameLikeAndUsernameNotIgnoreCaseOrderByEnabledDesc(String username, String usernameNot,
 			Pageable page);
 
-	Page<User> findByRole_Name(String name, Pageable page);
+	Page<User> findByRoles_Name(String name, Pageable page);
 
 	int countByUsernameLikeIgnoreCase(String username);
 }
