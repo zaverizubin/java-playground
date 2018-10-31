@@ -3,9 +3,11 @@ package in.focalworks.backend.repositories;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import in.focalworks.backend.data.entity.Room;
 
+@Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 	Page<Room> findBy(Pageable page);
 

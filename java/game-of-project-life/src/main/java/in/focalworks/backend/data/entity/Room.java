@@ -36,9 +36,13 @@ public class Room extends AbstractEntity {
 	@JoinTable(name = "roomteam", joinColumns = @JoinColumn(name = "room"), inverseJoinColumns = @JoinColumn(name = "team"))
 	private Set<Team> teams;
 
-
 	public Room() {
-		// An empty constructor is needed for all beans
+	}
+
+	public Room(final String name, final User facilitator, final User scorer) {
+		this.name = name;
+		this.facilitator = facilitator;
+		this.scorer = scorer;
 	}
 
 	public String getName() {
@@ -80,5 +84,10 @@ public class Room extends AbstractEntity {
 
 	public void setTeams(final Set<Team> teams) {
 		this.teams = teams;
+	}
+
+	@Override
+	public String toString() {
+		return Room.class.getName() + " name:" + name;
 	}
 }

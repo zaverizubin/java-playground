@@ -19,16 +19,20 @@ public class Team extends AbstractEntity {
 	@NotNull
 	private String description;
 
-	@NotBlank
+	@NotNull
 	private boolean enabled;
 
 
 	@ManyToMany(mappedBy = "teams")
 	private Set<Room> rooms = new HashSet<>();
 
-
 	public Team() {
-		// An empty constructor is needed for all beans
+	}
+
+	public Team(final String name, final String description, final boolean enabled) {
+		this.name = name;
+		this.description = description;
+		this.enabled = enabled;
 	}
 
 	public String getName() {
@@ -61,5 +65,10 @@ public class Team extends AbstractEntity {
 
 	public void setRooms(final Set<Room> rooms) {
 		this.rooms = rooms;
+	}
+
+	@Override
+	public String toString() {
+		return Team.class.getName() + " name:" + name;
 	}
 }

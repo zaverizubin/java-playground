@@ -16,7 +16,10 @@ public class Role extends AbstractEntity {
 	private String name;
 
 	public Role() {
-		// An empty constructor is needed for all beans
+	}
+
+	public Role(final String name) {
+		this.name = name;
 	}
 
 	public String getName() {

@@ -5,26 +5,27 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
 	@Transient
 	protected int version;
 
-	@NotBlank
+	@NotNull
 	@Column(name = "createdon")
-	private Date createdOn;
+	protected Date createdOn;
 
 	public Long getId() {
 		return id;

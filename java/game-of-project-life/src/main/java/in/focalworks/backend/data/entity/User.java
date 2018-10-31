@@ -25,7 +25,7 @@ public class User extends AbstractEntity {
 	@Size(min = 4, max = 255)
 	private String password;
 
-	@NotBlank
+	@NotNull
 	private boolean enabled;
 
 	@OneToMany(mappedBy = "facilitator", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -38,10 +38,13 @@ public class User extends AbstractEntity {
 	@JoinTable(name = "userrole", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "role"))
 	private Set<Role> roles;
 
-
-
 	public User() {
-		// An empty constructor is needed for all beans
+	}
+
+	public User(final String username, final String password, final boolean enabled) {
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
 	}
 
 	public String getUsername() {
@@ -75,6 +78,12 @@ public class User extends AbstractEntity {
 
 	public void setRoles(final Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	@Override
+	public String toString() {
+		return User.class.getName() + " username:" + username;
+
 	}
 
 }
