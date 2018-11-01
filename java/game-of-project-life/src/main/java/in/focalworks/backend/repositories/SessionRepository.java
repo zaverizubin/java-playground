@@ -30,5 +30,5 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
 	 * Page<Session> findSessionOrderByCompletedDesc(Pageable page);
 	 */
 
-	int countBySessionKeyLikeIgnoreCase(String sessionkey);
+	int countBySessionkeyLikeIgnoreCase(String sessionkey);
 }

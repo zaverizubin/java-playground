@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,38 +16,39 @@ public class Session extends AbstractEntity {
 
 	@NotBlank
 	@Size(max = 100)
-	private String sessionKey;
+	private String sessionkey;
 
 	@NotNull
 	private boolean completed;
 
 	@NotNull
-	private Date startDate;
+	private Date startdate;
 
 	@NotNull
-	private Date endDate;
+	private Date enddate;
 
-	private String sessionData;
+	private String sessiondata;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "room")
 	private Room room;
 
 	public Session() {
 	}
 
-	public Session(final Room room, final Date startDate, final Date endDate) {
+	public Session(final Room room, final Date startdate, final Date enddate) {
 		this.room = room;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		sessionKey = UUID.randomUUID().toString();
+		this.startdate = startdate;
+		this.enddate = enddate;
+		sessionkey = UUID.randomUUID().toString();
 	}
 
 	public String getSessionKey() {
-		return sessionKey;
+		return sessionkey;
 	}
 
-	public void setSessionKey(final String sessionKey) {
-		this.sessionKey = sessionKey;
+	public void setSessionKey(final String sessionkey) {
+		this.sessionkey = sessionkey;
 	}
 
 	public boolean getCompleted() {
@@ -58,27 +60,27 @@ public class Session extends AbstractEntity {
 	}
 
 	public Date getStartDate() {
-		return startDate;
+		return startdate;
 	}
 
-	public void setStartDate(final Date startDate) {
-		this.startDate = startDate;
+	public void setStartDate(final Date startdate) {
+		this.startdate = startdate;
 	}
 
 	public Date getEndDate() {
-		return endDate;
+		return enddate;
 	}
 
 	public void setEndDate(final Date endDate) {
-		this.endDate = endDate;
+		enddate = endDate;
 	}
 
 	public String getSessionData() {
-		return sessionData;
+		return sessiondata;
 	}
 
-	public void setSessionData(final String sessionData) {
-		this.sessionData = sessionData;
+	public void setSessionData(final String sessiondata) {
+		this.sessiondata = sessiondata;
 	}
 
 	public Room getRoom() {
@@ -91,7 +93,7 @@ public class Session extends AbstractEntity {
 
 	@Override
 	public String toString() {
-		return Session.class.getName() + " sessionKey:" + sessionKey;
+		return Session.class.getName() + " sessionKey:" + sessionkey;
 	}
 
 }

@@ -12,10 +12,9 @@ import in.focalworks.backend.data.entity.User;
 import in.focalworks.backend.repositories.UserRepository;
 
 
-@SpringBootApplication(scanBasePackageClasses = { Application.class})
+@SpringBootApplication(scanBasePackageClasses = { Application.class })
 @EnableJpaRepositories(basePackageClasses = { UserRepository.class })
 @EntityScan(basePackageClasses = { User.class })
-//@ComponentScan(basePackageClasses = { DataGenerator.class })
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(final String[] args) {

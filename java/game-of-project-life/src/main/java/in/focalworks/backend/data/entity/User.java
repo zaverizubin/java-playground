@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "\"User\"")
+@Table(name = "User")
 public class User extends AbstractEntity {
 
 	@NotBlank
@@ -34,7 +34,7 @@ public class User extends AbstractEntity {
 	@OneToMany(mappedBy = "scorer", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Room> roomsAsScorer;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.ALL })
 	@JoinTable(name = "userrole", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "role"))
 	private Set<Role> roles;
 

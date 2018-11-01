@@ -23,16 +23,18 @@ public class Room extends AbstractEntity {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "facilitator")
 	private User facilitator;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "scorer")
 	private User scorer;
 
 	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Session> sessions;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "roomteam", joinColumns = @JoinColumn(name = "room"), inverseJoinColumns = @JoinColumn(name = "team"))
 	private Set<Team> teams;
 
