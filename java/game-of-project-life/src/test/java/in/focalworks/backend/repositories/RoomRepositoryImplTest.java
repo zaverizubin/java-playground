@@ -1,7 +1,6 @@
 package in.focalworks.backend.repositories;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,18 +14,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import in.focalworks.backend.data.entity.User;
+import in.focalworks.backend.data.entity.Room;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserRepositoryImplTest {
+public class RoomRepositoryImplTest {
 
 	@Autowired
 	private TestEntityManager entityManager;
 
 	@Autowired
-	private UserRepository userRepository;
+	private RoomRepository roomRepository;
 
 	private Pageable createPageRequest(final int firstResult, final int maxResults) {
 		return PageRequest.of(firstResult, maxResults);
@@ -37,42 +36,36 @@ public class UserRepositoryImplTest {
 		return PageRequest.of(firstResult, maxResults, direction, sortColumn);
 	}
 
-
 	@Test
-	public void givenUsersWhenUserNotAdminThenCount() {
+	public void givenRoomsThenCount() {
 		// given
-		final String role = "admin";
 		// when
 		final Pageable page = createPageRequest(0, 20);
-		final Page<User> users = userRepository.findDistinctUserByRoles_NameNotIgnoreCase(role, page);
+		final Page<Room> rooms = roomRepository.findBy(page);
 		// then
-		assertEquals(3, users.getContent().size());
+		assertEquals(2, rooms.getContent().size());
 	}
 
 	@Test
-	public void givenUsersWhenUserNotAdminAndOrderByEnabledThenCount() {
+	public void givenRoomsWhenOrderByNameThenCount() {
 		// given
-		final String role = "admin";
 		// when
-		final Pageable page = createPageRequest(0, 20, Direction.ASC, "enabled");
-		final Page<User> users = userRepository.findDistinctUserByRoles_NameNotIgnoreCase(role, page);
+		final Pageable page = createPageRequest(0, 20, Direction.ASC, "name");
+		final Page<Room> rooms = roomRepository.findBySessions_Count(1, page);
 		// then
-		assertFalse(users.getContent().get(0).getEnabled());
-		assertEquals(3, users.getContent().size());
+		assertEquals(2, rooms.getContent().size());
 	}
 
 	@Test
-	public void givenUsersWhenUsernameLikeAndUserNotAdminThenCount() {
+	public void givenRoomsWhenNameLikeThenCount() {
 		// given
-		final String role = "Admin";
+		final String name = "ro%";
 		// when
 		final Pageable page = createPageRequest(0, 20);
-
-		final Page<User> users = userRepository
-				.findDistinctUserByUsernameLikeAndRoles_NameNotIgnoreCase("%us%", role, page);
+		final Page<Room> rooms = roomRepository.findByNameLikeIgnoreCase(name, page);
 
 		// then
-		assertEquals(3, users.getContent().size());
+		assertEquals(2, rooms.getContent().size());
 	}
 
 }

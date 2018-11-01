@@ -11,24 +11,7 @@ import in.focalworks.backend.data.entity.Session;
 public interface SessionRepository extends JpaRepository<Session, Long> {
 	Page<Session> findBy(Pageable page);
 
-
-	Page<Session> findAllByOrderByRoom_NameAsc(Pageable page);
-
-	Page<Session> findAllByOrderByRoom_NameDesc(Pageable page);
-
-	Page<Session> findAllByOrderByStartDateAsc(Pageable page);
-
-	Page<Session> findAllByOrderByStartDateDesc(Pageable page);
-
-	Page<Session> findAllByOrderByEndDateAsc(Pageable page);
-
-	Page<Session> findAllByOrderByEndDateDesc(Pageable page);
-
-	/*
-	 * Page<Session> findSessionOrderByCompletedAsc(Pageable page);
-	 *
-	 * Page<Session> findSessionOrderByCompletedDesc(Pageable page);
-	 */
+	Page<Session> findByRoom_NameLikeIgnoreCase(String name, Pageable page);
 
 	int countBySessionkeyLikeIgnoreCase(String sessionkey);
 }

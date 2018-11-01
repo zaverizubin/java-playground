@@ -2,6 +2,7 @@
 INSERT into `User` (Id, Username, Password, Enabled, CreatedOn) VALUES (1, 'admin', 'admin', 1, '2018-10-26 00:00:00.000');
 INSERT into `User` (Id, Username, Password, Enabled, CreatedOn) VALUES (2, 'user1', 'user1', 1, '2018-10-26 00:00:00.000');
 INSERT into `User` (Id, Username, Password, Enabled, CreatedOn) VALUES (3, 'user2', 'user2', 1, '2018-10-26 00:00:00.000');
+INSERT into `User` (Id, Username, Password, Enabled, CreatedOn) VALUES (4, 'user3', 'user3', 0, '2018-10-26 00:00:00.000');
 
 INSERT into Team (Id, Name, Description, CreatedOn, Enabled) VALUES (1, 'Team1', 'description', '2018-10-26 00:00:00.000', 1);
 INSERT into Team (Id, Name, Description, CreatedOn, Enabled) VALUES (2, 'Team2', 'description', '2018-10-26 00:00:00.000', 1);
@@ -26,3 +27,5 @@ INSERT into UserRole (`User`, Role) VALUES (2, 2);
 INSERT into UserRole (`User`, Role) VALUES (2, 3);
 INSERT into UserRole (`User`, Role) VALUES (3, 2);
 INSERT into UserRole (`User`, Role) VALUES (3, 3);
+INSERT into UserRole (`User`, Role) VALUES (4, 2);
+INSERT into UserRole (`User`, Role) VALUES (4, 3);
