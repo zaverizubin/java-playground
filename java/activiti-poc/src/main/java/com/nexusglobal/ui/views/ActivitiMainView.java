@@ -141,9 +141,12 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private void buildProcessDefinitions() {
 		cbProcessDefinitions = new ComboBox<>();
 		cbProcessDefinitions.setWidth("250px");
-		cbProcessDefinitions.setItems(controller.getProcessDefinitions());
-		cbProcessDefinitions.setLabel("Process Definitions");
-		cbProcessDefinitions.setItemLabelGenerator(ProcessDefinition::getName);
+		List<ProcessDefinition> processDefinitions = controller.getProcessDefinitions();
+		if(processDefinitions != null) {
+			cbProcessDefinitions.setItems(processDefinitions);
+			cbProcessDefinitions.setLabel("Process Definitions");
+			cbProcessDefinitions.setItemLabelGenerator(ProcessDefinition::getName);
+		}
 	}
 
 	private void buildProcessInstanceActionButtons() {

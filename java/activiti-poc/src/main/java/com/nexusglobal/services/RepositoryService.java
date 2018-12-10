@@ -23,7 +23,7 @@ public class RepositoryService {
 
 	public ProcessDefinition getProcessDefinition(final String processDefinitionId) {
 		return processEngine.getRepositoryService().createProcessDefinitionQuery()
-				.processDefinitionId(processDefinitionId).latestVersion().singleResult();
+				.processDefinitionId(processDefinitionId).singleResult();
 	}
 
 	public Deployment getDeployment(final String deploymentKey) {

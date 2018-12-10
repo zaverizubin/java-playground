@@ -20,10 +20,8 @@ public class ActiveTaskView extends VerticalLayout {
 	private final ActivitiMainView parentView;
 	private Task task;
 	private final ActiveTaskController controller;
-
-	private String formFieldName;
-	private TextField formField;
-
+	private HashMap<String, TextField> formData = new HashMap<String, TextField>();
+	
 	public ActiveTaskView(final ActivitiMainView parentView) {
 		this.parentView = parentView;
 		controller = new ActiveTaskController(this);
@@ -62,10 +60,14 @@ public class ActiveTaskView extends VerticalLayout {
 		buttonComplete.setWidth("150px");
 		buttonComplete.setVisible(false);
 		buttonComplete.addClickListener(event -> {
+			
 			final Map<String, Object> variables = new HashMap<>();
-			variables.put(formFieldName, formField.getValue());
+			for (Map.Entry<String, TextField> entry : formData.entrySet()) {
+				variables.put(entry.getKey(), entry.getValue().getValue());
+			}
 			controller.completeTask(task.getId(), variables);
 			parentView.hideTaskDetails();
+			
 		});
 
 		final Button buttonClaim = new Button();
@@ -130,15 +132,16 @@ public class ActiveTaskView extends VerticalLayout {
 
 			final Label label1 = new Label();
 			label1.setText(formProperty.getName() + ":");
-			formFieldName = formProperty.getName();
-			formField = new TextField();
+			
+			TextField formField = new TextField();
 			formField.setWidth("400px");
 			if (count % 2 == 0) {
 				formField.setClassName("formValueBkg-1");
 			} else {
 				formField.setClassName("formValueBkg-2");
 			}
-
+			formData.put(formProperty.getName(), formField);
+			
 			horizontalLayout.add(label1);
 			horizontalLayout.add(formField);
 			verticalLayout.add(horizontalLayout);

@@ -1,5 +1,6 @@
 package com.nexusglobal.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -70,10 +71,9 @@ public class ActivitiMainController {
 	}
 
 	public List<ProcessDefinition> getProcessDefinitions() {
-		List<ProcessDefinition> processDefinitions = null;
+		List<ProcessDefinition> processDefinitions = new ArrayList<ProcessDefinition>();
 
-		final Deployment deployment = activitiService.getRepositoryService()
-				.getDeployment(SessionData.getSessionData().getDeploymentKey());
+		final Deployment deployment = activitiService.getRepositoryService().getDeployment(SessionData.getSessionData().getDeploymentKey());
 		if (deployment != null) {
 			processDefinitions = activitiService.getRepositoryService().getProcessDefinitions(deployment.getId());
 		}
