@@ -4,11 +4,11 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.form.api.Form;
 
-public class FormEngineRepositoryService {
+public class FormEngineRepositoryServiceWrapper {
 
 	ProcessEngine processEngine;
 
-	public FormEngineRepositoryService(final ProcessEngine processEngine) {
+	public FormEngineRepositoryServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 

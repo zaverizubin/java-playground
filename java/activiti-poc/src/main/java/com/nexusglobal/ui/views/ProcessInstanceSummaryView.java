@@ -95,15 +95,17 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 		final List<Task> tasks = controller.getNextTaskForProcessInstance(processInstanceDetail);
 
 		final VerticalLayout verticalLayout = new VerticalLayout();
-		final HorizontalLayout horizontalLayout = new HorizontalLayout();
-
+		
 		final Label title = new Label();
 		title.setText("Active Tasks");
 		title.setWidth("400px");
-
+		verticalLayout.add(title);
+		
 		if (tasks.size() == 0) {
 			final Label noActiveTask = new Label("No tasks are currently active ...");
+			HorizontalLayout horizontalLayout = new HorizontalLayout();
 			horizontalLayout.add(noActiveTask);
+			verticalLayout.add(horizontalLayout);
 		} else {
 			for (final Task task : tasks) {
 				final Button activeTaskButton = new Button();
@@ -117,14 +119,13 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 				taskCreated.setText("Created On: " + task.getCreateTime().getDay() + ":"
 						+ task.getCreateTime().getMonth() + ":" + (1900 + task.getCreateTime().getYear()));
 				taskCreated.setWidth("400px");
-
+				
+				HorizontalLayout horizontalLayout = new HorizontalLayout();
 				horizontalLayout.add(activeTaskButton);
 				horizontalLayout.add(taskCreated);
+				verticalLayout.add(horizontalLayout);
 			}
 		}
-
-		verticalLayout.add(title);
-		verticalLayout.add(horizontalLayout);
 
 		add(verticalLayout);
 

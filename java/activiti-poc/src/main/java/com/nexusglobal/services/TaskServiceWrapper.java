@@ -6,10 +6,10 @@ import java.util.Map;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.task.Task;
 
-public class TaskService {
+public class TaskServiceWrapper {
 	ProcessEngine processEngine;
 
-	public TaskService(final ProcessEngine processEngine) {
+	public TaskServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 

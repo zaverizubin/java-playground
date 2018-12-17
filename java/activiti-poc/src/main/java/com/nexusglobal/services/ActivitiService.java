@@ -7,21 +7,21 @@ public class ActivitiService {
 
 	private final ProcessEngine processEngine;
 	private static ActivitiService activitiService;
-	private final RepositoryService repositoryService;
-	private final RuntimeService runtimeService;
-	private final TaskService taskService;
-	private final IdentityService identityService;
-	private final HistoryService historyService;
-	private final FormEngineRepositoryService formEngineRepositoryService;
+	private final RepositoryServiceWrapper repositoryService;
+	private final RuntimeServiceWrapper runtimeService;
+	private final TaskServiceWrapper taskService;
+	private final IdentityServiceWrapper identityService;
+	private final HistoryServiceWrapper historyService;
+	private final FormEngineRepositoryServiceWrapper formEngineRepositoryService;
 
 	private ActivitiService() {
 		processEngine = ProcessEngines.getDefaultProcessEngine();
-		repositoryService = new RepositoryService(processEngine);
-		runtimeService = new RuntimeService(processEngine);
-		taskService = new TaskService(processEngine);
-		identityService = new IdentityService(processEngine);
-		historyService = new HistoryService(processEngine);
-		formEngineRepositoryService = new FormEngineRepositoryService(processEngine);
+		repositoryService = new RepositoryServiceWrapper(processEngine);
+		runtimeService = new RuntimeServiceWrapper(processEngine);
+		taskService = new TaskServiceWrapper(processEngine);
+		identityService = new IdentityServiceWrapper(processEngine);
+		historyService = new HistoryServiceWrapper(processEngine);
+		formEngineRepositoryService = new FormEngineRepositoryServiceWrapper(processEngine);
 	}
 
 	public static ActivitiService getActivitiService() {
@@ -31,27 +31,27 @@ public class ActivitiService {
 		return activitiService;
 	}
 
-	public RepositoryService getRepositoryService() {
+	public RepositoryServiceWrapper getRepositoryService() {
 		return repositoryService;
 	}
 
-	public RuntimeService getRuntimeService() {
+	public RuntimeServiceWrapper getRuntimeService() {
 		return runtimeService;
 	}
 
-	public TaskService getTaskService() {
+	public TaskServiceWrapper getTaskService() {
 		return taskService;
 	}
 
-	public IdentityService getIdentityService() {
+	public IdentityServiceWrapper getIdentityService() {
 		return identityService;
 	}
 
-	public HistoryService getHistoryService() {
+	public HistoryServiceWrapper getHistoryService() {
 		return historyService;
 	}
 
-	public FormEngineRepositoryService getFormEngineRepositoryService() {
+	public FormEngineRepositoryServiceWrapper getFormEngineRepositoryService() {
 		return formEngineRepositoryService;
 	}
 

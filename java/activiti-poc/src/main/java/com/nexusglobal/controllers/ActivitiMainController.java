@@ -1,6 +1,7 @@
 package com.nexusglobal.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.activiti.engine.history.HistoricProcessInstance;
@@ -57,10 +58,13 @@ public class ActivitiMainController {
 		if (processDefinition != null) {
 			final ProcessInstance processInstance = startProcessInstance(processDefinition.getId());
 			assignUserToProcessInstance(processInstance.getId());
+			assignVariablesToProcessInstance(processInstance.getId());
 			onProcessInstanceFilterClick("Running");
 			view.clearDetailsView();
 		}
 	}
+
+	
 
 	public void onDeleteAllInstancesClick(final ProcessDefinition processDefinition) {
 		if (processDefinition != null) {
@@ -104,6 +108,15 @@ public class ActivitiMainController {
 				SessionData.getSessionData().getUserId());
 	}
 
+	private void assignVariablesToProcessInstance(String processInstanceId) {
+		HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
+		variables.put("accident", true);
+		variables.put("injury", true);
+		variables.put("spill", true);
+		activitiService.getRuntimeService().setProcessInstanceVariables(processInstanceId, variables);
+		
+	}
+	
 	public void executeProcessInstance(final String processInstanceId) {
 		final ProcessInstance processInstance = activitiService.getRuntimeService()
 				.getProcessInstance(processInstanceId);

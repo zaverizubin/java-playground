@@ -7,11 +7,11 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 
-public class RepositoryService {
+public class RepositoryServiceWrapper {
 
 	ProcessEngine processEngine;
 
-	public RepositoryService(final ProcessEngine processEngine) {
+	public RepositoryServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 

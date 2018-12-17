@@ -1,15 +1,16 @@
 package com.nexusglobal.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.runtime.ProcessInstance;
 
-public class RuntimeService {
+public class RuntimeServiceWrapper {
 
 	ProcessEngine processEngine;
 
-	public RuntimeService(final ProcessEngine processEngine) {
+	public RuntimeServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 
@@ -49,4 +50,9 @@ public class RuntimeService {
 		processEngine.getRuntimeService().deleteProcessInstance(processInstanceId, reason);
 
 	}
+	
+	public void setProcessInstanceVariables(final String processId, Map<String, ? extends Object> variables) {
+		processEngine.getRuntimeService().setVariables(processId, variables);
+	}
+	
 }

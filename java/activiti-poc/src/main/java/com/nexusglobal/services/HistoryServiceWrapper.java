@@ -6,11 +6,11 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 
-public class HistoryService {
+public class HistoryServiceWrapper {
 
 	ProcessEngine processEngine;
 
-	public HistoryService(final ProcessEngine processEngine) {
+	public HistoryServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 
