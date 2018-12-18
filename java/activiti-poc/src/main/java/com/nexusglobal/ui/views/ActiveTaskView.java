@@ -1,16 +1,24 @@
 package com.nexusglobal.ui.views;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 import com.nexusglobal.controllers.ActiveTaskController;
+import com.nexusglobal.models.ProcessInstanceDetail;
 import com.nexusglobal.models.SessionData;
+import com.nexusglobal.services.ActivitiService;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -21,14 +29,16 @@ public class ActiveTaskView extends VerticalLayout {
 	private Task task;
 	private final ActiveTaskController controller;
 	private HashMap<String, TextField> formData = new HashMap<String, TextField>();
+	public ProcessInstanceDetail currentprocessInstanceDetail;
 	
 	public ActiveTaskView(final ActivitiMainView parentView) {
 		this.parentView = parentView;
 		controller = new ActiveTaskController(this);
 	}
 
-	public VerticalLayout showTaskSummary(final Task task) {
+	public VerticalLayout showTaskSummary(final Task task, final ProcessInstanceDetail processInstanceDetail) {
 		this.task = task;
+		this.currentprocessInstanceDetail = processInstanceDetail;
 		buildTaskInstanceSummaryView();
 		return this;
 	}
@@ -61,13 +71,14 @@ public class ActiveTaskView extends VerticalLayout {
 		buttonComplete.setVisible(false);
 		buttonComplete.addClickListener(event -> {
 			
-			final Map<String, Object> variables = new HashMap<>();
-			for (Map.Entry<String, TextField> entry : formData.entrySet()) {
-				variables.put(entry.getKey(), entry.getValue().getValue());
+			final List<HistoricTaskInstance> historicTaskInstances = controller
+					.getCompletedTasksForProcessInstance(currentprocessInstanceDetail);
+
+			if (task.getTaskDefinitionKey().equals(SessionData.getSessionData().getGeneralInformationKey())) {
+				showPathSelectionDialog(currentprocessInstanceDetail);
+			}else {
+				doTaskComplete();
 			}
-			controller.completeTask(task.getId(), variables);
-			parentView.hideTaskDetails();
-			
 		});
 
 		final Button buttonClaim = new Button();
@@ -116,6 +127,59 @@ public class ActiveTaskView extends VerticalLayout {
 		add(verticalLayout);
 	}
 
+	private void doTaskComplete() {
+		final Map<String, Object> variables = new HashMap<>();
+		for (Map.Entry<String, TextField> entry : formData.entrySet()) {
+			variables.put(entry.getKey(), entry.getValue().getValue());
+		}
+		controller.completeTask(task.getId(), variables);
+		parentView.hideTaskDetails();
+		
+	}
+
+	public void showPathSelectionDialog(final ProcessInstanceDetail processInstanceDetail) {
+		
+		
+		Dialog dialog = new Dialog();
+
+		dialog.setCloseOnEsc(false);
+		dialog.setCloseOnOutsideClick(false);
+
+		Label messageLabel = new Label();
+		messageLabel.setText("Select the forms you want to work with");
+
+		VerticalLayout verticalLayout = new VerticalLayout();
+		
+		Checkbox chk1 = new Checkbox();
+		chk1.setLabel("Accidents");
+		
+		Checkbox chk2 = new Checkbox();
+		chk2.setLabel("Spills");
+		
+		Checkbox chk3 = new Checkbox();
+		chk3.setLabel("Injuries");
+		
+		verticalLayout.add(chk1, chk2, chk3);
+		
+		NativeButton confirmButton = new NativeButton("Ok", event -> {
+			ProcessInstance processInstance = ActivitiService.getActivitiService().getRuntimeService().getProcessInstance(this.parentView.currentprocessInstanceDetail.getId());
+			HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
+			variables.put("accident", chk1.getValue());
+			variables.put("injury", chk2.getValue());
+			variables.put("spill", chk3.getValue());
+			ActivitiService.getActivitiService().getRuntimeService().setProcessInstanceVariables(processInstance.getId(), variables);
+			doTaskComplete();
+		    dialog.close();
+		});
+		
+		
+		dialog.add(messageLabel);
+		dialog.add(verticalLayout);
+		dialog.add(confirmButton);
+		
+		dialog.open();
+	}
+	
 	private void showTaskDetails() {
 
 		final VerticalLayout verticalLayout = new VerticalLayout();

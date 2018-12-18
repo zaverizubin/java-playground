@@ -246,8 +246,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	public void showProcessInstanceSummaryView(final ProcessInstanceDetail processInstanceDetail) {
 		clearDetailsView();
 		final ProcessInstanceSummaryView processInstanceSummaryView = new ProcessInstanceSummaryView(this);
-		processInstanceSummaryView.showPathSelectionDialog(processInstanceDetail);
-		
+		processInstanceSummaryView.showProcessInstanceSummary(processInstanceDetail);
 		verticalLayout2.add(processInstanceSummaryView);
 		verticalLayout2.setVisible(true);
 		verticalLayout3.setVisible(false);
@@ -256,7 +255,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	public void showActiveTaskView(final Task task) {
 		verticalLayout3.removeAll();
 		final ActiveTaskView activeTaskView = new ActiveTaskView(this);
-		activeTaskView.showTaskSummary(task);
+		activeTaskView.showTaskSummary(task, currentprocessInstanceDetail);
 		verticalLayout3.add(activeTaskView);
 
 		verticalLayout2.setVisible(false);

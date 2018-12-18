@@ -58,7 +58,7 @@ public class ActivitiMainController {
 		if (processDefinition != null) {
 			final ProcessInstance processInstance = startProcessInstance(processDefinition.getId());
 			assignUserToProcessInstance(processInstance.getId());
-			//assignVariablesToProcessInstance(processInstance.getId());
+			assignVariablesToProcessInstance(processInstance.getId());
 			onProcessInstanceFilterClick("Running");
 			view.clearDetailsView();
 		}
@@ -110,9 +110,7 @@ public class ActivitiMainController {
 
 	private void assignVariablesToProcessInstance(String processInstanceId) {
 		HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
-		variables.put("accident", true);
-		variables.put("injury", false);
-		variables.put("spill", true);
+		variables.put("goahead", false);
 		activitiService.getRuntimeService().setProcessInstanceVariables(processInstanceId, variables);
 		
 	}

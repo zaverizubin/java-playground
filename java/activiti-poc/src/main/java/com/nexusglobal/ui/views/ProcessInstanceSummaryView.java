@@ -192,54 +192,7 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 		add(verticalLayout);
 	}
 
-	public void showPathSelectionDialog(final ProcessInstanceDetail processInstanceDetail) {
-		final List<HistoricTaskInstance> historicTaskInstances = controller
-				.getCompletedTasksForProcessInstance(processInstanceDetail);
-
-		if (historicTaskInstances.size() > 0  ) {
-			showProcessInstanceSummary(processInstanceDetail);
-			return;
-		}
-		
-		Dialog dialog = new Dialog();
-
-		dialog.setCloseOnEsc(false);
-		dialog.setCloseOnOutsideClick(false);
-
-		Label messageLabel = new Label();
-		messageLabel.setText("Select the forms you want to work with");
-
-		VerticalLayout verticalLayout = new VerticalLayout();
-		
-		Checkbox chk1 = new Checkbox();
-		chk1.setLabel("Accidents");
-		
-		Checkbox chk2 = new Checkbox();
-		chk2.setLabel("Spills");
-		
-		Checkbox chk3 = new Checkbox();
-		chk3.setLabel("Injuries");
-		
-		verticalLayout.add(chk1, chk2, chk3);
-		
-		NativeButton confirmButton = new NativeButton("Ok", event -> {
-			ProcessInstance processInstance = ActivitiService.getActivitiService().getRuntimeService().getProcessInstance(this.parentView.currentprocessInstanceDetail.getId());
-			HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
-			variables.put("accident", chk1.getValue());
-			variables.put("injury", chk2.getValue());
-			variables.put("spill", chk3.getValue());
-			ActivitiService.getActivitiService().getRuntimeService().setProcessInstanceVariables(processInstance.getId(), variables);
-			showProcessInstanceSummary(processInstanceDetail);
-		    dialog.close();
-		});
-		
-		
-		dialog.add(messageLabel);
-		dialog.add(verticalLayout);
-		dialog.add(confirmButton);
-		
-		dialog.open();
-	}
+	
 	
 	public void resetParentView() {
 		parentView.resetView();
