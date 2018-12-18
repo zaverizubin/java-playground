@@ -28,12 +28,12 @@ public class RuntimeServiceWrapper {
 	}
 
 	public ProcessInstance getProcessInstance(final String processInstanceId) {
-		return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId)
+		return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).includeProcessVariables()
 				.singleResult();
 	}
 
 	public List<ProcessInstance> getRunningProcessInstancesByUser(final String userId) {
-		return processEngine.getRuntimeService().createProcessInstanceQuery().active().involvedUser(userId)
+		return processEngine.getRuntimeService().createProcessInstanceQuery().active().involvedUser(userId).includeProcessVariables()
 				.orderByProcessDefinitionKey().asc().list();
 	}
 

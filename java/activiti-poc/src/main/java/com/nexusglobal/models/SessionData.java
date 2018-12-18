@@ -6,7 +6,8 @@ public class SessionData {
 	private final String generalInformationKey = "general-information";
 	private final String userId = "admin";
 	private static SessionData sessionData;
-
+	private ProcessInstanceDetail processInstanceDetail;
+	
 	private SessionData() {
 
 	}
@@ -18,6 +19,13 @@ public class SessionData {
 		return sessionData;
 	}
 
+	public ProcessInstanceDetail getCurrentProcessInstanceDetail() {
+		return processInstanceDetail;
+	}
+	
+	public void setCurrentProcessInstancDetail(ProcessInstanceDetail processInstanceDetail) {
+		this.processInstanceDetail =processInstanceDetail;
+	}
 	
 	public String getDeploymentKey() {
 		return deploymentKey;

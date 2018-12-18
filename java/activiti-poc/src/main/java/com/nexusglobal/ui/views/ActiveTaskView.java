@@ -29,16 +29,15 @@ public class ActiveTaskView extends VerticalLayout {
 	private Task task;
 	private final ActiveTaskController controller;
 	private HashMap<String, TextField> formData = new HashMap<String, TextField>();
-	public ProcessInstanceDetail currentprocessInstanceDetail;
+	
 	
 	public ActiveTaskView(final ActivitiMainView parentView) {
 		this.parentView = parentView;
 		controller = new ActiveTaskController(this);
 	}
 
-	public VerticalLayout showTaskSummary(final Task task, final ProcessInstanceDetail processInstanceDetail) {
+	public VerticalLayout showTaskSummary(final Task task) {
 		this.task = task;
-		this.currentprocessInstanceDetail = processInstanceDetail;
 		buildTaskInstanceSummaryView();
 		return this;
 	}
@@ -70,12 +69,8 @@ public class ActiveTaskView extends VerticalLayout {
 		buttonComplete.setWidth("150px");
 		buttonComplete.setVisible(false);
 		buttonComplete.addClickListener(event -> {
-			
-			final List<HistoricTaskInstance> historicTaskInstances = controller
-					.getCompletedTasksForProcessInstance(currentprocessInstanceDetail);
-
 			if (task.getTaskDefinitionKey().equals(SessionData.getSessionData().getGeneralInformationKey())) {
-				showPathSelectionDialog(currentprocessInstanceDetail);
+				showPathSelectionDialog(SessionData.getSessionData().getCurrentProcessInstanceDetail());
 			}else {
 				doTaskComplete();
 			}
@@ -138,7 +133,7 @@ public class ActiveTaskView extends VerticalLayout {
 	}
 
 	public void showPathSelectionDialog(final ProcessInstanceDetail processInstanceDetail) {
-		
+		ProcessInstance processInstance = ActivitiService.getActivitiService().getRuntimeService().getProcessInstance(SessionData.getSessionData().getCurrentProcessInstanceDetail().getId());
 		
 		Dialog dialog = new Dialog();
 
@@ -152,17 +147,25 @@ public class ActiveTaskView extends VerticalLayout {
 		
 		Checkbox chk1 = new Checkbox();
 		chk1.setLabel("Accidents");
+		if(processInstance.getProcessVariables().containsKey("accident") && ((boolean)processInstance.getProcessVariables().get("accident"))){
+			chk1.setEnabled(false);
+		}
 		
 		Checkbox chk2 = new Checkbox();
-		chk2.setLabel("Spills");
+		chk2.setLabel("injury");
+		if(processInstance.getProcessVariables().containsKey("injury") && ((boolean)processInstance.getProcessVariables().get("injury"))){
+			chk2.setEnabled(false);
+		}
 		
 		Checkbox chk3 = new Checkbox();
-		chk3.setLabel("Injuries");
+		chk3.setLabel("spill");
+		if(processInstance.getProcessVariables().containsKey("spill") && ((boolean)processInstance.getProcessVariables().get("spill"))){
+			chk3.setEnabled(false);
+		}
 		
 		verticalLayout.add(chk1, chk2, chk3);
 		
 		NativeButton confirmButton = new NativeButton("Ok", event -> {
-			ProcessInstance processInstance = ActivitiService.getActivitiService().getRuntimeService().getProcessInstance(this.parentView.currentprocessInstanceDetail.getId());
 			HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
 			variables.put("accident", chk1.getValue());
 			variables.put("injury", chk2.getValue());

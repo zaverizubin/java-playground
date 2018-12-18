@@ -24,6 +24,7 @@ import org.activiti.engine.task.Task;
 
 import com.nexusglobal.controllers.ActivitiMainController;
 import com.nexusglobal.models.ProcessInstanceDetail;
+import com.nexusglobal.models.SessionData;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -50,7 +51,6 @@ import com.vaadin.flow.router.RouterLink;
 public class ActivitiMainView extends Div implements RouterLayout {
 
 	private final ActivitiMainController controller;
-	public ProcessInstanceDetail currentprocessInstanceDetail;
 
 	private ComboBox<ProcessDefinition> cbProcessDefinitions;
 	private Button btnCreateNewProcessInstance;
@@ -233,7 +233,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 			final Button button = new Button();
 			button.setText(processInstanceDetail.getName());
 			button.addClickListener(event -> {
-				currentprocessInstanceDetail = processInstanceDetail;
+				SessionData.getSessionData().setCurrentProcessInstancDetail(processInstanceDetail);
 				controller.showProcessDetails(processInstanceDetail);
 			});
 
@@ -255,7 +255,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	public void showActiveTaskView(final Task task) {
 		verticalLayout3.removeAll();
 		final ActiveTaskView activeTaskView = new ActiveTaskView(this);
-		activeTaskView.showTaskSummary(task, currentprocessInstanceDetail);
+		activeTaskView.showTaskSummary(task);
 		verticalLayout3.add(activeTaskView);
 
 		verticalLayout2.setVisible(false);
@@ -279,7 +279,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		verticalLayout3.removeAll();
 		verticalLayout3.setVisible(false);
 		verticalLayout2.setVisible(true);
-		controller.showProcessDetails(currentprocessInstanceDetail);
+		controller.showProcessDetails(SessionData.getSessionData().getCurrentProcessInstanceDetail());
 	}
 
 	public void resetView() {
