@@ -2,7 +2,7 @@ package com.nexusglobal.models;
 
 public class SessionData {
 
-	private final String deploymentKey = "investigation-app";
+	private final String deploymentKey = "incident-reporting";
 	private final String userId = "admin";
 	private static SessionData sessionData;
 

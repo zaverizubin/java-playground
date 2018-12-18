@@ -1,6 +1,7 @@
 package com.nexusglobal.services;
 
 import org.activiti.engine.ProcessEngine;
+import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.ProcessEngines;
 
 public class ActivitiService {

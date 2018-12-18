@@ -1,11 +1,14 @@
 package com.nexusglobal.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.form.api.Form;
 
+import com.nexusglobal.models.ProcessInstanceDetail;
 import com.nexusglobal.services.ActivitiService;
 import com.nexusglobal.ui.views.ActiveTaskView;
 
@@ -43,5 +46,12 @@ public class ActiveTaskController {
 
 	public void completeTask(final String taskId, final Map<String, Object> variables) {
 		activitiService.getTaskService().markTaskAsComplete(taskId, variables);
+	}
+	
+	public List<HistoricTaskInstance> getCompletedTasksForProcessInstance(
+			final ProcessInstanceDetail processInstanceDetail) {
+		return activitiService.getHistoryService()
+				.getCompletedTaskListForProcessInstance(processInstanceDetail.getId());
+
 	}
 }
