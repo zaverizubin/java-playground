@@ -23,7 +23,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 import com.nexusglobal.controllers.ActivitiMainController;
-import com.nexusglobal.models.ProcessInstanceDetail;
+import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.models.SessionData;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -44,11 +44,12 @@ import com.vaadin.flow.router.RouterLink;
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
+
 @HtmlImport("frontend://styles/shared-styles.html")
 @HtmlImport("frontend://styles/styles.html")
 
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
-public class ActivitiMainView extends Div implements RouterLayout {
+public class Old_MainView extends Div implements RouterLayout {
 
 	private final ActivitiMainController controller;
 
@@ -62,7 +63,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private VerticalLayout verticalLayout3;
 
 
-	public ActivitiMainView() {
+	public Old_MainView() {
 		controller = new ActivitiMainController(this);
 		buildComponents();
 		initView();
@@ -110,8 +111,8 @@ public class ActivitiMainView extends Div implements RouterLayout {
 
 		final List<ProcessInstance> processInstances = controller
 				.getRunningProcessInstancesByUser();
-		final List<ProcessInstanceDetail> processInstanceDetails = new ProcessInstanceDetail()
-				.createProcessInstanceDetails(processInstances);
+		final List<ProcessInstanceModel> processInstanceDetails = new ProcessInstanceModel()
+				.createProcessInstanceModels(processInstances);
 		showProcessInstances(processInstanceDetails);
 	}
 
@@ -141,7 +142,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 	private void buildProcessDefinitions() {
 		cbProcessDefinitions = new ComboBox<>();
 		cbProcessDefinitions.setWidth("250px");
-		List<ProcessDefinition> processDefinitions = controller.getProcessDefinitions();
+		final List<ProcessDefinition> processDefinitions = controller.getProcessDefinitions();
 		if(processDefinitions != null) {
 			cbProcessDefinitions.setItems(processDefinitions);
 			cbProcessDefinitions.setLabel("Process Definitions");
@@ -203,9 +204,9 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		vertLayoutProcessInstances.setClassName("processInstances");
 	}
 
-	public void showProcessInstances(final List<ProcessInstanceDetail> processInstanceDetails) {
+	public void showProcessInstances(final List<ProcessInstanceModel> processInstanceDetails) {
 		vertLayoutProcessInstances.removeAll();
-		for (final ProcessInstanceDetail processInstanceDetail : processInstanceDetails) {
+		for (final ProcessInstanceModel processInstanceDetail : processInstanceDetails) {
 
 			final HorizontalLayout horizontalLayout1 = new HorizontalLayout();
 			final HorizontalLayout horizontalLayout2 = new HorizontalLayout();
@@ -233,7 +234,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 			final Button button = new Button();
 			button.setText(processInstanceDetail.getName());
 			button.addClickListener(event -> {
-				SessionData.getSessionData().setCurrentProcessInstancDetail(processInstanceDetail);
+				SessionData.getSessionData().setCurrentProcessInstanceModel(processInstanceDetail);
 				controller.showProcessDetails(processInstanceDetail);
 			});
 
@@ -243,9 +244,9 @@ public class ActivitiMainView extends Div implements RouterLayout {
 		}
 	}
 
-	public void showProcessInstanceSummaryView(final ProcessInstanceDetail processInstanceDetail) {
+	public void showProcessInstanceSummaryView(final ProcessInstanceModel processInstanceDetail) {
 		clearDetailsView();
-		final ProcessInstanceSummaryView processInstanceSummaryView = new ProcessInstanceSummaryView(this);
+		final Old_ProcessInstanceSummaryView processInstanceSummaryView = new Old_ProcessInstanceSummaryView(this);
 		processInstanceSummaryView.showProcessInstanceSummary(processInstanceDetail);
 		verticalLayout2.add(processInstanceSummaryView);
 		verticalLayout2.setVisible(true);
@@ -254,7 +255,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 
 	public void showActiveTaskView(final Task task) {
 		verticalLayout3.removeAll();
-		final ActiveTaskView activeTaskView = new ActiveTaskView(this);
+		final Old_ActiveTaskView activeTaskView = new Old_ActiveTaskView(this);
 		activeTaskView.showTaskSummary(task);
 		verticalLayout3.add(activeTaskView);
 
@@ -265,7 +266,7 @@ public class ActivitiMainView extends Div implements RouterLayout {
 
 	public void showHistoricTaskSummaryView(final HistoricTaskInstance historicTaskInstance) {
 		verticalLayout3.removeAll();
-		final HistoricTaskSummaryView taskSummaryView = new HistoricTaskSummaryView(this);
+		final Old_HistoricTaskSummaryView taskSummaryView = new Old_HistoricTaskSummaryView(this);
 		taskSummaryView.showTaskSummary(historicTaskInstance);
 		verticalLayout3.add(taskSummaryView);
 

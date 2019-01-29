@@ -11,18 +11,18 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
-import com.nexusglobal.models.ProcessInstanceDetail;
+import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.models.SessionData;
-import com.nexusglobal.services.ActivitiService;
-import com.nexusglobal.ui.views.ActivitiMainView;
+import com.nexusglobal.services.activiti.ActivitiService;
+import com.nexusglobal.ui.views.Old_MainView;
 
 public class ActivitiMainController {
 
-	private final ActivitiMainView view;
+	private final Old_MainView view;
 
 	private ActivitiService activitiService;
 
-	public ActivitiMainController(final ActivitiMainView view) {
+	public ActivitiMainController(final Old_MainView view) {
 		this.view = view;
 		initActivitiService();
 	}
@@ -33,22 +33,22 @@ public class ActivitiMainController {
 
 
 	public void onProcessInstanceFilterClick(final String processInstanceFilter) {
-		List<ProcessInstanceDetail> processInstanceDetails = null;
+		List<ProcessInstanceModel> processInstanceDetails = null;
 
 		if (processInstanceFilter.equals("Running")) {
 			final List<ProcessInstance> processInstances = getRunningProcessInstancesByUser();
-			processInstanceDetails = new ProcessInstanceDetail().createProcessInstanceDetails(processInstances);
+			processInstanceDetails = new ProcessInstanceModel().createProcessInstanceModels(processInstances);
 		} else if (processInstanceFilter.equals("Completed")) {
 			final List<HistoricProcessInstance> historicalProcessInstances = getCompletedProcessInstancesByUser();
-			processInstanceDetails = new ProcessInstanceDetail()
-					.createHistoricProcessInstanceDetails(historicalProcessInstances);
+			processInstanceDetails = new ProcessInstanceModel()
+					.createHistoricProcessInstanceModels(historicalProcessInstances);
 
 		} else {
 			final List<ProcessInstance> processInstances = getRunningProcessInstancesByUser();
-			processInstanceDetails = new ProcessInstanceDetail().createProcessInstanceDetails(processInstances);
+			processInstanceDetails = new ProcessInstanceModel().createProcessInstanceModels(processInstances);
 			final List<HistoricProcessInstance> historicalProcessInstances = getCompletedProcessInstancesByUser();
 			processInstanceDetails.addAll(
-					new ProcessInstanceDetail().createHistoricProcessInstanceDetails(historicalProcessInstances));
+					new ProcessInstanceModel().createHistoricProcessInstanceModels(historicalProcessInstances));
 		}
 		view.showProcessInstances(processInstanceDetails);
 		view.clearDetailsView();
@@ -64,7 +64,7 @@ public class ActivitiMainController {
 		}
 	}
 
-	
+
 
 	public void onDeleteAllInstancesClick(final ProcessDefinition processDefinition) {
 		if (processDefinition != null) {
@@ -75,7 +75,7 @@ public class ActivitiMainController {
 	}
 
 	public List<ProcessDefinition> getProcessDefinitions() {
-		List<ProcessDefinition> processDefinitions = new ArrayList<ProcessDefinition>();
+		List<ProcessDefinition> processDefinitions = new ArrayList<>();
 
 		final Deployment deployment = activitiService.getRepositoryService().getDeployment(SessionData.getSessionData().getDeploymentKey());
 		if (deployment != null) {
@@ -108,13 +108,13 @@ public class ActivitiMainController {
 				SessionData.getSessionData().getUserId());
 	}
 
-	private void assignVariablesToProcessInstance(String processInstanceId) {
-		HashMap<String, Boolean> variables = new HashMap<String, Boolean>();
+	private void assignVariablesToProcessInstance(final String processInstanceId) {
+		final HashMap<String, Boolean> variables = new HashMap<>();
 		variables.put("goahead", false);
 		activitiService.getRuntimeService().setProcessInstanceVariables(processInstanceId, variables);
-		
+
 	}
-	
+
 	public void executeProcessInstance(final String processInstanceId) {
 		final ProcessInstance processInstance = activitiService.getRuntimeService()
 				.getProcessInstance(processInstanceId);
@@ -123,7 +123,7 @@ public class ActivitiMainController {
 
 	}
 
-	public void showProcessDetails(final ProcessInstanceDetail processInstanceDetail) {
+	public void showProcessDetails(final ProcessInstanceModel processInstanceDetail) {
 		view.showProcessInstanceSummaryView(processInstanceDetail);
 
 	}

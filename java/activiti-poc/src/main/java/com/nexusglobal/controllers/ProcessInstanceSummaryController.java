@@ -5,16 +5,16 @@ import java.util.List;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
 
-import com.nexusglobal.models.ProcessInstanceDetail;
-import com.nexusglobal.services.ActivitiService;
-import com.nexusglobal.ui.views.ProcessInstanceSummaryView;
+import com.nexusglobal.models.ProcessInstanceModel;
+import com.nexusglobal.services.activiti.ActivitiService;
+import com.nexusglobal.ui.views.Old_ProcessInstanceSummaryView;
 
 public class ProcessInstanceSummaryController {
 
-	ProcessInstanceSummaryView view;
+	Old_ProcessInstanceSummaryView view;
 	private ActivitiService activitiService;
 
-	public ProcessInstanceSummaryController(final ProcessInstanceSummaryView view) {
+	public ProcessInstanceSummaryController(final Old_ProcessInstanceSummaryView view) {
 		this.view = view;
 		initActivitiService();
 	}
@@ -23,12 +23,12 @@ public class ProcessInstanceSummaryController {
 		activitiService = ActivitiService.getActivitiService();
 	}
 
-	public void onCancelProcessClick(final ProcessInstanceDetail processInstanceDetail) {
+	public void onCancelProcessClick(final ProcessInstanceModel processInstanceDetail) {
 		activitiService.getRuntimeService().deleteProcessInstance(processInstanceDetail.getId(), "cancelled");
 		view.resetParentView();
 	}
 
-	public void onDeleteProcessClick(final ProcessInstanceDetail processInstanceDetail) {
+	public void onDeleteProcessClick(final ProcessInstanceModel processInstanceDetail) {
 		// TODO Auto-generated method stub
 
 	}
@@ -41,13 +41,13 @@ public class ProcessInstanceSummaryController {
 		view.getParentView().showHistoricTaskSummaryView(historicTaskInstance);
 	}
 
-	public List<Task> getNextTaskForProcessInstance(final ProcessInstanceDetail processInstanceDetail) {
+	public List<Task> getNextTaskForProcessInstance(final ProcessInstanceModel processInstanceDetail) {
 		return activitiService.getTaskService().getTaskListForProcessInstance(processInstanceDetail.getId());
 
 	}
 
 	public List<HistoricTaskInstance> getCompletedTasksForProcessInstance(
-			final ProcessInstanceDetail processInstanceDetail) {
+			final ProcessInstanceModel processInstanceDetail) {
 		return activitiService.getHistoryService()
 				.getCompletedTaskListForProcessInstance(processInstanceDetail.getId());
 

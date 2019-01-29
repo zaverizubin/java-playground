@@ -1,4 +1,4 @@
-package com.nexusglobal.services;
+package com.nexusglobal.services.activiti;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.form.TaskFormData;

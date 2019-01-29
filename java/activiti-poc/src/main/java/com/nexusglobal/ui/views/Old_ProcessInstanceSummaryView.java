@@ -6,40 +6,37 @@ import java.util.List;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
 
-import com.nexusglobal.ui.presenters.ProcessInstanceSummaryPresenter;
-import com.nexusglobal.ui.presenters.ProcessInstanceSummaryPresenter.ProcessInstanceSummaryActionEnum;
-import com.nexusglobal.ui.viewmodels.ProcessInstanceSummaryViewModel;
+import com.nexusglobal.controllers.ProcessInstanceSummaryController;
+import com.nexusglobal.models.ProcessInstanceModel;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class ProcessInstanceSummaryView extends VerticalLayout {
-	private static final long serialVersionUID = 1L;
-	private final ProcessInstanceSummaryPresenter presenter;
-	private ProcessInstanceSummaryViewModel viewModel;
+public class Old_ProcessInstanceSummaryView extends VerticalLayout {
 
-	public ProcessInstanceSummaryView(final ProcessInstanceSummaryPresenter presenter) {
-		this.presenter = presenter;
-		presenter.setView(this);
+	private final Old_MainView parentView;
+	private ProcessInstanceModel processInstanceDetail;
+	private final ProcessInstanceSummaryController controller;
+
+	public Old_ProcessInstanceSummaryView(final Old_MainView parentView) {
+		this.parentView = parentView;
+		controller = new ProcessInstanceSummaryController(this);
 	}
 
-	public ProcessInstanceSummaryPresenter getPresenter() {
-		return presenter;
+	public Old_MainView getParentView() {
+		return parentView;
 	}
 
-	public void refresh() {
-		viewModel = presenter.getData();
-		buildView();
-	}
-
-	private void buildView() {
-		buildSummary();
+	public VerticalLayout showProcessInstanceSummary(final ProcessInstanceModel processInstanceDetail) {
+		this.processInstanceDetail = processInstanceDetail;
+		buildProcessInstanceSummaryView();
 		showActiveTask();
 		showCompletedTasks();
+		return this;
 	}
 
-	private void buildSummary() {
+	private void buildProcessInstanceSummaryView() {
 		final VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.addClassName("instanceDetailTitleBar");
 
@@ -49,36 +46,36 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 		horizontalLayout2.setWidth("100%");
 
 		final Button cancelProcessButton = new Button();
-		if (viewModel.getActiveProcessInstanceModel().isEnded()) {
+		if (processInstanceDetail.isEnded()) {
 			cancelProcessButton.setText("Delete Process");
 			cancelProcessButton.addClickListener(event -> {
-				presenter.onButtonClick(ProcessInstanceSummaryActionEnum.Delete);
+				controller.onDeleteProcessClick(processInstanceDetail);
 			});
 		} else {
 			cancelProcessButton.setText("Cancel Process");
 			cancelProcessButton.addClickListener(event -> {
-				presenter.onButtonClick(ProcessInstanceSummaryActionEnum.Cancel);
+				controller.onCancelProcessClick(processInstanceDetail);
 			});
 		}
 
 		final Label title = new Label();
-		title.setText(viewModel.getActiveProcessInstanceModel().getName());
+		title.setText(processInstanceDetail.getName());
 		title.setWidth("500px");
 		title.addClassName("instanceDetailTitle");
 
 		final Label startedBy = new Label();
-		startedBy.setText("Started By:" + viewModel.getActiveProcessInstanceModel().getStartUserId());
+		startedBy.setText("Started By:" + processInstanceDetail.getStartUserId());
 
 		final Label startedOn = new Label();
-		startedOn.setText(" Started On:" + viewModel.getActiveProcessInstanceModel().getStartTime().getDate() + ":"
-				+ (viewModel.getActiveProcessInstanceModel().getStartTime().getMonth() + 1) + ":"
-				+ (1900 + viewModel.getActiveProcessInstanceModel().getStartTime().getYear()));
+		startedOn.setText(" Started On:" + processInstanceDetail.getStartTime().getDate() + ":"
+				+ (processInstanceDetail.getStartTime().getMonth() + 1) + ":"
+				+ (1900 + processInstanceDetail.getStartTime().getYear()));
 
 		final Label endedOn = new Label();
-		if (viewModel.getActiveProcessInstanceModel().isEnded()) {
-			endedOn.setText(" Ended On:" + viewModel.getActiveProcessInstanceModel().getEndTime().getDate() + ":"
-					+ (viewModel.getActiveProcessInstanceModel().getEndTime().getMonth() + 1) + ":"
-					+ (1900 + viewModel.getActiveProcessInstanceModel().getEndTime().getYear()));
+		if (processInstanceDetail.isEnded()) {
+			endedOn.setText(" Ended On:" + processInstanceDetail.getEndTime().getDate() + ":"
+					+ (processInstanceDetail.getEndTime().getMonth() + 1) + ":"
+					+ (1900 + processInstanceDetail.getEndTime().getYear()));
 		}
 
 		horizontalLayout1.add(title);
@@ -95,15 +92,15 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 	}
 
 	private void showActiveTask() {
-		final List<Task> tasks = viewModel.getNextTaskList();
+		final List<Task> tasks = controller.getNextTaskForProcessInstance(processInstanceDetail);
 
 		final VerticalLayout verticalLayout = new VerticalLayout();
-
+		
 		final Label title = new Label();
 		title.setText("Active Tasks");
 		title.setWidth("400px");
 		verticalLayout.add(title);
-
+		
 		if (tasks.size() == 0) {
 			final Label noActiveTask = new Label("No tasks are currently active ...");
 			final HorizontalLayout horizontalLayout = new HorizontalLayout();
@@ -115,14 +112,14 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 				activeTaskButton.setWidth("300px");
 				activeTaskButton.setText(task.getName());
 				activeTaskButton.addClickListener(event -> {
-					presenter.onButtonClick(ProcessInstanceSummaryActionEnum.GetActiveTask, task);
+					controller.onActiveTaskClick(task);
 				});
 
 				final Label taskCreated = new Label();
 				taskCreated.setText("Created On: " + task.getCreateTime().getDay() + ":"
 						+ task.getCreateTime().getMonth() + ":" + (1900 + task.getCreateTime().getYear()));
 				taskCreated.setWidth("400px");
-
+				
 				final HorizontalLayout horizontalLayout = new HorizontalLayout();
 				horizontalLayout.add(activeTaskButton);
 				horizontalLayout.add(taskCreated);
@@ -135,7 +132,9 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 	}
 
 	private void showCompletedTasks() {
-		final List<HistoricTaskInstance> historicTaskInstances = viewModel.getHistoricTaskList();
+		final List<HistoricTaskInstance> historicTaskInstances = controller
+				.getCompletedTasksForProcessInstance(processInstanceDetail);
+
 		final VerticalLayout verticalLayout = new VerticalLayout();
 
 		final Label title = new Label();
@@ -155,7 +154,7 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 				final Button completedTaskButton = new Button();
 				completedTaskButton.setText(historicTaskInstance.getName());
 				completedTaskButton.addClickListener(event -> {
-					presenter.onButtonClick(ProcessInstanceSummaryActionEnum.GetCompletedTasks, historicTaskInstance);
+					controller.onCompletedTaskClick(historicTaskInstance);
 				});
 
 				final HorizontalLayout horizontalLayout = new HorizontalLayout();
@@ -181,7 +180,18 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 				verticalLayout.add(completedTaskButton);
 				verticalLayout.add(horizontalLayout);
 			}
+
 		}
+
 		add(verticalLayout);
 	}
+
+	
+	
+	public void resetParentView() {
+		parentView.resetView();
+	}
+
+
 }
+

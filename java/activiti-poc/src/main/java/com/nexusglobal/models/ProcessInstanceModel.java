@@ -7,7 +7,7 @@ import java.util.List;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 
-public class ProcessInstanceDetail {
+public class ProcessInstanceModel {
 
 	private Date startTime;
 	private Date endTime;
@@ -16,18 +16,18 @@ public class ProcessInstanceDetail {
 	private String id;
 	private Boolean isEnded;
 
-	private List<ProcessInstanceDetail> processInstanceDetails;
+	private List<ProcessInstanceModel> processInstanceDetails;
 
-	public ProcessInstanceDetail(final ProcessInstance processInstance) {
-		createProcessInstanceDetail(processInstance);
+	public ProcessInstanceModel(final ProcessInstance processInstance) {
+		createProcessInstanceModel(processInstance);
 	}
 
-	public ProcessInstanceDetail(final HistoricProcessInstance historicProcessInstance) {
-		createProcessInstanceDetail(historicProcessInstance);
+	public ProcessInstanceModel(final HistoricProcessInstance historicProcessInstance) {
+		createProcessInstanceModel(historicProcessInstance);
 	}
 
-	private ProcessInstanceDetail createProcessInstanceDetail(final ProcessInstance processInstance) {
-		final ProcessInstanceDetail processInstanceDetail = new ProcessInstanceDetail();
+	private ProcessInstanceModel createProcessInstanceModel(final ProcessInstance processInstance) {
+		final ProcessInstanceModel processInstanceDetail = new ProcessInstanceModel();
 		processInstanceDetail.startTime = processInstance.getStartTime();
 		processInstanceDetail.endTime = null;
 		processInstanceDetail.startUserId = processInstance.getStartUserId();
@@ -39,8 +39,8 @@ public class ProcessInstanceDetail {
 
 	}
 
-	private ProcessInstanceDetail createProcessInstanceDetail(final HistoricProcessInstance historicProcessInstance) {
-		final ProcessInstanceDetail processInstanceDetail = new ProcessInstanceDetail();
+	private ProcessInstanceModel createProcessInstanceModel(final HistoricProcessInstance historicProcessInstance) {
+		final ProcessInstanceModel processInstanceDetail = new ProcessInstanceModel();
 		processInstanceDetail.startTime = historicProcessInstance.getStartTime();
 		processInstanceDetail.endTime = historicProcessInstance.getEndTime();
 		processInstanceDetail.startUserId = historicProcessInstance.getStartUserId();
@@ -51,7 +51,7 @@ public class ProcessInstanceDetail {
 		return processInstanceDetail;
 	}
 
-	public ProcessInstanceDetail() {
+	public ProcessInstanceModel() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -79,21 +79,21 @@ public class ProcessInstanceDetail {
 		return id;
 	}
 
-	public List<ProcessInstanceDetail> createProcessInstanceDetails(
+	public List<ProcessInstanceModel> createProcessInstanceModels(
 			final List<ProcessInstance> processInstances) {
 		processInstanceDetails = new ArrayList<>();
 		for(final ProcessInstance processInstance : processInstances) {
-			final ProcessInstanceDetail processInstanceDetail = createProcessInstanceDetail(processInstance);
+			final ProcessInstanceModel processInstanceDetail = createProcessInstanceModel(processInstance);
 			processInstanceDetails.add(processInstanceDetail);
 		}
 		return processInstanceDetails;
 	}
 
-	public List<ProcessInstanceDetail> createHistoricProcessInstanceDetails(
+	public List<ProcessInstanceModel> createHistoricProcessInstanceModels(
 			final List<HistoricProcessInstance> historicProcessInstances) {
 		processInstanceDetails = new ArrayList<>();
 		for (final HistoricProcessInstance historicProcessInstance : historicProcessInstances) {
-			final ProcessInstanceDetail processInstanceDetail = createProcessInstanceDetail(historicProcessInstance);
+			final ProcessInstanceModel processInstanceDetail = createProcessInstanceModel(historicProcessInstance);
 			processInstanceDetails.add(processInstanceDetail);
 		}
 		return processInstanceDetails;

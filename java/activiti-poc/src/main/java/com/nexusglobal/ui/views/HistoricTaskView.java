@@ -4,31 +4,42 @@ import java.util.Map;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 
-import com.nexusglobal.controllers.HistoricTaskSummaryController;
+import com.nexusglobal.ui.presenters.HistoricTaskPresenter;
+import com.nexusglobal.ui.viewmodels.HistoricTaskViewModel;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class HistoricTaskSummaryView extends VerticalLayout {
+public class HistoricTaskView extends VerticalLayout {
 
-	private final ActivitiMainView parentView;
-	private HistoricTaskInstance historicTaskInstance;
-	private final HistoricTaskSummaryController controller;
+	private final HistoricTaskPresenter presenter;
+	private HistoricTaskViewModel viewModel;
 
-	public HistoricTaskSummaryView(final ActivitiMainView parentView) {
-		this.parentView = parentView;
-		controller = new HistoricTaskSummaryController(this);
+
+	public HistoricTaskView(final HistoricTaskPresenter presenter) {
+		this.presenter = presenter;
+		presenter.setView(this);
 	}
 
-	public VerticalLayout showTaskSummary(final HistoricTaskInstance historicTaskInstance) {
-		this.historicTaskInstance = historicTaskInstance;
+	public HistoricTaskPresenter getPresenter() {
+		return presenter;
+	}
+
+	public void refresh() {
+		viewModel = presenter.getViewModel();
+		buildView();
+	}
+
+	private void buildView() {
 		buildTaskInstanceSummaryView();
-		showTaskDetails();
-		return this;
+
 	}
 
 	private void buildTaskInstanceSummaryView() {
+
+		final HistoricTaskInstance historicTaskInstance = viewModel.getHistoricTaskInstance();
+
 		final VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.addClassName("instanceDetailTitleBar");
 
@@ -36,7 +47,6 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 		final HorizontalLayout horizontalLayout2 = new HorizontalLayout();
 		horizontalLayout1.setWidth("100%");
 		horizontalLayout2.setWidth("100%");
-
 
 		final Label title = new Label();
 		title.setText(historicTaskInstance.getName());
@@ -46,11 +56,12 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 		final Button button = new Button();
 		button.setText("Back to Process");
 		button.addClickListener(event -> {
-			parentView.hideTaskDetails();
+			// todo
+			// parentView.hideTaskDetails();
 		});
 
 		final Label assignee = new Label();
-		if (historicTaskInstance.getAssignee() != null) {
+		if (viewModel.getHistoricTaskInstance().getAssignee() != null) {
 			assignee.setText("Assignee:" + historicTaskInstance.getAssignee());
 		} else {
 			assignee.setText("Assignee: Assigned to nobody");
@@ -71,9 +82,7 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 				+ (1900 + historicTaskInstance.getEndTime().getYear()));
 
 		final Label partOfProcess = new Label();
-		partOfProcess.setText(
-				"Part of process: "
-						+ controller.getProcessDefinition(historicTaskInstance.getProcessDefinitionId()).getName());
+		partOfProcess.setText("Part of process: " + viewModel.getProcessDefinition().getName());
 
 		horizontalLayout1.add(title);
 		horizontalLayout1.add(button);
@@ -90,6 +99,8 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 	}
 
 	private void showTaskDetails() {
+		final HistoricTaskInstance historicTaskInstance = viewModel.getHistoricTaskInstance();
+
 		final VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.setWidth("100%");
 
@@ -119,8 +130,6 @@ public class HistoricTaskSummaryView extends VerticalLayout {
 		add(verticalLayout);
 	}
 
-	public void resetParentView() {
-		parentView.resetView();
-	}
+
 }
 

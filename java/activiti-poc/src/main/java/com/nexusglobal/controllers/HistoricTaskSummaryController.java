@@ -4,15 +4,15 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.form.api.Form;
 
-import com.nexusglobal.services.ActivitiService;
-import com.nexusglobal.ui.views.HistoricTaskSummaryView;
+import com.nexusglobal.services.activiti.ActivitiService;
+import com.nexusglobal.ui.views.Old_HistoricTaskSummaryView;
 
 public class HistoricTaskSummaryController {
 
-	private final HistoricTaskSummaryView view;
+	private final Old_HistoricTaskSummaryView view;
 	private ActivitiService activitiService;
 
-	public HistoricTaskSummaryController(final HistoricTaskSummaryView view) {
+	public HistoricTaskSummaryController(final Old_HistoricTaskSummaryView view) {
 		this.view = view;
 		initActivitiService();
 	}

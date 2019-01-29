@@ -6,7 +6,7 @@ public class SessionData {
 	private final String generalInformationKey = "general-information";
 	private final String userId = "admin";
 	private static SessionData sessionData;
-	private ProcessInstanceDetail processInstanceDetail;
+	private ProcessInstanceModel processInstanceDetail;
 	
 	private SessionData() {
 
@@ -19,11 +19,11 @@ public class SessionData {
 		return sessionData;
 	}
 
-	public ProcessInstanceDetail getCurrentProcessInstanceDetail() {
+	public ProcessInstanceModel getCurrentProcessInstanceDetail() {
 		return processInstanceDetail;
 	}
 	
-	public void setCurrentProcessInstancDetail(ProcessInstanceDetail processInstanceDetail) {
+	public void setCurrentProcessInstanceModel(ProcessInstanceModel processInstanceDetail) {
 		this.processInstanceDetail =processInstanceDetail;
 	}
 	

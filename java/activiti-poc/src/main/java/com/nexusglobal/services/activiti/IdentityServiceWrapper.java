@@ -1,10 +1,10 @@
-package com.nexusglobal.services;
+package com.nexusglobal.services.activiti;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.identity.User;
 
 public class IdentityServiceWrapper {
-	
+
 	ProcessEngine processEngine;
 
 	public IdentityServiceWrapper(final ProcessEngine processEngine) {

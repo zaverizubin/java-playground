@@ -1,4 +1,4 @@
-package com.nexusglobal.services;
+package com.nexusglobal.services.activiti;
 
 import java.util.List;
 import java.util.Map;
@@ -50,9 +50,9 @@ public class RuntimeServiceWrapper {
 		processEngine.getRuntimeService().deleteProcessInstance(processInstanceId, reason);
 
 	}
-	
-	public void setProcessInstanceVariables(final String processId, Map<String, ? extends Object> variables) {
+
+	public void setProcessInstanceVariables(final String processId, final Map<String, ? extends Object> variables) {
 		processEngine.getRuntimeService().setVariables(processId, variables);
 	}
-	
+
 }
