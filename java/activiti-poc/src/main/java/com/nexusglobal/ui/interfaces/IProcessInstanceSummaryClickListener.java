@@ -3,9 +3,9 @@ package com.nexusglobal.ui.interfaces;
 import com.nexusglobal.ui.events.ProcessInstanceSummaryActionEvent;
 
 @FunctionalInterface
-public interface IProcessInstanceSummaryActionListener {
+public interface IProcessInstanceSummaryClickListener {
 
-	void onActionEvent(ProcessInstanceSummaryActionEvent event);
+	void onClickEvent(ProcessInstanceSummaryActionEvent event);
 }
 
 

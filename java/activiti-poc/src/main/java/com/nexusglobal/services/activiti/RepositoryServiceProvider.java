@@ -7,14 +7,16 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 
-public class RepositoryServiceWrapper {
+
+public class RepositoryServiceProvider {
 
 	ProcessEngine processEngine;
 
-	public RepositoryServiceWrapper(final ProcessEngine processEngine) {
+	public RepositoryServiceProvider(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
-
+	
+	
 	// Process Definitions
 	public List<ProcessDefinition> getProcessDefinitions(final String deploymentId){
 		return processEngine.getRepositoryService().createProcessDefinitionQuery().deploymentId(deploymentId)
@@ -25,7 +27,7 @@ public class RepositoryServiceWrapper {
 		return processEngine.getRepositoryService().createProcessDefinitionQuery()
 				.processDefinitionId(processDefinitionId).singleResult();
 	}
-
+	
 	public Deployment getDeployment(final String deploymentKey) {
 		return processEngine.getRepositoryService().createDeploymentQuery().deploymentKey(deploymentKey).latest()
 				.singleResult();

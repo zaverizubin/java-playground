@@ -6,22 +6,24 @@ import java.util.List;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
+import org.springframework.stereotype.Component;
 
 import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.services.ProcessDefinitionService;
 import com.nexusglobal.services.ProcessInstanceTaskService;
 import com.nexusglobal.ui.events.ProcessInstanceListActionEvent;
 import com.nexusglobal.ui.events.ProcessInstanceSummaryActionEvent;
-import com.nexusglobal.ui.interfaces.IActionPublisher;
-import com.nexusglobal.ui.interfaces.IProcessInstanceListActionListener;
-import com.nexusglobal.ui.interfaces.IProcessInstanceSummaryActionListener;
+import com.nexusglobal.ui.interfaces.IClickEventPublisher;
+import com.nexusglobal.ui.interfaces.IProcessInstanceListClickListener;
+import com.nexusglobal.ui.interfaces.IProcessInstanceSummaryClickListener;
 import com.nexusglobal.ui.viewmodels.ProcessInstanceSummaryViewModel;
 import com.nexusglobal.ui.views.ProcessInstanceSummaryView;
 
+@Component
 public class ProcessInstanceSummaryPresenter
-implements IProcessInstanceListActionListener, IActionPublisher<IProcessInstanceSummaryActionListener> {
+implements IProcessInstanceListClickListener, IClickEventPublisher<IProcessInstanceSummaryClickListener> {
 
-	private final List<IProcessInstanceSummaryActionListener> actionListeners = new ArrayList<>();
+	private final List<IProcessInstanceSummaryClickListener> actionListeners = new ArrayList<>();
 	private final ProcessInstanceSummaryViewModel viewModel;
 	private ProcessInstanceSummaryView view;
 
@@ -74,19 +76,19 @@ implements IProcessInstanceListActionListener, IActionPublisher<IProcessInstance
 	}
 
 	public void onButtonClick(final ProcessInstanceSummaryActionEnum action, final Task task) {
-		for (final IProcessInstanceSummaryActionListener listener : actionListeners) {
+		for (final IProcessInstanceSummaryClickListener listener : actionListeners) {
 			final ProcessInstanceSummaryActionEvent event = new ProcessInstanceSummaryActionEvent(action,
 					task, null);
-			listener.onActionEvent(event);
+			listener.onClickEvent(event);
 		}
 	}
 
 	public void onButtonClick(final ProcessInstanceSummaryActionEnum action,
 			final HistoricTaskInstance historicTaskInstance) {
-		for (final IProcessInstanceSummaryActionListener listener : actionListeners) {
+		for (final IProcessInstanceSummaryClickListener listener : actionListeners) {
 			final ProcessInstanceSummaryActionEvent event = new ProcessInstanceSummaryActionEvent(action,
 					null, historicTaskInstance);
-			listener.onActionEvent(event);
+			listener.onClickEvent(event);
 		}
 	}
 
@@ -100,12 +102,12 @@ implements IProcessInstanceListActionListener, IActionPublisher<IProcessInstance
 	}
 
 	@Override
-	public void onActionEvent(final ProcessInstanceListActionEvent event) {
+	public void onClickEvent(final ProcessInstanceListActionEvent event) {
 		viewModel.setActiveProcessInstanceModel(event.getProcessInstanceModel());
 	}
 
 	@Override
-	public void addActionListener(final IProcessInstanceSummaryActionListener Listener) {
+	public void addOnClickListener(final IProcessInstanceSummaryClickListener Listener) {
 		if (!actionListeners.contains(Listener)) {
 			actionListeners.add(Listener);
 		}
@@ -113,7 +115,7 @@ implements IProcessInstanceListActionListener, IActionPublisher<IProcessInstance
 	}
 
 	@Override
-	public void removeActionListener(final IProcessInstanceSummaryActionListener Listener) {
+	public void removeOnClickListener(final IProcessInstanceSummaryClickListener Listener) {
 		if (actionListeners.contains(Listener)) {
 			actionListeners.remove(Listener);
 		}

@@ -24,7 +24,7 @@ public class ProcessInstanceSummaryController {
 	}
 
 	public void onCancelProcessClick(final ProcessInstanceModel processInstanceDetail) {
-		activitiService.getRuntimeService().deleteProcessInstance(processInstanceDetail.getId(), "cancelled");
+		activitiService.getRuntimeServiceProvider().deleteProcessInstance(processInstanceDetail.getId(), "cancelled");
 		view.resetParentView();
 	}
 
@@ -42,13 +42,13 @@ public class ProcessInstanceSummaryController {
 	}
 
 	public List<Task> getNextTaskForProcessInstance(final ProcessInstanceModel processInstanceDetail) {
-		return activitiService.getTaskService().getTaskListForProcessInstance(processInstanceDetail.getId());
+		return activitiService.getTaskServiceProvider().getTaskListForProcessInstance(processInstanceDetail.getId());
 
 	}
 
 	public List<HistoricTaskInstance> getCompletedTasksForProcessInstance(
 			final ProcessInstanceModel processInstanceDetail) {
-		return activitiService.getHistoryService()
+		return activitiService.getHistoryServiceProvider()
 				.getCompletedTaskListForProcessInstance(processInstanceDetail.getId());
 
 	}

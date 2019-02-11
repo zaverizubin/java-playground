@@ -131,7 +131,7 @@ public class Old_ActiveTaskView extends VerticalLayout {
 	}
 
 	public void showPathSelectionDialog(final ProcessInstanceModel processInstanceDetail) {
-		final ProcessInstance processInstance = ActivitiService.getActivitiService().getRuntimeService().getProcessInstance(SessionData.getSessionData().getCurrentProcessInstanceDetail().getId());
+		final ProcessInstance processInstance = ActivitiService.getActivitiService().getRuntimeServiceProvider().getProcessInstance(SessionData.getSessionData().getCurrentProcessInstanceDetail().getId());
 
 		final Dialog dialog = new Dialog();
 
@@ -168,7 +168,7 @@ public class Old_ActiveTaskView extends VerticalLayout {
 			variables.put("accident", chk1.getValue());
 			variables.put("injury", chk2.getValue());
 			variables.put("spill", chk3.getValue());
-			ActivitiService.getActivitiService().getRuntimeService().setProcessInstanceVariables(processInstance.getId(), variables);
+			ActivitiService.getActivitiService().getRuntimeServiceProvider().setProcessInstanceVariables(processInstance.getId(), variables);
 			doTaskComplete();
 			dialog.close();
 		});

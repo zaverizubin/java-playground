@@ -3,6 +3,7 @@ package com.nexusglobal.ui.views;
 import java.util.Map;
 
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.springframework.stereotype.Component;
 
 import com.nexusglobal.ui.presenters.HistoricTaskPresenter;
 import com.nexusglobal.ui.viewmodels.HistoricTaskViewModel;
@@ -11,6 +12,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+@Component
 public class HistoricTaskView extends VerticalLayout {
 
 	private final HistoricTaskPresenter presenter;

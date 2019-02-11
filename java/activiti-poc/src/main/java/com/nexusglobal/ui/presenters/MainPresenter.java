@@ -1,10 +1,13 @@
 package com.nexusglobal.ui.presenters;
 
+import org.springframework.stereotype.Component;
+
 import com.nexusglobal.ui.events.ProcessInstanceSummaryActionEvent;
-import com.nexusglobal.ui.interfaces.IProcessInstanceSummaryActionListener;
+import com.nexusglobal.ui.interfaces.IProcessInstanceSummaryClickListener;
 import com.nexusglobal.ui.views.MainView;
 
-public class MainPresenter implements IProcessInstanceSummaryActionListener {
+@Component
+public class MainPresenter implements IProcessInstanceSummaryClickListener {
 
 	private MainView view;
 
@@ -17,7 +20,7 @@ public class MainPresenter implements IProcessInstanceSummaryActionListener {
 	}
 
 	@Override
-	public void onActionEvent(final ProcessInstanceSummaryActionEvent event) {
+	public void onClickEvent(final ProcessInstanceSummaryActionEvent event) {
 		switch (event.getAction()) {
 		case GetActiveTask:
 			view.showActiveTaskView(event.getTask());

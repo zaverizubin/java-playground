@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProcessDefinitionViewModel {
 
 	private ProcessDefinition processDefinition;

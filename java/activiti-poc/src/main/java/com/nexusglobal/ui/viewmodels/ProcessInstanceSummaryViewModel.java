@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
+import org.springframework.stereotype.Component;
 
 import com.nexusglobal.models.ProcessInstanceModel;
 
+@Component
 public class ProcessInstanceSummaryViewModel {
 
 	private ProcessInstanceModel activeProcessInstanceModel;

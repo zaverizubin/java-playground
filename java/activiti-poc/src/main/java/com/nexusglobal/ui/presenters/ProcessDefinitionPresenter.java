@@ -4,30 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.stereotype.Component;
 
 import com.nexusglobal.services.ProcessDefinitionService;
-import com.nexusglobal.ui.events.ProcessDefinitionActionEvent;
-import com.nexusglobal.ui.interfaces.IActionPublisher;
-import com.nexusglobal.ui.interfaces.IProcessDefinitionActionListener;
+import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent;
+import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent.ProcessDefinitionClickEnum;
+import com.nexusglobal.ui.interfaces.IClickEventPublisher;
+import com.nexusglobal.ui.interfaces.IProcessDefinitionClickListener;
 import com.nexusglobal.ui.viewmodels.ProcessDefinitionViewModel;
 import com.nexusglobal.ui.views.ProcessDefinitionView;
 
-public class ProcessDefinitionPresenter implements IActionPublisher<IProcessDefinitionActionListener> {
+@Component
+public class ProcessDefinitionPresenter implements IClickEventPublisher<IProcessDefinitionClickListener> {
 
-	private final List<IProcessDefinitionActionListener> processDefinitionActionListeners = new ArrayList<>();
+	private final List<IProcessDefinitionClickListener> processDefinitionActionListeners = new ArrayList<>();
 	private final ProcessDefinitionViewModel viewModel;
-	private final ProcessDefinitionService  processDefinitionService;
+	private final ProcessDefinitionService processDefinitionService;
 	private ProcessDefinitionView view;
 
-	public enum ProcessDefinitionActionEnum {
-		New, CancelAll, Running, Completed, All
-	}
-
-
-	public ProcessDefinitionPresenter(final ProcessDefinitionViewModel viewModel, final ProcessDefinitionService processDefinitionService) {
+	public ProcessDefinitionPresenter(final ProcessDefinitionViewModel viewModel,
+			final ProcessDefinitionService processDefinitionService) {
 		this.viewModel = viewModel;
-		this.processDefinitionService  = processDefinitionService;
-		updateViewModel();
+		this.processDefinitionService = processDefinitionService;
+		populateViewModel();
 	}
 
 	public void setView(final ProcessDefinitionView view) {
@@ -38,7 +37,7 @@ public class ProcessDefinitionPresenter implements IActionPublisher<IProcessDefi
 		return viewModel;
 	}
 
-	public void updateViewModel() {
+	private void populateViewModel() {
 		final List<ProcessDefinition> processDefinitions = processDefinitionService.getProcessDefinitions();
 		viewModel.setProcessDefinitions(processDefinitions);
 	}
@@ -47,27 +46,28 @@ public class ProcessDefinitionPresenter implements IActionPublisher<IProcessDefi
 		viewModel.setActiveProcessDefinition(processDefinition);
 	}
 
-	public void onButtonClick(final ProcessDefinitionActionEnum action) {
-		for (final IProcessDefinitionActionListener listener : processDefinitionActionListeners) {
-			final ProcessDefinitionActionEvent event = new ProcessDefinitionActionEvent(action,
+	public void onButtonClick(final ProcessDefinitionClickEnum action) {
+		if (viewModel.getActiveProcessDefinition() == null)
+			return;
+		for (final IProcessDefinitionClickListener listener : processDefinitionActionListeners) {
+			final ProcessDefinitionOnClickEvent event = new ProcessDefinitionOnClickEvent(action,
 					viewModel.getActiveProcessDefinition().getId());
-			listener.onActionEvent(event);
+			listener.onClickEvent(event);
 		}
 	}
 
 	@Override
-	public void addActionListener(final IProcessDefinitionActionListener Listener) {
+	public void addOnClickListener(final IProcessDefinitionClickListener Listener) {
 		if (!processDefinitionActionListeners.contains(Listener)) {
 			processDefinitionActionListeners.add(Listener);
 		}
 	}
 
 	@Override
-	public void removeActionListener(final IProcessDefinitionActionListener Listener) {
+	public void removeOnClickListener(final IProcessDefinitionClickListener Listener) {
 		if (processDefinitionActionListeners.contains(Listener)) {
 			processDefinitionActionListeners.remove(Listener);
 		}
 	}
-
 
 }

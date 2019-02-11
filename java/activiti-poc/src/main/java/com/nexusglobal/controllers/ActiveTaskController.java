@@ -27,30 +27,30 @@ public class ActiveTaskController {
 	}
 
 	public ProcessDefinition getProcessDefinition(final String processDefinitionId) {
-		return activitiService.getRepositoryService().getProcessDefinition(processDefinitionId);
+		return activitiService.getRepositoryServiceProvider().getProcessDefinition(processDefinitionId);
 	}
 
 
 	public void claimTask(final String taskId, final String userId) {
-		activitiService.getTaskService().claimTask(taskId, userId);
+		activitiService.getTaskServiceProvider().claimTask(taskId, userId);
 
 	}
 
 	public Form getForm(final String formDefinitionKey) {
-		return activitiService.getFormEngineRepositoryService().getForm(formDefinitionKey);
+		return activitiService.getFormEngineRepositoryServiceProvider().getForm(formDefinitionKey);
 	}
 
 	public TaskFormData getTaskFormData(final String taskId) {
-		return activitiService.getFormEngineRepositoryService().getTaskFormData(taskId);
+		return activitiService.getFormEngineRepositoryServiceProvider().getTaskFormData(taskId);
 	}
 
 	public void completeTask(final String taskId, final Map<String, Object> variables) {
-		activitiService.getTaskService().markTaskAsComplete(taskId, variables);
+		activitiService.getTaskServiceProvider().markTaskAsComplete(taskId, variables);
 	}
 
 	public List<HistoricTaskInstance> getCompletedTasksForProcessInstance(
 			final ProcessInstanceModel processInstanceDetail) {
-		return activitiService.getHistoryService()
+		return activitiService.getHistoryServiceProvider()
 				.getCompletedTaskListForProcessInstance(processInstanceDetail.getId());
 
 	}

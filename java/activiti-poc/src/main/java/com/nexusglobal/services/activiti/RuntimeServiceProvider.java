@@ -6,11 +6,11 @@ import java.util.Map;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.runtime.ProcessInstance;
 
-public class RuntimeServiceWrapper {
+public class RuntimeServiceProvider {
 
 	ProcessEngine processEngine;
 
-	public RuntimeServiceWrapper(final ProcessEngine processEngine) {
+	public RuntimeServiceProvider(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 
@@ -28,12 +28,14 @@ public class RuntimeServiceWrapper {
 	}
 
 	public ProcessInstance getProcessInstance(final String processInstanceId) {
-		return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId).includeProcessVariables()
-				.singleResult();
+		return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId)
+				.includeProcessVariables().singleResult();
 	}
 
-	public List<ProcessInstance> getRunningProcessInstancesByUser(final String userId) {
-		return processEngine.getRuntimeService().createProcessInstanceQuery().active().involvedUser(userId).includeProcessVariables()
+	public List<ProcessInstance> getRunningProcessInstancesByUser(final String processDefinitionId,
+			final String userId) {
+		return processEngine.getRuntimeService().createProcessInstanceQuery().active()
+				.processDefinitionId(processDefinitionId).involvedUser(userId).includeProcessVariables()
 				.orderByProcessDefinitionKey().asc().list();
 	}
 
@@ -41,8 +43,8 @@ public class RuntimeServiceWrapper {
 		processEngine.getRuntimeService().addParticipantUser(processInstanceId, userId);
 	}
 
-	public List<ProcessInstance> getProcessInstances(final String processDefintionId) {
-		return processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefintionId)
+	public List<ProcessInstance> getProcessInstances(final String processDefinitionId) {
+		return processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinitionId)
 				.list();
 	}
 

@@ -6,16 +6,16 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 
-public class HistoryServiceWrapper {
+public class HistoryServiceProvider {
 
 	ProcessEngine processEngine;
 
-	public HistoryServiceWrapper(final ProcessEngine processEngine) {
+	public HistoryServiceProvider(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 
-	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser(final String userId) {
-		return processEngine.getHistoryService().createHistoricProcessInstanceQuery().involvedUser(userId).finished()
+	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser(final String processDefinitionId, final String userId) {
+		return processEngine.getHistoryService().createHistoricProcessInstanceQuery().processDefinitionId(processDefinitionId).involvedUser(userId).finished()
 				.list();
 	}
 

@@ -1,5 +1,7 @@
 package com.nexusglobal.ui.views;
 
+import org.springframework.stereotype.Component;
+
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
@@ -9,7 +11,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 
+@Component
 public class TopNavigationView extends VerticalLayout {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
 
 	public void refresh() {
 		buildView();

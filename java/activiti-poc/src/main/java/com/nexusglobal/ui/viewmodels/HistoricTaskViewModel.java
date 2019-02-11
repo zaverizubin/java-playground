@@ -2,7 +2,9 @@ package com.nexusglobal.ui.viewmodels;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HistoricTaskViewModel {
 
 	private HistoricTaskInstance historicTaskInstance;

@@ -1,8 +1,11 @@
 package com.nexusglobal.ui.views;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.ui.presenters.ProcessInstanceListPresenter;
-import com.nexusglobal.ui.presenters.ProcessInstanceListPresenter.ProcessInstancesActionEnum;
+import com.nexusglobal.ui.presenters.ProcessInstanceListPresenter.ProcessInstanceClickEnum;
 import com.nexusglobal.ui.viewmodels.ProcessInstanceListViewModel;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -10,6 +13,7 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+@Component
 public class ProcessInstanceListView extends VerticalLayout {
 
 
@@ -17,10 +21,11 @@ public class ProcessInstanceListView extends VerticalLayout {
 	private final ProcessInstanceListPresenter presenter;
 	private ProcessInstanceListViewModel viewModel;
 
-
+	@Autowired
 	public ProcessInstanceListView(final ProcessInstanceListPresenter presenter) {
 		this.presenter = presenter;
 		presenter.setView(this);
+		refresh();
 	}
 
 	public ProcessInstanceListPresenter getPresenter() {
@@ -33,6 +38,7 @@ public class ProcessInstanceListView extends VerticalLayout {
 	}
 
 	private void buildView() {
+		this.removeAll();
 		for (final ProcessInstanceModel processInstanceModel : viewModel.getProcessInstanceModels()) {
 
 			final HorizontalLayout horizontalLayout1 = new HorizontalLayout();
@@ -60,7 +66,7 @@ public class ProcessInstanceListView extends VerticalLayout {
 			final Button button = new Button();
 			button.setText(processInstanceModel.getName());
 			button.addClickListener(event -> {
-				presenter.onButtonClick(ProcessInstancesActionEnum.ShowDetails, processInstanceModel);
+				presenter.onButtonClick(ProcessInstanceClickEnum.ShowDetails, processInstanceModel);
 			});
 
 			final Div navigation = new Div(horizontalLayout1, horizontalLayout2, button);

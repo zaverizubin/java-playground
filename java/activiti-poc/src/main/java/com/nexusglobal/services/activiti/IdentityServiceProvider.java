@@ -3,11 +3,11 @@ package com.nexusglobal.services.activiti;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.identity.User;
 
-public class IdentityServiceWrapper {
+public class IdentityServiceProvider {
 
 	ProcessEngine processEngine;
 
-	public IdentityServiceWrapper(final ProcessEngine processEngine) {
+	public IdentityServiceProvider(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 

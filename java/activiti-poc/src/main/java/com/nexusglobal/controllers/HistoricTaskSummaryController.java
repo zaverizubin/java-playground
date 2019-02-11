@@ -22,15 +22,15 @@ public class HistoricTaskSummaryController {
 	}
 
 	public ProcessDefinition getProcessDefinition(final String processDefinitionId) {
-		return activitiService.getRepositoryService().getProcessDefinition(processDefinitionId);
+		return activitiService.getRepositoryServiceProvider().getProcessDefinition(processDefinitionId);
 	}
 
 	public HistoricTaskInstance getHistoricTaskInstance(final String taskId) {
-		return activitiService.getHistoryService().getHistoricTaskInstance(taskId);
+		return activitiService.getHistoryServiceProvider().getHistoricTaskInstance(taskId);
 	}
 
 	public Form getFormDefinition(final String formDefinitionKey) {
-		return activitiService.getFormEngineRepositoryService().getForm(formDefinitionKey);
+		return activitiService.getFormEngineRepositoryServiceProvider().getForm(formDefinitionKey);
 	}
 
 }

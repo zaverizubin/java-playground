@@ -2,26 +2,29 @@ package com.nexusglobal.services.activiti;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class ActivitiService {
 
 	private final ProcessEngine processEngine;
 	private static ActivitiService activitiService;
-	private final RepositoryServiceWrapper repositoryService;
-	private final RuntimeServiceWrapper runtimeService;
-	private final TaskServiceWrapper taskService;
-	private final IdentityServiceWrapper identityService;
-	private final HistoryServiceWrapper historyService;
-	private final FormEngineRepositoryServiceWrapper formEngineRepositoryService;
+	private final RepositoryServiceProvider repositoryServiceProvider;
+	private final RuntimeServiceProvider runtimeServiceProvider;
+	private final TaskServiceProvider taskServiceProvider;
+	private final IdentityServiceProvider identityServiceProvider;
+	private final HistoryServiceProvider historyServiceProvider;
+	private final FormEngineRepositoryServiceProvider formEngineRepositoryServiceProvider;
 
 	private ActivitiService() {
 		processEngine = ProcessEngines.getDefaultProcessEngine();
-		repositoryService = new RepositoryServiceWrapper(processEngine);
-		runtimeService = new RuntimeServiceWrapper(processEngine);
-		taskService = new TaskServiceWrapper(processEngine);
-		identityService = new IdentityServiceWrapper(processEngine);
-		historyService = new HistoryServiceWrapper(processEngine);
-		formEngineRepositoryService = new FormEngineRepositoryServiceWrapper(processEngine);
+		repositoryServiceProvider = new RepositoryServiceProvider(processEngine);
+		runtimeServiceProvider = new RuntimeServiceProvider(processEngine);
+		taskServiceProvider = new TaskServiceProvider(processEngine);
+		identityServiceProvider = new IdentityServiceProvider(processEngine);
+		historyServiceProvider = new HistoryServiceProvider(processEngine);
+		formEngineRepositoryServiceProvider = new FormEngineRepositoryServiceProvider(processEngine);
 	}
 
 	public static ActivitiService getActivitiService() {
@@ -31,28 +34,28 @@ public class ActivitiService {
 		return activitiService;
 	}
 
-	public RepositoryServiceWrapper getRepositoryService() {
-		return repositoryService;
+	public RepositoryServiceProvider getRepositoryServiceProvider() {
+		return repositoryServiceProvider;
 	}
 
-	public RuntimeServiceWrapper getRuntimeService() {
-		return runtimeService;
+	public RuntimeServiceProvider getRuntimeServiceProvider() {
+		return runtimeServiceProvider;
 	}
 
-	public TaskServiceWrapper getTaskService() {
-		return taskService;
+	public TaskServiceProvider getTaskServiceProvider() {
+		return taskServiceProvider;
 	}
 
-	public IdentityServiceWrapper getIdentityService() {
-		return identityService;
+	public IdentityServiceProvider getIdentityServiceProvider() {
+		return identityServiceProvider;
 	}
 
-	public HistoryServiceWrapper getHistoryService() {
-		return historyService;
+	public HistoryServiceProvider getHistoryServiceProvider() {
+		return historyServiceProvider;
 	}
 
-	public FormEngineRepositoryServiceWrapper getFormEngineRepositoryService() {
-		return formEngineRepositoryService;
+	public FormEngineRepositoryServiceProvider getFormEngineRepositoryServiceProvider() {
+		return formEngineRepositoryServiceProvider;
 	}
 
 }

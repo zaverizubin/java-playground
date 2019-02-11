@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.nexusglobal.ui.presenters.ProcessInstanceSummaryPresenter;
 import com.nexusglobal.ui.presenters.ProcessInstanceSummaryPresenter.ProcessInstanceSummaryActionEnum;
@@ -14,11 +16,13 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+@Component
 public class ProcessInstanceSummaryView extends VerticalLayout {
 	private static final long serialVersionUID = 1L;
 	private final ProcessInstanceSummaryPresenter presenter;
 	private ProcessInstanceSummaryViewModel viewModel;
 
+	@Autowired
 	public ProcessInstanceSummaryView(final ProcessInstanceSummaryPresenter presenter) {
 		this.presenter = presenter;
 		presenter.setView(this);

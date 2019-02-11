@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
+import org.springframework.stereotype.Component;
 
 import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.services.activiti.ActivitiService;
 
+@Component
 public class ProcessInstanceTaskService {
 
 	private final ActivitiService activitiService;
@@ -17,13 +19,13 @@ public class ProcessInstanceTaskService {
 	}
 
 	public List<Task> getNextTaskForProcessInstance(final ProcessInstanceModel processInstanceModel) {
-		return activitiService.getTaskService().getTaskListForProcessInstance(processInstanceModel.getId());
+		return activitiService.getTaskServiceProvider().getTaskListForProcessInstance(processInstanceModel.getId());
 
 	}
 
 	public List<HistoricTaskInstance> getCompletedTasksForProcessInstance(
 			final ProcessInstanceModel processInstanceModel) {
-		return activitiService.getHistoryService()
+		return activitiService.getHistoryServiceProvider()
 				.getCompletedTaskListForProcessInstance(processInstanceModel.getId());
 
 	}
