@@ -8,6 +8,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.nexusglobal.models.SessionData;
 import com.nexusglobal.services.ProcessDefinitionService;
 import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent;
 import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent.ProcessDefinitionClickEnum;
@@ -41,7 +42,8 @@ public class ProcessDefinitionPresenter implements IClickEventPublisher<IProcess
 	}
 
 	private void populateViewModel() {
-		final List<ProcessDefinition> processDefinitions = processDefinitionService.getProcessDefinitions();
+		final List<ProcessDefinition> processDefinitions = processDefinitionService
+				.getProcessDefinitions(SessionData.getSessionData().getDeploymentKey());
 		viewModel.setProcessDefinitions(processDefinitions);
 	}
 

@@ -34,6 +34,10 @@ public class ActivitiService {
 		return activitiService;
 	}
 
+	public ProcessEngine getProcessEngine() {
+		return processEngine;
+	}
+
 	public RepositoryServiceProvider getRepositoryServiceProvider() {
 		return repositoryServiceProvider;
 	}

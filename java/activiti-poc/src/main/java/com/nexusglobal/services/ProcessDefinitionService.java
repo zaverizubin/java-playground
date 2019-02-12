@@ -10,7 +10,6 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.stereotype.Service;
 
-import com.nexusglobal.models.SessionData;
 import com.nexusglobal.services.activiti.ActivitiService;
 
 @Service
@@ -22,11 +21,11 @@ public class ProcessDefinitionService {
 		this.activitiService = activitiService;
 	}
 
-	public List<ProcessDefinition> getProcessDefinitions() {
+	public List<ProcessDefinition> getProcessDefinitions(final String deploymentKey) {
 		List<ProcessDefinition> processDefinitions = new ArrayList<>();
 
 		final Deployment deployment = activitiService.getRepositoryServiceProvider()
-				.getDeployment(SessionData.getSessionData().getDeploymentKey());
+				.getDeployment(deploymentKey);
 		if (deployment != null) {
 			processDefinitions = activitiService.getRepositoryServiceProvider().getProcessDefinitions(deployment.getId());
 		}
