@@ -2,14 +2,14 @@ package com.nexusglobal.ui.presenters;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.springframework.stereotype.Component;
 
 import com.nexusglobal.services.ProcessDefinitionService;
 import com.nexusglobal.services.ProcessInstanceTaskService;
+import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.viewmodels.HistoricTaskViewModel;
 import com.nexusglobal.ui.views.HistoricTaskView;
 
-@Component
+@PrototypeComponent
 public class HistoricTaskPresenter {
 
 	private HistoricTaskView view;

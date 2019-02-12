@@ -8,12 +8,12 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.nexusglobal.models.SessionData;
 import com.nexusglobal.services.activiti.ActivitiService;
 
-@Component
+@Service
 public class ProcessDefinitionService {
 
 	private final ActivitiService activitiService;
@@ -37,7 +37,7 @@ public class ProcessDefinitionService {
 		return activitiService.getRepositoryServiceProvider().getProcessDefinition(processDefinitionId);
 	}
 
-	public void createNewProcessInstance(final String processDefinitionId, String userId) {
+	public void createNewProcessInstance(final String processDefinitionId, final String userId) {
 		final ProcessInstance processInstance = startProcessInstance(processDefinitionId, userId);
 		assignUserToProcessInstance(processInstance.getId(), userId);
 		assignVariablesToProcessInstance(processInstance.getId());
@@ -51,11 +51,11 @@ public class ProcessDefinitionService {
 		}
 	}
 
-	public List<ProcessInstance> getRunningProcessInstancesByUser(final String processDefinitionId, String userId) {
+	public List<ProcessInstance> getRunningProcessInstancesByUser(final String processDefinitionId, final String userId) {
 		return activitiService.getRuntimeServiceProvider().getRunningProcessInstancesByUser(processDefinitionId, userId);
 	}
 
-	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser(final String processDefinitionId, String userId) {
+	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser(final String processDefinitionId, final String userId) {
 		return activitiService.getHistoryServiceProvider()
 				.getCompletedProcessInstancesByUser(processDefinitionId, userId);
 

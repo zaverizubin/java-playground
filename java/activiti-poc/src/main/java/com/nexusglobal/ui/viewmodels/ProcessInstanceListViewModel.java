@@ -3,11 +3,10 @@ package com.nexusglobal.ui.viewmodels;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import com.nexusglobal.models.ProcessInstanceModel;
+import com.nexusglobal.ui.common.PrototypeComponent;
 
-@Component
+@PrototypeComponent
 public class ProcessInstanceListViewModel {
 
 	private ProcessInstanceModel activeProcessInstanceModel;

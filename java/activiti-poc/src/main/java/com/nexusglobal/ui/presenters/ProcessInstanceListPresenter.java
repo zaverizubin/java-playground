@@ -6,11 +6,11 @@ import java.util.List;
 
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.springframework.stereotype.Component;
 
 import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.models.SessionData;
 import com.nexusglobal.services.ProcessDefinitionService;
+import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent;
 import com.nexusglobal.ui.events.ProcessInstanceListActionEvent;
 import com.nexusglobal.ui.interfaces.IClickEventPublisher;
@@ -19,7 +19,7 @@ import com.nexusglobal.ui.interfaces.IProcessInstanceListClickListener;
 import com.nexusglobal.ui.viewmodels.ProcessInstanceListViewModel;
 import com.nexusglobal.ui.views.ProcessInstanceListView;
 
-@Component
+@PrototypeComponent
 public class ProcessInstanceListPresenter
 implements IProcessDefinitionClickListener, IClickEventPublisher<IProcessInstanceListClickListener> {
 

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent.ProcessDefinitionClickEnum;
 import com.nexusglobal.ui.presenters.ProcessDefinitionPresenter;
 import com.nexusglobal.ui.viewmodels.ProcessDefinitionViewModel;
@@ -14,7 +14,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-@Component
+@PrototypeComponent
 public class ProcessDefinitionView extends VerticalLayout {
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class ProcessDefinitionView extends VerticalLayout {
 
 	private void buildProcessDefinitions() {
 		final HorizontalLayout horizontalLayout = new HorizontalLayout();
-		cbProcessDefinitions = new ComboBox<ProcessDefinition>();
+		cbProcessDefinitions = new ComboBox<>();
 
 		cbProcessDefinitions.setWidth("250px");
 		cbProcessDefinitions.setLabel("Process Definitions");

@@ -1,19 +1,14 @@
 package com.nexusglobal.ui.presenters;
 
-import org.springframework.stereotype.Component;
-
+import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.events.ProcessInstanceSummaryActionEvent;
 import com.nexusglobal.ui.interfaces.IProcessInstanceSummaryClickListener;
 import com.nexusglobal.ui.views.MainView;
 
-@Component
+@PrototypeComponent
 public class MainPresenter implements IProcessInstanceSummaryClickListener {
 
 	private MainView view;
-
-	public MainPresenter() {
-
-	}
 
 	public void setView(final MainView view) {
 		this.view = view;

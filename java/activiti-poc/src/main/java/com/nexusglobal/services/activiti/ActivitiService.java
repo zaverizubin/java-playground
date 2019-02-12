@@ -2,10 +2,10 @@ package com.nexusglobal.services.activiti;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 public class ActivitiService {
 
 	private final ProcessEngine processEngine;
@@ -17,7 +17,7 @@ public class ActivitiService {
 	private final HistoryServiceProvider historyServiceProvider;
 	private final FormEngineRepositoryServiceProvider formEngineRepositoryServiceProvider;
 
-	private ActivitiService() {
+	public ActivitiService() {
 		processEngine = ProcessEngines.getDefaultProcessEngine();
 		repositoryServiceProvider = new RepositoryServiceProvider(processEngine);
 		runtimeServiceProvider = new RuntimeServiceProvider(processEngine);

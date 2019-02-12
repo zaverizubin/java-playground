@@ -3,18 +3,13 @@ package com.nexusglobal.ui.views;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.nexusglobal.ui.presenters.MainPresenter;
-import com.nexusglobal.ui.presenters.ProcessDefinitionPresenter;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Viewport;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RoutePrefix;
 import com.vaadin.flow.router.RouterLayout;
 
 /**
@@ -27,21 +22,21 @@ import com.vaadin.flow.router.RouterLayout;
 public class MainView extends Div  implements RouterLayout {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private  MainPresenter presenter;
-	private  TopNavigationView topNavigationView;
-	private  ProcessDefinitionView processDefinitionView;
-	private  ProcessInstanceListView processInstancesView;
-	private  ProcessInstanceSummaryView processInstanceSummaryView;
-	private  ActiveTaskView activeTaskView;
-	private  HistoricTaskView historicTaskView;
+	private final  MainPresenter presenter;
+	private final  TopNavigationView topNavigationView;
+	private final  ProcessDefinitionView processDefinitionView;
+	private final  ProcessInstanceListView processInstancesView;
+	private final  ProcessInstanceSummaryView processInstanceSummaryView;
+	private final  ActiveTaskView activeTaskView;
+	private final  HistoricTaskView historicTaskView;
 
 	private VerticalLayout verticalLayout1;
 	private VerticalLayout verticalLayout2;
 	private VerticalLayout verticalLayout3;
-	
+
 	@Autowired
 	public MainView(final MainPresenter presenter, final TopNavigationView topNavigationView,
 			final ProcessDefinitionView processDefinitionView,
@@ -62,8 +57,9 @@ public class MainView extends Div  implements RouterLayout {
 	public MainPresenter getPresenter() {
 		return presenter;
 	}
-	
+
 	public void refresh() {
+		removeAll();
 		buildView();
 		bindEventListeners();
 	}
@@ -71,10 +67,11 @@ public class MainView extends Div  implements RouterLayout {
 	private void bindEventListeners() {
 		processDefinitionView.getPresenter().addOnClickListener(processInstancesView.getPresenter());
 		processInstancesView.getPresenter().addOnClickListener(processInstanceSummaryView.getPresenter());
-		processInstanceSummaryView.getPresenter().addOnClickListener(this.presenter);
+		processInstanceSummaryView.getPresenter().addOnClickListener(presenter);
 	}
 
 	private void buildView() {
+
 		verticalLayout1 = new VerticalLayout();
 		verticalLayout1.addClassName("verticalBoxBorder");
 

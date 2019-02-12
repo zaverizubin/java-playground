@@ -1,9 +1,10 @@
 package com.nexusglobal.ui.viewmodels;
 
 import org.activiti.engine.task.Task;
-import org.springframework.stereotype.Component;
 
-@Component
+import com.nexusglobal.ui.common.PrototypeComponent;
+
+@PrototypeComponent
 public class ActiveTaskViewModel {
 
 	private Task task;

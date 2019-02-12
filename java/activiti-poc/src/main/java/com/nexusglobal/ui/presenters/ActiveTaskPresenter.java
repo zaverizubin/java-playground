@@ -1,13 +1,13 @@
 package com.nexusglobal.ui.presenters;
 
 import org.activiti.engine.task.Task;
-import org.springframework.stereotype.Component;
 
 import com.nexusglobal.services.ProcessInstanceTaskService;
+import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.viewmodels.ActiveTaskViewModel;
 import com.nexusglobal.ui.views.ActiveTaskView;
 
-@Component
+@PrototypeComponent
 public class ActiveTaskPresenter {
 
 	private ActiveTaskView view;

@@ -1,13 +1,13 @@
 package com.nexusglobal.ui.views;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.presenters.ActiveTaskPresenter;
 import com.nexusglobal.ui.viewmodels.ActiveTaskViewModel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-@Component
+@PrototypeComponent
 public class ActiveTaskView extends VerticalLayout {
 
 	private final ActiveTaskPresenter presenter;

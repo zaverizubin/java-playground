@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nexusglobal.services.ProcessDefinitionService;
@@ -15,6 +17,7 @@ import com.nexusglobal.ui.viewmodels.ProcessDefinitionViewModel;
 import com.nexusglobal.ui.views.ProcessDefinitionView;
 
 @Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class ProcessDefinitionPresenter implements IClickEventPublisher<IProcessDefinitionClickListener> {
 
 	private final List<IProcessDefinitionClickListener> processDefinitionActionListeners = new ArrayList<>();
@@ -47,8 +50,9 @@ public class ProcessDefinitionPresenter implements IClickEventPublisher<IProcess
 	}
 
 	public void onButtonClick(final ProcessDefinitionClickEnum action) {
-		if (viewModel.getActiveProcessDefinition() == null)
+		if (viewModel.getActiveProcessDefinition() == null) {
 			return;
+		}
 		for (final IProcessDefinitionClickListener listener : processDefinitionActionListeners) {
 			final ProcessDefinitionOnClickEvent event = new ProcessDefinitionOnClickEvent(action,
 					viewModel.getActiveProcessDefinition().getId());
