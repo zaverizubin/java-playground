@@ -2,7 +2,7 @@ package com.nexusglobal.ui.presenters;
 
 import org.activiti.engine.task.Task;
 
-import com.nexusglobal.services.ProcessInstanceTaskService;
+import com.nexusglobal.services.TaskService;
 import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.viewmodels.ActiveTaskViewModel;
 import com.nexusglobal.ui.views.ActiveTaskView;
@@ -12,10 +12,10 @@ public class ActiveTaskPresenter {
 
 	private ActiveTaskView view;
 	private final ActiveTaskViewModel viewModel;
-	private final ProcessInstanceTaskService processInstanceTaskService;
+	private final TaskService processInstanceTaskService;
 
 	public ActiveTaskPresenter(final ActiveTaskViewModel viewModel,
-			final ProcessInstanceTaskService processInstanceTaskService) {
+			final TaskService processInstanceTaskService) {
 		this.viewModel = viewModel;
 		this.processInstanceTaskService = processInstanceTaskService;
 	}

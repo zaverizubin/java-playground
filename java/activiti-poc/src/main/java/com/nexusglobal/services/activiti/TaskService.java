@@ -1,4 +1,4 @@
-package com.nexusglobal.services;
+package com.nexusglobal.services.activiti;
 
 import java.util.List;
 
@@ -7,14 +7,13 @@ import org.activiti.engine.task.Task;
 import org.springframework.stereotype.Service;
 
 import com.nexusglobal.models.ProcessInstanceModel;
-import com.nexusglobal.services.activiti.ActivitiService;
 
 @Service
-public class ProcessInstanceTaskService {
+public class TaskService {
 
 	private final ActivitiService activitiService;
 
-	public ProcessInstanceTaskService(final ActivitiService activitiService) {
+	public TaskService(final ActivitiService activitiService) {
 		this.activitiService = activitiService;
 	}
 

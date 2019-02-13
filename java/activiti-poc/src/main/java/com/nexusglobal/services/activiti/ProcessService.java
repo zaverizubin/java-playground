@@ -1,4 +1,4 @@
-package com.nexusglobal.services;
+package com.nexusglobal.services.activiti;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,14 +10,12 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.stereotype.Service;
 
-import com.nexusglobal.services.activiti.ActivitiService;
-
 @Service
-public class ProcessDefinitionService {
+public class ProcessService {
 
 	private final ActivitiService activitiService;
 
-	public ProcessDefinitionService(final ActivitiService activitiService) {
+	public ProcessService(final ActivitiService activitiService) {
 		this.activitiService = activitiService;
 	}
 

@@ -3,8 +3,8 @@ package com.nexusglobal.ui.presenters;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 
-import com.nexusglobal.services.ProcessDefinitionService;
-import com.nexusglobal.services.ProcessInstanceTaskService;
+import com.nexusglobal.services.ProcessService;
+import com.nexusglobal.services.TaskService;
 import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.viewmodels.HistoricTaskViewModel;
 import com.nexusglobal.ui.views.HistoricTaskView;
@@ -14,13 +14,13 @@ public class HistoricTaskPresenter {
 
 	private HistoricTaskView view;
 	private final HistoricTaskViewModel viewModel;
-	private final ProcessDefinitionService processDefinitionService;
-	private final ProcessInstanceTaskService processInstanceTaskService;
+	private final ProcessService processDefinitionService;
+	private final TaskService processInstanceTaskService;
 
 
 	public HistoricTaskPresenter(final HistoricTaskViewModel viewModel,
-			final ProcessDefinitionService processDefinitionService,
-			final ProcessInstanceTaskService processInstanceTaskService) {
+			final ProcessService processDefinitionService,
+			final TaskService processInstanceTaskService) {
 		this.viewModel = viewModel;
 		this.processDefinitionService = processDefinitionService;
 		this.processInstanceTaskService = processInstanceTaskService;

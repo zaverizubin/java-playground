@@ -65,9 +65,11 @@ public class MainView extends Div  implements RouterLayout {
 	}
 
 	private void bindEventListeners() {
-		processDefinitionView.getPresenter().addOnClickListener(processInstancesView.getPresenter());
-		processInstancesView.getPresenter().addOnClickListener(processInstanceSummaryView.getPresenter());
-		processInstanceSummaryView.getPresenter().addOnClickListener(presenter);
+		processDefinitionView.getPresenter()
+		.addClickListener(processInstancesView.getPresenter()::onProcessDefinitionClickEvent);
+		processInstancesView.getPresenter()
+		.addClickListener(processInstanceSummaryView.getPresenter()::onProcessInstanceClickEvent);
+		processInstanceSummaryView.getPresenter().addClickListener(presenter::onProcessInstanceSummaryClickEvent);
 	}
 
 	private void buildView() {

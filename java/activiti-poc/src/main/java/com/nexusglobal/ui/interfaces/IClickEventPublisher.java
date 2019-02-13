@@ -1,8 +1,10 @@
 package com.nexusglobal.ui.interfaces;
 
-public interface IClickEventPublisher<T> {
-	
-	public void addOnClickListener(final T Listener);
+import java.util.function.Consumer;
 
-	public void removeOnClickListener(final T Listener);
+public interface IClickEventPublisher<T> {
+
+	public void addClickListener(final Consumer<T> Listener);
+
+	public void removeClickListener(final Consumer<T> Listener);
 }

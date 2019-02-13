@@ -2,6 +2,7 @@ package com.nexusglobal.ui.presenters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -9,25 +10,24 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nexusglobal.models.SessionData;
-import com.nexusglobal.services.ProcessDefinitionService;
-import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent;
-import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent.ProcessDefinitionClickEnum;
+import com.nexusglobal.services.ProcessService;
+import com.nexusglobal.ui.events.ProcessDefinitionClickEvent;
+import com.nexusglobal.ui.events.ProcessDefinitionClickEvent.ProcessDefinitionClickEnum;
 import com.nexusglobal.ui.interfaces.IClickEventPublisher;
-import com.nexusglobal.ui.interfaces.IProcessDefinitionClickListener;
 import com.nexusglobal.ui.viewmodels.ProcessDefinitionViewModel;
 import com.nexusglobal.ui.views.ProcessDefinitionView;
 
 @Component
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
-public class ProcessDefinitionPresenter implements IClickEventPublisher<IProcessDefinitionClickListener> {
+public class ProcessDefinitionPresenter implements IClickEventPublisher<ProcessDefinitionClickEvent> {
 
-	private final List<IProcessDefinitionClickListener> processDefinitionActionListeners = new ArrayList<>();
+	private final List<Consumer<ProcessDefinitionClickEvent>> clickListeners = new ArrayList<>();
 	private final ProcessDefinitionViewModel viewModel;
-	private final ProcessDefinitionService processDefinitionService;
+	private final ProcessService processDefinitionService;
 	private ProcessDefinitionView view;
 
 	public ProcessDefinitionPresenter(final ProcessDefinitionViewModel viewModel,
-			final ProcessDefinitionService processDefinitionService) {
+			final ProcessService processDefinitionService) {
 		this.viewModel = viewModel;
 		this.processDefinitionService = processDefinitionService;
 		populateViewModel();
@@ -55,24 +55,24 @@ public class ProcessDefinitionPresenter implements IClickEventPublisher<IProcess
 		if (viewModel.getActiveProcessDefinition() == null) {
 			return;
 		}
-		for (final IProcessDefinitionClickListener listener : processDefinitionActionListeners) {
-			final ProcessDefinitionOnClickEvent event = new ProcessDefinitionOnClickEvent(action,
+		for (final Consumer<ProcessDefinitionClickEvent> listener : clickListeners) {
+			final ProcessDefinitionClickEvent event = new ProcessDefinitionClickEvent(action,
 					viewModel.getActiveProcessDefinition().getId());
-			listener.onClickEvent(event);
+			listener.accept(event);
 		}
 	}
 
 	@Override
-	public void addOnClickListener(final IProcessDefinitionClickListener Listener) {
-		if (!processDefinitionActionListeners.contains(Listener)) {
-			processDefinitionActionListeners.add(Listener);
+	public void addClickListener(final Consumer<ProcessDefinitionClickEvent> listener) {
+		if (!clickListeners.contains(listener)) {
+			clickListeners.add(listener);
 		}
 	}
 
 	@Override
-	public void removeOnClickListener(final IProcessDefinitionClickListener Listener) {
-		if (processDefinitionActionListeners.contains(Listener)) {
-			processDefinitionActionListeners.remove(Listener);
+	public void removeClickListener(final Consumer<ProcessDefinitionClickEvent> listener) {
+		if (clickListeners.contains(listener)) {
+			clickListeners.remove(listener);
 		}
 	}
 

@@ -1,12 +1,11 @@
 package com.nexusglobal.ui.presenters;
 
 import com.nexusglobal.ui.common.PrototypeComponent;
-import com.nexusglobal.ui.events.ProcessInstanceSummaryActionEvent;
-import com.nexusglobal.ui.interfaces.IProcessInstanceSummaryClickListener;
+import com.nexusglobal.ui.events.ProcessInstanceSummaryClickEvent;
 import com.nexusglobal.ui.views.MainView;
 
 @PrototypeComponent
-public class MainPresenter implements IProcessInstanceSummaryClickListener {
+public class MainPresenter {
 
 	private MainView view;
 
@@ -14,8 +13,7 @@ public class MainPresenter implements IProcessInstanceSummaryClickListener {
 		this.view = view;
 	}
 
-	@Override
-	public void onClickEvent(final ProcessInstanceSummaryActionEvent event) {
+	public void onProcessInstanceSummaryClickEvent(final ProcessInstanceSummaryClickEvent event) {
 		switch (event.getAction()) {
 		case GetActiveTask:
 			view.showActiveTaskView(event.getTask());

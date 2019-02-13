@@ -6,7 +6,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.nexusglobal.ui.common.PrototypeComponent;
-import com.nexusglobal.ui.events.ProcessDefinitionOnClickEvent.ProcessDefinitionClickEnum;
+import com.nexusglobal.ui.events.ProcessDefinitionClickEvent.ProcessDefinitionClickEnum;
 import com.nexusglobal.ui.presenters.ProcessDefinitionPresenter;
 import com.nexusglobal.ui.viewmodels.ProcessDefinitionViewModel;
 import com.vaadin.flow.component.button.Button;
@@ -38,24 +38,25 @@ public class ProcessDefinitionView extends VerticalLayout {
 		buildProcessDefinitions();
 		buildProcessInstanceActionButtons();
 		buildProcessInstanceFilterButtons();
-		bindData();
 	}
 
 	private void buildProcessDefinitions() {
-		final HorizontalLayout horizontalLayout = new HorizontalLayout();
-		cbProcessDefinitions = new ComboBox<>();
+		final List<ProcessDefinition> processDefinitions = viewModel.getProcessDefinitions();
 
+		final HorizontalLayout horizontalLayout = new HorizontalLayout();
+
+		cbProcessDefinitions = new ComboBox<>();
 		cbProcessDefinitions.setWidth("250px");
 		cbProcessDefinitions.setLabel("Process Definitions");
 		cbProcessDefinitions.setItemLabelGenerator(ProcessDefinition::getName);
 		cbProcessDefinitions.addValueChangeListener(event -> {
-			if (!event.getHasValue().isEmpty()) {
-				presenter.onProcessDefinitionChange(event.getValue());
-			} else {
-				presenter.onProcessDefinitionChange(null);
-			}
+			presenter.onProcessDefinitionChange(event.getValue());
 			presenter.onButtonClick(ProcessDefinitionClickEnum.Running);
 		});
+
+		if (processDefinitions != null) {
+			cbProcessDefinitions.setItems(processDefinitions);
+		}
 		horizontalLayout.add(cbProcessDefinitions);
 		add(horizontalLayout);
 	}
@@ -109,13 +110,6 @@ public class ProcessDefinitionView extends VerticalLayout {
 
 		horizontalLayout.add(button1, button2, button3);
 		add(horizontalLayout);
-	}
-
-	private void bindData() {
-		final List<ProcessDefinition> processDefinitions = viewModel.getProcessDefinitions();
-		if (processDefinitions != null) {
-			cbProcessDefinitions.setItems(processDefinitions);
-		}
 	}
 
 }

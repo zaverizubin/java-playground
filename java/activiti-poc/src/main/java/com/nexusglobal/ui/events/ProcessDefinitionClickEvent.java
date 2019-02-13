@@ -1,6 +1,6 @@
 package com.nexusglobal.ui.events;
 
-public class ProcessDefinitionOnClickEvent {
+public class ProcessDefinitionClickEvent {
 
 	private final ProcessDefinitionClickEnum action;
 	private final String processDefinitionId;
@@ -10,7 +10,7 @@ public class ProcessDefinitionOnClickEvent {
 	}
 
 	
-	public ProcessDefinitionOnClickEvent(final ProcessDefinitionClickEnum action,
+	public ProcessDefinitionClickEvent(final ProcessDefinitionClickEnum action,
 			final String processDefinitionId) {
 		this.action = action;
 		this.processDefinitionId = processDefinitionId;

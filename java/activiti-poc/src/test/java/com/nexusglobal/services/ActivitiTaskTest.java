@@ -23,7 +23,7 @@ import com.nexusglobal.services.activiti.ActivitiService;
 public class ActivitiTaskTest {
 
 	private static ActivitiService activitiService;
-	private static ProcessDefinitionService processDefinitionService;
+	private static ProcessService processDefinitionService;
 	private static String deploymentKey;
 	private static String processDefintionKey;
 	private static List<ProcessDefinition> processDefinitions;
@@ -31,7 +31,7 @@ public class ActivitiTaskTest {
 	@BeforeClass
 	public static void setUp() {
 		activitiService = new ActivitiService();
-		processDefinitionService = new ProcessDefinitionService(activitiService);
+		processDefinitionService = new ProcessService(activitiService);
 		deploymentKey = SessionData.getSessionData().getDeploymentKey();
 		processDefintionKey = SessionData.getSessionData().getProcessDefinitionKey();
 		processDefinitions = processDefinitionService.getProcessDefinitions(deploymentKey);

@@ -3,32 +3,30 @@ package com.nexusglobal.ui.presenters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.task.Task;
 
 import com.nexusglobal.models.ProcessInstanceModel;
-import com.nexusglobal.services.ProcessDefinitionService;
-import com.nexusglobal.services.ProcessInstanceTaskService;
+import com.nexusglobal.services.activiti.ProcessService;
+import com.nexusglobal.services.activiti.TaskService;
 import com.nexusglobal.ui.common.PrototypeComponent;
-import com.nexusglobal.ui.events.ProcessInstanceListActionEvent;
-import com.nexusglobal.ui.events.ProcessInstanceSummaryActionEvent;
+import com.nexusglobal.ui.events.ProcessInstanceListClickEvent;
+import com.nexusglobal.ui.events.ProcessInstanceSummaryClickEvent;
 import com.nexusglobal.ui.interfaces.IClickEventPublisher;
-import com.nexusglobal.ui.interfaces.IProcessInstanceListClickListener;
-import com.nexusglobal.ui.interfaces.IProcessInstanceSummaryClickListener;
 import com.nexusglobal.ui.viewmodels.ProcessInstanceSummaryViewModel;
 import com.nexusglobal.ui.views.ProcessInstanceSummaryView;
 
 @PrototypeComponent
-public class ProcessInstanceSummaryPresenter
-implements IProcessInstanceListClickListener, IClickEventPublisher<IProcessInstanceSummaryClickListener> {
+public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<ProcessInstanceSummaryClickEvent> {
 
-	private final List<IProcessInstanceSummaryClickListener> actionListeners = new ArrayList<>();
+	private final List<Consumer<ProcessInstanceSummaryClickEvent>> actionListeners = new ArrayList<>();
 	private final ProcessInstanceSummaryViewModel viewModel;
 	private ProcessInstanceSummaryView view;
 
-	private final ProcessDefinitionService processDefinitionService;
-	private final ProcessInstanceTaskService processInstanceTaskService;
+	private final ProcessService processDefinitionService;
+	private final TaskService processInstanceTaskService;
 
 
 	public enum ProcessInstanceSummaryActionEnum {
@@ -36,8 +34,8 @@ implements IProcessInstanceListClickListener, IClickEventPublisher<IProcessInsta
 	}
 
 	public ProcessInstanceSummaryPresenter(final ProcessInstanceSummaryViewModel viewModel,
-			final ProcessDefinitionService processDefinitionService,
-			final ProcessInstanceTaskService processInstanceTaskService) {
+			final ProcessService processDefinitionService,
+			final TaskService processInstanceTaskService) {
 		this.viewModel = viewModel;
 		this.processDefinitionService = processDefinitionService;
 		this.processInstanceTaskService = processInstanceTaskService;
@@ -76,19 +74,19 @@ implements IProcessInstanceListClickListener, IClickEventPublisher<IProcessInsta
 	}
 
 	public void onButtonClick(final ProcessInstanceSummaryActionEnum action, final Task task) {
-		for (final IProcessInstanceSummaryClickListener listener : actionListeners) {
-			final ProcessInstanceSummaryActionEvent event = new ProcessInstanceSummaryActionEvent(action,
+		for (final Consumer<ProcessInstanceSummaryClickEvent> listener : actionListeners) {
+			final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(action,
 					task, null);
-			listener.onClickEvent(event);
+			listener.accept(event);
 		}
 	}
 
 	public void onButtonClick(final ProcessInstanceSummaryActionEnum action,
 			final HistoricTaskInstance historicTaskInstance) {
-		for (final IProcessInstanceSummaryClickListener listener : actionListeners) {
-			final ProcessInstanceSummaryActionEvent event = new ProcessInstanceSummaryActionEvent(action,
+		for (final Consumer<ProcessInstanceSummaryClickEvent> listener : actionListeners) {
+			final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(action,
 					null, historicTaskInstance);
-			listener.onClickEvent(event);
+			listener.accept(event);
 		}
 	}
 
@@ -101,26 +99,24 @@ implements IProcessInstanceListClickListener, IClickEventPublisher<IProcessInsta
 
 	}
 
-	@Override
-	public void onClickEvent(final ProcessInstanceListActionEvent event) {
+	public void onProcessInstanceClickEvent(final ProcessInstanceListClickEvent event) {
 		viewModel.setActiveProcessInstanceModel(event.getProcessInstanceModel());
 	}
 
 	@Override
-	public void addOnClickListener(final IProcessInstanceSummaryClickListener Listener) {
+	public void addClickListener(final Consumer<ProcessInstanceSummaryClickEvent> Listener) {
 		if (!actionListeners.contains(Listener)) {
 			actionListeners.add(Listener);
 		}
-
 	}
 
 	@Override
-	public void removeOnClickListener(final IProcessInstanceSummaryClickListener Listener) {
+	public void removeClickListener(final Consumer<ProcessInstanceSummaryClickEvent> Listener) {
 		if (actionListeners.contains(Listener)) {
 			actionListeners.remove(Listener);
 		}
-
 	}
+
 
 
 

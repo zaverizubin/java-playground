@@ -5,13 +5,13 @@ import org.activiti.engine.task.Task;
 
 import com.nexusglobal.ui.presenters.ProcessInstanceSummaryPresenter.ProcessInstanceSummaryActionEnum;
 
-public class ProcessInstanceSummaryActionEvent {
+public class ProcessInstanceSummaryClickEvent {
 	
 	private final ProcessInstanceSummaryActionEnum action;
 	private final Task task;
 	private final HistoricTaskInstance historicTaskInstance;
 
-	public ProcessInstanceSummaryActionEvent(final ProcessInstanceSummaryActionEnum action, final Task task,
+	public ProcessInstanceSummaryClickEvent(final ProcessInstanceSummaryActionEnum action, final Task task,
 			final HistoricTaskInstance historicTaskInstance) {
 		this.action = action;
 		this.task = task;
