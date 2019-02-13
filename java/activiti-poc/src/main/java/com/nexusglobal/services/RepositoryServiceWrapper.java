@@ -1,4 +1,4 @@
-package com.nexusglobal.services.activiti;
+package com.nexusglobal.services;
 
 import java.util.List;
 
@@ -7,16 +7,14 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 
-
-public class RepositoryServiceProvider {
+public class RepositoryServiceWrapper {
 
 	ProcessEngine processEngine;
 
-	public RepositoryServiceProvider(final ProcessEngine processEngine) {
+	public RepositoryServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
-	
-	
+
 	// Process Definitions
 	public List<ProcessDefinition> getProcessDefinitions(final String deploymentId){
 		return processEngine.getRepositoryService().createProcessDefinitionQuery().deploymentId(deploymentId)
@@ -27,7 +25,7 @@ public class RepositoryServiceProvider {
 		return processEngine.getRepositoryService().createProcessDefinitionQuery()
 				.processDefinitionId(processDefinitionId).singleResult();
 	}
-	
+
 	public Deployment getDeployment(final String deploymentKey) {
 		return processEngine.getRepositoryService().createDeploymentQuery().deploymentKey(deploymentKey).latest()
 				.singleResult();

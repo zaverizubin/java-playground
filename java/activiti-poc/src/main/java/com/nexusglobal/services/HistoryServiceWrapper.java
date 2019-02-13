@@ -1,4 +1,4 @@
-package com.nexusglobal.services.activiti;
+package com.nexusglobal.services;
 
 import java.util.List;
 
@@ -6,16 +6,18 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 
-public class HistoryServiceProvider {
+public class HistoryServiceWrapper {
 
 	ProcessEngine processEngine;
 
-	public HistoryServiceProvider(final ProcessEngine processEngine) {
+	public HistoryServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 
-	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser(final String processDefinitionId, final String userId) {
-		return processEngine.getHistoryService().createHistoricProcessInstanceQuery().processDefinitionId(processDefinitionId).involvedUser(userId).finished()
+	public List<HistoricProcessInstance> getCompletedProcessInstancesByUser(final String processDefinitionId,
+			final String userId) {
+		return processEngine.getHistoryService().createHistoricProcessInstanceQuery()
+				.processDefinitionId(processDefinitionId).involvedUser(userId).finished()
 				.list();
 	}
 

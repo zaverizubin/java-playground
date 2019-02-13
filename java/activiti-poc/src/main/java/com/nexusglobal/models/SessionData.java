@@ -3,11 +3,10 @@ package com.nexusglobal.models;
 public class SessionData {
 
 	private final String deploymentKey = "incident-app-1";
-	private final String processDefinitionKey = "incident-investigation-model-1";
 	private final String generalInformationKey = "general-information";
 	private final String userId = "admin";
 	private static SessionData sessionData;
-	private ProcessInstanceModel processInstanceDetail;
+	private ProcessInstanceDetail processInstanceDetail;
 
 	private SessionData() {
 
@@ -20,11 +19,11 @@ public class SessionData {
 		return sessionData;
 	}
 
-	public ProcessInstanceModel getCurrentProcessInstanceDetail() {
+	public ProcessInstanceDetail getCurrentProcessInstanceDetail() {
 		return processInstanceDetail;
 	}
 
-	public void setCurrentProcessInstanceModel(final ProcessInstanceModel processInstanceDetail) {
+	public void setCurrentProcessInstancDetail(final ProcessInstanceDetail processInstanceDetail) {
 		this.processInstanceDetail =processInstanceDetail;
 	}
 
@@ -32,13 +31,10 @@ public class SessionData {
 		return deploymentKey;
 	}
 
-	public String getProcessDefinitionKey() {
-		return processDefinitionKey;
-	}
-
 	public String getGeneralInformationKey() {
 		return generalInformationKey;
 	}
+
 
 	public String getUserId() {
 		return userId;

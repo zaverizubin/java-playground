@@ -1,4 +1,4 @@
-package com.nexusglobal.services.activiti;
+package com.nexusglobal.services;
 
 import java.util.List;
 import java.util.Map;
@@ -6,10 +6,10 @@ import java.util.Map;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.task.Task;
 
-public class TaskServiceProvider {
+public class TaskServiceWrapper {
 	ProcessEngine processEngine;
 
-	public TaskServiceProvider(final ProcessEngine processEngine) {
+	public TaskServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 

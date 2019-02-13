@@ -4,15 +4,15 @@ import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.form.api.Form;
 
-import com.nexusglobal.services.activiti.ActivitiService;
-import com.nexusglobal.ui.views.Old_HistoricTaskSummaryView;
+import com.nexusglobal.services.ActivitiService;
+import com.nexusglobal.ui.views.HistoricTaskSummaryView;
 
 public class HistoricTaskSummaryController {
 
-	private final Old_HistoricTaskSummaryView view;
+	private final HistoricTaskSummaryView view;
 	private ActivitiService activitiService;
 
-	public HistoricTaskSummaryController(final Old_HistoricTaskSummaryView view) {
+	public HistoricTaskSummaryController(final HistoricTaskSummaryView view) {
 		this.view = view;
 		initActivitiService();
 	}
@@ -22,15 +22,15 @@ public class HistoricTaskSummaryController {
 	}
 
 	public ProcessDefinition getProcessDefinition(final String processDefinitionId) {
-		return activitiService.getRepositoryServiceProvider().getProcessDefinition(processDefinitionId);
+		return activitiService.getRepositoryService().getProcessDefinition(processDefinitionId);
 	}
 
 	public HistoricTaskInstance getHistoricTaskInstance(final String taskId) {
-		return activitiService.getHistoryServiceProvider().getHistoricTaskInstance(taskId);
+		return activitiService.getHistoryService().getHistoricTaskInstance(taskId);
 	}
 
 	public Form getFormDefinition(final String formDefinitionKey) {
-		return activitiService.getFormEngineRepositoryServiceProvider().getForm(formDefinitionKey);
+		return activitiService.getFormEngineRepositoryService().getForm(formDefinitionKey);
 	}
 
 }

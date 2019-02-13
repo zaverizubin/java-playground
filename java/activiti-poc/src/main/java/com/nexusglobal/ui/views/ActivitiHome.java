@@ -26,7 +26,7 @@ import com.vaadin.flow.router.Route;
  *
  * Implemented using a simple template.
  */
-@Route(value = "", layout = MainView.class)
+@Route(value = "", layout = ActivitiMainView.class)
 @PageTitle("Activti Home")
 @Tag("activiti-home")
 

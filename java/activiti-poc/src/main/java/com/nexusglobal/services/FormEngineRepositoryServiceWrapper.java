@@ -1,14 +1,14 @@
-package com.nexusglobal.services.activiti;
+package com.nexusglobal.services;
 
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.form.api.Form;
 
-public class FormEngineRepositoryServiceProvider {
+public class FormEngineRepositoryServiceWrapper {
 
 	ProcessEngine processEngine;
 
-	public FormEngineRepositoryServiceProvider(final ProcessEngine processEngine) {
+	public FormEngineRepositoryServiceWrapper(final ProcessEngine processEngine) {
 		this.processEngine = processEngine;
 	}
 

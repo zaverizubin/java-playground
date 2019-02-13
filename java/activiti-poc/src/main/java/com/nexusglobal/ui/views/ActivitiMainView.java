@@ -16,6 +16,7 @@
 package com.nexusglobal.ui.views;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -23,7 +24,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 import com.nexusglobal.controllers.ActivitiMainController;
-import com.nexusglobal.models.ProcessInstanceModel;
+import com.nexusglobal.models.ProcessInstanceDetail;
 import com.nexusglobal.models.SessionData;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -40,17 +41,15 @@ import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.router.RouterLink;
-
 /**
  * The main layout contains the header with the navigation buttons, and the
  * child views below that.
  */
-
 @HtmlImport("frontend://styles/shared-styles.html")
 @HtmlImport("frontend://styles/styles.html")
 
 @Viewport("width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes")
-public class Old_MainView extends Div implements RouterLayout {
+public class ActivitiMainView extends Div implements RouterLayout {
 
 	private final ActivitiMainController controller;
 
@@ -63,7 +62,8 @@ public class Old_MainView extends Div implements RouterLayout {
 	private VerticalLayout verticalLayout2;
 	private VerticalLayout verticalLayout3;
 
-	public Old_MainView() {
+
+	public ActivitiMainView() {
 		controller = new ActivitiMainController(this);
 		buildComponents();
 		initView();
@@ -108,15 +108,12 @@ public class Old_MainView extends Div implements RouterLayout {
 	}
 
 	private void initView() {
-		final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-		if (processDefinition != null) {
-			final List<ProcessInstance> processInstances = controller
-					.getRunningProcessInstancesByUser(processDefinition.getId());
-			final List<ProcessInstanceModel> processInstanceDetails = new ProcessInstanceModel()
-					.createProcessInstanceModels(processInstances);
-			showProcessInstances(processInstanceDetails);
-		}
 
+		final List<ProcessInstance> processInstances = controller
+				.getRunningProcessInstancesByUser();
+		final List<ProcessInstanceDetail> processInstanceDetails = new ProcessInstanceDetail()
+				.createProcessInstanceDetails(processInstances);
+		showProcessInstances(processInstanceDetails);
 	}
 
 	private void buildTopNavigation() {
@@ -144,9 +141,14 @@ public class Old_MainView extends Div implements RouterLayout {
 
 	private void buildProcessDefinitions() {
 		cbProcessDefinitions = new ComboBox<>();
+		cbProcessDefinitions.addValueChangeListener(event -> {
+			if (event.getValue() != null) {
+				controller.onProcessInstanceFilterClick("Running");
+			}
+		});
 		cbProcessDefinitions.setWidth("250px");
 		final List<ProcessDefinition> processDefinitions = controller.getProcessDefinitions();
-		if (processDefinitions != null) {
+		if(processDefinitions != null) {
 			cbProcessDefinitions.setItems(processDefinitions);
 			cbProcessDefinitions.setLabel("Process Definitions");
 			cbProcessDefinitions.setItemLabelGenerator(ProcessDefinition::getName);
@@ -157,10 +159,7 @@ public class Old_MainView extends Div implements RouterLayout {
 		btnCreateNewProcessInstance = new Button();
 		btnCreateNewProcessInstance.addClickListener(event -> {
 			final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-			if (processDefinition != null) {
-				controller.onAddNewProcessInstance(processDefinition);
-			}
-
+			controller.onAddNewProcessInstance(processDefinition);
 		});
 		btnCreateNewProcessInstance.setWidth("150px");
 		btnCreateNewProcessInstance.setText("New Instance");
@@ -168,9 +167,7 @@ public class Old_MainView extends Div implements RouterLayout {
 		btnDeleteAllProcessInstances = new Button();
 		btnDeleteAllProcessInstances.addClickListener(event -> {
 			final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-			if (processDefinition != null) {
-				controller.onDeleteAllInstancesClick(processDefinition);
-			}
+			controller.onDeleteAllInstancesClick(processDefinition);
 		});
 		btnDeleteAllProcessInstances.setWidth("120px");
 		btnDeleteAllProcessInstances.setText("Cancel all");
@@ -184,31 +181,22 @@ public class Old_MainView extends Div implements RouterLayout {
 		final Button button1 = new Button();
 		button1.setText("Running");
 		button1.setWidth("120px");
-		button1.addClickListener(event -> {
-			final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-			if (processDefinition != null) {
-				controller.onProcessInstanceFilterClick(processDefinition.getId(), "Running");
-			}
+		button1.addClickListener(event ->{
+			controller.onProcessInstanceFilterClick("Running");
 		});
 
 		final Button button2 = new Button();
 		button2.setText("Complete");
 		button2.setWidth("120px");
 		button2.addClickListener(event -> {
-			final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-			if (processDefinition != null) {
-				controller.onProcessInstanceFilterClick(processDefinition.getId(), "Completed");
-			}
+			controller.onProcessInstanceFilterClick("Completed");
 		});
 
 		final Button button3 = new Button();
 		button3.setText("All");
 		button3.setWidth("50px");
 		button3.addClickListener(event -> {
-			final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-			if (processDefinition != null) {
-				controller.onProcessInstanceFilterClick(processDefinition.getId(), "All");
-			}
+			controller.onProcessInstanceFilterClick("All");
 		});
 
 		horLayoutProcessInstanceFilters.add(button1, button2, button3);
@@ -221,9 +209,9 @@ public class Old_MainView extends Div implements RouterLayout {
 		vertLayoutProcessInstances.setClassName("processInstances");
 	}
 
-	public void showProcessInstances(final List<ProcessInstanceModel> processInstanceDetails) {
+	public void showProcessInstances(final List<ProcessInstanceDetail> processInstanceDetails) {
 		vertLayoutProcessInstances.removeAll();
-		for (final ProcessInstanceModel processInstanceDetail : processInstanceDetails) {
+		for (final ProcessInstanceDetail processInstanceDetail : processInstanceDetails) {
 
 			final HorizontalLayout horizontalLayout1 = new HorizontalLayout();
 			final HorizontalLayout horizontalLayout2 = new HorizontalLayout();
@@ -232,9 +220,10 @@ public class Old_MainView extends Div implements RouterLayout {
 
 			final Label label1 = new Label();
 			if (processInstanceDetail.isEnded()) {
-				label1.setText("Ended On: " + processInstanceDetail.getEndTime().getDate() + ":"
-						+ (processInstanceDetail.getEndTime().getMonth() + 1) + ":"
-						+ (1900 + processInstanceDetail.getEndTime().getYear()));
+				label1.setText(
+						"Ended On: " + processInstanceDetail.getEndTime().getDate() + ":"
+								+ (processInstanceDetail.getEndTime().getMonth() + 1) + ":"
+								+ (1900 + processInstanceDetail.getEndTime().getYear()));
 			} else {
 				label1.setText("Started On: " + processInstanceDetail.getStartTime().getDate() + ":"
 						+ (processInstanceDetail.getStartTime().getMonth() + 1) + ":"
@@ -250,7 +239,7 @@ public class Old_MainView extends Div implements RouterLayout {
 			final Button button = new Button();
 			button.setText(processInstanceDetail.getName());
 			button.addClickListener(event -> {
-				SessionData.getSessionData().setCurrentProcessInstanceModel(processInstanceDetail);
+				SessionData.getSessionData().setCurrentProcessInstancDetail(processInstanceDetail);
 				controller.showProcessDetails(processInstanceDetail);
 			});
 
@@ -260,9 +249,13 @@ public class Old_MainView extends Div implements RouterLayout {
 		}
 	}
 
-	public void showProcessInstanceSummaryView(final ProcessInstanceModel processInstanceDetail) {
+	public Optional<ProcessDefinition> getSelectedProcessDefinition() {
+		return cbProcessDefinitions.getOptionalValue();
+	}
+
+	public void showProcessInstanceSummaryView(final ProcessInstanceDetail processInstanceDetail) {
 		clearDetailsView();
-		final Old_ProcessInstanceSummaryView processInstanceSummaryView = new Old_ProcessInstanceSummaryView(this);
+		final ProcessInstanceSummaryView processInstanceSummaryView = new ProcessInstanceSummaryView(this);
 		processInstanceSummaryView.showProcessInstanceSummary(processInstanceDetail);
 		verticalLayout2.add(processInstanceSummaryView);
 		verticalLayout2.setVisible(true);
@@ -271,7 +264,7 @@ public class Old_MainView extends Div implements RouterLayout {
 
 	public void showActiveTaskView(final Task task) {
 		verticalLayout3.removeAll();
-		final Old_ActiveTaskView activeTaskView = new Old_ActiveTaskView(this);
+		final ActiveTaskView activeTaskView = new ActiveTaskView(this);
 		activeTaskView.showTaskSummary(task);
 		verticalLayout3.add(activeTaskView);
 
@@ -282,7 +275,7 @@ public class Old_MainView extends Div implements RouterLayout {
 
 	public void showHistoricTaskSummaryView(final HistoricTaskInstance historicTaskInstance) {
 		verticalLayout3.removeAll();
-		final Old_HistoricTaskSummaryView taskSummaryView = new Old_HistoricTaskSummaryView(this);
+		final HistoricTaskSummaryView taskSummaryView = new HistoricTaskSummaryView(this);
 		taskSummaryView.showTaskSummary(historicTaskInstance);
 		verticalLayout3.add(taskSummaryView);
 
@@ -290,6 +283,7 @@ public class Old_MainView extends Div implements RouterLayout {
 		verticalLayout3.setVisible(true);
 
 	}
+
 
 	public void hideTaskDetails() {
 		verticalLayout3.removeAll();
@@ -299,15 +293,14 @@ public class Old_MainView extends Div implements RouterLayout {
 	}
 
 	public void resetView() {
-		final ProcessDefinition processDefinition = cbProcessDefinitions.getValue();
-		if (processDefinition != null) {
-			controller.onProcessInstanceFilterClick(processDefinition.getId(), "All");
-		}
+		controller.onProcessInstanceFilterClick("All");
 		clearDetailsView();
 	}
 
 	public void clearDetailsView() {
 		verticalLayout2.removeAll();
 	}
+
+
 
 }
