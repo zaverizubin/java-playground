@@ -18,13 +18,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.nexusglobal.models.SessionData;
 import com.nexusglobal.services.activiti.ActivitiService;
-import com.nexusglobal.services.activiti.ProcessService;
 
 @RunWith(SpringRunner.class)
 public class ActivitiTaskTest {
 
 	private static ActivitiService activitiService;
-	private static ProcessService processDefinitionService;
 	private static String deploymentKey;
 	private static String processDefintionKey;
 	private static List<ProcessDefinition> processDefinitions;
@@ -32,10 +30,9 @@ public class ActivitiTaskTest {
 	@BeforeClass
 	public static void setUp() {
 		activitiService = new ActivitiService();
-		processDefinitionService = new ProcessService(activitiService);
 		deploymentKey = SessionData.getSessionData().getDeploymentKey();
 		processDefintionKey = "incident-investigation-model-1";
-		processDefinitions = processDefinitionService.getProcessDefinitions(deploymentKey);
+		processDefinitions = activitiService.getRepositoryServiceProvider().getProcessDefinitions(deploymentKey);
 
 	}
 
@@ -56,6 +53,7 @@ public class ActivitiTaskTest {
 
 	@Test
 	public void givenProcessIdThenUserTaskCount() {
+
 		final ProcessInstance processInstance = activitiService.getProcessEngine().getRuntimeService()
 				.startProcessInstanceById(processDefinitions.get(0).getId());
 		final List<Task> tasks = activitiService.getProcessEngine().getTaskService().createTaskQuery().active().list();

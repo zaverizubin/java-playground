@@ -10,8 +10,7 @@ import org.activiti.engine.task.Task;
 
 import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.models.SessionData;
-import com.nexusglobal.services.activiti.ProcessService;
-import com.nexusglobal.services.activiti.TaskService;
+import com.nexusglobal.services.activiti.ActivitiService;
 import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.events.ProcessInstanceListClickEvent;
 import com.nexusglobal.ui.events.ProcessInstanceSummaryClickEvent;
@@ -26,8 +25,7 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 	private final ProcessInstanceSummaryViewModel viewModel;
 	private ProcessInstanceSummaryView view;
 
-	private final ProcessService processDefinitionService;
-	private final TaskService processInstanceTaskService;
+	private final ActivitiService activitiService;
 
 
 	public enum ProcessInstanceSummaryActionEnum {
@@ -35,11 +33,9 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 	}
 
 	public ProcessInstanceSummaryPresenter(final ProcessInstanceSummaryViewModel viewModel,
-			final ProcessService processDefinitionService,
-			final TaskService processInstanceTaskService) {
+			final ActivitiService activitiService) {
 		this.viewModel = viewModel;
-		this.processDefinitionService = processDefinitionService;
-		this.processInstanceTaskService = processInstanceTaskService;
+		this.activitiService = activitiService;
 	}
 
 	public void setView(final ProcessInstanceSummaryView view) {
@@ -58,9 +54,11 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 			throw new IllegalArgumentException();
 		}
 		viewModel.setActiveProcessInstanceModel(processInstanceModel);
-		viewModel.setNextTaskList(processInstanceTaskService.getNextTaskForProcessInstance(processInstanceModel));
+		viewModel.setNextTaskList(
+				activitiService.getTaskServiceProvider().getTaskListForProcessInstance(processInstanceModel.getId()));
 		viewModel.setHistoricTaskList(
-				processInstanceTaskService.getCompletedTasksForProcessInstance(processInstanceModel));
+				activitiService.getHistoryServiceProvider()
+				.getCompletedTaskListForProcessInstance(processInstanceModel.getId()));
 		return viewModel;
 	}
 
@@ -92,7 +90,8 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 	}
 
 	private void cancelProcessInstance() {
-		processDefinitionService.cancelProcessInstance(viewModel.getActiveProcessInstanceModel().getId());
+		activitiService.getRuntimeServiceProvider()
+				.deleteProcessInstance(viewModel.getActiveProcessInstanceModel().getId(), "cancelled");
 		final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(
 				ProcessInstanceSummaryActionEnum.Cancel, null, null);
 		publishEvent(event);

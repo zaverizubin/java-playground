@@ -10,7 +10,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 
 import com.nexusglobal.models.ProcessInstanceModel;
 import com.nexusglobal.models.SessionData;
-import com.nexusglobal.services.activiti.ProcessService;
+import com.nexusglobal.services.activiti.ActivitiService;
 import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.events.ProcessDefinitionClickEvent;
 import com.nexusglobal.ui.events.ProcessInstanceListClickEvent;
@@ -24,15 +24,15 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 
 	private final List<Consumer<ProcessInstanceListClickEvent>> clickListeners = new ArrayList<>();
 	private final ProcessInstanceListViewModel viewModel;
-	private final ProcessService processDefinitionService;
+	private final ActivitiService activitiService;
 	private ProcessInstanceListView view;
 
 
 
 	public ProcessInstanceListPresenter(final ProcessInstanceListViewModel viewModel,
-			final ProcessService processDefinitionService) {
+			final ActivitiService activitiService) {
 		this.viewModel = viewModel;
-		this.processDefinitionService = processDefinitionService;
+		this.activitiService = activitiService;
 	}
 
 	public void setView(final ProcessInstanceListView view) {
@@ -47,7 +47,8 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 		if (event.getProcessDefinitionId() == null) {
 			throw new NullPointerException();
 		}
-		processDefinitionService.createNewProcessInstance(event.getProcessDefinitionId(),SessionData.getSessionData().getUserId());
+		activitiService.getRuntimeServiceProvider().createNewProcessInstance(event.getProcessDefinitionId(),
+				SessionData.getSessionData().getUserId());
 		showRunningProcessInstances(event);
 		view.refresh();
 	}
@@ -56,7 +57,7 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 		if (event.getProcessDefinitionId() == null) {
 			throw new NullPointerException();
 		}
-		processDefinitionService.cancelAllProcessInstances(event.getProcessDefinitionId());
+		activitiService.getRuntimeServiceProvider().cancelAllProcessInstances(event.getProcessDefinitionId());
 		showCompletedProcessInstances(event);
 		view.refresh();
 	}
@@ -64,7 +65,9 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 	private void showRunningProcessInstances(final ProcessDefinitionClickEvent event) {
 		List<ProcessInstanceModel> processInstanceModels = null;
 
-		final List<ProcessInstance> processInstances = processDefinitionService.getRunningProcessInstancesByUser(event.getProcessDefinitionId(), SessionData.getSessionData().getUserId());
+		final List<ProcessInstance> processInstances = activitiService.getRuntimeServiceProvider()
+				.getRunningProcessInstancesByUser(event.getProcessDefinitionId(),
+						SessionData.getSessionData().getUserId());
 		processInstanceModels = new ProcessInstanceModel().createProcessInstanceModels(processInstances);
 		viewModel.setProcessInstanceModels(processInstanceModels);
 		view.refresh();
@@ -72,7 +75,7 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 
 	private void showCompletedProcessInstances(final ProcessDefinitionClickEvent event) {
 		List<ProcessInstanceModel> processInstanceModels = null;
-		final List<HistoricProcessInstance> historicalProcessInstances = processDefinitionService
+		final List<HistoricProcessInstance> historicalProcessInstances = activitiService.getHistoryServiceProvider()
 				.getCompletedProcessInstancesByUser(event.getProcessDefinitionId(), SessionData.getSessionData().getUserId());
 		processInstanceModels = new ProcessInstanceModel()
 				.createHistoricProcessInstanceModels(historicalProcessInstances);
@@ -82,10 +85,12 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 
 	private void showAllProcessInstances(final ProcessDefinitionClickEvent event) {
 		List<ProcessInstanceModel> processInstanceModels = null;
-		final List<ProcessInstance> processInstances = processDefinitionService.getRunningProcessInstancesByUser(event.getProcessDefinitionId(),SessionData.getSessionData().getUserId());
+		final List<ProcessInstance> processInstances = activitiService.getRuntimeServiceProvider()
+				.getRunningProcessInstancesByUser(event.getProcessDefinitionId(),
+						SessionData.getSessionData().getUserId());
 
 		processInstanceModels = new ProcessInstanceModel().createProcessInstanceModels(processInstances);
-		final List<HistoricProcessInstance> historicalProcessInstances = processDefinitionService
+		final List<HistoricProcessInstance> historicalProcessInstances = activitiService.getHistoryServiceProvider()
 				.getCompletedProcessInstancesByUser(event.getProcessDefinitionId(), SessionData.getSessionData().getUserId());
 		processInstanceModels
 		.addAll(new ProcessInstanceModel().createHistoricProcessInstanceModels(historicalProcessInstances));

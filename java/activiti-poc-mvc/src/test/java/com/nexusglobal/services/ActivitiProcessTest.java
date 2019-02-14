@@ -17,13 +17,11 @@ import com.nexusglobal.services.activiti.ActivitiService;
 public class ActivitiProcessTest {
 
 	private static ActivitiService activitiService;
-	private static ProcessService processDefinitionService;
 	private static String deploymentKey;
 
 	@BeforeClass
 	public static void setUp() {
 		activitiService = new ActivitiService();
-		processDefinitionService = new ProcessService(activitiService);
 		deploymentKey = SessionData.getSessionData().getDeploymentKey();
 	}
 
@@ -31,7 +29,7 @@ public class ActivitiProcessTest {
 	public void givenDeploymentKeyThenProcessDefinitionCount() {
 		// given
 		// when
-		final List<ProcessDefinition> processDefinitions = processDefinitionService
+		final List<ProcessDefinition> processDefinitions = activitiService.getRepositoryServiceProvider()
 				.getProcessDefinitions(deploymentKey);
 		// then
 		assertEquals(2, processDefinitions.size());

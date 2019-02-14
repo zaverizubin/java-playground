@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.nexusglobal.models.SessionData;
-import com.nexusglobal.services.activiti.ProcessService;
+import com.nexusglobal.services.activiti.ActivitiService;
 import com.nexusglobal.ui.events.ProcessDefinitionClickEvent;
 import com.nexusglobal.ui.events.ProcessDefinitionClickEvent.ProcessDefinitionClickEnum;
 import com.nexusglobal.ui.events.ProcessInstanceSummaryClickEvent;
@@ -24,13 +24,13 @@ public class ProcessDefinitionPresenter implements IClickEventPublisher<ProcessD
 
 	private final List<Consumer<ProcessDefinitionClickEvent>> clickListeners = new ArrayList<>();
 	private final ProcessDefinitionViewModel viewModel;
-	private final ProcessService processDefinitionService;
+	private final ActivitiService activitiService;
 	private ProcessDefinitionView view;
 
 	public ProcessDefinitionPresenter(final ProcessDefinitionViewModel viewModel,
-			final ProcessService processDefinitionService) {
+			final ActivitiService activitiService) {
 		this.viewModel = viewModel;
-		this.processDefinitionService = processDefinitionService;
+		this.activitiService = activitiService;
 		populateViewModel();
 	}
 
@@ -43,8 +43,8 @@ public class ProcessDefinitionPresenter implements IClickEventPublisher<ProcessD
 	}
 
 	private void populateViewModel() {
-		final List<ProcessDefinition> processDefinitions = processDefinitionService
-				.getProcessDefinitions(SessionData.getSessionData().getDeploymentKey());
+		final List<ProcessDefinition> processDefinitions = activitiService.getRepositoryServiceProvider()
+				.getProcessDefinitionsByDeploymentKey(SessionData.getSessionData().getDeploymentKey());
 		viewModel.setProcessDefinitions(processDefinitions);
 	}
 

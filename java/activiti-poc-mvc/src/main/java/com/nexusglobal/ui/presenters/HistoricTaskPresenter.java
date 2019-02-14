@@ -7,8 +7,7 @@ import java.util.function.Consumer;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 
-import com.nexusglobal.services.activiti.ProcessService;
-import com.nexusglobal.services.activiti.TaskService;
+import com.nexusglobal.services.activiti.ActivitiService;
 import com.nexusglobal.ui.common.PrototypeComponent;
 import com.nexusglobal.ui.events.TaskClickEvent;
 import com.nexusglobal.ui.interfaces.IClickEventPublisher;
@@ -21,16 +20,14 @@ public class HistoricTaskPresenter implements IClickEventPublisher<TaskClickEven
 	private final List<Consumer<TaskClickEvent>> clickListeners = new ArrayList<>();
 	private HistoricTaskView view;
 	private final HistoricTaskViewModel viewModel;
-	private final ProcessService processDefinitionService;
-	private final TaskService processInstanceTaskService;
+	private final ActivitiService activitiService;
+
 
 
 	public HistoricTaskPresenter(final HistoricTaskViewModel viewModel,
-			final ProcessService processDefinitionService,
-			final TaskService processInstanceTaskService) {
+			final ActivitiService activitiService) {
 		this.viewModel = viewModel;
-		this.processDefinitionService = processDefinitionService;
-		this.processInstanceTaskService = processInstanceTaskService;
+		this.activitiService = activitiService;
 	}
 
 	public void setView(final HistoricTaskView view) {
@@ -43,7 +40,7 @@ public class HistoricTaskPresenter implements IClickEventPublisher<TaskClickEven
 
 	public void updateViewModel(final HistoricTaskInstance historicTaskInstance) {
 		viewModel.setHistoricTaskInstance(historicTaskInstance);
-		final ProcessDefinition processDefinition = processDefinitionService
+		final ProcessDefinition processDefinition = activitiService.getRepositoryServiceProvider()
 				.getProcessDefinition(historicTaskInstance.getProcessDefinitionId());
 		viewModel.setProcessDefinition(processDefinition);
 		view.refresh();

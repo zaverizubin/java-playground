@@ -14,6 +14,11 @@ public class RuntimeServiceProvider {
 		this.processEngine = processEngine;
 	}
 
+	public void createNewProcessInstance(final String processDefinitionId, final String userId) {
+		final ProcessInstance processInstance = startProcessInstance(processDefinitionId, userId);
+		addUserToProcessInstance(processInstance.getId(), userId);
+	}
+
 	public ProcessInstance startProcessInstance(final String processDefinitionId, final String userId) {
 		ProcessInstance processInstance = null;
 		try {
@@ -27,9 +32,19 @@ public class RuntimeServiceProvider {
 		return processInstance;
 	}
 
+	public void addUserToProcessInstance(final String processInstanceId, final String userId) {
+		processEngine.getRuntimeService().addParticipantUser(processInstanceId, userId);
+	}
+
 	public ProcessInstance getProcessInstance(final String processInstanceId) {
 		return processEngine.getRuntimeService().createProcessInstanceQuery().processInstanceId(processInstanceId)
 				.includeProcessVariables().singleResult();
+	}
+
+	public List<ProcessInstance> getRunningProcessInstances(final String processDefinitionId) {
+		return processEngine.getRuntimeService().createProcessInstanceQuery().active()
+				.processDefinitionId(processDefinitionId).includeProcessVariables().asc()
+				.list();
 	}
 
 	public List<ProcessInstance> getRunningProcessInstancesByUser(final String processDefinitionId,
@@ -39,9 +54,7 @@ public class RuntimeServiceProvider {
 				.orderByProcessDefinitionKey().asc().list();
 	}
 
-	public void addUserToProcessInstance(final String processInstanceId, final String userId) {
-		processEngine.getRuntimeService().addParticipantUser(processInstanceId, userId);
-	}
+
 
 	public List<ProcessInstance> getProcessInstances(final String processDefinitionId) {
 		return processEngine.getRuntimeService().createProcessInstanceQuery().processDefinitionId(processDefinitionId)
@@ -55,6 +68,14 @@ public class RuntimeServiceProvider {
 
 	public void setProcessInstanceVariables(final String processId, final Map<String, ? extends Object> variables) {
 		processEngine.getRuntimeService().setVariables(processId, variables);
+	}
+
+	public void cancelAllProcessInstances(final String processDefinitionId) {
+		List<ProcessInstance> processInstances = null;
+		processInstances = getProcessInstances(processDefinitionId);
+		for (final ProcessInstance processInstance : processInstances) {
+			deleteProcessInstance(processInstance.getId(), null);
+		}
 	}
 
 }
