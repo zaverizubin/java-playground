@@ -22,7 +22,7 @@ import com.nexusglobal.ui.views.ProcessInstanceSummaryView;
 @PrototypeComponent
 public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<ProcessInstanceSummaryClickEvent> {
 
-	private final List<Consumer<ProcessInstanceSummaryClickEvent>> actionListeners = new ArrayList<>();
+	private final List<Consumer<ProcessInstanceSummaryClickEvent>> clickListeners = new ArrayList<>();
 	private final ProcessInstanceSummaryViewModel viewModel;
 	private ProcessInstanceSummaryView view;
 
@@ -31,7 +31,7 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 
 
 	public enum ProcessInstanceSummaryActionEnum {
-		Cancel, Delete, GetActiveTask, GetCompletedTasks
+		Cancel, Delete, GetActiveTask, GetHistoricTasks
 	}
 
 	public ProcessInstanceSummaryPresenter(final ProcessInstanceSummaryViewModel viewModel,
@@ -47,10 +47,11 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 	}
 
 	public ProcessInstanceSummaryViewModel getViewModel() {
+		updateViewModel();
 		return viewModel;
 	}
 
-	public ProcessInstanceSummaryViewModel updateViewModel() {
+	private ProcessInstanceSummaryViewModel updateViewModel() {
 
 		final ProcessInstanceModel processInstanceModel = SessionData.getSessionData().getProcessInstanceModel();
 		if(processInstanceModel == null) {
@@ -77,29 +78,24 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 	}
 
 	public void onActiveTaskClick(final ProcessInstanceSummaryActionEnum action, final Task task) {
-		for (final Consumer<ProcessInstanceSummaryClickEvent> listener : actionListeners) {
-			final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(action,
-					task, null);
-			listener.accept(event);
-		}
+		final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(action, task, null);
+		publishEvent(event);
+
 	}
 
 	public void onHistoricTaskClick(final ProcessInstanceSummaryActionEnum action,
 			final HistoricTaskInstance historicTaskInstance) {
-		for (final Consumer<ProcessInstanceSummaryClickEvent> listener : actionListeners) {
-			final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(action,
-					null, historicTaskInstance);
-			listener.accept(event);
-		}
+		final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(action, null,
+				historicTaskInstance);
+
+		publishEvent(event);
 	}
 
 	private void cancelProcessInstance() {
 		processDefinitionService.cancelProcessInstance(viewModel.getActiveProcessInstanceModel().getId());
-		for (final Consumer<ProcessInstanceSummaryClickEvent> listener : actionListeners) {
-			final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(
-					ProcessInstanceSummaryActionEnum.Cancel, null, null);
-			listener.accept(event);
-		}
+		final ProcessInstanceSummaryClickEvent event = new ProcessInstanceSummaryClickEvent(
+				ProcessInstanceSummaryActionEnum.Cancel, null, null);
+		publishEvent(event);
 		view.clearView();
 	}
 
@@ -109,22 +105,29 @@ public class ProcessInstanceSummaryPresenter implements IClickEventPublisher<Pro
 	}
 
 	public void onProcessInstanceClickEvent(final ProcessInstanceListClickEvent event) {
-		updateViewModel();
 		view.refresh();
 	}
 
 	@Override
-	public void addClickListener(final Consumer<ProcessInstanceSummaryClickEvent> Listener) {
-		if (!actionListeners.contains(Listener)) {
-			actionListeners.add(Listener);
+	public void addClickListener(final Consumer<ProcessInstanceSummaryClickEvent> listener) {
+		if (!clickListeners.contains(listener)) {
+			clickListeners.add(listener);
 		}
 	}
 
 	@Override
-	public void removeClickListener(final Consumer<ProcessInstanceSummaryClickEvent> Listener) {
-		if (actionListeners.contains(Listener)) {
-			actionListeners.remove(Listener);
+	public void removeClickListener(final Consumer<ProcessInstanceSummaryClickEvent> listener) {
+		if (clickListeners.contains(listener)) {
+			clickListeners.remove(listener);
 		}
+	}
+
+	@Override
+	public void publishEvent(final ProcessInstanceSummaryClickEvent event) {
+		for (final Consumer<ProcessInstanceSummaryClickEvent> listener : clickListeners) {
+			listener.accept(event);
+		}
+
 	}
 
 

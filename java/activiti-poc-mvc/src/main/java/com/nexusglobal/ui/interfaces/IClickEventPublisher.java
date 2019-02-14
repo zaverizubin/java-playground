@@ -7,4 +7,6 @@ public interface IClickEventPublisher<T> {
 	public void addClickListener(final Consumer<T> Listener);
 
 	public void removeClickListener(final Consumer<T> Listener);
+
+	public void publishEvent(T event);
 }

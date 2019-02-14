@@ -17,6 +17,7 @@ public class TaskService {
 		this.activitiService = activitiService;
 	}
 
+
 	public List<Task> getNextTaskForProcessInstance(final ProcessInstanceModel processInstanceModel) {
 		return activitiService.getTaskServiceProvider().getTaskListForProcessInstance(processInstanceModel.getId());
 

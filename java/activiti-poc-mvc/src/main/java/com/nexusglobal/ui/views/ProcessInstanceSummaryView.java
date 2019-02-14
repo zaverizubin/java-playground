@@ -38,6 +38,7 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 	}
 
 	private void buildView() {
+		removeAll();
 		buildSummary();
 		showActiveTask();
 		showCompletedTasks();
@@ -159,7 +160,7 @@ public class ProcessInstanceSummaryView extends VerticalLayout {
 				final Button completedTaskButton = new Button();
 				completedTaskButton.setText(historicTaskInstance.getName());
 				completedTaskButton.addClickListener(event -> {
-					presenter.onHistoricTaskClick(ProcessInstanceSummaryActionEnum.GetCompletedTasks,
+					presenter.onHistoricTaskClick(ProcessInstanceSummaryActionEnum.GetHistoricTasks,
 							historicTaskInstance);
 				});
 

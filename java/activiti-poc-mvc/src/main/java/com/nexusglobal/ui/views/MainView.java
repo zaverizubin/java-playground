@@ -28,26 +28,25 @@ public class MainView extends Div  implements RouterLayout {
 	private final  MainPresenter presenter;
 	private final  TopNavigationView topNavigationView;
 	private final  ProcessDefinitionView processDefinitionView;
-	private final  ProcessInstanceListView processInstancesView;
+	private final  ProcessInstanceListView processInstanceListView;
 	private final  ProcessInstanceSummaryView processInstanceSummaryView;
 	private final  ActiveTaskView activeTaskView;
 	private final  HistoricTaskView historicTaskView;
 
 	private VerticalLayout verticalLayout1;
 	private VerticalLayout verticalLayout2;
-	private VerticalLayout verticalLayout3;
-	private VerticalLayout verticalLayout4;
+
 
 	@Autowired
 	public MainView(final MainPresenter presenter, final TopNavigationView topNavigationView,
 			final ProcessDefinitionView processDefinitionView,
-			final ProcessInstanceListView processInstancesView,
+			final ProcessInstanceListView processInstanceListView,
 			final ProcessInstanceSummaryView processInstanceSummaryView,
 			final ActiveTaskView activeTaskView, final HistoricTaskView historicTaskView) {
 		this.presenter = presenter;
 		this.topNavigationView = topNavigationView;
 		this.processDefinitionView = processDefinitionView;
-		this.processInstancesView = processInstancesView;
+		this.processInstanceListView = processInstanceListView;
 		this.processInstanceSummaryView = processInstanceSummaryView;
 		this.activeTaskView = activeTaskView;
 		this.historicTaskView = historicTaskView;
@@ -62,20 +61,12 @@ public class MainView extends Div  implements RouterLayout {
 	public void refresh() {
 		removeAll();
 		buildView();
-		bindEventListeners();
+		presenter.bindEventListeners(processDefinitionView.getPresenter(), processInstanceListView.getPresenter(),
+				processInstanceSummaryView.getPresenter(), activeTaskView.getPresenter(),
+				historicTaskView.getPresenter());
 	}
 
-	private void bindEventListeners() {
-		processDefinitionView.getPresenter()
-		.addClickListener(processInstancesView.getPresenter()::onProcessDefinitionClickEvent);
 
-		processInstancesView.getPresenter()
-		.addClickListener(processInstanceSummaryView.getPresenter()::onProcessInstanceClickEvent);
-
-		processInstanceSummaryView.getPresenter()
-				.addClickListener(processDefinitionView.getPresenter()::onProcessInstanceSummaryClickEvent);
-		processInstanceSummaryView.getPresenter().addClickListener(presenter::onProcessInstanceSummaryClickEvent);
-	}
 
 	private void buildView() {
 
@@ -85,44 +76,40 @@ public class MainView extends Div  implements RouterLayout {
 		verticalLayout2 = new VerticalLayout();
 		verticalLayout2.addClassName("verticalBoxBorder");
 
-		verticalLayout3 = new VerticalLayout();
-		verticalLayout3.addClassName("verticalBoxBorder");
-
-		verticalLayout4 = new VerticalLayout();
-
 		verticalLayout1.setWidth("500px");
 		verticalLayout2.setWidth("800px");
-		verticalLayout3.setWidth("800px");
 
 		verticalLayout1.add(processDefinitionView);
-		verticalLayout1.add(processInstancesView);
+		verticalLayout1.add(processInstanceListView);
 		verticalLayout2.add(processInstanceSummaryView);
-		verticalLayout4.add(verticalLayout2, verticalLayout3);
 
 		final HorizontalLayout horizontalLayout = new HorizontalLayout();
-		horizontalLayout.add(verticalLayout1, verticalLayout4);
+		horizontalLayout.add(verticalLayout1, verticalLayout2);
 
 		add(topNavigationView);
 		add(horizontalLayout);
 	}
 
-	public void showActiveTaskView(final Task task) {
-		verticalLayout3.removeAll();
-		verticalLayout2.setVisible(false);
-		verticalLayout3.setVisible(true);
+	public void clearSummaryView() {
+		verticalLayout2.removeAll();
+	}
 
-		verticalLayout3.add(activeTaskView);
+	public void showProcessInstanceSummaryView() {
+		verticalLayout2.removeAll();
+		verticalLayout2.add(processInstanceSummaryView);
+		processInstanceSummaryView.refresh();
+	}
+
+	public void showActiveTaskView(final Task task) {
+		verticalLayout2.removeAll();
+		verticalLayout2.add(activeTaskView);
 		activeTaskView.getPresenter().updateViewModel(task);
-		activeTaskView.refresh();
 	}
 
 	public void showHistoricTaskSummaryView(final HistoricTaskInstance historicTaskInstance) {
-		verticalLayout3.removeAll();
-		verticalLayout2.setVisible(false);
-		verticalLayout3.setVisible(true);
-
-		verticalLayout3.add(historicTaskView);
+		verticalLayout2.removeAll();
+		verticalLayout2.add(historicTaskView);
 		historicTaskView.getPresenter().updateViewModel(historicTaskInstance);
-		historicTaskView.refresh();
 	}
+
 }

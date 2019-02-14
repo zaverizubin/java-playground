@@ -56,11 +56,10 @@ public class ProcessDefinitionPresenter implements IClickEventPublisher<ProcessD
 		if (viewModel.getActiveProcessDefinition() == null) {
 			return;
 		}
-		for (final Consumer<ProcessDefinitionClickEvent> listener : clickListeners) {
-			final ProcessDefinitionClickEvent event = new ProcessDefinitionClickEvent(action,
-					viewModel.getActiveProcessDefinition().getId());
-			listener.accept(event);
-		}
+		final ProcessDefinitionClickEvent event = new ProcessDefinitionClickEvent(action,
+				viewModel.getActiveProcessDefinition().getId());
+		publishEvent(event);
+
 	}
 
 	public void onProcessInstanceSummaryClickEvent(final ProcessInstanceSummaryClickEvent event) {
@@ -85,6 +84,14 @@ public class ProcessDefinitionPresenter implements IClickEventPublisher<ProcessD
 		if (clickListeners.contains(listener)) {
 			clickListeners.remove(listener);
 		}
+	}
+
+	@Override
+	public void publishEvent(final ProcessDefinitionClickEvent event) {
+		for (final Consumer<ProcessDefinitionClickEvent> listener : clickListeners) {
+			listener.accept(event);
+		}
+
 	}
 
 }

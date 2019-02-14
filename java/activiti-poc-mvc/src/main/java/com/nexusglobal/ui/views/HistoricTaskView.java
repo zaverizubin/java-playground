@@ -29,13 +29,14 @@ public class HistoricTaskView extends VerticalLayout {
 	}
 
 	public void refresh() {
+		removeAll();
 		viewModel = presenter.getViewModel();
 		buildView();
 	}
 
 	private void buildView() {
 		buildTaskInstanceSummaryView();
-
+		showTaskDetails();
 	}
 
 	private void buildTaskInstanceSummaryView() {
@@ -58,8 +59,7 @@ public class HistoricTaskView extends VerticalLayout {
 		final Button button = new Button();
 		button.setText("Back to Process");
 		button.addClickListener(event -> {
-			// todo
-			// parentView.hideTaskDetails();
+			presenter.onBackToProcessClick();
 		});
 
 		final Label assignee = new Label();

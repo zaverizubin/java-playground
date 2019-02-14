@@ -93,14 +93,10 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 		view.refresh();
 	}
 
-	public void onButtonClick(final ProcessInstanceClickEnum action,
-			final ProcessInstanceModel processInstanceModel) {
-
+	public void onButtonClick(final ProcessInstanceClickEnum action, final ProcessInstanceModel processInstanceModel) {
 		SessionData.getSessionData().setProcessInstanceModel(processInstanceModel);
-		for (final Consumer<ProcessInstanceListClickEvent> listener : clickListeners) {
-			final ProcessInstanceListClickEvent event = new ProcessInstanceListClickEvent(action);
-			listener.accept(event);
-		}
+		final ProcessInstanceListClickEvent event = new ProcessInstanceListClickEvent(action);
+		publishEvent(event);
 	}
 
 	public void onProcessDefinitionClickEvent(final ProcessDefinitionClickEvent event) {
@@ -137,6 +133,14 @@ public class ProcessInstanceListPresenter implements IClickEventPublisher<Proces
 		if (clickListeners.contains(listener)) {
 			clickListeners.remove(listener);
 		}
+	}
+
+	@Override
+	public void publishEvent(final ProcessInstanceListClickEvent event) {
+		for (final Consumer<ProcessInstanceListClickEvent> listener : clickListeners) {
+			listener.accept(event);
+		}
+
 	}
 
 }
