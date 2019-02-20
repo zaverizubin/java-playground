@@ -7,6 +7,8 @@
         <!-- enable if you want xml mappings
         <mapping-file>META-INF/orm.xml</mapping-file>
         -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        
         <properties>
             <!-- Configuring JDBC properties -->
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/memorynotfound?serverTimezone=Europe/Brussels"/>

@@ -5,11 +5,11 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.memorynotfound.db.hibernate.testing</groupId>
-    <artifactId>unit-test-jpa-junit-h2</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>HIBERNATE - ${project.artifactId}</name>
+    <groupId>com.playground.hibernate</groupId>
+    <artifactId>unit-test-jpa</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
     <url>http://memorynotfound.com</url>
 
     <properties>
@@ -43,6 +43,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-testing</artifactId>
+		    <version>5.2.2.Final</version>
+		</dependency>
+        <dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.1</version>
@@ -55,8 +60,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.0</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -65,6 +70,12 @@
                 <version>2.19</version>
             </plugin>
         </plugins>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
     </build>
 
 </project>
