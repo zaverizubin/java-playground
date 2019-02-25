@@ -17,7 +17,7 @@ import com.playground.hibernate.entities.Book;
 public class JPBookTest {
 
 	protected static EntityManagerFactory entityManagerFactory() {
-		return Persistence.createEntityManagerFactory("mnf-pu-test");
+		return Persistence.createEntityManagerFactory("test");
 	}
 
 	@BeforeClass
