@@ -1,0 +1,35 @@
+.diagram{
+    float:left;
+    width:100%;
+    height:700px;
+}
+.app-title{
+  padding: 0px 10px;
+  font-size: 28px;
+  border: 0;
+  color:#fff;
+  height:50px;
+  background-color: #8c004b;
+}
+.canvas {
+    float:left;
+    width:83%;
+    height: 100%;
+    background-color: #ccc;
+    margin: 0px 0px;
+    border:1px solid #666;
+}
+.toolbar{
+    float:left;
+    width:250px;
+    height:700px;
+}
+
+.menu-item-button{
+    margin:10px 2px;
+    width:115px;
+}
+.menu-item-button-full{
+    margin:10px 10px;
+    width:230px;
+}
