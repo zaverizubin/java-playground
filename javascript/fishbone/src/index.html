@@ -4,39 +4,42 @@
     <meta charset="UTF-8">
     <title>Cause Mapping Tool</title>
 
-	<script type="text/javascript">mxBasePath = '';</script>
-
-    <link rel="stylesheet" href="css/common.css" type="text/css" />
+    <script type="text/javascript">mxBasePath = '';</script>
+<link rel="stylesheet" href="css/common.css" type="text/css" />
     <link rel="stylesheet" href="css/explorer.css" type="text/css" />
-    <link rel="stylesheet" href="css/metro-all.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css" type="text/css" />
     <link rel="stylesheet" href="css/app.css" type="text/css" />
     
 </head>
 
 <body style="background-color: #E5E4E5;" >
-<div class="diagram">
+<div class="app">
     <div class="app-title"><span>Fishbone Diagram<span></div> 
-    <div class="">        
-        <ul class="sidenav-m3 toolbar h-auto">
-        <li class="title">Tools Menu</li>
-        <li class="active">
-            <a class="dropdown-toggle" href="#"><span class="mif-home icon"></span>Build Tools</a>
-            <ul class="d-menu"  data-role="dropdown" style="display: none;">
-                <li><button class="button dark small menu-item-button">Add Cause</button>
-                    <button class="button dark small menu-item-button">Delete Cause</button>
-                </li>
-                <li><button class="button dark small menu-item-button">Add Detail</button>
-                    <button class="button dark small menu-item-button">Delete Detail</button>
-                </li>
-                <li><button class="button dark small menu-item-button">Add Sub Detail</button>
-                    <button class="button dark small menu-item-button">Delete Sub Detail</button>
-                </li>
-            </ul>
-        </li>
-        <li class="stick-right" >
-            <a class="dropdown-toggle" href="#"><span class="mif-cog icon"></span>Fonts and Styles</a>
-            <div data-role="dropdown" style="display: none;">
-                <select data-role="select" data-filter="false" data-prepend="Font Size">
+    
+    <div class="toolbar">
+        
+        <h3>Tools Menu</h3>
+        <div class="tools-menu">
+          <div class="tools-menu-item">
+            <button id="add-cause" class="ui-button ui-widget ui-corner-all">Add Cause</button>
+            <button id="delete-cause" class="ui-button ui-widget ui-corner-all">Delete Cause</button>
+          </div>
+          <div class="tools-menu-item">
+            <button id="add-detail" class="ui-button ui-widget ui-corner-all">Add Detail</button>
+            <button id="delete-detail" class="ui-button ui-widget ui-corner-all">Delete Detail</button>
+          </div>
+            <div class="tools-menu-item">
+            <button id="add-sub-detail" class="ui-button ui-widget ui-corner-all">Add Sub Detail</button>
+            <button id="delete-sub-detail" class="ui-button ui-widget ui-corner-all">Delete Sub Detail</button>
+          </div>
+        </div>
+        
+        <h3>Fonts and Styles</h3>
+        <div class="font-styles">
+            <label for="font-size">Font size</label>
+            <div class="tools-menu-item">
+                <select name="font-size" class="font-size">
                     <option value="8">8px</option>
                     <option value="10">10px</option>
                     <option value="12">12px</option>
@@ -49,50 +52,60 @@
                     <option value="26">26px</option>
                     <option value="28">28px</option>
                 </select>
-                <select data-role="select" data-filter="false" data-prepend="Font Face">
+            </div>
+            <label for="font-face">Font face</label>
+            <div class="tools-menu-item">
+                <select name="font-face" class="font-face">
                     <option value="Arial">Arial</option>
                     <option value="Calibri">Calibri</option>
                     <option value="Georgia">Georgia</option>
                     <option value="Lucida Sans">Lucida Sans</option>
                     <option value="Verdana">Verdana</option>
-                </select>
-                <input type="checkbox" data-role="checkbox" data-caption="Bold">
-                <input type="checkbox" data-role="checkbox" data-caption="Italic">
-
+                </select> 
             </div>
-        </li>
-        <li class="stick-left">
-            <a class="dropdown-toggle" href="#"><span class="mif-tree icon"></span>Settings</a>
-            <ul class="d-menu"  data-role="dropdown" style="display: none;">
-                <li >
-                    <button class="button dark small menu-item-button-full">Reset Zoom</button>
-                </li>
-                <li>
-                    <button class="button dark small menu-item-button-full">Save Diagram</button>
-                </li>
-                <li>
-                    <button class="button dark small menu-item-button-full">Load Diagram</button>
-                </li>
-                <li>
-                    <button class="button dark small menu-item-button-full">Convert Diagram</button>
-                </li>
-                <li>
-                    <button class="button dark small menu-item-button-full">Settings</button>
-                </li>
-            </ul>
-        </li>
-        </ul> 
+            <label >Font Style</label>
+            <div class="tools-menu-item">
+                <label for="checkbox-bold">Bold</label>
+                <input type="checkbox" name="checkbox-bold" id="checkbox-bold">
+                <label for="checkbox-italic">Italic</label>
+                <input type="checkbox" name="checkbox-italic" id="checkbox-italic">
+            </div>
+            <div class="tools-menu-item"> 
+                <button class="ui-button ui-widget ui-corner-all apply-button">Apply</button>
+            </div>
+        </div>
+        
+        <h3>Settings</h3>
+        <div class="settings">
+            <div class="tools-menu-item">
+                <button class="ui-button ui-widget ui-corner-all">Reset Zoom</button>
+            </div>
+            <div class="tools-menu-item">
+                <button class="ui-button ui-widget ui-corner-all">Save Diagram</button>
+            </div>
+            <div class="tools-menu-item">
+                <button class="ui-button ui-widget ui-corner-all">Load Diagram</button>
+            </div>
+            <div class="tools-menu-item">
+                <button class="ui-button ui-widget ui-corner-all">Convert Diagram</button>
+            </div>
+            <div class="tools-menu-item">
+                <button class="ui-button ui-widget ui-corner-all">Settings</button>
+            </div>
+        </div>
     </div>
+  
     <div class="canvas"></div>
 </div>
 
     
     <script type="text/javascript" src="lib/mxClient.js"></script>
-    <script type="text/javascript" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="lib/metro.min.js"></script>
+    <script type="text/javascript" src="js/canvas.js"></script>
+    <script type="text/javascript" src="js/toolbar.js"></script>
     <script type="text/javascript" src="js/centerBone.js"></script>
-    <script type="text/javascript" src="js/sideBone.js"></script>
+    <script type="text/javascript" src="js/lateralBone.js"></script>
     <script type="text/javascript" src="js/auxillaryBone.js"></script>
     <script type="text/javascript" src="app.js"></script>
 </body>

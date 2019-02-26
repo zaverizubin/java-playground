@@ -1,12 +1,8 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 function App(graphElement){
-    this.graph;
-    this.centerBone;
+    
+    this.canvas;
+    
+    this.toolbar;
     
     (function(){
         if (!mxClient.isBrowserSupported())
@@ -15,15 +11,18 @@ function App(graphElement){
             return;
         }
 			
-        mxEvent.disableContextMenu(graphElement);
-        this.graph = new mxGraph(graphElement);
-        this.centerBone = new CenterBone(this.graph);
-        this.centerBone.init();
+        this.canvas = new Canvas();
+        this.canvas.init(graphElement);
+        this.toolbar = new Toolbar(this.canvas);
+        this.toolbar.init();
+        
     }).call(this);
     
-    this.getCenterBone =function(){
-        return this.centerBone;
+    this.getCanvas =function(){
+        return this.canvas;
     };
+    
+    
 }
 $(document).ready(function() {
     new App($(".canvas")[0]);
