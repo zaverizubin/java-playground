@@ -2,13 +2,13 @@ function CenterBone (graph) {
  
     this.graph = graph;
     
-    this.mainVertex;
+    this.vertex;
     
-    this.mainEdge;
+    this.edge;
     
     this.parent = this.graph.getDefaultParent();
     
-    this.lateralBones = [];
+    this.sideBones = [];
     
     this.canvasWidth;
     
@@ -16,7 +16,7 @@ function CenterBone (graph) {
     
     this.spacerH = 20;
     
-    this.spacerV = 150;
+    this.spacerV = 250;
     
     this.vertexWidth = 150;
     
@@ -33,6 +33,8 @@ function CenterBone (graph) {
     this.edgeInitialY;
     
     
+    
+    
     this.init = function (canvasWidth, canvasHeight) {
         this.canvasWidth = canvasWidth;
         this.canvasHeight = canvasHeight;
@@ -45,7 +47,7 @@ function CenterBone (graph) {
         try
         {
             this.buildBone();
-            this.graph.fireEvent(new mxEventObject('cellsInserted', 'cells', [this.mainEdge]));
+            this.graph.fireEvent(new mxEventObject('cellsInserted', 'cells', [this.edge]));
         }
         finally
         {
@@ -55,29 +57,40 @@ function CenterBone (graph) {
     
     
     this.buildBone = function(){
-        this.mainVertex = this.graph.insertVertex(this.parent, null, 'Hello World!', 
-                                                    this.vertexInitialX, this.vertexInitialY, this.vertexWidth, this.vertexHeight);
+        this.buildVertex();
+        this.buildEdge();
+    };
+    
+    this.buildVertex = function(){
+        this.vertex = this.graph.insertVertex(this.parent, null, 'Hello World!', 
+                                                    this.vertexInitialX, this.vertexInitialY, 
+                                                    this.vertexWidth, this.vertexHeight, 
+                                                    Constants.VERTEX_STYLE);
+    };
+    
+    this.buildEdge = function(){
         var geometry = new mxGeometry();
         geometry.sourcePoint = new mxPoint(this.edgeInitialX, this.edgeInitialY)
-        this.mainEdge = new mxCell('', geometry, 'curved=1;endArrow=classic;html=1;strokeWidth=3');
-        this.mainEdge.geometry.relative = true;
-        this.mainEdge.edge = true;
-        this.mainEdge.target = this.mainVertex;
-        this.graph.addCell(this.mainEdge);
+        var cell = new mxCell('', geometry, Constants.CENTERBONE_EDGE_STYLE);
+        cell.geometry.relative = true;
+        cell.edge = true;
+        cell.target = this.vertex;
+        this.edge = cell;
+        this.graph.addCell(cell);
     }
     
     this.moveVertexToRight = function (){
-        this.graph.resizeCell(this.mainVertex, new mxRectangle(this.mainVertex.geometry.x + this.vertexIncrementX,
-                                                    this.mainVertex.geometry.y,
-                                                    this.mainVertex.geometry.width,
-                                                    this.mainVertex.geometry.height));
+        this.graph.resizeCell(this.vertex, new mxRectangle(this.vertex.geometry.x + this.vertexIncrementX,
+                                                    this.vertex.geometry.y,
+                                                    this.vertex.geometry.width,
+                                                    this.vertex.geometry.height));
     };
     
     this.moveVertexToLeft = function (){
-        this.graph.resizeCell(this.mainVertex, new mxRectangle(this.mainVertex.geometry.x - this.vertexIncrementX,
-                                                       this. mainVertex.geometry.y,
-                                                        this.mainVertex.geometry.width,
-                                                        this.mainVertex.geometry.height));
+        this.graph.resizeCell(this.vertex, new mxRectangle(this.vertex.geometry.x - this.vertexIncrementX,
+                                                       this. vertex.geometry.y,
+                                                        this.vertex.geometry.width,
+                                                        this.vertex.geometry.height));
     };
     
     this.addLateralBone = function(){
@@ -85,7 +98,7 @@ function CenterBone (graph) {
         try
         {
             this.buildLateralBone();
-            if(this.lateralBones.length > 2 && this.lateralBones.length % 2 !== 0){
+            if(this.sideBones.length > 2 && this.sideBones.length % 2 !== 0){
                 this.moveVertexToRight();	
             }
         }
@@ -109,17 +122,17 @@ function CenterBone (graph) {
     
     this.buildLateralBone = function(){
         var x; var y;
-        x = (this.lateralBones.length % 2 === 0)? 
-                    this.edgeInitialX + (this.lateralBones.length/2)*(this.vertexWidth +  this.spacerH)
-                    : this.lateralBones[this.lateralBones.length-1].getVertex().getGeometry().x;
+        x = (this.sideBones.length % 2 === 0)? 
+                    this.edgeInitialX + (this.sideBones.length/2)*(this.vertexWidth +  this.spacerH)
+                    : this.sideBones[this.sideBones.length-1].getVertex().getGeometry().x;
         
-        y = (this.lateralBones.length % 2 === 0)?
+        y = (this.sideBones.length % 2 === 0)?
             this.edgeInitialY - this.spacerV - this.vertexHeight/2
-            : this.edgeInitialY + this.spacerV - this.vertexHeight/2
+            : this.edgeInitialY + this.spacerV - this.vertexHeight/2;
         
-        var lateralBone = new LateralBone(this.graph);
-        var id = this.lateralBones.length+1;
-        lateralBone.init(id, x, y);
-        this.lateralBones.push(lateralBone);
+        var sideBone = new SideBone(this.graph);
+        var id = this.sideBones.length+1;
+        sideBone.init(id, x, y, this.edge);
+        this.sideBones.push(sideBone);
     };
 }

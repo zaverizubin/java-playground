@@ -33,6 +33,7 @@ body{
     background-color: #ccc;
     margin: 0px 0px;
     border:1px solid #666;
+    overflow:auto;
 }
 
 .ui-accordion .ui-accordion-header-active{
