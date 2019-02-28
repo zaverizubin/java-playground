@@ -19,13 +19,16 @@ function Toolbar (canvas) {
         $( ".font-size" ).selectmenu({width: 220});
         $( ".font-face" ).selectmenu({width: 220 });
         $("input").checkboxradio();
-    }
+    };
     
     this.attachEventListeners = function(){
         var canvas = this.canvas;
         $("#add-cause").click(function(){
             canvas.onAddCauseClick();
         });
-    }
+        $("#delete-cause").click(function(){
+            canvas.onDeleteCauseClick();
+        });
+    };
 }
 

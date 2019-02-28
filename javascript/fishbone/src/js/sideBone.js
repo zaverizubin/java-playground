@@ -19,6 +19,8 @@ function SideBone (graph) {
    
    this.vertexHeight = 50;
    
+   this.edgeSlope = 75;
+   
    this.init = function (id, x, y, targetEdge) {
         this.id = id;
         this.vertexX = x;
@@ -43,22 +45,43 @@ function SideBone (graph) {
    };
    
    this.buildVertex = function(){
-       this.vertex = this.graph.insertVertex(this.parent, "v_" + this.id, 'Cause-' + this.id,
+        this.vertex = this.graph.insertVertex(this.parent, "v_" + this.id, 'Cause-' + this.id,
                                              this.vertexX, this.vertexY,
-                                             this.vertexWidth, this.vertexHeight, Constants.VERTEX_STYLE);
+                                             this.vertexWidth, this.vertexHeight, Constants.SIDEBONE_VERTEX_STYLE);
    }
    
    this.buildEdge = function(){
        var geometry = new mxGeometry();
-        geometry.targetPoint = new mxPoint(this.vertexX+ this.vertexWidth/2 + 50,  this.targetEdge.getGeometry().sourcePoint.y)
+        geometry.targetPoint = new mxPoint(this.vertexX+ this.vertexWidth/2 + this.edgeSlope,  this.targetEdge.getGeometry().sourcePoint.y)
         
-        var cell = new mxCell('', geometry, Constants.OTHERBONE_EDGE_STYLE);
+        var cell = new mxCell('', geometry, Constants.SIDEBONE_EDGE_STYLE);
         cell.geometry.relative = true;
         cell.edge = true;
         cell.source = this.vertex;
         this.edge = cell;
         
         this.graph.addCell(cell);
+   }
+   
+   this.delete = function(){
+       this.graph.removeCells([this.vertex]);
+   }
+   
+   this.isSelected = function(){
+       return this.graph.isCellSelected(this.vertex);
+   };
+   
+   this.isAboveCenterBone = function(){
+       return this.vertex.getGeometry().y <  this.targetEdge.getGeometry().sourcePoint.y;
+   };
+   
+   this.isRightOfBone = function(sideBone){
+      return this.vertex.getGeometry().x > sideBone.getVertex().getGeometry().x;
+   }
+   
+   this.moveToLeft = function(dx){
+       //this.graph.moveCells(this.graph.getChildCells(null, true, true), 10, 10);
+        this.graph.moveCells([this.vertex, this.edge], -dx, 0);
    }
    
    this.getVertex = function(){
