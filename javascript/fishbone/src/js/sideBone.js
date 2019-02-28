@@ -45,7 +45,8 @@ function SideBone (graph) {
    };
    
    this.buildVertex = function(){
-        this.vertex = this.graph.insertVertex(this.parent, "v_" + this.id, 'Cause-' + this.id,
+        var id = this.id;
+        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Cause-' + id},isCenterVertex:false},
                                              this.vertexX, this.vertexY,
                                              this.vertexWidth, this.vertexHeight, Constants.SIDEBONE_VERTEX_STYLE);
    }
@@ -77,12 +78,11 @@ function SideBone (graph) {
    
    this.isRightOfBone = function(sideBone){
       return this.vertex.getGeometry().x > sideBone.getVertex().getGeometry().x;
-   }
+   };
    
    this.moveToLeft = function(dx){
-       //this.graph.moveCells(this.graph.getChildCells(null, true, true), 10, 10);
-        this.graph.moveCells([this.vertex, this.edge], -dx, 0);
-   }
+       this.graph.moveCells([this.vertex, this.edge], -dx, 0);
+   };
    
    this.getVertex = function(){
        return this.vertex;

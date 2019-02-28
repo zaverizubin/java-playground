@@ -16,8 +16,8 @@ function Toolbar (canvas) {
                 activeHeader: "ui-icon-circle-minus"
               }
         });
-        $( ".font-size" ).selectmenu({width: 220});
-        $( ".font-face" ).selectmenu({width: 220 });
+        $(".font-size").selectmenu({width: 220});
+        $(".font-family").selectmenu({width: 220 });
         $("input").checkboxradio();
     };
     
@@ -29,6 +29,16 @@ function Toolbar (canvas) {
         $("#delete-cause").click(function(){
             canvas.onDeleteCauseClick();
         });
+        $("#apply-font-attributes").click(function(){
+            var fontAttributes = {
+                fontFamily:$("#font-family").children("option:selected").val(),
+                fontSize:$("#font-size").children("option:selected").val(),
+                fontBold:$("#checkbox-bold").is(':checked'),
+                fontItalic:$("#checkbox-italic").is(':checked')
+            }
+            canvas.onFontAttributesClick(fontAttributes);
+        });
+        
     };
 }
 

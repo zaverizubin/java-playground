@@ -35,6 +35,10 @@ function Canvas (graph) {
         this.centerBone.deleteSideBone();
     };
     
+    this.onFontAttributesClick = function(fontAttributes){
+        this.applyFontAttributes(fontAttributes);
+    }
+    
     this.mxGraphConfiguration = function(){
         mxGraph.prototype.isCellSelectable = function(cell)
         {
@@ -52,6 +56,35 @@ function Canvas (graph) {
     this.buildCenterBone = function(){
         this.centerBone = new CenterBone(this.graph);
         this.centerBone.init(this.canvasWidth, this.canvasHeight);
-    }
+    };
+    
+    this.applyFontAttributes = function(fontAttributes){
+        this.graph.getModel().beginUpdate();
+        var graph = this.graph;
+        try
+        {
+            var cells = this.graph.getSelectionCells();
+            if(cells.length == 0){
+                alert(Messages.SELECT_ONE_OR_MORE_SHAPE);
+                return;
+            }
+            cells.forEach(function(cell) {
+                if(cell.isVertex){
+                    var fontStyleValue=0;
+                    if(fontAttributes.fontBold) fontStyleValue+=1;
+                    if(fontAttributes.fontItalic) fontStyleValue+=2;
+                    var style = "fontFamily=" + fontAttributes.fontFamily + ";" 
+                                + "fontSize=" + fontAttributes.fontSize + ";"
+                                + "fontStyle=" + fontStyleValue + ";";
+                    style = cell.getStyle() + style;    
+                    graph.setCellStyle(style,[cell]);
+                };
+            });
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    };
 }
 

@@ -61,7 +61,7 @@ function CenterBone (graph) {
     };
     
     this.buildVertex = function(){
-        this.vertex = this.graph.insertVertex(this.parent, null, 'Hello World!', 
+        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Main Cause'},isCenterVertex:true}, 
                                                     this.vertexInitialX, this.vertexInitialY, 
                                                     this.vertexWidth, this.vertexHeight, 
                                                     Constants.CENTERBONE_VERTEX_STYLE);
@@ -116,7 +116,6 @@ function CenterBone (graph) {
             if(this.moveVertexRequired()){
                 this.moveVertex(false);     
             }
-            
         }
         finally
         {
