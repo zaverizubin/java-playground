@@ -61,7 +61,7 @@ function CenterBone (graph) {
     };
     
     this.buildVertex = function(){
-        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Main Cause'},isCenterVertex:true}, 
+        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Main Cause'},cellType:Constants.CENTERBONE_VERTEX}, 
                                                     this.vertexInitialX, this.vertexInitialY, 
                                                     this.vertexWidth, this.vertexHeight, 
                                                     Constants.CENTERBONE_VERTEX_STYLE);
@@ -74,6 +74,7 @@ function CenterBone (graph) {
         cell.geometry.relative = true;
         cell.edge = true;
         cell.target = this.vertex;
+        cell.value = {toString:function(){return ''},cellType:Constants.CENTERBONE_EDGE};
         this.edge = cell;
         this.graph.addCell(cell);
     };
@@ -184,4 +185,8 @@ function CenterBone (graph) {
         return maxBones < this.vertextMoveCount;
         
     };
+    
+    this.getVertex = function(){
+       return this.vertex;
+   };
 }

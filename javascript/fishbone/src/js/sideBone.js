@@ -46,7 +46,7 @@ function SideBone (graph) {
    
    this.buildVertex = function(){
         var id = this.id;
-        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Cause-' + id},isCenterVertex:false},
+        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Cause-' + id},cellType:Constants.SIDEBONE_VERTEX},
                                              this.vertexX, this.vertexY,
                                              this.vertexWidth, this.vertexHeight, Constants.SIDEBONE_VERTEX_STYLE);
    }
@@ -59,8 +59,8 @@ function SideBone (graph) {
         cell.geometry.relative = true;
         cell.edge = true;
         cell.source = this.vertex;
+        cell.value = {toString:function(){return ''},cellType:Constants.SIDEBONE_EDGE};
         this.edge = cell;
-        
         this.graph.addCell(cell);
    }
    
@@ -86,6 +86,10 @@ function SideBone (graph) {
    
    this.getVertex = function(){
        return this.vertex;
+   };
+   
+   this.getEdge = function(){
+       return this.edge;
    };
 }
 

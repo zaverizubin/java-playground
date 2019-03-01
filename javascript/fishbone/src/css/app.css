@@ -26,7 +26,7 @@ body{
     border:1px solid #666;
 }
 .canvas {
-    position: absolute;
+    position: relative;
     left:250px;    
     width:1220px;
     height: 700px;
@@ -110,3 +110,45 @@ body{
     height:50px;
     text-align: center;
 }
+
+.properties-window .colorbox{
+    border:1px solid #666;
+    width:20px;
+    height:20px;
+}
+
+div.minimalistBlack {
+  border: 1px solid #666;
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+.divTable.minimalistBlack .divTableCell, .divTable.minimalistBlack .divTableHead {
+  border: 1px solid #666;
+  padding: 5px 4px;
+}
+.divTable.minimalistBlack .divTableBody .divTableCell {
+  font-size: 13px;
+  vertical-align: middle;
+}
+.divTable.minimalistBlack .divTableHeading {
+  background: #CFCFCF;
+  background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+  border-bottom: 2px solid #666;
+}
+.divTable.minimalistBlack .divTableHeading .divTableHead {
+  font-size: 15px;
+  color: #000000;
+  text-align: left;
+}
+
+/* DivTable.com */
+.divTable{ display: table; }
+.divTableRow { display: table-row; }
+.divTableHeading { display: table-header-group;}
+.divTableCell, .divTableHead { display: table-cell;}
+.divTableHeading { display: table-header-group;}
+.divTableFoot { display: table-footer-group;}
+.divTableBody { display: table-row-group;}

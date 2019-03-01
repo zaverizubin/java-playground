@@ -44,7 +44,7 @@
                 <select id ="font-size-select" name="font-size-select" class="font-size-select">
                     <option value="8">8px</option>
                     <option value="10">10px</option>
-                    <option value="12">12px</option>
+                    <option value="12" selected>12px</option>
                     <option value="14">14px</option>
                     <option value="16">16px</option>
                     <option value="18">18px</option>
@@ -58,7 +58,7 @@
             <div class="font-face">
                 <label for="font-family"><b>Font Face:</b></label>
                 <select id ="font-family-select" name="font-family-select" class="font-family-select">
-                    <option value="Arial">Arial</option>
+                    <option value="Arial" selected>Arial</option>
                     <option value="Calibri">Dialog</option>
                     <option value="Verdana">Verdana</option>
                     <option value="Georgia">Times New Roman</option>
@@ -85,7 +85,7 @@
             <div class="tools-menu-item">
                 <label><b>Stroke Width:</b></label>
                 <select id ="stroke-width-select" name="stroke-width" class="stroke-width-select">
-                    <option value="1">1px</option>
+                    <option value="1" selected>1px</option>
                     <option value="2">2px</option>
                     <option value="3">3px</option>
                     <option value="4">4px</option>
@@ -139,11 +139,60 @@
                 <button class="ui-button ui-widget ui-corner-all">Convert to Cause Map</button>
             </div>
             <div class="tools-menu-item">
-                <button class="ui-button ui-widget ui-corner-all">Properties</button>
+                <button id="properties" class="ui-button ui-widget ui-corner-all">Properties</button>
             </div>
         </div>
     </div>
-  
+                
+    <div id="properties-window" title="Properties" class="properties-window">
+        <div class="divTable minimalistBlack">
+            <div class="divTableHeading">
+                <div class="divTableRow">
+                    <div class="divTableHead">Property</div>
+                    <div class="divTableHead">Value</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div class="divTableRow">
+                    <div class="divTableCell">x-location</div>
+                    <div class="divTableCell" id="x-location"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">y-location</div>
+                    <div class="divTableCell" id="y-location"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">width</div>
+                    <div class="divTableCell" id="width"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">height</div>
+                    <div class="divTableCell" id="height"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">font size</div>
+                    <div class="divTableCell" id="font-size"></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">font color</div>
+                    <div class="divTableCell" id="font-color"><div class="colorbox"></div></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">stroke color</div>
+                    <div class="divTableCell" id="stroke-color"><div class="colorbox"></div></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">fill color</div>
+                    <div class="divTableCell" id="fill-color"><div class="colorbox"></div></div>
+                </div>
+                <div class="divTableRow">
+                    <div class="divTableCell">stroke width</div>
+                    <div class="divTableCell" id="stroke-width"></div>
+                </div>
+            </div>
+        </div>  
+    </div>   
+                
     <div class="canvas"></div>
 </div>
 

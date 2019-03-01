@@ -22,7 +22,10 @@ function Toolbar (canvas) {
             create: function( event, ui ) {
                $("#custom-handle").text(0); 
             }
-          });
+        });
+        $("#properties-window").dialog();
+        $("#properties-window").dialog("option", "position", { my: "left", at: "center center", of: $(".app") } );
+        $("#properties-window").dialog("close");
     };
         
     
@@ -48,18 +51,10 @@ function Toolbar (canvas) {
             color: "#c8c8e6", allowEmpty: true
         })
         
+        var toolbar = this;
         $("#apply-font-attributes").click(function(){
-            var fontAttributes = {
-                fontFamily:$("#font-family-select").children("option:selected").val(),
-                fontSize:$("#font-size-select").children("option:selected").val(),
-                fontBold:$("#checkbox-bold").is(':checked'),
-                fontItalic:$("#checkbox-italic").is(':checked'),
-                fontColor:$("#fontColorPicker").spectrum('get').toHexString(),
-                strokeWidth:$("#stroke-width-select").children("option:selected").val(),
-                strokeColor:$("#strokeColorPicker").spectrum('get').toHexString(),
-                fillColor:$("#fillColorPicker").spectrum('get').toHexString()
-            }
-            canvas.onFontAttributesClick(fontAttributes);
+            var styleAttributes = toolbar.getStyleAttributes();
+            canvas.onStyleAttributesClick(styleAttributes);
         });
        
         $("#slider").on("slide", function(event, ui) {
@@ -69,13 +64,26 @@ function Toolbar (canvas) {
         $("#slider").on("slidechange", function(event,ui) {
             $("#custom-handle").text(ui.value);
         });
-        
-        
         $("#reset-zoom").click(function(){
             $("#slider").slider("value",0);
             canvas.onZoomReset();
         });
+        $("#properties").click(function(){
+            canvas.onPropertiesWindowOpen();
+        });
         
+        this.getStyleAttributes = function(){
+            return {
+                fontFamily:$("#font-family-select").children("option:selected").val(),
+                fontSize:$("#font-size-select").children("option:selected").val(),
+                fontBold:$("#checkbox-bold").is(':checked'),
+                fontItalic:$("#checkbox-italic").is(':checked'),
+                fontColor:$("#fontColorPicker").spectrum('get').toHexString(),
+                strokeWidth:$("#stroke-width-select").children("option:selected").val(),
+                strokeColor:$("#strokeColorPicker").spectrum('get').toHexString(),
+                fillColor:$("#fillColorPicker").spectrum('get').toHexString()
+            };
+        }
     };
 }
 
