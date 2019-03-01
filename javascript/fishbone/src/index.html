@@ -5,10 +5,11 @@
     <title>Cause Mapping Tool</title>
 
     <script type="text/javascript">mxBasePath = '';</script>
-<link rel="stylesheet" href="css/common.css" type="text/css" />
+    <link rel="stylesheet" href="css/common.css" type="text/css" />
     <link rel="stylesheet" href="css/explorer.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery-ui.theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/spectrum.css" type="text/css" />
     <link rel="stylesheet" href="css/app.css" type="text/css" />
     
 </head>
@@ -37,9 +38,10 @@
         
         <h3>Fonts and Styles</h3>
         <div class="font-styles">
-            <label for="font-size">Font size</label>
-            <div class="tools-menu-item">
-                <select id ="font-size" name="font-size" class="font-size">
+            <div class = "tools-menu-item">
+            <div class=" font-size">
+                <label for="font-size"><b>Font Size:</b></label>    
+                <select id ="font-size-select" name="font-size-select" class="font-size-select">
                     <option value="8">8px</option>
                     <option value="10">10px</option>
                     <option value="12">12px</option>
@@ -53,21 +55,63 @@
                     <option value="28">28px</option>
                 </select>
             </div>
-            <label for="font-family">Font face</label>
-            <div class="tools-menu-item">
-                <select id ="font-family" name="font-family" class="font-family">
+            <div class="font-face">
+                <label for="font-family"><b>Font Face:</b></label>
+                <select id ="font-family-select" name="font-family-select" class="font-family-select">
                     <option value="Arial">Arial</option>
                     <option value="Calibri">Dialog</option>
                     <option value="Verdana">Verdana</option>
                     <option value="Georgia">Times New Roman</option>
                   </select> 
             </div>
-            <label >Font Style</label>
+            </div>
             <div class="tools-menu-item">
+                <label><b>Font Style:</b></label>
                 <label for="checkbox-bold"><b>Bold</b></label>
                 <input type="checkbox" name="checkbox-bold" id="checkbox-bold">
                 <label for="checkbox-italic"><i>Italic</i></label>
                 <input type="checkbox" name="checkbox-italic" id="checkbox-italic">
+            </div>
+            <div class="tools-menu-item">
+                <div class="fontColor">
+                    <div class="fontColorLabel">
+                        <label><b>Color:&nbsp;</b></label>
+                    </div>
+                    <div>
+                        <input title="Click to pick color" type='text' id="fontColorPicker"/>
+                    </div>
+                </div>
+            </div>
+            <div class="tools-menu-item">
+                <label><b>Stroke Width:</b></label>
+                <select id ="stroke-width-select" name="stroke-width" class="stroke-width-select">
+                    <option value="1">1px</option>
+                    <option value="2">2px</option>
+                    <option value="3">3px</option>
+                    <option value="4">4px</option>
+                    <option value="5">5px</option>
+                    <option value="6">6px</option>
+                    <option value="7">7px</option>
+                    <option value="8">8px</option>
+                </select>
+            </div>
+            <div class="tools-menu-item">
+                <div class="strokeColor">
+                    <div class="strokeColorLabel">
+                        <label><b>Stroke:&nbsp;</b></label>
+                    </div>
+                    <div>
+                        <input title="Click for color" type='text' id="strokeColorPicker"/>
+                    </div>
+                </div>
+                <div  class="fillColor">
+                    <div class="fillColorLabel">
+                        <label><b>Fill:&nbsp;</b></label>
+                    </div>
+                    <div>
+                         <input title="Click for color" type='text' id="fillColorPicker"/>
+                    </div>
+                </div>
             </div>
             <div class="tools-menu-item"> 
                 <button id ="apply-font-attributes" class="ui-button ui-widget ui-corner-all apply-button">Apply</button>
@@ -77,7 +121,13 @@
         <h3>Settings</h3>
         <div class="settings">
             <div class="tools-menu-item">
-                <button class="ui-button ui-widget ui-corner-all">Reset Zoom</button>
+                <label for="slider">Canvas Zoom</label>
+                <div id="slider" class="slider">
+                    <div id="custom-handle" class="ui-slider-handle"></div>
+                </div>
+            </div>    
+            <div class="tools-menu-item">
+                <button id="reset-zoom" class="ui-button ui-widget ui-corner-all">Reset Zoom</button>
             </div>
             <div class="tools-menu-item">
                 <button class="ui-button ui-widget ui-corner-all">Save Diagram</button>
@@ -86,10 +136,10 @@
                 <button class="ui-button ui-widget ui-corner-all">Load Diagram</button>
             </div>
             <div class="tools-menu-item">
-                <button class="ui-button ui-widget ui-corner-all">Convert Diagram</button>
+                <button class="ui-button ui-widget ui-corner-all">Convert to Cause Map</button>
             </div>
             <div class="tools-menu-item">
-                <button class="ui-button ui-widget ui-corner-all">Settings</button>
+                <button class="ui-button ui-widget ui-corner-all">Properties</button>
             </div>
         </div>
     </div>
@@ -101,6 +151,7 @@
     <script type="text/javascript" src="lib/mxClient.js"></script>
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="lib/spectrum.js"></script>
     <script type="text/javascript" src="js/canvas.js"></script>
     <script type="text/javascript" src="js/toolbar.js"></script>
     <script type="text/javascript" src="js/centerBone.js"></script>

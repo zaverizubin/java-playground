@@ -37,7 +37,15 @@ function Canvas (graph) {
     
     this.onFontAttributesClick = function(fontAttributes){
         this.applyFontAttributes(fontAttributes);
-    }
+    };
+    
+    this.onZoomChange = function(value){
+        this.graph.zoomTo(1 + (value/100), false);
+    };
+    
+    this.onZoomReset = function(){
+        this.graph.zoomActual();
+    };
     
     this.mxGraphConfiguration = function(){
         mxGraph.prototype.isCellSelectable = function(cell)
@@ -64,21 +72,23 @@ function Canvas (graph) {
         try
         {
             var cells = this.graph.getSelectionCells();
-            if(cells.length == 0){
+            if(cells.length === 0){
                 alert(Messages.SELECT_ONE_OR_MORE_SHAPE);
                 return;
             }
             cells.forEach(function(cell) {
-                if(cell.isVertex){
-                    var fontStyleValue=0;
+                 var fontStyleValue=0;
                     if(fontAttributes.fontBold) fontStyleValue+=1;
                     if(fontAttributes.fontItalic) fontStyleValue+=2;
                     var style = "fontFamily=" + fontAttributes.fontFamily + ";" 
                                 + "fontSize=" + fontAttributes.fontSize + ";"
-                                + "fontStyle=" + fontStyleValue + ";";
+                                + "fontStyle=" + fontStyleValue + ";"
+                                + "fontColor=" + fontAttributes.fontColor + ";"
+                                + "strokeWidth=" + fontAttributes.strokeWidth + ";"
+                                + "strokeColor=" + fontAttributes.strokeColor + ";"
+                                + "fillColor=" + fontAttributes.fillColor + ";";
                     style = cell.getStyle() + style;    
                     graph.setCellStyle(style,[cell]);
-                };
             });
         }
         finally
