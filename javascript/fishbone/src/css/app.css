@@ -4,31 +4,27 @@ body{
 }
 
 .app{
-    width:100%;
-    height:100%;
+    width:1400px;
+    height:800px;
 }
 .app-title{
-  padding: 10px 10px;
-  font-size: 28px;
-  border: 0;
-  color:#fff;
-  width:1450px;
-  height:30px;
-  border:1px solid #824ba0;
-  background-color: #824ba0;
+    padding: 10px 0px;
+    font-size: 28px;
+    color:#fff;
+    width:1400px;
+    height:30px;
+    background-color: #824ba0;
 }
 .toolbar{
-    position: absolute;
-    left:0px;
-    width:250px;
-    height:700px;
+    float: left;
+    width: 250px;
+    height: 700px;
     background-color: #fff;
-    border:1px solid #666;
+    border: 1px solid #666;
 }
 .canvas {
-    position: relative;
-    left:250px;    
-    width:1220px;
+    float: left;
+    width: 1146px;
     height: 700px;
     background-color: #ccc;
     margin: 0px 0px;
@@ -64,7 +60,7 @@ body{
    font-size: 0.8em; 
 }
 
-.font-styles .apply-button {
+.font-styles .apply-button, .font-styles .reset-button {
    width: 220px; 
 }
 
@@ -72,7 +68,7 @@ body{
   font-size: 0.8em; 
 }
 
-.font-styles .font-size, .font-styles .font-face{
+.font-styles .font-size, .font-styles .font-family{
     width:100px;
     float:left;
     margin:0px 5px 0px 0px;

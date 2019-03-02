@@ -1,32 +1,22 @@
-function SideBone (graph) {
-   this.graph = graph;
+function SideBone (canvas) {
    
-   this.parent = this.graph.getDefaultParent();
-   
-   this.vertex;
-   
-   this.edge;
+   BaseBone.call(this, canvas);
    
    this.targetEdge;
-   
-   this.id;
    
    this.vertexX;
    
    this.vertexY;
    
-   this.vertexWidth = 100;
-   
-   this.vertexHeight = 50;
-   
    this.edgeSlope = 75;
    
    this.init = function (id, x, y, targetEdge) {
+        BaseBone.prototype.init.call(this);
         this.id = id;
         this.vertexX = x;
         this.vertexY = y;
         this.targetEdge = targetEdge;
-        
+
         this.graph.getModel().beginUpdate();
         try
         {
@@ -42,18 +32,24 @@ function SideBone (graph) {
    this.buildBone = function (){
         this.buildVertex();
         this.buildEdge();
+        this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
+        this.applyCellStyle(this.edge, this.canvas.getToolbar().getStyleAttributes());
    };
    
    this.buildVertex = function(){
         var id = this.id;
-        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Cause-' + id},cellType:Constants.SIDEBONE_VERTEX},
-                                             this.vertexX, this.vertexY,
-                                             this.vertexWidth, this.vertexHeight, Constants.SIDEBONE_VERTEX_STYLE);
+        this.vertex = this.graph.insertVertex(this.parent, null, 
+                                            {toString:function(){return 'Cause-' + id},cellType:Constants.SIDEBONE_VERTEX},
+                                            this.vertexX, this.vertexY,
+                                            this.vertexWidth,
+                                            this.vertexHeight,
+                                            Constants.SIDEBONE_VERTEX_STYLE);
    }
    
    this.buildEdge = function(){
        var geometry = new mxGeometry();
-        geometry.targetPoint = new mxPoint(this.vertexX+ this.vertexWidth/2 + this.edgeSlope,  this.targetEdge.getGeometry().sourcePoint.y)
+        geometry.targetPoint = new mxPoint(this.vertexX + this.vertexWidth/2 + this.edgeSlope,
+                                            this.targetEdge.getGeometry().sourcePoint.y);
         
         var cell = new mxCell('', geometry, Constants.SIDEBONE_EDGE_STYLE);
         cell.geometry.relative = true;
@@ -62,18 +58,18 @@ function SideBone (graph) {
         cell.value = {toString:function(){return ''},cellType:Constants.SIDEBONE_EDGE};
         this.edge = cell;
         this.graph.addCell(cell);
-   }
+   };
    
    this.delete = function(){
        this.graph.removeCells([this.vertex]);
-   }
+   };
    
    this.isSelected = function(){
        return this.graph.isCellSelected(this.vertex);
    };
    
    this.isAboveCenterBone = function(){
-       return this.vertex.getGeometry().y <  this.targetEdge.getGeometry().sourcePoint.y;
+       return this.vertex.getGeometry().y < this.targetEdge.getGeometry().sourcePoint.y;
    };
    
    this.isRightOfBone = function(sideBone){
@@ -92,4 +88,6 @@ function SideBone (graph) {
        return this.edge;
    };
 }
+
+SideBone.prototype = Object.create(BaseBone.prototype);
 

@@ -1,26 +1,10 @@
-function CenterBone (graph) {
- 
-    this.graph = graph;
+function CenterBone (canvas) {
     
-    this.vertex;
-    
-    this.edge;
-    
-    this.parent = this.graph.getDefaultParent();
-    
-    this.sideBones = [];
-    
-    this.canvasWidth;
-    
-    this.canvasHeight;
-    
+    BaseBone.call(this, canvas);
+        
     this.spacerH = 20;
     
     this.spacerV = 250;
-    
-    this.vertexWidth = 150;
-    
-    this.vertexHeight = 50;
     
     this.vertexInitialX = 150;
     
@@ -34,9 +18,8 @@ function CenterBone (graph) {
     
     this.vertextMoveCount = 0;
     
-    this.init = function (canvasWidth, canvasHeight) {
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
+    this.init = function () {
+        BaseBone.prototype.init.call(this);
         
         this.vertexInitialY = (this.canvasHeight/2) - (this.vertexHeight/2);
         this.edgeInitialY = (this.canvasHeight/2);
@@ -53,18 +36,20 @@ function CenterBone (graph) {
             this.graph.getModel().endUpdate();
         }
     };
-    
-    
+        
     this.buildBone = function(){
         this.buildVertex();
         this.buildEdge();
+        this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
+        this.applyCellStyle(this.edge, this.canvas.getToolbar().getStyleAttributes());
     };
     
     this.buildVertex = function(){
-        this.vertex = this.graph.insertVertex(this.parent, null, {toString:function(){return 'Main Cause'},cellType:Constants.CENTERBONE_VERTEX}, 
-                                                    this.vertexInitialX, this.vertexInitialY, 
-                                                    this.vertexWidth, this.vertexHeight, 
-                                                    Constants.CENTERBONE_VERTEX_STYLE);
+        this.vertex = this.graph.insertVertex(this.parent, null,
+                                            {toString:function(){return 'Main Cause'},cellType:Constants.CENTERBONE_VERTEX}, 
+                                            this.vertexInitialX, this.vertexInitialY, 
+                                            this.vertexWidth, this.vertexHeight, 
+                                            Constants.CENTERBONE_VERTEX_STYLE);
     };
     
     this.buildEdge = function(){
@@ -79,11 +64,10 @@ function CenterBone (graph) {
         this.graph.addCell(cell);
     };
     
-        
     this.moveVertex = function (moveToRight){
         this.vertextMoveCount = moveToRight? this.vertextMoveCount + 1 : this.vertextMoveCount-1;
         moveToRight ?  this.graph.moveCells([this.vertex], this.vertexIncrementX, 0):
-                this.graph.moveCells([this.vertex], -this.vertexIncrementX, 0)
+                this.graph.moveCells([this.vertex], -this.vertexIncrementX, 0);
     };
     
     this.addSideBone = function(){
@@ -91,7 +75,7 @@ function CenterBone (graph) {
         try
         {
             this.buildSideBone();
-            if(this.sideBones.length % 2 !== 0){
+            if(this.childBones.length % 2 !== 0){
                 this.moveVertex(true);	
             };
         }
@@ -112,7 +96,7 @@ function CenterBone (graph) {
         try
         {
             selectedSideBone.delete();
-            Utils.removeFromArray(this.sideBones, selectedSideBone);
+            Utils.removeFromArray(this.childBones, selectedSideBone);
             this.moveSideBones(selectedSideBone);
             if(this.moveVertexRequired()){
                 this.moveVertex(false);     
@@ -123,27 +107,26 @@ function CenterBone (graph) {
            this.graph.getModel().endUpdate();
         }
     };
-       
         
     this.buildSideBone = function(){
         var x; var y;
-        x = (this.sideBones.length % 2 === 0)? 
-                    this.edgeInitialX + (this.sideBones.length/2)*(this.vertexIncrementX)
-                    : this.edgeInitialX + ((this.sideBones.length-1)/2)*(this.vertexIncrementX);
+        x = (this.childBones.length % 2 === 0)? 
+                    this.edgeInitialX + (this.childBones.length/2)*(this.vertexIncrementX)
+                    : this.edgeInitialX + ((this.childBones.length-1)/2)*(this.vertexIncrementX);
         
-        y = (this.sideBones.length % 2 === 0)?
+        y = (this.childBones.length % 2 === 0)?
             this.edgeInitialY - this.spacerV - this.vertexHeight/2
             : this.edgeInitialY + this.spacerV - this.vertexHeight/2;
         
-        var sideBone = new SideBone(this.graph);
-        var id = this.sideBones.length+1;
+        var sideBone = new SideBone(this.canvas);
+        var id = this.childBones.length+1;
         sideBone.init(id, x, y, this.edge);
-        this.sideBones.push(sideBone);
+        this.childBones.push(sideBone);
     };
     
     this.getSelectedSideBone = function(){
         var selectedBones = [];
-        this.sideBones.forEach(function(sideBone) {
+        this.childBones.forEach(function(sideBone) {
             if(sideBone.isSelected()){
                 selectedBones.push(sideBone);
             }
@@ -157,7 +140,7 @@ function CenterBone (graph) {
     
     this.moveSideBones = function(selectedSideBone){
         var dx = this.vertexIncrementX;
-        this.sideBones.forEach(function(sideBone) {
+        this.childBones.forEach(function(sideBone) {
             if(selectedSideBone.isAboveCenterBone()){
                 if(sideBone.isAboveCenterBone() && sideBone.isRightOfBone(selectedSideBone)){
                     sideBone.moveToLeft(dx);
@@ -173,7 +156,7 @@ function CenterBone (graph) {
     
     this.moveVertexRequired = function(){
         var topBones = 0; var bottomBones = 0;
-        this.sideBones.forEach(function(sideBone) {
+        this.childBones.forEach(function(sideBone) {
              if(sideBone.isAboveCenterBone()){
                 topBones += 1; 
              }else{
@@ -188,5 +171,7 @@ function CenterBone (graph) {
     
     this.getVertex = function(){
        return this.vertex;
-   };
-}
+    };
+};
+
+CenterBone.prototype = Object.create(BaseBone.prototype);

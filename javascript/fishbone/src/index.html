@@ -55,11 +55,11 @@
                     <option value="28">28px</option>
                 </select>
             </div>
-            <div class="font-face">
+            <div class="font-family">
                 <label for="font-family"><b>Font Face:</b></label>
                 <select id ="font-family-select" name="font-family-select" class="font-family-select">
                     <option value="Arial" selected>Arial</option>
-                    <option value="Calibri">Dialog</option>
+                    <option value="Calibri">Calibri</option>
                     <option value="Verdana">Verdana</option>
                     <option value="Georgia">Times New Roman</option>
                   </select> 
@@ -85,8 +85,8 @@
             <div class="tools-menu-item">
                 <label><b>Stroke Width:</b></label>
                 <select id ="stroke-width-select" name="stroke-width" class="stroke-width-select">
-                    <option value="1" selected>1px</option>
-                    <option value="2">2px</option>
+                    <option value="1">1px</option>
+                    <option value="2" selected>2px</option>
                     <option value="3">3px</option>
                     <option value="4">4px</option>
                     <option value="5">5px</option>
@@ -114,7 +114,10 @@
                 </div>
             </div>
             <div class="tools-menu-item"> 
-                <button id ="apply-font-attributes" class="ui-button ui-widget ui-corner-all apply-button">Apply</button>
+                <button id ="apply-font-styles" class="ui-button ui-widget ui-corner-all apply-button">Apply</button>
+            </div>
+            <div class="tools-menu-item"> 
+                <button id ="reset-font-styles" class="ui-button ui-widget ui-corner-all reset-button">Reset</button>
             </div>
         </div>
         
@@ -203,6 +206,7 @@
     <script type="text/javascript" src="lib/spectrum.js"></script>
     <script type="text/javascript" src="js/canvas.js"></script>
     <script type="text/javascript" src="js/toolbar.js"></script>
+    <script type="text/javascript" src="js/baseBone.js"></script>
     <script type="text/javascript" src="js/centerBone.js"></script>
     <script type="text/javascript" src="js/sideBone.js"></script>
     <script type="text/javascript" src="js/auxillaryBone.js"></script>

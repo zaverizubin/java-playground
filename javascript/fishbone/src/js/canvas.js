@@ -1,8 +1,8 @@
-function Canvas (graph) {
+function Canvas () {
     
-    this.graph = graph;
+    this.toolbar;
     
-    this.toolbar = toolbar;
+    this.graph;
     
     this.centerBone;
     
@@ -12,9 +12,13 @@ function Canvas (graph) {
     
     this.init = function (graphElement, toolbar) {
         this.toolbar = toolbar;
-        this.mxGraphConfiguration();
+        this.mxGraphConfigure();
         this.buildGraph(graphElement);
         this.buildCenterBone();
+    };
+    
+    this.getToolbar =function(){
+        return this.toolbar;
     };
     
     this.getCanvasWidth =function(){
@@ -53,7 +57,7 @@ function Canvas (graph) {
         this.graph.zoomActual();
     };
     
-    this.mxGraphConfiguration = function(){
+    this.mxGraphConfigure = function(){
         mxGraph.prototype.isCellSelectable = function(cell)
         {
             var state = this.view.getState(cell);
@@ -68,9 +72,8 @@ function Canvas (graph) {
     };
     
     this.buildCenterBone = function(){
-        this.centerBone = new CenterBone(this.graph);
-        this.centerBone.init(this.canvasWidth, this.canvasHeight);
-        this.applyCellStyle(this.centerBone.getVertex(), this.toolbar.getStyleAttributes());
+        this.centerBone = new CenterBone(this);
+        this.centerBone.init();
     };
     
     this.applyStyleAttributes = function(styleAttributes){
@@ -83,46 +86,13 @@ function Canvas (graph) {
                 alert(Messages.SELECT_ONE_OR_MORE_SHAPE);
                 return;
             };
-            var me = this;
-            cells.forEach(function(cell) {
-                 me.applyCellStyle(cell, styleAttributes);
-            });
+            this.centerBone.applyStyles(styleAttributes);
         }
         finally
         {
            this.graph.getModel().endUpdate();
         }
     };
-    
-    this.applyCellStyle = function(cell, styleAttributes){
-        var fontStyleValue=0;
-        if(styleAttributes.fontBold) fontStyleValue+=1;
-        if(styleAttributes.fontItalic) fontStyleValue+=2;
-        var style = "fontFamily=" + styleAttributes.fontFamily + ";" 
-                    + "fontSize=" + styleAttributes.fontSize + ";"
-                    + "fontStyle=" + fontStyleValue + ";"
-                    + "fontColor=" + styleAttributes.fontColor + ";"
-                    + "strokeWidth=" + styleAttributes.strokeWidth + ";"
-                    + "strokeColor=" + styleAttributes.strokeColor + ";"
-                    + "fillColor=" + styleAttributes.fillColor + ";";
-        var defaultStyle = "";
-        switch(cell.getValue().cellType){
-            case Constants.CENTERBONE_VERTEX:
-                defaultStyle = Constants.CENTERBONE_VERTEX_STYLE;
-                break;
-            case Constants.SIDEBONE_VERTEX:
-                defaultStyle = Constants.SIDEBONE_VERTEX;
-                break;
-            case Constants.CENTERBONE_EDGE:
-                defaultStyle = Constants.CENTERBONE_EDGE;
-                break;
-            case Constants.SIDEBONE_EDGE:
-                defaultStyle = Constants.SIDEBONE_EDGE;
-                break;
-        }
-        style = defaultStyle + style;    
-        this.graph.setCellStyle(style,[cell]);
-    }
     
     this.onPropertiesWindowOpen = function(){
         var cells = this.graph.getSelectionCells();
