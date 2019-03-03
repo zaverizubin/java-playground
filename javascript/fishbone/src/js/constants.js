@@ -12,6 +12,6 @@ Constants.CENTERBONE_VERTEX_STYLE = 'movable=0;resizable=1;';
 
 Constants.CENTERBONE_EDGE_STYLE = 'curved=1;endArrow=classic;html=1;movable=0;resizable=0;selectable=1;';
 
-Constants.SIDEBONE_VERTEX_STYLE = 'movable=0;resizable=1;';
+Constants.SIDEBONE_VERTEX_STYLE = 'movable=0;resizable=1;shape=ellipse;';
 
 Constants.SIDEBONE_EDGE_STYLE = 'endArrow=classic;html=1;movable=0;resizable=0;selectable=1;';

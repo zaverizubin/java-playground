@@ -23,6 +23,7 @@ function Toolbar () {
         $("#stroke-width-select").selectmenu({width: 100});
         $("#checkbox-bold").checkboxradio();
         $("#checkbox-italic").checkboxradio();
+        $("#checkbox-underline").checkboxradio();
         $("#slider").slider({
             create: function(event, ui) {
                $("#custom-handle").text(0); 
@@ -92,6 +93,7 @@ function Toolbar () {
         $("#font-size-select").val(this.defaultStyles.fontSize).selectmenu("refresh");
         $("#checkbox-bold").prop('checked', this.defaultStyles.fontBold).checkboxradio( "refresh" );
         $("#checkbox-italic").prop('checked', this.defaultStyles.fontItalic).checkboxradio( "refresh" );
+        $("#checkbox-underline").prop('checked', this.defaultStyles.fontItalic).checkboxradio( "refresh" );
         $("#stroke-width-select").val(this.defaultStyles.strokeWidth).selectmenu("refresh");
         $("#fontColorPicker").spectrum({
             color: "#000", allowEmpty: true
@@ -112,6 +114,7 @@ function Toolbar () {
             fontSize: $("#font-size-select").children("option:selected").val(),
             fontBold: $("#checkbox-bold").is(':checked'),
             fontItalic: $("#checkbox-italic").is(':checked'),
+            fontUnderline: $("#checkbox-underline").is(':checked'),
             fontColor: $("#fontColorPicker").spectrum('get').toHexString(),
             strokeWidth: $("#stroke-width-select").children("option:selected").val(),
             strokeColor: $("#strokeColorPicker").spectrum('get').toHexString(),

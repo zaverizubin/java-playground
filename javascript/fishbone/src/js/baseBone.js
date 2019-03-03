@@ -51,6 +51,7 @@ BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
     var fontStyleValue=0;
     if(styleAttributes.fontBold) fontStyleValue+=1;
     if(styleAttributes.fontItalic) fontStyleValue+=2;
+    if(styleAttributes.fontUnderline) fontStyleValue+=4;
     var style = "fontFamily=" + styleAttributes.fontFamily + ";" 
                 + "fontSize=" + styleAttributes.fontSize + ";"
                 + "fontStyle=" + fontStyleValue + ";"
