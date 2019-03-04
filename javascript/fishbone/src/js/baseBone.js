@@ -33,6 +33,12 @@ BaseBone.prototype.init = function(){
         
 };
 
+BaseBone.prototype.sortChildBones = function(){
+    this.childBones.sort(function (childBone1, childBone2) {
+        return childBone1.getVertex().getValue().id - childBone2.getVertex().getValue().id;
+    });
+};
+
 BaseBone.prototype.applyStyles = function(styleAttributes){
     if(this.vertex !== null && this.graph.getSelectionModel().isSelected(this.vertex)){
         this.applyCellStyle(this.vertex, styleAttributes);
@@ -44,8 +50,6 @@ BaseBone.prototype.applyStyles = function(styleAttributes){
         childBone.applyStyles(styleAttributes);
     });
 };
-
-
 
 BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
     var fontStyleValue=0;

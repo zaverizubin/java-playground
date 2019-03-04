@@ -39,7 +39,7 @@ function SideBone (canvas) {
    this.buildVertex = function(){
         var id = this.id;
         this.vertex = this.graph.insertVertex(this.parent, null, 
-                                            {toString:function(){return 'Cause-' + id},cellType:Constants.SIDEBONE_VERTEX},
+                                            {toString:function(){return 'Cause-' + id},cellType:Constants.SIDEBONE_VERTEX, id:id},
                                             this.vertexX, this.vertexY,
                                             this.vertexWidth,
                                             this.vertexHeight,
@@ -69,15 +69,16 @@ function SideBone (canvas) {
    };
    
    this.isAboveCenterBone = function(){
-       return this.vertex.getGeometry().y < this.targetEdge.getGeometry().sourcePoint.y;
+       return this.vertex.getValue().id %2 !== 0;
    };
    
    this.isRightOfBone = function(sideBone){
-      return this.vertex.getGeometry().x > sideBone.getVertex().getGeometry().x;
+        return this.vertex.getValue().id > sideBone.getVertex().getValue().id;
    };
    
    this.moveToLeft = function(dx){
        this.graph.moveCells([this.vertex, this.edge], -dx, 0);
+       this.vertex.getValue().id = this.vertex.getValue().id-2;
    };
    
    this.getVertex = function(){
