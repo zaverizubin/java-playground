@@ -39,18 +39,6 @@ BaseBone.prototype.sortChildBones = function(){
     });
 };
 
-BaseBone.prototype.applyStyles = function(styleAttributes){
-    if(this.vertex !== null && this.graph.getSelectionModel().isSelected(this.vertex)){
-        this.applyCellStyle(this.vertex, styleAttributes);
-    };
-    if(this.edge !== null  && this.graph.getSelectionModel().isSelected(this.edge)){
-        this.applyCellStyle(this.edge, styleAttributes);
-    };
-    this.childBones.forEach(function(childBone) {
-        childBone.applyStyles(styleAttributes);
-    });
-};
-
 BaseBone.prototype.reset = function(){
     var geometry = new mxGeometry(this.vertex.getGeometry().x,
                                   this.vertex.getGeometry().y,
@@ -61,6 +49,18 @@ BaseBone.prototype.reset = function(){
     this.childBones.forEach(function(childBone) {
         childBone.reset();
     }); 
+};
+
+BaseBone.prototype.applyStyles = function(styleAttributes){
+    if(this.vertex !== null && this.graph.getSelectionModel().isSelected(this.vertex)){
+        this.applyCellStyle(this.vertex, styleAttributes);
+    };
+    if(this.edge !== null  && this.graph.getSelectionModel().isSelected(this.edge)){
+        this.applyCellStyle(this.edge, styleAttributes);
+    };
+    this.childBones.forEach(function(childBone) {
+        childBone.applyStyles(styleAttributes);
+    });
 };
 
 BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
@@ -93,3 +93,4 @@ BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
     style = defaultStyle + style;    
     this.graph.setCellStyle(style,[cell]);
 };
+

@@ -8,3 +8,9 @@ Utils.removeFromArray = function(arr, object){
         } 
     };
 };
+
+Utils.showAlertDialog = function(text){
+    $("#alert-window").dialog({title: "Alert", width: 400});
+    $("#alert-window").dialog("open");
+    $("#alert-content").text(text);
+};

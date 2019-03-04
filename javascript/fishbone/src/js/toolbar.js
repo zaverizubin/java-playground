@@ -10,8 +10,7 @@ function Toolbar () {
         this.attachEventListeners();
         this.defaultStyles = this.getStyleAttributes(); 
     };
-    
-    
+        
     this.styleJQueryWidgets = function(){
         $(".toolbar").accordion({
             heightStyle: "content",
@@ -33,7 +32,6 @@ function Toolbar () {
         $("#properties-window").dialog("option", "position", { my: "left", at: "center center", of: $(".app") } );
         $("#properties-window").dialog("close");
     };
-        
     
     this.attachEventListeners = function(){
         var canvas = this.canvas;
@@ -121,5 +119,7 @@ function Toolbar () {
             fillColor: $("#fillColorPicker").spectrum('get').toHexString()
         };
     }
+
+    
 }
 

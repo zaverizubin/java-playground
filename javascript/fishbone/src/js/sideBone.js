@@ -81,6 +81,13 @@ function SideBone (canvas) {
        this.vertex.getValue().id = this.vertex.getValue().id-2;
    };
    
+   this.flipBone = function(){
+    var geometry = this.vertex.getGeometry();
+                                      
+    geometry.y =  - this.vertex.getGeometry().y;
+    this.graph.getModel().setGeometry(this.vertex, geometry);
+};
+   
    this.getVertex = function(){
        return this.vertex;
    };

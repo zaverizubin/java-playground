@@ -80,12 +80,14 @@ function CenterBone (canvas) {
         var selectedSideBones = this.getSelectedSideBones();
         
         if(selectedSideBones.length === 0){
+            Utils.showAlertDialog(Messages.DELETE_SELECT_SINGLE_SHAPE);
             return;
         };
         
         this.graph.getModel().beginUpdate();
         try
-        {   for(var i=0;i<selectedSideBones.length;i++){
+        {   
+            for(var i=0;i<selectedSideBones.length;i++){
                 selectedSideBones[i].delete();
                 Utils.removeFromArray(this.childBones, selectedSideBones[i]);
                 this.moveSideBonesOnDelete(selectedSideBones[i]);
@@ -130,10 +132,7 @@ function CenterBone (canvas) {
                 selectedBones.push(sideBone);
             }
         });
-        if(selectedBones.length ===0){
-            alert(Messages.DELETE_SELECT_SINGLE_SHAPE);
-            return null;
-        }
+        
         return selectedBones;
     };
     
@@ -182,12 +181,45 @@ function CenterBone (canvas) {
                                       this.vertex.getGeometry().width, 
                                       this.vertex.getGeometry().height);
        
-        this.graph.getModel().setGeometry(this.vertex,geometry);
-   };
+        this.graph.getModel().setGeometry(this.vertex, geometry);
+    };
+    
+    this.flipSelectedBone = function (cell){
+        if(cell.getValue().cellType ===  Constants.SIDEBONE_VERTEX){
+            for(var i = 0; i < this.childBones.length; i++) {
+                var childbone = this.childBones[i];
+                if(childbone.getVertex() !== cell){
+                    if(childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id - 1){
+                        Utils.showAlertDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
+                        return;
+                    }else if(!childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id + 1){
+                        Utils.showAlertDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
+                        return;
+                    };
+                };
+            };
+        };
+        
+        for(var i = 0; i < this.childBones.length; i++) {
+            if(this.childBones[i].getVertex() === cell){
+                try
+                {
+                  this.childBones[i].flipBone();
+                  return;
+                }
+                finally
+                {
+                   this.graph.getModel().endUpdate();
+                }
+            };
+        };
+    };
+    
     
     this.getVertex = function(){
        return this.vertex;
     };
-};
+
+}
 
 CenterBone.prototype = Object.create(BaseBone.prototype);

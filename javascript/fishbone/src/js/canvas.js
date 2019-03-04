@@ -4,6 +4,10 @@ function Canvas () {
     
     this.graph;
     
+    this.graphListeners;
+    
+    this.graphConfiguration;
+    
     this.centerBone;
     
     this.canvasWidth = 1220;
@@ -12,8 +16,9 @@ function Canvas () {
     
     this.init = function (graphElement, toolbar) {
         this.toolbar = toolbar;
-        this.mxGraphConfigure();
+        this.graphConfiguration = new GraphConfiguration(graphElement);
         this.buildGraph(graphElement);
+        this.graphConfiguration.init(this.graph, this);
         this.buildCenterBone();
     };
     
@@ -53,7 +58,6 @@ function Canvas () {
         this.applyStyleAttributes(styleAttributes, true);
     };
     
-    
     this.onZoomChange = function(value){
         this.graph.zoomTo(1 + (value/100), false);
     };
@@ -62,15 +66,27 @@ function Canvas () {
         this.graph.zoomActual();
     };
     
-    this.mxGraphConfigure = function(){
-        mxGraph.prototype.isCellSelectable = function(cell)
-        {
-            var state = this.view.getState(cell);
-            var style = (state !== null) ? state.style : this.getCellStyle(cell);
-
-          return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
+    this.onSwapClick = function(){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length !== 2 ){
+            Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE);
+            return;
+        };
+        cells.forEach(function(cell){
+            if(cell.isEdge() || cell.getValue().cellType === Constants.CENTERBONE_VERTEX){
+               Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE); 
+            }
+        });
+    };
+    
+    this.onFlipClick = function(){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length !== 1 || cells[0].getValue().cellType !== Constants.SIDEBONE_VERTEX){
+            Utils.showAlertDialog(Messages.VERTEX_FLIP_SELECT_SHAPE);
+            return;
         };
         
+        this.centerBone.flipSelectedBone(cells[0]);
     };
     
     this.buildGraph = function(graphElement){
@@ -85,7 +101,7 @@ function Canvas () {
     this.applyStyleAttributes = function(styleAttributes, isReset){
         var cells = this.graph.getSelectionCells();
         if(cells.length === 0){
-            alert(Messages.SELECT_ONE_OR_MORE_SHAPE);
+            Utils.showAlertDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
             return;
         };
             
@@ -107,7 +123,7 @@ function Canvas () {
     this.onPropertiesWindowOpen = function(){
         var cells = this.graph.getSelectionCells();
         if(cells.length > 1 || cells.length ===0){
-            alert(Messages.SELECT_SINGLE_SHAPE);
+            Utils.showAlertDialog(Messages.SELECT_SINGLE_SHAPE);
             return;
         };
         var cell = cells[0];
