@@ -51,6 +51,18 @@ BaseBone.prototype.applyStyles = function(styleAttributes){
     });
 };
 
+BaseBone.prototype.reset = function(){
+    var geometry = new mxGeometry(this.vertex.getGeometry().x,
+                                  this.vertex.getGeometry().y,
+                                  this.vertexWidth, 
+                                  this.vertexHeight);
+                                      
+    this.graph.getModel().setGeometry(this.vertex,geometry);
+    this.childBones.forEach(function(childBone) {
+        childBone.reset();
+    }); 
+};
+
 BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
     var fontStyleValue=0;
     if(styleAttributes.fontBold) fontStyleValue+=1;

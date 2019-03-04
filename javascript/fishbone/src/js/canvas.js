@@ -45,9 +45,14 @@ function Canvas () {
         this.centerBone.deleteSideBone();
     };
     
-    this.onStyleAttributesClick = function(styleAttributes){
-        this.applyStyleAttributes(styleAttributes);
+    this.onApplyStylesClick = function(styleAttributes){
+        this.applyStyleAttributes(styleAttributes, false);
     };
+    
+    this.onResetStylesClick = function(styleAttributes){
+        this.applyStyleAttributes(styleAttributes, true);
+    };
+    
     
     this.onZoomChange = function(value){
         this.graph.zoomTo(1 + (value/100), false);
@@ -65,6 +70,7 @@ function Canvas () {
 
           return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
         };
+        
     };
     
     this.buildGraph = function(graphElement){
@@ -76,17 +82,21 @@ function Canvas () {
         this.centerBone.init();
     };
     
-    this.applyStyleAttributes = function(styleAttributes){
+    this.applyStyleAttributes = function(styleAttributes, isReset){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length === 0){
+            alert(Messages.SELECT_ONE_OR_MORE_SHAPE);
+            return;
+        };
+            
         this.graph.getModel().beginUpdate();
         var graph = this.graph;
         try
         {
-            var cells = this.graph.getSelectionCells();
-            if(cells.length === 0){
-                alert(Messages.SELECT_ONE_OR_MORE_SHAPE);
-                return;
-            };
-            this.centerBone.applyStyles(styleAttributes);
+           this.centerBone.applyStyles(styleAttributes);
+           if(isReset){
+               this.centerBone.reset();
+           };
         }
         finally
         {
@@ -101,9 +111,15 @@ function Canvas () {
             return;
         };
         var cell = cells[0];
-        
         $("#properties-window").dialog("open");
+        this.showProperties(cell);
+    };
+    
+    this.showProperties = function(cell){
         
+        if(!$('#properties-window').dialog('isOpen')){
+            return;
+        }
         
         var cellGeometry;
         if(cell.isEdge()){

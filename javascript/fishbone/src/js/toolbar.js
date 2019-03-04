@@ -61,12 +61,12 @@ function Toolbar () {
         
         $("#apply-font-styles").click(function(){
             var styleAttributes = toolbar.getStyleAttributes();
-            canvas.onStyleAttributesClick(styleAttributes);
+            canvas.onApplyStylesClick(styleAttributes);
         });
        
         $("#reset-font-styles").click(function(){
             toolbar.resetStyleAttributes();
-            canvas.onStyleAttributesClick(toolbar.defaultStyles);
+            canvas.onResetStylesClick(toolbar.defaultStyles);
         });
        
         $("#slider").on("slide", function(event, ui) {

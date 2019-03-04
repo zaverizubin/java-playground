@@ -77,20 +77,21 @@ function CenterBone (canvas) {
     };
     
     this.deleteSideBone = function(){
-        var selectedSideBone = this.getSelectedSideBone();
+        var selectedSideBones = this.getSelectedSideBones();
         
-        if(selectedSideBone === null){
+        if(selectedSideBones.length === 0){
             return;
         };
         
         this.graph.getModel().beginUpdate();
         try
-        {
-            selectedSideBone.delete();
-            Utils.removeFromArray(this.childBones, selectedSideBone);
-            this.moveSideBonesOnDelete(selectedSideBone);
-            this.moveVertex();
-            this.sortChildBones();
+        {   for(var i=0;i<selectedSideBones.length;i++){
+                selectedSideBones[i].delete();
+                Utils.removeFromArray(this.childBones, selectedSideBones[i]);
+                this.moveSideBonesOnDelete(selectedSideBones[i]);
+                this.moveVertex();
+                this.sortChildBones();
+            }
         }
         finally
         {
@@ -122,18 +123,18 @@ function CenterBone (canvas) {
         return coordinates;
     };
     
-    this.getSelectedSideBone = function(){
+    this.getSelectedSideBones = function(){
         var selectedBones = [];
         this.childBones.forEach(function(sideBone) {
             if(sideBone.isSelected()){
                 selectedBones.push(sideBone);
             }
         });
-        if(selectedBones.length ===0 || selectedBones.length>1){
+        if(selectedBones.length ===0){
             alert(Messages.DELETE_SELECT_SINGLE_SHAPE);
             return null;
         }
-        return selectedBones[0];
+        return selectedBones;
     };
     
     this.moveSideBonesOnDelete = function(deletedSideBone){
@@ -177,7 +178,9 @@ function CenterBone (canvas) {
         var maxSideBones = Math.max(topSideBones, bottomSideBones);
         
         var geometry = new mxGeometry(this.vertexInitialX + (maxSideBones)*this.vertexIncrementX,
-                                      this.vertexInitialY, this.vertex.getGeometry().width, this.vertex.getGeometry().height);
+                                      this.vertexInitialY,
+                                      this.vertex.getGeometry().width, 
+                                      this.vertex.getGeometry().height);
        
         this.graph.getModel().setGeometry(this.vertex,geometry);
    };
