@@ -46,16 +46,17 @@ body{
     vertical-align: middle;
 }
 
-.tools-menu .tools-menu-item{
+.tools-menu .menu-item{
     display:block;
     height:40px;
 }
 
-.tools-menu-item{
+.font-styles .menu-item{
     display:block;
     height:45px;
     padding:5px 0px;
 }
+
 .font-styles label {
    font-size: 0.8em; 
 }
@@ -101,7 +102,7 @@ body{
    width:200px;
    margin:0px 10px;
 }
-.settings .tools-menu-item{
+.settings .menu-item{
     display:block;
     height:50px;
     text-align: center;

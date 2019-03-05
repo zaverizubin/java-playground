@@ -90,10 +90,11 @@ function CenterBone (canvas) {
             for(var i=0;i<selectedSideBones.length;i++){
                 selectedSideBones[i].delete();
                 Utils.removeFromArray(this.childBones, selectedSideBones[i]);
-                this.moveSideBonesOnDelete(selectedSideBones[i]);
-                this.moveVertex();
-                this.sortChildBones();
-            }
+            };
+            this.compactSideBones();
+            this.moveVertex();
+            this.sortBones(this.childBones);
+            
         }
         finally
         {
@@ -110,8 +111,8 @@ function CenterBone (canvas) {
     
     this.getLocationForNewSideBone = function(){
         var coordinates = {id:0,x:0,y:0};
-        var topSideBonesCount = this.getCountOfTopSideBones();
-        var bottomSideBonesCount = this.getCountOfBottomSideBones();
+        var topSideBonesCount = this.getTopSideBones().length;
+        var bottomSideBonesCount = this.getBottomSideBones().length;
         
         if(topSideBonesCount <= bottomSideBonesCount){
             coordinates.id = 1 + topSideBonesCount*2;
@@ -132,51 +133,63 @@ function CenterBone (canvas) {
                 selectedBones.push(sideBone);
             }
         });
-        
         return selectedBones;
     };
-    
-    this.moveSideBonesOnDelete = function(deletedSideBone){
-        var dx = this.vertexIncrementX;
-        this.childBones.forEach(function(sideBone) {
-            if(deletedSideBone.isAboveCenterBone()){
-                if(sideBone.isAboveCenterBone() && sideBone.isRightOfBone(deletedSideBone)){
-                    sideBone.moveToLeft(dx);
+  
+    this.compactSideBones = function(){
+        var topSideBones = this.getTopSideBones();
+        var bottomSideBones = this.getBottomSideBones();
+        this.sortBones(topSideBones);
+        this.sortBones(bottomSideBones);
+        
+        var id=1;
+        for(var i=0; i<topSideBones.length ; i++){
+            while(topSideBones[i].getVertex().getValue().id > id){
+                for(var j=i; j<topSideBones.length ; j++){
+                    topSideBones[j].move(-this.vertexIncrementX);
                 }
-            }else{
-                if(!sideBone.isAboveCenterBone() && sideBone.isRightOfBone(deletedSideBone)){
-                    sideBone.moveToLeft(dx);
+            }
+            id += 2;
+        };
+        
+        var id=2;
+        for(var i=0; i<bottomSideBones.length ; i++){
+            while(bottomSideBones[i].getVertex().getValue().id > id){
+                for(var j=i; j<bottomSideBones.length ; j++){
+                    bottomSideBones[j].move(-this.vertexIncrementX);
                 }
-            };
-        });
+            }
+            id += 2;
+        }
+        
     };
     
-    this.getCountOfTopSideBones = function(){
-        var bones =0;
+    this.getTopSideBones = function(){
+        var sideBones = [];
         this.childBones.forEach(function(sideBone) {
             if(sideBone.isAboveCenterBone()){
-                bones += 1; 
+                sideBones.push(sideBone); 
             };
         });
-        return bones;
+        return sideBones;
     };
     
-    this.getCountOfBottomSideBones = function(){
-        var bones =0;
+    this.getBottomSideBones = function(){
+        var sideBones = [];
         this.childBones.forEach(function(sideBone) {
             if(!sideBone.isAboveCenterBone()){
-                bones += 1; 
-            }
+                sideBones.push(sideBone); 
+            };
         });
-        return bones;
+        return sideBones;
     };
     
     this.moveVertex = function (){
-        var topSideBones = this.getCountOfTopSideBones(true);
-        var bottomSideBones = this.getCountOfBottomSideBones(true);
-        var maxSideBones = Math.max(topSideBones, bottomSideBones);
+        var topSideBonesCount = this.getTopSideBones().length;
+        var bottomSideBonesCount = this.getBottomSideBones().length;
+        var maxSideBonesCount = Math.max(topSideBonesCount, bottomSideBonesCount);
         
-        var geometry = new mxGeometry(this.vertexInitialX + (maxSideBones)*this.vertexIncrementX,
+        var geometry = new mxGeometry(this.vertexInitialX + (maxSideBonesCount * this.vertexIncrementX),
                                       this.vertexInitialY,
                                       this.vertex.getGeometry().width, 
                                       this.vertex.getGeometry().height);
@@ -190,15 +203,12 @@ function CenterBone (canvas) {
         this.graph.getModel().beginUpdate();
         try
         {
-            var cell = cells[0]; 
-            for(var i = 0; i < this.childBones.length; i++) {
-                if(this.childBones[i].getVertex() === cell){
-                    this.childBones[i].flipBone();
-                    this.moveSideBonesOnDelete(this.childBones[i]);
-                    this.moveVertex();
-                    this.sortChildBones();
-                    break;
-                };
+            var childBoneToFlip = this.getChildBoneFromCell(cells[0]); 
+            if(childBoneToFlip !== null){
+                childBoneToFlip.flipBone();
+                this.compactSideBones();
+                this.moveVertex();
+                this.sortChildBones();
             };
         }
         finally

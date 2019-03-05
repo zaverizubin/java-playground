@@ -76,9 +76,9 @@ function SideBone (canvas) {
         return this.vertex.getValue().id > sideBone.getVertex().getValue().id;
    };
    
-   this.moveToLeft = function(dx){
-       this.graph.moveCells([this.vertex, this.edge], -dx, 0);
-       this.vertex.getValue().id = this.vertex.getValue().id-2;
+   this.move = function(dx){
+       this.graph.moveCells([this.vertex, this.edge], dx, 0);
+       this.vertex.getValue().id = dx < 0 ? this.vertex.getValue().id-2 : this.vertex.getValue().id+2;
    };
    
    this.flipBone = function(){

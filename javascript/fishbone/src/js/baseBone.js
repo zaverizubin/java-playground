@@ -33,9 +33,18 @@ BaseBone.prototype.init = function(){
         
 };
 
-BaseBone.prototype.sortChildBones = function(){
-    this.childBones.sort(function (childBone1, childBone2) {
-        return childBone1.getVertex().getValue().id - childBone2.getVertex().getValue().id;
+BaseBone.prototype.getChildBoneFromCell = function(cell){
+    for(var i = 0; i < this.childBones.length; i++) {
+        if(this.childBones[i].getVertex() === cell){
+            return this.childBones[i];
+        };
+    };
+    return null;
+}
+
+BaseBone.prototype.sortBones = function(bones){
+    bones.sort(function (bone1, bone2) {
+        return bone1.getVertex().getValue().id - bone2.getVertex().getValue().id;
     });
 };
 

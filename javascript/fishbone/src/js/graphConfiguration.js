@@ -35,7 +35,13 @@ function GraphConfiguration(graphElement){
             if(cell === null || cell.isEdge() || cell.getValue().cellType === Constants.CENTERBONE_VERTEX)
             {
                 return;
-            }
+            };
+            
+            menu.addItem('Delete', null, function()
+            {
+                canvas.onDeleteCauseClick();
+            });
+            
             menu.addItem('Swap', null, function()
             {
                 canvas.onSwapClick();
