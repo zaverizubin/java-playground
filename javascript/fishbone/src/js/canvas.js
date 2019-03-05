@@ -67,20 +67,11 @@ function Canvas () {
     };
     
     this.onSwapClick = function(){
-        var cells = this.graph.getSelectionCells();
-        if(cells.length !== 2 ){
-            Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE);
-            return;
-        };
-        cells.forEach(function(cell){
-            if(cell.isEdge() || cell.getValue().cellType === Constants.CENTERBONE_VERTEX){
-               Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE); 
-            }
-        });
+        this.centerBone.swapBones();
     };
     
     this.onFlipClick = function(){
-        this.centerBone.flipSelectedBone(this.graph.getSelectionCells());
+        this.centerBone.flipBone();
     };
     
     this.buildGraph = function(graphElement){
@@ -95,7 +86,6 @@ function Canvas () {
     this.applyStyleAttributes = function(styleAttributes, isReset){
         var cells = this.graph.getSelectionCells();
         if(cells.length === 0){
-            Utils.showAlertDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
             return;
         };
             

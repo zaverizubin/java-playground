@@ -146,7 +146,7 @@ function CenterBone (canvas) {
         for(var i=0; i<topSideBones.length ; i++){
             while(topSideBones[i].getVertex().getValue().id > id){
                 for(var j=i; j<topSideBones.length ; j++){
-                    topSideBones[j].move(-this.vertexIncrementX);
+                    topSideBones[j].moveBone(-this.vertexIncrementX);
                 }
             }
             id += 2;
@@ -156,7 +156,7 @@ function CenterBone (canvas) {
         for(var i=0; i<bottomSideBones.length ; i++){
             while(bottomSideBones[i].getVertex().getValue().id > id){
                 for(var j=i; j<bottomSideBones.length ; j++){
-                    bottomSideBones[j].move(-this.vertexIncrementX);
+                    bottomSideBones[j].moveBone(-this.vertexIncrementX);
                 }
             }
             id += 2;
@@ -197,24 +197,47 @@ function CenterBone (canvas) {
         this.graph.getModel().setGeometry(this.vertex, geometry);
     };
     
-    this.flipSelectedBone = function (cells){
+    this.flipBone = function (){
+        var cells = this.graph.getSelectionCells();
         if(!this.canFlipBone(cells)) return;
         
         this.graph.getModel().beginUpdate();
         try
         {
-            var childBoneToFlip = this.getChildBoneFromCell(cells[0]); 
-            if(childBoneToFlip !== null){
-                childBoneToFlip.flipBone();
+            var boneToFlip = this.getChildBoneFromCell(cells[0]); 
+            if(boneToFlip !== null){
+                boneToFlip.flipBone();
                 this.compactSideBones();
                 this.moveVertex();
                 this.sortChildBones();
+                this.graph.removeSelectionCells(cells);
             };
         }
         finally
         {
            this.graph.getModel().endUpdate();
         }
+    };
+    
+    this.swapBones = function(){
+        var cells = this.graph.getSelectionCells();
+        if(!this.canSwapBones(cells)) return;
+        
+        this.graph.getModel().beginUpdate();
+        try
+        {
+            var childBoneToSwap1 = this.getChildBoneFromCell(cells[0]); 
+            var childBoneToSwap2 = this.getChildBoneFromCell(cells[1]); 
+            if(childBoneToSwap1 !== null && childBoneToSwap2 !== null){
+                childBoneToSwap1.swapBones(childBoneToSwap2);
+            };
+            this.graph.removeSelectionCells(cells);
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+        
     };
     
     this.canFlipBone = function(cells){
@@ -241,6 +264,20 @@ function CenterBone (canvas) {
         return true;
     };
     
+    this.canSwapBones = function(cells){
+        if(cells.length !== 2 ){
+            Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE);
+            return false;
+        };
+        cells.forEach(function(cell){
+            if(cell.isEdge() || cell.getValue().cellType === Constants.CENTERBONE_VERTEX){
+               Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE); 
+               return false;
+            }
+        });
+        
+        return true;
+    };
     
     this.getVertex = function(){
        return this.vertex;
