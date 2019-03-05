@@ -82,9 +82,17 @@ function SideBone (canvas) {
    };
    
    this.flipBone = function(){
-    var geometry = this.vertex.getGeometry();
-                                      
-    geometry.y =  - this.vertex.getGeometry().y;
+       
+    this.vertex.getValue().id =  this.isAboveCenterBone()? this.vertex.getValue().id+1 : this.vertex.getValue().id -1;
+    
+    var yloc =  this.targetEdge.getGeometry().sourcePoint.y 
+                + (this.targetEdge.getGeometry().sourcePoint.y-this.vertex.getGeometry().y)
+                - this.vertex.getGeometry().height;
+        
+    var geometry =  new mxGeometry(this.vertex.getGeometry().x, yloc,
+                                      this.vertex.getGeometry().width,
+                                      this.vertex.getGeometry().height);
+    
     this.graph.getModel().setGeometry(this.vertex, geometry);
 };
    

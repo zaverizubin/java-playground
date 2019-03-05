@@ -184,35 +184,51 @@ function CenterBone (canvas) {
         this.graph.getModel().setGeometry(this.vertex, geometry);
     };
     
-    this.flipSelectedBone = function (cell){
+    this.flipSelectedBone = function (cells){
+        if(!this.canFlipBone(cells)) return;
+        
+        this.graph.getModel().beginUpdate();
+        try
+        {
+            var cell = cells[0]; 
+            for(var i = 0; i < this.childBones.length; i++) {
+                if(this.childBones[i].getVertex() === cell){
+                    this.childBones[i].flipBone();
+                    this.moveSideBonesOnDelete(this.childBones[i]);
+                    this.moveVertex();
+                    this.sortChildBones();
+                    break;
+                };
+            };
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    };
+    
+    this.canFlipBone = function(cells){
+        if(cells.length !== 1 || cells[0].getValue().cellType !== Constants.SIDEBONE_VERTEX){
+            Utils.showAlertDialog(Messages.VERTEX_FLIP_SELECT_SHAPE);
+            return false;
+        };
+        
+        var cell = cells[0]; 
         if(cell.getValue().cellType ===  Constants.SIDEBONE_VERTEX){
             for(var i = 0; i < this.childBones.length; i++) {
                 var childbone = this.childBones[i];
                 if(childbone.getVertex() !== cell){
                     if(childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id - 1){
                         Utils.showAlertDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
-                        return;
+                        return false;
                     }else if(!childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id + 1){
                         Utils.showAlertDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
-                        return;
+                        return false;
                     };
                 };
             };
         };
-        
-        for(var i = 0; i < this.childBones.length; i++) {
-            if(this.childBones[i].getVertex() === cell){
-                try
-                {
-                  this.childBones[i].flipBone();
-                  return;
-                }
-                finally
-                {
-                   this.graph.getModel().endUpdate();
-                }
-            };
-        };
+        return true;
     };
     
     

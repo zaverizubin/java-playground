@@ -80,13 +80,7 @@ function Canvas () {
     };
     
     this.onFlipClick = function(){
-        var cells = this.graph.getSelectionCells();
-        if(cells.length !== 1 || cells[0].getValue().cellType !== Constants.SIDEBONE_VERTEX){
-            Utils.showAlertDialog(Messages.VERTEX_FLIP_SELECT_SHAPE);
-            return;
-        };
-        
-        this.centerBone.flipSelectedBone(cells[0]);
+        this.centerBone.flipSelectedBone(this.graph.getSelectionCells());
     };
     
     this.buildGraph = function(graphElement){
