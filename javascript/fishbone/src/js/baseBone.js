@@ -24,6 +24,7 @@ function BaseBone(canvas){
     
 }
 
+
 BaseBone.prototype.init = function(){
     this.graph = this.canvas.getGraph();
     this.parent = this.canvas.getGraph().getDefaultParent();
@@ -31,6 +32,10 @@ BaseBone.prototype.init = function(){
     this.canvasWidth = this.canvas.getCanvasWidth();
     this.canvasHeight = this.canvas.getCanvasHeight();
         
+};
+
+BaseBone.prototype.getChildBones = function(){
+    return this.childBones;
 };
 
 BaseBone.prototype.getChildBoneFromCell = function(cell){

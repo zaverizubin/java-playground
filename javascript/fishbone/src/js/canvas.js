@@ -43,11 +43,30 @@ function Canvas () {
     };
     
     this.onAddCauseClick = function(){
-        this.centerBone.addSideBone();
+        this.centerBone.addChildBone();
     };
     
     this.onDeleteCauseClick = function(){
-        this.centerBone.deleteSideBone();
+        this.centerBone.deleteChildBones();
+    };
+    
+    this.onAddDetailClick = function(){
+        var selectedChildBones = this.centerBone.getSelectedChildBones();
+        
+        if(selectedChildBones.length === 0 || selectedChildBones.length > 1){
+            Utils.showAlertDialog(Messages.SELECT_SINGLE_SHAPE);
+            return;
+        };
+        selectedChildBones.forEach(function(childBone){
+           childBone.addChildBone(); 
+        });
+    };
+    
+    this.onDeleteDetailClick = function(){
+        var childBones = this.centerBone.getChildBones();
+        childBones.forEach(function(childBone){
+           childBone.deleteChildBone(); 
+        });
     };
     
     this.onApplyStylesClick = function(styleAttributes){

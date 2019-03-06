@@ -9,6 +9,8 @@ function SideBone (canvas) {
     this.vertexY;
    
     this.edgeSlope = 75;
+    
+    this.vertexHeight = 35;
    
     this.init = function (id, x, y, targetEdge) {
         BaseBone.prototype.init.call(this);
@@ -39,7 +41,10 @@ function SideBone (canvas) {
     this.buildVertex = function(){
         var id = this.id;
         this.vertex = this.graph.insertVertex(this.parent, null, 
-                                            {toString:function(){return 'Cause-' + id},cellType:Constants.SIDEBONE_VERTEX, id:id},
+                                            {
+                                                toString:function(){return 'Cause-' + id},
+                                                cellType:Constants.SIDEBONE_VERTEX,
+                                                id:id},
                                             this.vertexX, this.vertexY,
                                             this.vertexWidth,
                                             this.vertexHeight,
@@ -60,6 +65,37 @@ function SideBone (canvas) {
         this.graph.addCell(cell);
     };
    
+    this.deleteLateralBones = function(){
+        var selectedLateralBones = this.getSelectedLateralBones();
+        
+        this.graph.getModel().beginUpdate();
+        try
+        {   
+            for(var i=0;i<selectedLateralBones.length;i++){
+                selectedLateralBones[i].delete();
+                Utils.removeFromArray(this.childBones, selectedLateralBones[i]);
+            };
+            this.compactLateralBones();
+            this.moveVertex();
+            this.sortBones(this.childBones);
+            
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    };
+   
+    this.getSelectedLateralBones = function(){
+        var selectedBones = [];
+        this.childBones.forEach(function(lateralBone) {
+            if(lateralBone.isSelected()){
+                selectedBones.push(lateralBone);
+            }
+        });
+        return selectedBones;
+    };
+    
     this.delete = function(){
        this.graph.removeCells([this.vertex]);
     };

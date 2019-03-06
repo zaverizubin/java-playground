@@ -45,6 +45,14 @@ function Toolbar () {
             canvas.onDeleteCauseClick();
         });
         
+        $("#add-detail").click(function(){
+            canvas.onAddDetailClick();
+        });
+        
+        $("#delete-detail").click(function(){
+            canvas.onDeleteDetailClick();
+        });
+        
         $("#fontColorPicker").spectrum({
             color: "#000", allowEmpty: true
         });
