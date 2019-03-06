@@ -10,7 +10,11 @@ function BaseBone(canvas){
     
     this.edge;
     
+    this.parentBone;
+    
     this.id;
+    
+    this.counter;
     
     this.childBones = [];
     
@@ -24,6 +28,21 @@ function BaseBone(canvas){
     
 }
 
+BaseBone.prototype.getParentBone = function(){
+    return this.parentBone;
+};
+
+BaseBone.prototype.getChildBones = function(){
+    return this.childBones;
+};
+
+BaseBone.prototype.getVertex = function(){
+    return this.vertex;
+};
+
+BaseBone.prototype.getEdge = function(){
+    return this.edge;
+};
 
 BaseBone.prototype.init = function(){
     this.graph = this.canvas.getGraph();
@@ -34,10 +53,6 @@ BaseBone.prototype.init = function(){
         
 };
 
-BaseBone.prototype.getChildBones = function(){
-    return this.childBones;
-};
-
 BaseBone.prototype.getChildBoneFromCell = function(cell){
     for(var i = 0; i < this.childBones.length; i++) {
         if(this.childBones[i].getVertex() === cell){
@@ -45,7 +60,7 @@ BaseBone.prototype.getChildBoneFromCell = function(cell){
         };
     };
     return null;
-}
+};
 
 BaseBone.prototype.sortBones = function(bones){
     bones.sort(function (bone1, bone2) {

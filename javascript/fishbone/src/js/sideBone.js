@@ -2,8 +2,6 @@ function SideBone (canvas) {
    
     BaseBone.call(this, canvas);
    
-    this.targetEdge;
-   
     this.vertexX;
    
     this.vertexY;
@@ -12,12 +10,13 @@ function SideBone (canvas) {
     
     this.vertexHeight = 35;
    
-    this.init = function (id, x, y, targetEdge) {
+    this.init = function (details, parentBone) {
         BaseBone.prototype.init.call(this);
-        this.id = id;
-        this.vertexX = x;
-        this.vertexY = y;
-        this.targetEdge = targetEdge;
+        this.id = details.id;
+        this.counter = details.counter;
+        this.vertexX = details.x;
+        this.vertexY = details.y;
+        this.parentBone = parentBone;
 
         this.graph.getModel().beginUpdate();
         try
@@ -40,11 +39,13 @@ function SideBone (canvas) {
    
     this.buildVertex = function(){
         var id = this.id;
+        var counter  = this.id;
         this.vertex = this.graph.insertVertex(this.parent, null, 
                                             {
-                                                toString:function(){return 'Cause-' + id},
+                                                toString:function(){return 'Cause-' + counter},
                                                 cellType:Constants.SIDEBONE_VERTEX,
-                                                id:id},
+                                                id:id
+                                            },
                                             this.vertexX, this.vertexY,
                                             this.vertexWidth,
                                             this.vertexHeight,
@@ -54,7 +55,7 @@ function SideBone (canvas) {
     this.buildEdge = function(){
        var geometry = new mxGeometry();
         geometry.targetPoint = new mxPoint(this.vertexX + this.vertexWidth/2 + this.edgeSlope,
-                                            this.targetEdge.getGeometry().sourcePoint.y);
+                                            this.parentBone.getEdge().getGeometry().sourcePoint.y);
         
         var cell = new mxCell('', geometry, Constants.SIDEBONE_EDGE_STYLE);
         cell.geometry.relative = true;
@@ -65,20 +66,32 @@ function SideBone (canvas) {
         this.graph.addCell(cell);
     };
    
-    this.deleteLateralBones = function(){
-        var selectedLateralBones = this.getSelectedLateralBones();
+    this.addChildBone = function(){
+        this.graph.getModel().beginUpdate();
+        try
+        {
+            this.buildChildBone();
+            this.moveVertex();
+        }
+        finally
+        {
+            this.graph.getModel().endUpdate();
+        }
+    };
+   
+    this.deleteChildBones = function(){
+        var selectedChildBones = this.getSelectedChildBones();
         
         this.graph.getModel().beginUpdate();
         try
         {   
-            for(var i=0;i<selectedLateralBones.length;i++){
-                selectedLateralBones[i].delete();
-                Utils.removeFromArray(this.childBones, selectedLateralBones[i]);
+            for(var i=0;i<selectedChildBones.length;i++){
+                selectedChildBones[i].delete();
+                Utils.removeFromArray(this.childBones, selectedChildBones[i]);
             };
-            this.compactLateralBones();
+            this.compactChildBones();
             this.moveVertex();
             this.sortBones(this.childBones);
-            
         }
         finally
         {
@@ -86,14 +99,83 @@ function SideBone (canvas) {
         }
     };
    
-    this.getSelectedLateralBones = function(){
+    this.buildChildBone = function(){
+        var childBone = new LateralBone(this.canvas);
+        var details = this.getBuildDetailsForChildBone();
+        childBone.init(details, this.edge);
+        this.childBones.push(childBone);
+    };
+    
+    this.getBuildDetailsForChildBone = function(){
+        var details = {counter:this.childBones.length+1};
+        var leftSideBonesCount = this.getLeftChildBones().length;
+        var rightSideBonesCount = this.getRightChildBones().length;
+        
+        
+        if(leftSideBonesCount <= rightSideBonesCount){
+            details.id = 1 + leftSideBonesCount*2;
+            details.x = this.edgeInitialX + leftSideBonesCount * this.vertexIncrementX;
+            details.y = this.edgeInitialY - this.spacerV;
+        }else if(rightSideBonesCount < leftSideBonesCount){
+            details.id = 2 + rightSideBonesCount*2; 
+            details.x = this.edgeInitialX + rightSideBonesCount * this.vertexIncrementX;
+            details.y = this.edgeInitialY + this.spacerV - this.vertexHeight;
+        };
+        return details;
+    };
+    
+    this.getSelectedChildBones = function(){
         var selectedBones = [];
-        this.childBones.forEach(function(lateralBone) {
-            if(lateralBone.isSelected()){
-                selectedBones.push(lateralBone);
+        this.childBones.forEach(function(childBone) {
+            if(childBone.isSelected()){
+                selectedBones.push(childBone);
             }
         });
         return selectedBones;
+    };
+    
+    this.compactChildBones = function(){
+                
+    };
+    
+    this.getLeftChildBones = function(){
+        var leftChildBones = [];
+        this.childBones.forEach(function(childBone) {
+            if(childBone.isAboveCenterBone()){
+                leftChildBones.push(childBone); 
+            };
+        });
+        return leftChildBones;
+    };
+    
+    this.getRightChildBones = function(){
+        var rightChildBones = [];
+        this.childBones.forEach(function(childBone) {
+            if(!childBone.isAboveCenterBone()){
+                rightChildBones.push(childBone); 
+            };
+        });
+        return rightChildBones;
+    };
+    
+    this.moveVertex = function (){
+        
+    };
+    
+    this.flipChildBone = function (){
+        
+    };
+    
+    this.swapChildBones = function(){
+        
+    };
+    
+    this.canFlipChildBone = function(cells){
+        
+    };
+    
+    this.canSwapChildBones = function(cells){
+        
     };
     
     this.delete = function(){
@@ -119,11 +201,11 @@ function SideBone (canvas) {
    
     this.flipBone = function(){
        
-        this.vertex.getValue().id =  this.isAboveCenterBone()? this.vertex.getValue().id+1 : this.vertex.getValue().id -1;
-    
-        var yloc =  this.targetEdge.getGeometry().sourcePoint.y 
-                    + (this.targetEdge.getGeometry().sourcePoint.y-this.vertex.getGeometry().y)
+        var yloc;
+        yloc = 2* this.parentBone.getEdge().getGeometry().sourcePoint.y 
+                    -this.vertex.getGeometry().y
                     - this.vertex.getGeometry().height;
+        this.vertex.getValue().id =  this.isAboveCenterBone()? this.vertex.getValue().id+1 : this.vertex.getValue().id -1;
         
         var geometry =  new mxGeometry(this.vertex.getGeometry().x, yloc,
                                       this.vertex.getGeometry().width,
@@ -159,8 +241,8 @@ function SideBone (canvas) {
         }else{
             xloc1 = vertex2.getGeometry().x;
             xloc2 = vertex1.getGeometry().x;
-            yloc1 = 2*this.targetEdge.getGeometry().sourcePoint.y - vertex1.getGeometry().y - vertex1.getGeometry().height; 
-            yloc2 = 2*this.targetEdge.getGeometry().sourcePoint.y - vertex2.getGeometry().y - vertex2.getGeometry().height;
+            yloc1 = 2*this.parentBone.getEdge().getGeometry().sourcePoint.y - vertex1.getGeometry().y - vertex1.getGeometry().height; 
+            yloc2 = 2*this.parentBone.getEdge().getGeometry().sourcePoint.y - vertex2.getGeometry().y - vertex2.getGeometry().height;
         }
         
                     
@@ -193,13 +275,8 @@ function SideBone (canvas) {
         
     };
    
-    this.getVertex = function(){
-        return this.vertex;
-    };
-   
-    this.getEdge = function(){
-        return this.edge;
-    };
+    
+    
 }
 
 SideBone.prototype = Object.create(BaseBone.prototype);

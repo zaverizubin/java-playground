@@ -86,11 +86,11 @@ function Canvas () {
     };
     
     this.onSwapClick = function(){
-        this.centerBone.swapBones();
+        this.centerBone.swapChildBones();
     };
     
     this.onFlipClick = function(){
-        this.centerBone.flipBone();
+        this.centerBone.flipChildBone();
     };
     
     this.buildGraph = function(graphElement){

@@ -103,30 +103,29 @@ function CenterBone (canvas) {
            this.graph.getModel().endUpdate();
         }
     };
-
     
     this.buildChildBone = function(){
         var childBone = new SideBone(this.canvas);
-        var coordinates = this.getLocationForChildBone();
-        childBone.init(coordinates.id, coordinates.x, coordinates.y, this.edge);
+        var details = this.getBuildDetailsForChildBone();
+        childBone.init(details, this);
         this.childBones.push(childBone);
     };
     
-    this.getLocationForChildBone = function(){
-        var coordinates = {id:0,x:0,y:0};
-        var topSideBonesCount = this.getTopChildBones().length;
-        var bottomSideBonesCount = this.getBottomChildBones().length;
+    this.getBuildDetailsForChildBone = function(){
+        var details = {counter:this.childBones.length+1};
+        var topChildBoneCount = this.getTopChildBones().length;
+        var bottomChildBoneCount = this.getBottomChildBones().length;
         
-        if(topSideBonesCount <= bottomSideBonesCount){
-            coordinates.id = 1 + topSideBonesCount*2;
-            coordinates.x = this.edgeInitialX + topSideBonesCount * this.vertexIncrementX;
-            coordinates.y = this.edgeInitialY - this.spacerV;
-        }else if(bottomSideBonesCount < topSideBonesCount){
-            coordinates.id = 2 + bottomSideBonesCount*2; 
-            coordinates.x = this.edgeInitialX + bottomSideBonesCount * this.vertexIncrementX;
-            coordinates.y = this.edgeInitialY + this.spacerV - this.vertexHeight;
+        if(topChildBoneCount <= bottomChildBoneCount){
+            details.id = 1 + topChildBoneCount*2;
+            details.x = this.edgeInitialX + topChildBoneCount * this.vertexIncrementX;
+            details.y = this.edgeInitialY - this.spacerV;
+        }else {
+            details.id = 2 + bottomChildBoneCount*2; 
+            details.x = this.edgeInitialX + bottomChildBoneCount * this.vertexIncrementX;
+            details.y = this.edgeInitialY + this.spacerV - this.childBones[0].vertexHeight;
         };
-        return coordinates;
+        return details;
     };
     
     this.getSelectedChildBones = function(){
@@ -209,10 +208,10 @@ function CenterBone (canvas) {
         {
             var boneToFlip = this.getChildBoneFromCell(cells[0]); 
             if(boneToFlip !== null){
-                boneToFlip.flipChildBone();
-                this.compactSideBones();
+                boneToFlip.flipBone();
+                this.compactChildBones();
                 this.moveVertex();
-                this.sortChildBones();
+                this.sortBones(this.childBones);
                 this.graph.removeSelectionCells(cells);
             };
         }
@@ -232,7 +231,7 @@ function CenterBone (canvas) {
             var childBoneToSwap1 = this.getChildBoneFromCell(cells[0]); 
             var childBoneToSwap2 = this.getChildBoneFromCell(cells[1]); 
             if(childBoneToSwap1 !== null && childBoneToSwap2 !== null){
-                childBoneToSwap1.swapChildBones(childBoneToSwap2);
+                childBoneToSwap1.swapBones(childBoneToSwap2);
             };
             this.graph.removeSelectionCells(cells);
         }
@@ -282,9 +281,7 @@ function CenterBone (canvas) {
         return true;
     };
     
-    this.getVertex = function(){
-       return this.vertex;
-    };
+    
 
 }
 

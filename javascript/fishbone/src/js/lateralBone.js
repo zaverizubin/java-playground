@@ -2,19 +2,18 @@ function LateralBone (canvas) {
    
     BaseBone.call(this, canvas);
    
-    this.targetEdge;
-   
     this.edgeX;
    
     this.edgeY;
    
    
-    this.init = function (id, x, y, targetEdge) {
+    this.init = function (details, parentBone) {
         BaseBone.prototype.init.call(this);
-        this.id = id;
-        this.edgeX = x;
-        this.edgeY = y;
-        this.targetEdge = targetEdge;
+        this.id = details.id;
+        this.counter = details.counter;
+        this.edgeX = details.x;
+        this.edgeY = details.y;
+        this.parentBone = parentBone;
 
         this.graph.getModel().beginUpdate();
         try

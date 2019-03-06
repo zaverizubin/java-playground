@@ -1,5 +1,5 @@
-function GraphConfiguration(graphElement){
-    
+function GraphConfiguration(graphElement)
+{
     this.canvas;
     
     this.graph;
@@ -32,27 +32,23 @@ function GraphConfiguration(graphElement){
 
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
-            if(cell === null || cell.isEdge() || cell.getValue().cellType === Constants.CENTERBONE_VERTEX)
-            {
+            if(cell === null || cell.isEdge() 
+              || cell.getValue().cellType === Constants.CENTERBONE_VERTEX){
                 return;
             };
             
-            menu.addItem('Delete', null, function()
-            {
+            menu.addItem('Delete', null, function(){
                 canvas.onDeleteCauseClick();
             });
             
-            menu.addItem('Swap', null, function()
-            {
+            menu.addItem('Swap', null, function(){
                 canvas.onSwapClick();
             });
 
-            menu.addItem('Flip', null, function()
-            {
+            menu.addItem('Flip', null, function(){
                 canvas.onFlipClick();
             });
         };
     };
-    
 }
 
