@@ -6,22 +6,23 @@ function CenterBone (canvas) {
     
     this.spacerV = 250;
     
-    this.vertexInitialX = 150;
+    this.vertexWidth = 150;
     
-    this.vertexInitialY;
+    this.vertexHeight = 50;
     
-    this.vertexIncrementX = this.spacerH + this.vertexWidth;
+    this.vertexX = 150;
     
-    this.edgeInitialX = 50;
+    this.vertexY = (this.canvasHeight/2) - (this.vertexHeight/2);
     
-    this.edgeInitialY;
+    this.vertexIncX = this.spacerH + this.vertexWidth;
+    
+    this.edgeX = 50;
+    
+    this.edgeY = (this.canvasHeight/2);
     
     
     this.init = function () {
         BaseBone.prototype.init.call(this);
-        
-        this.vertexInitialY = (this.canvasHeight/2) - (this.vertexHeight/2);
-        this.edgeInitialY = (this.canvasHeight/2);
         
         new mxRubberband(this.graph);
         this.graph.getModel().beginUpdate();
@@ -44,19 +45,19 @@ function CenterBone (canvas) {
     };
     
     this.buildVertex = function(){
-        this.vertex = this.graph.insertVertex(this.parent, null,
+        this.vertex = this.graph.insertVertex(this.graphParent, null,
                                             {
                                                 toString:function(){return 'Main Cause'},
                                                 cellType:Constants.CENTERBONE_VERTEX 
                                             },
-                                            this.vertexInitialX, this.vertexInitialY, 
+                                            this.vertexX, this.vertexY, 
                                             this.vertexWidth, this.vertexHeight, 
                                             Constants.CENTERBONE_VERTEX_STYLE);
     };
     
     this.buildEdge = function(){
         var geometry = new mxGeometry();
-        geometry.sourcePoint = new mxPoint(this.edgeInitialX, this.edgeInitialY);
+        geometry.sourcePoint = new mxPoint(this.edgeX, this.edgeY);
         var cell = new mxCell('', geometry, Constants.CENTERBONE_EDGE_STYLE);
         cell.geometry.relative = true;
         cell.edge = true;
@@ -112,18 +113,21 @@ function CenterBone (canvas) {
     };
     
     this.getBuildDetailsForChildBone = function(){
-        var details = {counter:this.childBones.length+1};
+        var details = {
+            parentBone: this,
+            counter:this.childBones.length+1
+        };
         var topChildBoneCount = this.getTopChildBones().length;
         var bottomChildBoneCount = this.getBottomChildBones().length;
         
         if(topChildBoneCount <= bottomChildBoneCount){
             details.id = 1 + topChildBoneCount*2;
-            details.x = this.edgeInitialX + topChildBoneCount * this.vertexIncrementX;
-            details.y = this.edgeInitialY - this.spacerV;
+            details.x = this.edgeX + topChildBoneCount * this.vertexIncX;
+            details.y = this.edgeY - this.spacerV;
         }else {
             details.id = 2 + bottomChildBoneCount*2; 
-            details.x = this.edgeInitialX + bottomChildBoneCount * this.vertexIncrementX;
-            details.y = this.edgeInitialY + this.spacerV - this.childBones[0].vertexHeight;
+            details.x = this.edgeX + bottomChildBoneCount * this.vertexIncX;
+            details.y = this.edgeY + this.spacerV - this.childBones[0].vertexHeight;
         };
         return details;
     };
@@ -148,7 +152,7 @@ function CenterBone (canvas) {
         for(var i=0; i<topSideBones.length ; i++){
             while(topSideBones[i].getVertex().getValue().id > id){
                 for(var j=i; j<topSideBones.length ; j++){
-                    topSideBones[j].moveBone(-this.vertexIncrementX);
+                    topSideBones[j].moveBone(-this.vertexIncX);
                 }
             }
             id += 2;
@@ -158,7 +162,7 @@ function CenterBone (canvas) {
         for(var i=0; i<bottomSideBones.length ; i++){
             while(bottomSideBones[i].getVertex().getValue().id > id){
                 for(var j=i; j<bottomSideBones.length ; j++){
-                    bottomSideBones[j].moveBone(-this.vertexIncrementX);
+                    bottomSideBones[j].moveBone(-this.vertexIncX);
                 }
             }
             id += 2;
@@ -191,8 +195,8 @@ function CenterBone (canvas) {
         var bottomSideBonesCount = this.getBottomChildBones().length;
         var maxSideBonesCount = Math.max(topSideBonesCount, bottomSideBonesCount);
         
-        var geometry = new mxGeometry(this.vertexInitialX + (maxSideBonesCount * this.vertexIncrementX),
-                                      this.vertexInitialY,
+        var geometry = new mxGeometry(this.vertexX + (maxSideBonesCount * this.vertexIncX),
+                                      this.vertexY,
                                       this.vertex.getGeometry().width, 
                                       this.vertex.getGeometry().height);
        

@@ -2,9 +2,9 @@ function BaseBone(canvas){
     
     this.canvas = canvas;
     
-    this.graph;
+    this.graph = this.canvas.getGraph();
     
-    this.parent;
+    this.graphParent = this.canvas.getGraph().getDefaultParent();
     
     this.vertex;
     
@@ -18,13 +18,9 @@ function BaseBone(canvas){
     
     this.childBones = [];
     
-    this.canvasWidth;
+    this.canvasWidth = this.canvas.getCanvasWidth();
     
-    this.canvasHeight;
-    
-    this.vertexWidth = 150;
-    
-    this.vertexHeight = 50;
+    this.canvasHeight = this.canvas.getCanvasHeight();
     
 }
 
@@ -45,11 +41,7 @@ BaseBone.prototype.getEdge = function(){
 };
 
 BaseBone.prototype.init = function(){
-    this.graph = this.canvas.getGraph();
-    this.parent = this.canvas.getGraph().getDefaultParent();
-    
-    this.canvasWidth = this.canvas.getCanvasWidth();
-    this.canvasHeight = this.canvas.getCanvasHeight();
+   
         
 };
 

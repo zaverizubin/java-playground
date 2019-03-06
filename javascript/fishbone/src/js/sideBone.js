@@ -5,18 +5,22 @@ function SideBone (canvas) {
     this.vertexX;
    
     this.vertexY;
+    
+    this.spacerV = 25;
    
     this.edgeSlope = 75;
     
+    this.vertexWidth = 150;
+    
     this.vertexHeight = 35;
    
-    this.init = function (details, parentBone) {
+    this.init = function (details) {
         BaseBone.prototype.init.call(this);
         this.id = details.id;
         this.counter = details.counter;
         this.vertexX = details.x;
         this.vertexY = details.y;
-        this.parentBone = parentBone;
+        this.parentBone = details.parentBone;
 
         this.graph.getModel().beginUpdate();
         try
@@ -40,7 +44,7 @@ function SideBone (canvas) {
     this.buildVertex = function(){
         var id = this.id;
         var counter  = this.id;
-        this.vertex = this.graph.insertVertex(this.parent, null, 
+        this.vertex = this.graph.insertVertex(this.graphParent, null, 
                                             {
                                                 toString:function(){return 'Cause-' + counter},
                                                 cellType:Constants.SIDEBONE_VERTEX,
