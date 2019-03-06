@@ -6,22 +6,21 @@ function SideBone (canvas) {
    
     this.vertexY;
     
-    this.spacerV = 25;
-   
-    this.edgeSlope = 75;
+    this.spacerH = 50;
+    
+    this.spacerV = 250;
     
     this.vertexWidth = 150;
     
     this.vertexHeight = 35;
    
-    this.init = function (details) {
+    this.edgeTheta;
+   
+    this.init = function (parentBone) {
         BaseBone.prototype.init.call(this);
-        this.id = details.id;
-        this.counter = details.counter;
-        this.vertexX = details.x;
-        this.vertexY = details.y;
-        this.parentBone = details.parentBone;
-
+        this.parentBone = parentBone;
+        this.populateGeometryDetails();
+        
         this.graph.getModel().beginUpdate();
         try
         {
@@ -33,6 +32,28 @@ function SideBone (canvas) {
             this.graph.getModel().endUpdate();
         }
     };
+
+    this.populateGeometryDetails = function(){
+       
+        this.counter = this.parentBone.getChildBones().length + 1;
+        var topChildBoneCount = this.parentBone.getTopChildBones().length;
+        var bottomChildBoneCount = this.parentBone.getBottomChildBones().length;
+        
+        var targetEdgeX = this.parentBone.getEdge().getGeometry().sourcePoint.x;
+        var targetEdgeY = this.parentBone.getEdge().getGeometry().sourcePoint.y;
+        
+        if(topChildBoneCount <= bottomChildBoneCount){
+            this.id = 1 + topChildBoneCount*2;
+            this.vertexX = targetEdgeX + topChildBoneCount * (this.spacerH + this.vertexWidth) ;
+            this.vertexY = targetEdgeY - this.spacerV;
+        }else {
+            this.id = 2 + bottomChildBoneCount*2; 
+            this.vertexX = targetEdgeX + bottomChildBoneCount * (this.spacerH + this.vertexWidth) ;
+            this.vertexY = targetEdgeY + this.spacerV - this.vertexHeight;
+        };
+        
+        this.edgeTheta = Math.atan((this.parentBone.getEdge().getGeometry().sourcePoint.y - this.vertexY - this.vertexHeight)/this.spacerH)* 180 / Math.PI;
+    }
     
     this.buildBone = function (){
         this.buildVertex();
@@ -50,16 +71,18 @@ function SideBone (canvas) {
                                                 cellType:Constants.SIDEBONE_VERTEX,
                                                 id:id
                                             },
-                                            this.vertexX, this.vertexY,
+                                            this.vertexX, 
+                                            this.vertexY,
                                             this.vertexWidth,
                                             this.vertexHeight,
                                             Constants.SIDEBONE_VERTEX_STYLE);
     };
    
     this.buildEdge = function(){
-       var geometry = new mxGeometry();
-        geometry.targetPoint = new mxPoint(this.vertexX + this.vertexWidth/2 + this.edgeSlope,
-                                            this.parentBone.getEdge().getGeometry().sourcePoint.y);
+        var targetEdgeY = this.parentBone.getEdge().getGeometry().sourcePoint.y;
+        
+        var geometry = new mxGeometry();
+        geometry.targetPoint = new mxPoint(this.vertexX + this.vertexWidth/2 + this.spacerH, targetEdgeY);
         
         var cell = new mxCell('', geometry, Constants.SIDEBONE_EDGE_STYLE);
         cell.geometry.relative = true;
@@ -105,27 +128,8 @@ function SideBone (canvas) {
    
     this.buildChildBone = function(){
         var childBone = new LateralBone(this.canvas);
-        var details = this.getBuildDetailsForChildBone();
-        childBone.init(details, this.edge);
+        childBone.init(this);
         this.childBones.push(childBone);
-    };
-    
-    this.getBuildDetailsForChildBone = function(){
-        var details = {counter:this.childBones.length+1};
-        var leftSideBonesCount = this.getLeftChildBones().length;
-        var rightSideBonesCount = this.getRightChildBones().length;
-        
-        
-        if(leftSideBonesCount <= rightSideBonesCount){
-            details.id = 1 + leftSideBonesCount*2;
-            details.x = this.edgeInitialX + leftSideBonesCount * this.vertexIncrementX;
-            details.y = this.edgeInitialY - this.spacerV;
-        }else if(rightSideBonesCount < leftSideBonesCount){
-            details.id = 2 + rightSideBonesCount*2; 
-            details.x = this.edgeInitialX + rightSideBonesCount * this.vertexIncrementX;
-            details.y = this.edgeInitialY + this.spacerV - this.vertexHeight;
-        };
-        return details;
     };
     
     this.getSelectedChildBones = function(){
@@ -198,7 +202,8 @@ function SideBone (canvas) {
         return this.vertex.getValue().id > sideBone.getVertex().getValue().id;
     };
    
-    this.moveBone = function(dx){
+    this.moveBoneByUnitPosition = function(){
+       var dx = -(this.spacerH + this.vertexWidth);
        this.graph.moveCells([this.vertex, this.edge], dx, 0);
        this.vertex.getValue().id = dx < 0 ? this.vertex.getValue().id-2 : this.vertex.getValue().id+2;
     };
