@@ -96,21 +96,7 @@ BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
                 + "strokeWidth=" + styleAttributes.strokeWidth + ";"
                 + "strokeColor=" + styleAttributes.strokeColor + ";"
                 + "fillColor=" + styleAttributes.fillColor + ";";
-    var defaultStyle = "";
-    switch(cell.getValue().cellType){
-        case Constants.CENTERBONE_VERTEX:
-            defaultStyle = Constants.CENTERBONE_VERTEX_STYLE;
-            break;
-        case Constants.SIDEBONE_VERTEX:
-            defaultStyle = Constants.SIDEBONE_VERTEX_STYLE;
-            break;
-        case Constants.CENTERBONE_EDGE:
-            defaultStyle = Constants.CENTERBONE_EDGE_STYLE;
-            break;
-        case Constants.SIDEBONE_EDGE:
-            defaultStyle = Constants.SIDEBONE_EDGE_STYLE;
-            break;
-    }
+    var defaultStyle = Constants.STYLE_MAP.get(cell.getValue().cellType);
     style = defaultStyle + style;    
     this.graph.setCellStyle(style,[cell]);
 };

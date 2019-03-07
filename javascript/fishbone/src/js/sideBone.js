@@ -8,7 +8,7 @@ function SideBone (canvas) {
     
     this.spacerH = 50;
     
-    this.spacerV = 250;
+    this.spacerV = 150;
     
     this.vertexWidth = 150;
     
@@ -19,7 +19,7 @@ function SideBone (canvas) {
     this.init = function (parentBone) {
         BaseBone.prototype.init.call(this);
         this.parentBone = parentBone;
-        this.populateGeometryDetails();
+        this.calculateGeometryDetails();
         
         this.graph.getModel().beginUpdate();
         try
@@ -33,7 +33,7 @@ function SideBone (canvas) {
         }
     };
 
-    this.populateGeometryDetails = function(){
+    this.calculateGeometryDetails = function(){
        
         this.counter = this.parentBone.getChildBones().length + 1;
         var topChildBoneCount = this.parentBone.getTopChildBones().length;
@@ -53,7 +53,7 @@ function SideBone (canvas) {
         };
         
         this.edgeTheta = Math.atan((this.parentBone.getEdge().getGeometry().sourcePoint.y - this.vertexY - this.vertexHeight)/this.spacerH)* 180 / Math.PI;
-    }
+    };
     
     this.buildBone = function (){
         this.buildVertex();
@@ -64,13 +64,15 @@ function SideBone (canvas) {
    
     this.buildVertex = function(){
         var id = this.id;
-        var counter  = this.id;
+        var counter  = this.parentBone.getChildBones().length + 1;
+        var valueObject =   {
+                                toString:function(){return 'Cause-' + counter;},
+                                cellType:Constants.SIDEBONE_VERTEX,
+                                id:id
+                            };
+        
         this.vertex = this.graph.insertVertex(this.graphParent, null, 
-                                            {
-                                                toString:function(){return 'Cause-' + counter},
-                                                cellType:Constants.SIDEBONE_VERTEX,
-                                                id:id
-                                            },
+                                            valueObject,
                                             this.vertexX, 
                                             this.vertexY,
                                             this.vertexWidth,
@@ -79,16 +81,20 @@ function SideBone (canvas) {
     };
    
     this.buildEdge = function(){
+        var valueObject =   {
+                                toString:function(){return ''},
+                                cellType:Constants.SIDEBONE_EDGE
+                            };
         var targetEdgeY = this.parentBone.getEdge().getGeometry().sourcePoint.y;
         
         var geometry = new mxGeometry();
         geometry.targetPoint = new mxPoint(this.vertexX + this.vertexWidth/2 + this.spacerH, targetEdgeY);
         
-        var cell = new mxCell('', geometry, Constants.SIDEBONE_EDGE_STYLE);
+        var cell = new mxCell(valueObject, geometry, Constants.SIDEBONE_EDGE_STYLE);
         cell.geometry.relative = true;
         cell.edge = true;
         cell.source = this.vertex;
-        cell.value = {toString:function(){return ''},cellType:Constants.SIDEBONE_EDGE};
+        cell.parent = this.graphParent;
         this.edge = cell;
         this.graph.addCell(cell);
     };
@@ -149,7 +155,7 @@ function SideBone (canvas) {
     this.getLeftChildBones = function(){
         var leftChildBones = [];
         this.childBones.forEach(function(childBone) {
-            if(childBone.isAboveCenterBone()){
+            if(childBone.isLeftOfSideBone()){
                 leftChildBones.push(childBone); 
             };
         });
@@ -159,7 +165,7 @@ function SideBone (canvas) {
     this.getRightChildBones = function(){
         var rightChildBones = [];
         this.childBones.forEach(function(childBone) {
-            if(!childBone.isAboveCenterBone()){
+            if(!childBone.isLeftOfSideBone()){
                 rightChildBones.push(childBone); 
             };
         });

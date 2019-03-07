@@ -21,6 +21,8 @@ function GraphConfiguration(graphElement)
         
         this.graph.setTooltips(true);
         
+        this.graph.setCellsCloneable(false);
+        
         this.graph.getTooltipForCell = function(cell)
         {
           if(cell.isVertex()){

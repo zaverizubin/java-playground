@@ -53,8 +53,8 @@ function Canvas () {
     this.onAddDetailClick = function(){
         var selectedChildBones = this.centerBone.getSelectedChildBones();
         
-        if(selectedChildBones.length === 0 || selectedChildBones.length > 1){
-            Utils.showAlertDialog(Messages.SELECT_SINGLE_SHAPE);
+        if(selectedChildBones.length === 0){
+            Utils.showAlertDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
             return;
         };
         selectedChildBones.forEach(function(childBone){

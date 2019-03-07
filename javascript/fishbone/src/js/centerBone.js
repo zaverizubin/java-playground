@@ -41,24 +41,32 @@ function CenterBone (canvas) {
     };
     
     this.buildVertex = function(){
+        
+        var valueObject =   {
+                                toString:function(){return 'Main Cause';},
+                                cellType:Constants.CENTERBONE_VERTEX 
+                            };
+                
         this.vertex = this.graph.insertVertex(this.graphParent, null,
-                                            {
-                                                toString:function(){return 'Main Cause'},
-                                                cellType:Constants.CENTERBONE_VERTEX 
-                                            },
+                                            valueObject,
                                             this.vertexX, this.vertexY, 
                                             this.vertexWidth, this.vertexHeight, 
                                             Constants.CENTERBONE_VERTEX_STYLE);
     };
     
     this.buildEdge = function(){
+        var valueObject =   {
+                                toString:function(){return ''},
+                                cellType:Constants.CENTERBONE_EDGE
+                            };
         var geometry = new mxGeometry();
         geometry.sourcePoint = new mxPoint(this.edgeX, this.edgeY);
-        var cell = new mxCell('', geometry, Constants.CENTERBONE_EDGE_STYLE);
+        
+        var cell = new mxCell(valueObject, geometry, Constants.CENTERBONE_EDGE_STYLE);
         cell.geometry.relative = true;
         cell.edge = true;
         cell.target = this.vertex;
-        cell.value = {toString:function(){return ''},cellType:Constants.CENTERBONE_EDGE};
+        cell.parent = this.graphParent;
         this.edge = cell;
         this.graph.addCell(cell);
     };
@@ -80,7 +88,7 @@ function CenterBone (canvas) {
         var selectedChildBones = this.getSelectedChildBones();
         
         if(selectedChildBones.length === 0){
-            Utils.showAlertDialog(Messages.DELETE_SELECT_SINGLE_SHAPE);
+            Utils.showAlertDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
             return;
         };
         
