@@ -81,7 +81,7 @@ function LateralBone (canvas) {
                                                 :new mxPoint(this.edgeX + this.edgeLength, this.edgeY);
         geometry.targetPoint = new mxPoint(this.edgeX, this.edgeY);
         
-        var cell = new mxCell(valueObject, geometry, Constants.LATERALBONE_EDGE_STYLE);
+        var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.LATERALBONE_EDGE));
         cell.geometry.relative = true;
         cell.edge = true;
         cell.parent = this.graphParent;

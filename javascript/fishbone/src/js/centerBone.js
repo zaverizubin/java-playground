@@ -51,7 +51,7 @@ function CenterBone (canvas) {
                                             valueObject,
                                             this.vertexX, this.vertexY, 
                                             this.vertexWidth, this.vertexHeight, 
-                                            Constants.CENTERBONE_VERTEX_STYLE);
+                                            Constants.STYLE_MAP.get(Constants.CENTERBONE_VERTEX));
     };
     
     this.buildEdge = function(){
@@ -62,7 +62,7 @@ function CenterBone (canvas) {
         var geometry = new mxGeometry();
         geometry.sourcePoint = new mxPoint(this.edgeX, this.edgeY);
         
-        var cell = new mxCell(valueObject, geometry, Constants.CENTERBONE_EDGE_STYLE);
+        var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.CENTERBONE_EDGE));
         cell.geometry.relative = true;
         cell.edge = true;
         cell.target = this.vertex;
@@ -76,7 +76,7 @@ function CenterBone (canvas) {
         try
         {
             this.buildChildBone();
-            this.moveVertex();
+            this.positionVertex();
         }
         finally
         {
@@ -100,7 +100,7 @@ function CenterBone (canvas) {
                 Utils.removeFromArray(this.childBones, selectedChildBones[i]);
             };
             this.compactChildBones();
-            this.moveVertex();
+            this.positionVertex();
             this.sortBones(this.childBones);
         }
         finally
@@ -173,12 +173,12 @@ function CenterBone (canvas) {
         return bottomChildBones;
     };
     
-    this.moveVertex = function (){
-        var topSideBonesCount = this.getTopChildBones().length;
-        var bottomSideBonesCount = this.getBottomChildBones().length;
-        var maxSideBonesCount = Math.max(topSideBonesCount, bottomSideBonesCount);
+    this.positionVertex = function (){
+        var topChildBonesCount = this.getTopChildBones().length;
+        var bottomChildBonesCount = this.getBottomChildBones().length;
+        var maxChildBonesCount = Math.max(topChildBonesCount, bottomChildBonesCount);
         
-        var geometry = new mxGeometry(this.vertexX + maxSideBonesCount * (this.spacerH + this.vertexWidth),
+        var geometry = new mxGeometry(this.vertexX + maxChildBonesCount * (this.spacerH + this.vertexWidth),
                                       this.vertexY,
                                       this.vertex.getGeometry().width, 
                                       this.vertex.getGeometry().height);
@@ -197,7 +197,7 @@ function CenterBone (canvas) {
             if(boneToFlip !== null){
                 boneToFlip.flipBone();
                 this.compactChildBones();
-                this.moveVertex();
+                this.positionVertex();
                 this.sortBones(this.childBones);
                 this.graph.removeSelectionCells(cells);
             };

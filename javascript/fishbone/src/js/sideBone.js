@@ -14,7 +14,7 @@ function SideBone (canvas) {
     
     this.vertexHeight = 35;
    
-    this.edgeTheta;
+    this.edgeTheta = 70 * Math.PI/180;
    
     this.init = function (parentBone) {
         BaseBone.prototype.init.call(this);
@@ -44,15 +44,13 @@ function SideBone (canvas) {
         
         if(topChildBoneCount <= bottomChildBoneCount){
             this.id = 1 + topChildBoneCount*2;
-            this.vertexX = targetEdgeX + topChildBoneCount * (this.spacerH + this.vertexWidth) ;
-            this.vertexY = targetEdgeY - this.spacerV;
+            this.vertexX = targetEdgeX + topChildBoneCount  * (this.spacerH + this.vertexWidth) ;
+            this.vertexY = targetEdgeY - this.spacerV  - this.vertexHeight;
         }else {
             this.id = 2 + bottomChildBoneCount*2; 
             this.vertexX = targetEdgeX + bottomChildBoneCount * (this.spacerH + this.vertexWidth) ;
-            this.vertexY = targetEdgeY + this.spacerV - this.vertexHeight;
+            this.vertexY = targetEdgeY + this.spacerV;
         };
-        
-        this.edgeTheta = Math.atan((this.parentBone.getEdge().getGeometry().sourcePoint.y - this.vertexY - this.vertexHeight)/this.spacerH)* 180 / Math.PI;
     };
     
     this.buildBone = function (){
@@ -77,7 +75,7 @@ function SideBone (canvas) {
                                             this.vertexY,
                                             this.vertexWidth,
                                             this.vertexHeight,
-                                            Constants.SIDEBONE_VERTEX_STYLE);
+                                            Constants.STYLE_MAP.get(Constants.SIDEBONE_VERTEX));
     };
    
     this.buildEdge = function(){
@@ -85,12 +83,17 @@ function SideBone (canvas) {
                                 toString:function(){return ''},
                                 cellType:Constants.SIDEBONE_EDGE
                             };
+                            
+        var vertexX = this.getVertex().getGeometry().x;
+        var vertexY = this.getVertex().getGeometry().y;
         var targetEdgeY = this.parentBone.getEdge().getGeometry().sourcePoint.y;
         
         var geometry = new mxGeometry();
-        geometry.targetPoint = new mxPoint(this.vertexX + this.vertexWidth/2 + this.spacerH, targetEdgeY);
+        geometry.targetPoint = (this.id%2 !==0) ?
+                                new mxPoint(vertexX + this.vertexWidth/2 + (targetEdgeY - vertexY - this.vertexHeight)/Math.tan(this.edgeTheta), targetEdgeY)
+                                : new mxPoint(vertexX + this.vertexWidth/2 + (vertexY - targetEdgeY)/Math.tan(this.edgeTheta), targetEdgeY);
         
-        var cell = new mxCell(valueObject, geometry, Constants.SIDEBONE_EDGE_STYLE);
+        var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.SIDEBONE_EDGE));
         cell.geometry.relative = true;
         cell.edge = true;
         cell.source = this.vertex;
@@ -104,7 +107,7 @@ function SideBone (canvas) {
         try
         {
             this.buildChildBone();
-            this.moveVertex();
+           // this.positionVertex();
         }
         finally
         {
@@ -123,7 +126,7 @@ function SideBone (canvas) {
                 Utils.removeFromArray(this.childBones, selectedChildBones[i]);
             };
             this.compactChildBones();
-            this.moveVertex();
+            this.positionVertex();
             this.sortBones(this.childBones);
         }
         finally
@@ -172,8 +175,22 @@ function SideBone (canvas) {
         return rightChildBones;
     };
     
-    this.moveVertex = function (){
+    this.positionVertex = function (){
+        var leftChildBonesCount = this.getLeftChildBones().length;
+        var rightChildBonesCount = this.getRightChildBones().length;
+        var maxSideBonesCount = Math.max(leftChildBonesCount, rightChildBonesCount);
         
+        var targetEdgeX = this.getEdge().getGeometry().targetPoint.x;
+        var targetEdgeY = this.getEdge().getGeometry().targetPoint.y;
+        
+        var geometry = new mxGeometry(targetEdgeX  - (maxSideBonesCount + 1)* this.spacerV / Math.tan(this.edgeTheta)  - this.vertexWidth/2,
+                                      (this.id%2 !==0) 
+                                        ? targetEdgeY  - (maxSideBonesCount + 1) * this.spacerV 
+                                        : targetEdgeY  + (maxSideBonesCount + 1) * this.spacerV,
+                                      this.vertex.getGeometry().width, 
+                                      this.vertex.getGeometry().height);
+       
+        this.graph.getModel().setGeometry(this.vertex, geometry);
     };
     
     this.flipChildBone = function (){
