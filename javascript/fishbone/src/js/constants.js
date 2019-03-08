@@ -13,9 +13,9 @@ Constants.LATERALBONE_EDGE =  "lateral-edge";
 
 Constants.STYLE_MAP = new Map();
 
-Constants.STYLE_MAP.set(Constants.CENTERBONE_VERTEX, 'movable=1;resizable=1;selectable=1;');
+Constants.STYLE_MAP.set(Constants.CENTERBONE_VERTEX, 'movable=0;resizable=1;selectable=1;');
 
-Constants.STYLE_MAP.set(Constants.SIDEBONE_VERTEX, 'movable=1;resizable=1;shape=ellipse;');
+Constants.STYLE_MAP.set(Constants.SIDEBONE_VERTEX, 'movable=0;resizable=1;shape=ellipse;');
 
 Constants.STYLE_MAP.set(Constants.CENTERBONE_EDGE, 'curved=1;endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
 

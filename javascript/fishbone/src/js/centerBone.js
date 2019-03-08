@@ -2,20 +2,15 @@ function CenterBone (canvas) {
     
     BaseBone.call(this, canvas);
         
-    this.spacerH = 20;
+    this.spacerH = 50; //The initial vertex x position.
     
-    this.vertexWidth = 150;
+    this.boneSegmentLength = 175; //Increment distance by which vertext moves subsequently.
+        
+    this.marginH = 75; //The initial edge x position
+    
+    this.vertexWidth = 130;
     
     this.vertexHeight = 50;
-    
-    this.vertexX = 150;
-    
-    this.vertexY = (this.canvasHeight/2) - (this.vertexHeight/2);
-    
-    this.edgeX = 50;
-    
-    this.edgeY = (this.canvasHeight/2);
-    
     
     this.init = function () {
         BaseBone.prototype.init.call(this);
@@ -48,10 +43,11 @@ function CenterBone (canvas) {
                             };
                 
         this.vertex = this.graph.insertVertex(this.graphParent, null,
-                                            valueObject,
-                                            this.vertexX, this.vertexY, 
-                                            this.vertexWidth, this.vertexHeight, 
-                                            Constants.STYLE_MAP.get(Constants.CENTERBONE_VERTEX));
+                                                valueObject,
+                                                this.marginH + this.spacerH,
+                                                (this.canvasHeight/2) - (this.vertexHeight/2),
+                                                this.vertexWidth, this.vertexHeight, 
+                                                Constants.STYLE_MAP.get(Constants.CENTERBONE_VERTEX));
     };
     
     this.buildEdge = function(){
@@ -60,7 +56,7 @@ function CenterBone (canvas) {
                                 cellType:Constants.CENTERBONE_EDGE
                             };
         var geometry = new mxGeometry();
-        geometry.sourcePoint = new mxPoint(this.edgeX, this.edgeY);
+        geometry.sourcePoint = new mxPoint(this.marginH, this.canvasHeight/2);
         
         var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.CENTERBONE_EDGE));
         cell.geometry.relative = true;
@@ -111,8 +107,20 @@ function CenterBone (canvas) {
     
     this.buildChildBone = function(){
         var childBone = new SideBone(this.canvas);
-        childBone.init(this);
+        childBone.init(this, this.getNextChildId());
         this.childBones.push(childBone);
+    };
+    
+    this.getNextChildId = function(){
+        this.sortBones(this.childBones);
+        var id = 1;
+        for(var i = 0; i<this.childBones.length; i++){
+            if(id < this.childBones[i].getVertex().getValue().id){
+                return id;
+            }
+            id += 1;
+        };
+        return id;
     };
     
     this.getSelectedChildBones = function(){
@@ -135,7 +143,7 @@ function CenterBone (canvas) {
         for(var i=0; i<topSideBones.length ; i++){
             while(topSideBones[i].getVertex().getValue().id > id){
                 for(var j=i; j<topSideBones.length ; j++){
-                    topSideBones[j].moveBoneByUnitPosition();
+                    topSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
                 }
             }
             id += 2;
@@ -145,7 +153,7 @@ function CenterBone (canvas) {
         for(var i=0; i<bottomSideBones.length ; i++){
             while(bottomSideBones[i].getVertex().getValue().id > id){
                 for(var j=i; j<bottomSideBones.length ; j++){
-                    bottomSideBones[j].moveBoneByUnitPosition();
+                    bottomSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
                 }
             }
             id += 2;
@@ -173,13 +181,20 @@ function CenterBone (canvas) {
         return bottomChildBones;
     };
     
+    this.getChildBonesCount = function(){
+        var topChildBonesCount = this.getTopChildBones().length;
+        var bottomChildBonesCount = this.getBottomChildBones().length;
+        return topChildBonesCount + bottomChildBonesCount;
+    };
+    
     this.positionVertex = function (){
+       
         var topChildBonesCount = this.getTopChildBones().length;
         var bottomChildBonesCount = this.getBottomChildBones().length;
         var maxChildBonesCount = Math.max(topChildBonesCount, bottomChildBonesCount);
         
-        var geometry = new mxGeometry(this.vertexX + maxChildBonesCount * (this.spacerH + this.vertexWidth),
-                                      this.vertexY,
+        var geometry = new mxGeometry(this.marginH + this.spacerH + maxChildBonesCount * this.boneSegmentLength,
+                                      (this.canvasHeight/2) - (this.vertexHeight/2),
                                       this.vertex.getGeometry().width, 
                                       this.vertex.getGeometry().height);
        

@@ -40,9 +40,8 @@ BaseBone.prototype.getEdge = function(){
     return this.edge;
 };
 
-BaseBone.prototype.init = function(){
-   
-        
+BaseBone.prototype.init = function(parentBone){
+    this.parentBone = parentBone; 
 };
 
 BaseBone.prototype.getChildBoneFromCell = function(cell){
