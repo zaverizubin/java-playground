@@ -19,6 +19,8 @@ function GraphConfiguration(graphElement)
         
         this.graph = graph;
         
+        new mxRubberband(this.graph);
+        
         this.graph.setTooltips(true);
         
         this.graph.setCellsCloneable(false);

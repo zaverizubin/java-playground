@@ -14,8 +14,6 @@ function CenterBone (canvas) {
     
     this.init = function () {
         BaseBone.prototype.init.call(this);
-        
-        new mxRubberband(this.graph);
         this.graph.getModel().beginUpdate();
         try
         {
@@ -73,7 +71,7 @@ function CenterBone (canvas) {
         try
         {
             this.buildChildBone();
-            this.positionVertex();
+            this.positionBone();
         }
         finally
         {
@@ -81,29 +79,44 @@ function CenterBone (canvas) {
         }
     };
     
-    this.deleteChildBones = function(){
-        var selectedChildBones = this.getSelectedChildBones();
-        
-        if(selectedChildBones.length === 0){
+    this.deleteSelectedChildBones = function(){
+        var childBonesToDelete = this.getSelectedChildBones();
+        if(childBonesToDelete.length === 0){
             Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
             return;
         };
-        
         this.graph.getModel().beginUpdate();
         try
         {   
-            for(var i = 0; i<selectedChildBones.length; i++){
-                selectedChildBones[i].delete();
-                Utils.removeFromArray(this.childBones, selectedChildBones[i]);
-            };
+            this.deleteChildBones(childBonesToDelete);
             this.compactChildBones();
-            this.positionVertex();
+            this.positionBone();
             this.sortBones(this.childBones);
         }
         finally
         {
            this.graph.getModel().endUpdate();
         }
+    };
+    
+    this.deleteAllChildBones = function(){
+        var childBonesToDelete = this.getChildBones();
+        this.graph.getModel().beginUpdate();
+        try
+        {   
+            this.deleteChildBones(childBonesToDelete);
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    };
+    
+    this.deleteChildBones = function(childBonesToDelete){
+        for(var i = childBonesToDelete.length-1; i>=0; i--){
+            childBonesToDelete[i].delete();
+            Utils.removeFromArray(this.childBones, childBonesToDelete[i]);
+        };
     };
     
     this.buildChildBone = function(){
@@ -131,7 +144,7 @@ function CenterBone (canvas) {
         
         var id=1;
         for(var i=0; i<topSideBones.length ; i++){
-            while(topSideBones[i].getVertex().getValue().id > id){
+            while(topSideBones[i].getId() > id){
                 for(var j=i; j<topSideBones.length ; j++){
                     topSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
                 }
@@ -141,7 +154,7 @@ function CenterBone (canvas) {
         
         var id=2;
         for(var i=0; i<bottomSideBones.length ; i++){
-            while(bottomSideBones[i].getVertex().getValue().id > id){
+            while(bottomSideBones[i].getId() > id){
                 for(var j=i; j<bottomSideBones.length ; j++){
                     bottomSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
                 }
@@ -177,7 +190,7 @@ function CenterBone (canvas) {
         return topChildBonesCount + bottomChildBonesCount;
     };
     
-    this.positionVertex = function (){
+    this.positionBone = function (){
        
         var topChildBonesCount = this.getTopChildBones().length;
         var bottomChildBonesCount = this.getBottomChildBones().length;
@@ -202,7 +215,7 @@ function CenterBone (canvas) {
             if(boneToFlip !== null){
                 boneToFlip.flipBone();
                 this.compactChildBones();
-                this.positionVertex();
+                this.positionBone();
                 this.sortBones(this.childBones);
                 this.graph.removeSelectionCells(cells);
             };

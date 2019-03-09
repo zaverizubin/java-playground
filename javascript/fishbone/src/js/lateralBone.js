@@ -17,7 +17,7 @@ function LateralBone (canvas) {
         try
         {
             this.buildBone(id);
-            this.positionEdge();
+            this.positionBone();
             this.graph.fireEvent(new mxEventObject('cellsInserted', 'cells', [this.mainEdge]));
         }
         finally
@@ -59,8 +59,44 @@ function LateralBone (canvas) {
         
     };
     
-    this.deleteChildBones = function(){
-        
+    this.deleteSelectedChildBones = function(){
+        var childBonesToDelete = this.getSelectedChildBones();
+        if(childBonesToDelete.length === 0){
+            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
+            return;
+        };
+        this.graph.getModel().beginUpdate();
+        try
+        {   
+            this.deleteChildBones(childBonesToDelete);
+            this.compactChildBones();
+            this.positionBone();
+            this.sortBones(this.childBones);
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    };
+    
+    this.deleteAllChildBones = function(){
+        var childBonesToDelete = this.getChildBones();
+        this.graph.getModel().beginUpdate();
+        try
+        {   
+            this.deleteChildBones(childBonesToDelete);
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    };
+    
+    this.deleteChildBones = function(childBonesToDelete){
+        for(var i = childBonesToDelete.length-1; i>=0; i--){
+            childBonesToDelete[i].delete();
+            Utils.removeFromArray(this.childBones, childBonesToDelete[i]);
+        };
     };
     
     this.buildChildBone = function(){
@@ -95,7 +131,7 @@ function LateralBone (canvas) {
         return Math.max(topChildBonesCount, bottomChildBonesCount);
     };
     
-    this.positionEdge = function (){
+    this.positionBone = function (){
         
         var geometry = new mxGeometry();
         
@@ -138,6 +174,7 @@ function LateralBone (canvas) {
     };
     
     this.delete = function(){
+       this.deleteAllChildBones();
        this.graph.removeCells([this.edge]);
     };
    
