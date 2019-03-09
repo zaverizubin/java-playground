@@ -105,6 +105,7 @@ function CenterBone (canvas) {
         try
         {   
             this.deleteChildBones(childBonesToDelete);
+            this.positionBone();
         }
         finally
         {

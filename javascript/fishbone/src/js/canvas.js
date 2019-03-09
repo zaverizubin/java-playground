@@ -95,8 +95,7 @@ function Canvas () {
         var graph = this.graph;
         var canvas = this;
         Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
-            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
-            canvas.buildCenterBone();
+            canvas.centerBone.deleteAllChildBones();
         });
     };
     

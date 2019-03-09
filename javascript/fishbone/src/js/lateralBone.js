@@ -85,6 +85,7 @@ function LateralBone (canvas) {
         try
         {   
             this.deleteChildBones(childBonesToDelete);
+            this.positionBone();
         }
         finally
         {
