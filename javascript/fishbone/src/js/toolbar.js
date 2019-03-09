@@ -89,6 +89,10 @@ function Toolbar () {
             canvas.onZoomReset();
         });
         
+         $("#clear-diagram").click(function(){
+            canvas.onClearDiagram();
+        });
+        
         $("#properties").click(function(){
             canvas.onPropertiesWindowOpen();
         });

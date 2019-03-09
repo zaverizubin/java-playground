@@ -84,7 +84,7 @@ function CenterBone (canvas) {
         var selectedChildBones = this.getSelectedChildBones();
         
         if(selectedChildBones.length === 0){
-            Utils.showAlertDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
+            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
             return;
         };
         
@@ -246,7 +246,7 @@ function CenterBone (canvas) {
     
     this.canFlipChildBone = function(cells){
         if(cells.length !== 1 || cells[0].getValue().cellType !== Constants.SIDEBONE_VERTEX){
-            Utils.showAlertDialog(Messages.VERTEX_FLIP_SELECT_SHAPE);
+            Utils.showMessageDialog(Messages.VERTEX_FLIP_SELECT_SHAPE);
             return false;
         };
         
@@ -256,10 +256,10 @@ function CenterBone (canvas) {
                 var childbone = this.childBones[i];
                 if(childbone.getVertex() !== cell){
                     if(childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id - 1){
-                        Utils.showAlertDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
+                        Utils.showMessageDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
                         return false;
                     }else if(!childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id + 1){
-                        Utils.showAlertDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
+                        Utils.showMessageDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
                         return false;
                     };
                 };
@@ -270,12 +270,12 @@ function CenterBone (canvas) {
     
     this.canSwapChildBones = function(cells){
         if(cells.length !== 2 ){
-            Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE);
+            Utils.showMessageDialog(Messages.VERTEX_SWAP_SELECT_SHAPE);
             return false;
         };
         cells.forEach(function(cell){
             if(cell.isEdge() || cell.getValue().cellType === Constants.CENTERBONE_VERTEX){
-               Utils.showAlertDialog(Messages.VERTEX_SWAP_SELECT_SHAPE); 
+               Utils.showMessageDialog(Messages.VERTEX_SWAP_SELECT_SHAPE); 
                return false;
             }
         });

@@ -16,9 +16,7 @@ function Canvas () {
     
     this.init = function (graphElement, toolbar) {
         this.toolbar = toolbar;
-        this.graphConfiguration = new GraphConfiguration(graphElement);
         this.buildGraph(graphElement);
-        this.graphConfiguration.init(this.graph, this);
         this.buildCenterBone();
     };
     
@@ -54,7 +52,7 @@ function Canvas () {
         var selectedChildBones = this.centerBone.getSelectedChildBones();
         
         if(selectedChildBones.length === 0){
-            Utils.showAlertDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
+            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
             return;
         };
         selectedChildBones.forEach(function(childBone){
@@ -85,6 +83,15 @@ function Canvas () {
         this.graph.zoomActual();
     };
     
+    this.onClearDiagram = function(){
+        var graph = this.graph;
+        var canvas = this;
+        Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
+            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
+            canvas.buildCenterBone();
+        });
+    };
+    
     this.onSwapClick = function(){
         this.centerBone.swapChildBones();
     };
@@ -94,7 +101,9 @@ function Canvas () {
     };
     
     this.buildGraph = function(graphElement){
+        this.graphConfiguration = new GraphConfiguration(graphElement);
         this.graph = new mxGraph(graphElement);
+        this.graphConfiguration.init(this.graph, this);
     };
     
     this.buildCenterBone = function(){
@@ -126,7 +135,7 @@ function Canvas () {
     this.onPropertiesWindowOpen = function(){
         var cells = this.graph.getSelectionCells();
         if(cells.length > 1 || cells.length ===0){
-            Utils.showAlertDialog(Messages.SELECT_SINGLE_SHAPE);
+            Utils.showMessageDialog(Messages.SELECT_SINGLE_SHAPE);
             return;
         };
         var cell = cells[0];

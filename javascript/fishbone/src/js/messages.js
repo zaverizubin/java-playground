@@ -1,8 +1,12 @@
 function Messages(){}
 
+Messages.CLEAR_GRAPH = "This will clear the entire graph. Are you sure?";
+
 Messages.SELECT_SINGLE_SHAPE = "A single vertex shape must be selected.";
 
 Messages.SELECT_ONE_OR_MORE_SHAPE = "One or more vertex shapes must be selected.";
+
+
 
 Messages.VERTEX_TOOLTIP = "Right click for context menu.";
 

@@ -9,12 +9,29 @@ Utils.removeFromArray = function(arr, object){
     };
 };
 
-Utils.showAlertDialog = function(text){
-    $("#alert-window").dialog({title: "Alert", width: 400,  buttons: {
+Utils.showMessageDialog = function(text){
+    $("#message-window").dialog({title: "Alert", width: 400,  buttons: {
         Ok: function() {
           $( this ).dialog( "close" );
         }
       }});
-    $("#alert-window").dialog("open");
-    $("#alert-content").text(text);
+    $("#message-window").dialog("open");
+    $("#message-window").text(text);
+};
+
+Utils.showConfirmationBox = function(message, okCallback){
+    $("#message-window").dialog({ 
+        buttons: [{text: "Ok",click: function() {
+                    okCallback();
+                    $("#message-window").dialog("close");
+                }.bind(this)},
+                {text: "Cancel", click: function() {
+                        $(this).dialog( "close" )}}
+                ],
+        title: "Alert",
+        modal:true,
+        resizable: false,
+        width: 400,
+        dialogClass: "alert"
+    }).html(message).show();
 };
