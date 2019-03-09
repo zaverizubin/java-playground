@@ -14,12 +14,10 @@ function SideBone (canvas) {
    
     this.init = function (parentBone, id) {
         BaseBone.prototype.init.call(this, parentBone);
-        this.id = id;
-        
         this.graph.getModel().beginUpdate();
         try
         {
-            this.buildBone();
+            this.buildBone(id);
             this.positionVertex();
             this.graph.fireEvent(new mxEventObject('cellsInserted', 'cells', [this.mainEdge]));
         }
@@ -29,19 +27,19 @@ function SideBone (canvas) {
         }
     };
 
-    this.buildBone = function (){
-        this.buildVertex();
+    this.buildBone = function (id){
+        this.buildVertex(id);
         this.buildEdge();
         this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
         this.applyCellStyle(this.edge, this.canvas.getToolbar().getStyleAttributes());
     };
    
-    this.buildVertex = function(){
+    this.buildVertex = function(id){
         var counter  = this.parentBone.getChildBones().length + 1;
         var valueObject =   {
                                 toString:function(){return 'Cause-' + counter;},
                                 cellType:Constants.SIDEBONE_VERTEX,
-                                id:this.id
+                                id:id
                             };
                 
         this.vertex = this.graph.insertVertex(this.graphParent, null, 
@@ -60,7 +58,7 @@ function SideBone (canvas) {
                             };
         
         var xLoc =  this.parentBone.getEdge().getGeometry().sourcePoint.x +
-                    this.parentBone.boneSegmentLength * Math.ceil(this.id/2);
+                    this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2);
             
         var yLoc = this.parentBone.getEdge().getGeometry().sourcePoint.y;
         
@@ -190,7 +188,7 @@ function SideBone (canvas) {
         var xLoc = this.getEdge().getGeometry().targetPoint.x 
                    - Math.ceil(((maxChildBonesCount * this.boneSegmentLength) + this.spacerV) / Math.tan(this.edgeTheta)) 
                    - this.vertexWidth/2;
-        var yLoc = (this.id % 2 !==0) 
+        var yLoc = (this.getId() % 2 !==0) 
                     ? this.getEdge().getGeometry().targetPoint.y  - (maxChildBonesCount * this.boneSegmentLength) - this.spacerV - this.vertexHeight 
                     : this.getEdge().getGeometry().targetPoint.y  + (maxChildBonesCount * this.boneSegmentLength) + this.spacerV;
         

@@ -25,7 +25,7 @@ function BaseBone(canvas){
 }
 
 BaseBone.prototype.getId = function(){
-    return this.id;
+    return this.hasVertex()? this.vertex.getValue().id : this.edge.getValue().id;
 };
 
 BaseBone.prototype.getParentBone = function(){
@@ -66,7 +66,7 @@ BaseBone.prototype.getNextChildId = function(){
 
 BaseBone.prototype.getChildBoneFromCell = function(cell){
     for(var i = 0; i < this.childBones.length; i++) {
-        var cellToCompare = this.childBones[i].hasVertex() ? this.childBones[i].getVertex(): this.childBones[i].getEdge()
+        var cellToCompare = this.childBones[i].hasVertex() ? this.childBones[i].getVertex(): this.childBones[i].getEdge();
         if(cellToCompare === cell){
             return this.childBones[i];
         };

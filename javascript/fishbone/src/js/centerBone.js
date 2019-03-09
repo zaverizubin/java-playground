@@ -39,7 +39,8 @@ function CenterBone (canvas) {
         
         var valueObject =   {
                                 toString:function(){return 'Main Cause';},
-                                cellType:Constants.CENTERBONE_VERTEX 
+                                cellType:Constants.CENTERBONE_VERTEX,
+                                id:1
                             };
                 
         this.vertex = this.graph.insertVertex(this.graphParent, null,

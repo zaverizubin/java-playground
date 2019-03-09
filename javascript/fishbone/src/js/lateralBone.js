@@ -12,12 +12,11 @@ function LateralBone (canvas) {
     
     this.init = function (parentBone, id) {
         BaseBone.prototype.init.call(this, parentBone);
-        this.id = id;
-      
+       
         this.graph.getModel().beginUpdate();
         try
         {
-            this.buildBone();
+            this.buildBone(id);
             this.positionEdge();
             this.graph.fireEvent(new mxEventObject('cellsInserted', 'cells', [this.mainEdge]));
         }
@@ -27,13 +26,12 @@ function LateralBone (canvas) {
         }
     };
     
-    this.buildBone = function (){
-        this.buildEdge();
+    this.buildBone = function (id){
+        this.buildEdge(id);
         this.applyCellStyle(this.edge, this.canvas.getToolbar().getStyleAttributes());
     };
    
-    this.buildEdge = function(){
-        var id = this.id;
+    this.buildEdge = function(id){
         var counter  = this.parentBone.getChildBones().length + 1;
         
         var valueObject =   {
@@ -102,18 +100,18 @@ function LateralBone (canvas) {
         var geometry = new mxGeometry();
         
         var sourceX =  this.parentBone.getEdge().getGeometry().targetPoint.x 
-                        - Math.ceil((this.parentBone.boneSegmentLength * Math.ceil(this.id/2))/ Math.tan(this.parentBone.edgeTheta));
+                        - Math.ceil((this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))/ Math.tan(this.parentBone.edgeTheta));
         
         var sourceY = (this.parentBone.getId() % 2 !== 0)
                     ? this.parentBone.getEdge().getGeometry().targetPoint.y 
-                         - (this.parentBone.boneSegmentLength * Math.ceil(this.id/2))
+                         - (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))
                     : this.parentBone.getEdge().getGeometry().targetPoint.y 
-                         + (this.parentBone.boneSegmentLength * Math.ceil(this.id/2));
+                         + (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2));
                         
         geometry.sourcePoint = new mxPoint(sourceX, sourceY);
         
         
-        var targetX = (this.id % 2 !== 0)
+        var targetX = (this.getId() % 2 !== 0)
                     ? geometry.sourcePoint.x - this.spacerH - this.getMaxOfChildBoneCount() * this.boneSegmentLength
                     : geometry.sourcePoint.x + this.spacerH + this.getMaxOfChildBoneCount() * this.boneSegmentLength;
         var targetY =  geometry.sourcePoint.y;
