@@ -21,6 +21,6 @@ Constants.STYLE_MAP.set(Constants.CENTERBONE_EDGE, 'curved=1;endArrow=classic;ht
 
 Constants.STYLE_MAP.set(Constants.SIDEBONE_EDGE, 'endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
 
-Constants.STYLE_MAP.set(Constants.LATERALBONE_EDGE, 'endArrow=classic;html=1verticalAlign=bottom;verticalLabelPosition=bottom;movable=0;resizable=0;selectable=1;');
+Constants.STYLE_MAP.set(Constants.LATERALBONE_EDGE, 'startArrow=classic;endArrow=none;html=1verticalAlign=bottom;verticalLabelPosition=bottom;movable=0;resizable=0;selectable=1;');
 
 

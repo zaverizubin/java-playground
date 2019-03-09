@@ -2,9 +2,9 @@ function CenterBone (canvas) {
     
     BaseBone.call(this, canvas);
         
-    this.spacerH = 50; //The initial vertex x position.
+    this.spacerH = 50; //The initial length of this bone.
     
-    this.boneSegmentLength = 175; //Increment distance by which vertext moves subsequently.
+    this.boneSegmentLength = 175; //Increment distance by which the this bone grows or shrinks.
         
     this.marginH = 75; //The initial edge x position
     
@@ -111,17 +111,6 @@ function CenterBone (canvas) {
         this.childBones.push(childBone);
     };
     
-    this.getNextChildId = function(){
-        this.sortBones(this.childBones);
-        var id = 1;
-        for(var i = 0; i<this.childBones.length; i++){
-            if(id < this.childBones[i].getVertex().getValue().id){
-                return id;
-            }
-            id += 1;
-        };
-        return id;
-    };
     
     this.getSelectedChildBones = function(){
         var selectedBones = [];
@@ -164,7 +153,7 @@ function CenterBone (canvas) {
     this.getTopChildBones = function(){
         var topChildBones = [];
         this.childBones.forEach(function(childBone) {
-            if(childBone.isAboveCenterBone()){
+            if(childBone.isAboveParentBone()){
                 topChildBones.push(childBone); 
             };
         });
@@ -174,7 +163,7 @@ function CenterBone (canvas) {
     this.getBottomChildBones = function(){
         var bottomChildBones = [];
         this.childBones.forEach(function(childBone) {
-            if(!childBone.isAboveCenterBone()){
+            if(!childBone.isAboveParentBone()){
                 bottomChildBones.push(childBone); 
             };
         });
@@ -255,10 +244,10 @@ function CenterBone (canvas) {
             for(var i = 0; i < this.childBones.length; i++) {
                 var childbone = this.childBones[i];
                 if(childbone.getVertex() !== cell){
-                    if(childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id - 1){
+                    if(childbone.isAboveParentBone() && childbone.getVertex().getValue().id === cell.getValue().id - 1){
                         Utils.showMessageDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
                         return false;
-                    }else if(!childbone.isAboveCenterBone() && childbone.getVertex().getValue().id === cell.getValue().id + 1){
+                    }else if(!childbone.isAboveParentBone() && childbone.getVertex().getValue().id === cell.getValue().id + 1){
                         Utils.showMessageDialog(Messages.VERTEX_FLIP_SHAPE_EXISTS);
                         return false;
                     };

@@ -24,6 +24,10 @@ function BaseBone(canvas){
     
 }
 
+BaseBone.prototype.getId = function(){
+    return this.id;
+};
+
 BaseBone.prototype.getParentBone = function(){
     return this.parentBone;
 };
@@ -40,13 +44,30 @@ BaseBone.prototype.getEdge = function(){
     return this.edge;
 };
 
+BaseBone.prototype.hasVertex = function(){
+    return this.vertex !== undefined;
+};
+
 BaseBone.prototype.init = function(parentBone){
     this.parentBone = parentBone; 
 };
 
+BaseBone.prototype.getNextChildId = function(){
+    this.sortBones(this.childBones);
+    var id = 1;
+    for(var i = 0; i<this.childBones.length; i++){
+        if(id < this.childBones[i].getId()){
+            return id;
+        }
+        id += 1;
+    };
+    return id;
+};
+
 BaseBone.prototype.getChildBoneFromCell = function(cell){
     for(var i = 0; i < this.childBones.length; i++) {
-        if(this.childBones[i].getVertex() === cell){
+        var cellToCompare = this.childBones[i].hasVertex() ? this.childBones[i].getVertex(): this.childBones[i].getEdge()
+        if(cellToCompare === cell){
             return this.childBones[i];
         };
     };
@@ -55,7 +76,7 @@ BaseBone.prototype.getChildBoneFromCell = function(cell){
 
 BaseBone.prototype.sortBones = function(bones){
     bones.sort(function (bone1, bone2) {
-        return bone1.getVertex().getValue().id - bone2.getVertex().getValue().id;
+        return bone1.getId() - bone2.getId();
     });
 };
 
