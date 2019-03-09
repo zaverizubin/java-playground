@@ -28,6 +28,15 @@ BaseBone.prototype.getId = function(){
     return this.hasVertex()? this.vertex.getValue().id : this.edge.getValue().id;
 };
 
+BaseBone.prototype.setId = function(id){
+    if(this.hasVertex()){
+        this.vertex.getValue().id = id;
+    }else{
+        this.edge.getValue().id = id;
+    }
+};
+
+
 BaseBone.prototype.getParentBone = function(){
     return this.parentBone;
 };

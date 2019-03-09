@@ -184,16 +184,16 @@ function LateralBone (canvas) {
     };
    
     this.isLeftOfParentBone = function(){
-       return this.edge.getValue().id %2 !== 0;
+       return this.getId() %2 !== 0;
     };
    
     this.isAboveSiblingBone = function(lateralBone){
-        return this.edge.getValue().id > lateralBone.getEdge().getValue().id;
+        return this.getId() > lateralBone.getId();
     };
    
     this.moveBoneByUnitPosition = function(dy){
-       this.graph.moveCells([this.edge], Math.ceil(dy/Math.tan(this.parentBone.edgeTheta)), dy);
-        this.vertex.getValue().id = dy < 0? this.vertex.getValue().id-2 : this.vertex.getValue().id+2;
+        this.graph.moveCells([this.edge], Math.ceil(Math.abs(dy)/Math.tan(this.parentBone.edgeTheta)), dy);
+        this.setId(this.getId()-2);
     };
    
     this.flipBone = function(){

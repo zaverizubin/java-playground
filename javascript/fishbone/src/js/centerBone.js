@@ -138,26 +138,26 @@ function CenterBone (canvas) {
     };
   
     this.compactChildBones = function(){
-        var topSideBones = this.getTopChildBones();
-        var bottomSideBones = this.getBottomChildBones();
-        this.sortBones(topSideBones);
-        this.sortBones(bottomSideBones);
+        var topChildBones = this.getTopChildBones();
+        var bottomChildBones = this.getBottomChildBones();
+        this.sortBones(topChildBones);
+        this.sortBones(bottomChildBones);
         
         var id=1;
-        for(var i=0; i<topSideBones.length ; i++){
-            while(topSideBones[i].getId() > id){
-                for(var j=i; j<topSideBones.length ; j++){
-                    topSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
+        for(var i=0; i<topChildBones.length ; i++){
+            while(topChildBones[i].getId() > id){
+                for(var j=i; j<topChildBones.length ; j++){
+                    topChildBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
                 }
             }
             id += 2;
         };
         
         var id=2;
-        for(var i=0; i<bottomSideBones.length ; i++){
-            while(bottomSideBones[i].getId() > id){
-                for(var j=i; j<bottomSideBones.length ; j++){
-                    bottomSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
+        for(var i=0; i<bottomChildBones.length ; i++){
+            while(bottomChildBones[i].getId() > id){
+                for(var j=i; j<bottomChildBones.length ; j++){
+                    bottomChildBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
                 }
             }
             id += 2;

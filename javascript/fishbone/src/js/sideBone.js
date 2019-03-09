@@ -154,7 +154,7 @@ function SideBone (canvas) {
         for(var i=0; i<leftSideBones.length ; i++){
             while(leftSideBones[i].getId() > id){
                 for(var j=i; j<leftSideBones.length ; j++){
-                    leftSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
+                    leftSideBones[j].moveBoneByUnitPosition(this.isAboveParentBone()? this.boneSegmentLength : -this.boneSegmentLength);
                 }
             }
             id += 2;
@@ -164,7 +164,7 @@ function SideBone (canvas) {
         for(var i=0; i<rightSideBones.length ; i++){
             while(rightSideBones[i].getId() > id){
                 for(var j=i; j<rightSideBones.length ; j++){
-                    rightSideBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
+                    rightSideBones[j].moveBoneByUnitPosition(this.isAboveParentBone()? this.boneSegmentLength : -this.boneSegmentLength);
                 }
             }
             id += 2;
@@ -245,25 +245,29 @@ function SideBone (canvas) {
     };
    
     this.isAboveParentBone = function(){
-       return this.vertex.getValue().id %2 !== 0;
+       return this.getId() %2 !== 0;
     };
    
     this.isRightOfSiblingBone = function(sideBone){
-        return this.vertex.getValue().id > sideBone.getVertex().getValue().id;
+        return this.getId() > sideBone.getId();
     };
    
     this.moveBoneByUnitPosition = function(dx){
        this.graph.moveCells([this.vertex, this.edge], dx, 0);
-       this.vertex.getValue().id = dx < 0? this.vertex.getValue().id-2 : this.vertex.getValue().id+2;
+       this.setId(this.getId() - 2);
     };
    
     this.flipBone = function(){
        
         var yloc;
         yloc = 2* this.parentBone.getEdge().getGeometry().sourcePoint.y 
-                    -this.vertex.getGeometry().y
+                    - this.vertex.getGeometry().y
                     - this.vertex.getGeometry().height;
-        this.vertex.getValue().id =  this.isAboveParentBone()? this.vertex.getValue().id+1 : this.vertex.getValue().id -1;
+        if(this.isAboveParentBone()){
+            this.setId(this.getId() + 1); 
+        }else{
+            this.setId(this.getId() - 1); 
+        };
         
         var geometry =  new mxGeometry(this.vertex.getGeometry().x, yloc,
                                       this.vertex.getGeometry().width,
@@ -273,8 +277,8 @@ function SideBone (canvas) {
     };
    
     this.swapBones = function(boneToSwap){
-        var id1 = this.vertex.getValue().id;
-        var id2 = boneToSwap.getVertex().getValue().id;
+        var id1 = this.getId();
+        var id2 = boneToSwap.getId();
         
         var vertex1 = this.vertex;
         var vertex2 = boneToSwap.getVertex();
@@ -282,8 +286,8 @@ function SideBone (canvas) {
         var edge1 = this.edge;
         var edge2 = boneToSwap.getEdge();
         
-        vertex1.getValue().id = id2;
-        vertex2.getValue().id = id1;
+        this.setId(id2);
+        boneToSwap.setId(id1);
         
         
         var xloc1;
