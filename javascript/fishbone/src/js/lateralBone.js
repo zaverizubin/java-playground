@@ -220,19 +220,28 @@ function LateralBone (canvas) {
         var edge1 = this.edge;
         var edge2 = boneToSwap.getEdge();
         
-        this.setId(id2);
-        boneToSwap.setId(id1);
+        
         
         var newGeometry1 = new mxGeometry();
-        newGeometry1.sourcePoint =  new mxPoint(edge2.getGeometry().sourcePoint.x, edge2.getGeometry().sourcePoint.y);
-        newGeometry1.targetPoint =  new mxPoint(edge2.getGeometry().targetPoint.x, edge2.getGeometry().targetPoint.y);
-        
         var newGeometry2 = new mxGeometry();
+        
+        newGeometry1.sourcePoint =  new mxPoint(edge2.getGeometry().sourcePoint.x, edge2.getGeometry().sourcePoint.y);
         newGeometry2.sourcePoint =  new mxPoint(edge1.getGeometry().sourcePoint.x, edge1.getGeometry().sourcePoint.y);
-        newGeometry2.targetPoint =  new mxPoint(edge1.getGeometry().targetPoint.x, edge1.getGeometry().targetPoint.y);
+        
+        if(boneToSwap.isLeftOfParentBone() && this.isLeftOfParentBone() ||
+           !boneToSwap.isLeftOfParentBone() && !this.isLeftOfParentBone()){
+            newGeometry1.targetPoint =  new mxPoint(edge2.getGeometry().sourcePoint.x - (edge1.getGeometry().sourcePoint.x - edge1.getGeometry().targetPoint.x), edge2.getGeometry().targetPoint.y);
+            newGeometry2.targetPoint =  new mxPoint(edge1.getGeometry().sourcePoint.x - (edge2.getGeometry().sourcePoint.x - edge2.getGeometry().targetPoint.x), edge1.getGeometry().targetPoint.y);
+        }else{
+            newGeometry1.targetPoint =  new mxPoint(edge2.getGeometry().sourcePoint.x + (edge1.getGeometry().sourcePoint.x - edge1.getGeometry().targetPoint.x), edge2.getGeometry().targetPoint.y);
+            newGeometry2.targetPoint =  new mxPoint(edge1.getGeometry().sourcePoint.x + (edge2.getGeometry().sourcePoint.x - edge2.getGeometry().targetPoint.x), edge1.getGeometry().targetPoint.y);
+        };
         
         this.graph.getModel().setGeometry(edge1, newGeometry1);
         this.graph.getModel().setGeometry(edge2, newGeometry2);
+        
+        this.setId(id2);
+        boneToSwap.setId(id1);
     };
    
     this.getVertex = function(){
