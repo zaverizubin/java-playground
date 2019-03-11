@@ -10,8 +10,8 @@ Messages.SELECT_ONE_OR_MORE_SHAPE = "One or more shapes must be selected.";
 
 Messages.VERTEX_TOOLTIP = "Right click for context menu.";
 
-Messages.VERTEX_SWAP_SELECT_SHAPE = "2 vertex shapes(other than the main cause) must be selected to swap.";
+Messages.SWAP_SELECT_SHAPE = "A single pair of causes, details or subdetails belonging to the same parent must be selected to swap.";
 
-Messages.VERTEX_FLIP_SELECT_SHAPE = "A single shape(other than the main cause) must be selected to flip.";
+Messages.FLIP_SELECT_SHAPE = "A single cause, detail or subdetail must be selected to flip.";
 
-Messages.VERTEX_FLIP_SHAPE_EXISTS = "A shape already exists in the flip to position. Try using a swap.";
+Messages.FLIP_POSITION_NOT_EMPTY = "The flip to position is not empty. Try using a swap.";

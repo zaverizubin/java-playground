@@ -37,6 +37,7 @@ function LateralBone (canvas) {
         var valueObject =   {
                                 toString:function(){return 'Detail-' + counter;},
                                 cellType:Constants.LATERALBONE_EDGE,
+                                bone:this,
                                 id:id
                             };
                             
@@ -188,19 +189,50 @@ function LateralBone (canvas) {
         return this.getId() > lateralBone.getId();
     };
    
-    this.moveBoneByUnitPosition = function(dx, dy){
-        this.graph.moveCells([this.edge], dx, dy);
+    this.moveBoneOnCompact = function(dx, dy){
+        this.moveBoneByPosition(dx, dy);
         this.setId(this.getId()-2);
     };
    
+    this.moveBoneByPosition = function(dx, dy){
+        this.graph.moveCells([this.edge], dx, dy);
+    };
+   
     this.flipBone = function(){
-       
+        var geometry =  this.edge.getGeometry();
+        if(this.isLeftOfParentBone()){
+            this.setId(this.getId() + 1); 
+        }else{
+            this.setId(this.getId() - 1); 
+        };
+        
+        var newGeometry = new mxGeometry();
+        newGeometry.sourcePoint = new mxPoint(geometry.sourcePoint.x, geometry.sourcePoint.y);
+        newGeometry.targetPoint = new mxPoint(geometry.sourcePoint.x + geometry.sourcePoint.x - geometry.targetPoint.x, geometry.targetPoint.y);
+        this.graph.getModel().setGeometry(this.edge, newGeometry);
         
     };
    
     this.swapBones = function(boneToSwap){
+        var id1 = this.getId();
+        var id2 = boneToSwap.getId();
         
+        var edge1 = this.edge;
+        var edge2 = boneToSwap.getEdge();
         
+        this.setId(id2);
+        boneToSwap.setId(id1);
+        
+        var newGeometry1 = new mxGeometry();
+        newGeometry1.sourcePoint =  new mxPoint(edge2.getGeometry().sourcePoint.x, edge2.getGeometry().sourcePoint.y);
+        newGeometry1.targetPoint =  new mxPoint(edge2.getGeometry().targetPoint.x, edge2.getGeometry().targetPoint.y);
+        
+        var newGeometry2 = new mxGeometry();
+        newGeometry2.sourcePoint =  new mxPoint(edge1.getGeometry().sourcePoint.x, edge1.getGeometry().sourcePoint.y);
+        newGeometry2.targetPoint =  new mxPoint(edge1.getGeometry().targetPoint.x, edge1.getGeometry().targetPoint.y);
+        
+        this.graph.getModel().setGeometry(edge1, newGeometry1);
+        this.graph.getModel().setGeometry(edge2, newGeometry2);
     };
    
     this.getVertex = function(){

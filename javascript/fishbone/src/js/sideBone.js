@@ -39,6 +39,7 @@ function SideBone (canvas) {
         var valueObject =   {
                                 toString:function(){return 'Cause-' + counter;},
                                 cellType:Constants.SIDEBONE_VERTEX,
+                                bone:this,
                                 id:id
                             };
                 
@@ -148,13 +149,13 @@ function SideBone (canvas) {
         this.sortBones(rightSideBones);
         
         var dx = Math.ceil(this.boneSegmentLength/Math.tan(this.edgeTheta));
-        var dy = this.isAboveParentBone()? this.boneSegmentLength : -this.boneSegmentLength;
+        var dy = this.isAboveParentBone()? this.boneSegmentLength : - this.boneSegmentLength;
                 
         var id=1;
         for(var i=0; i<leftSideBones.length ; i++){
             while(leftSideBones[i].getId() > id){
                 for(var j=i; j<leftSideBones.length ; j++){
-                    leftSideBones[j].moveBoneByUnitPosition(dx, dy);
+                    leftSideBones[j].moveBoneOnCompact(dx, dy);
                 }
             }
             id += 2;
@@ -164,7 +165,7 @@ function SideBone (canvas) {
         for(var i=0; i<rightSideBones.length ; i++){
             while(rightSideBones[i].getId() > id){
                 for(var j=i; j<rightSideBones.length ; j++){
-                    rightSideBones[j].moveBoneByUnitPosition(dx, dy);
+                    rightSideBones[j].moveBoneOnCompact(dx, dy);
                 }
             }
             id += 2;
@@ -220,19 +221,60 @@ function SideBone (canvas) {
     };
     
     this.flipChildBone = function (){
+        var cell = this.graph.getSelectionCells()[0];
+        if(!this.canFlipChildBone(cell)) return;
         
+        this.graph.getModel().beginUpdate();
+        try
+        {
+            var boneToFlip = this.getChildBoneFromCell(cell); 
+            if(boneToFlip !== null){
+                boneToFlip.flipBone();
+                this.compactChildBones();
+                this.positionBone();
+                this.sortBones(this.childBones);
+                this.graph.removeSelectionCells(cell);
+            };
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        };
     };
     
     this.swapChildBones = function(){
-        
+        var cells = this.graph.getSelectionCells();
+        this.graph.getModel().beginUpdate();
+        try
+        {
+            var childBoneToSwap1 = this.getChildBoneFromCell(cells[0]); 
+            var childBoneToSwap2 = this.getChildBoneFromCell(cells[1]); 
+            if(childBoneToSwap1 !== null && childBoneToSwap2 !== null){
+                childBoneToSwap1.swapBones(childBoneToSwap2);
+            };
+            this.graph.removeSelectionCells(cells);
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
     };
     
-    this.canFlipChildBone = function(cells){
-        
-    };
-    
-    this.canSwapChildBones = function(cells){
-        
+    this.canFlipChildBone = function(cell){
+        for(var i = 0; i < this.childBones.length; i++)
+        {
+            var childbone = this.childBones[i];
+            if(childbone.getVertex() !== cell){
+                if(childbone.isLeftOfParentBone() && childbone.getId() === cell.getValue().id - 1){
+                    Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
+                    return false;
+                }else if(!childbone.isLeftOfParentBone() && childbone.getId() === cell.getValue().id + 1){
+                    Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
+                    return false;
+                };
+            };
+        };
+        return true;
     };
     
     this.delete = function(){
@@ -252,16 +294,19 @@ function SideBone (canvas) {
         return this.getId() > sideBone.getId();
     };
    
-    this.moveBoneByUnitPosition = function(dx, dy){
-       this.graph.moveCells([this.vertex, this.edge], dx, dy);
+    this.moveBoneOnCompact = function(dx, dy){
+       this.moveBoneByPosition(dx, dy);
        this.childBones.forEach(function(childBone){
-           childBone.moveBoneByUnitPosition(dx, dy);
+           childBone.moveBoneByPosition(dx, dy);
        });
        this.setId(this.getId() - 2);
     };
+    
+    this.moveBoneByPosition = function(dx, dy){
+        this.graph.moveCells([this.vertex, this.edge], dx, dy);
+    };
    
     this.flipBone = function(){
-       
         var yloc;
         yloc = 2* this.parentBone.getEdge().getGeometry().sourcePoint.y 
                     - this.vertex.getGeometry().y
@@ -277,6 +322,11 @@ function SideBone (canvas) {
                                       this.vertex.getGeometry().height);
     
         this.graph.getModel().setGeometry(this.vertex, geometry);
+        
+        var bone = this;
+        this.childBones.forEach(function(childBone){
+            childBone.moveBoneByPosition(0, -2*(childBone.getEdge().getGeometry().targetPoint.y - bone.getEdge().getGeometry().targetPoint.y));
+        });
     };
    
     this.swapBones = function(boneToSwap){

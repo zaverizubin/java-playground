@@ -45,7 +45,7 @@ function GraphConfiguration(graphElement)
             };
             
             menu.addItem('Delete', null, function(){
-                canvas.onDeleteClick();
+                canvas.onContextMenuDeleteClick();
             });
             
             menu.addItem('Swap', null, function(){

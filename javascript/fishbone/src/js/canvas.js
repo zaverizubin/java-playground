@@ -40,7 +40,7 @@ function Canvas () {
         return this.graph;
     };
     
-    this.onDeleteClick = function(){
+    this.onContextMenuDeleteClick = function(){
         this.onDeleteDetailClick();
         this.onDeleteCauseClick();
     };
@@ -99,11 +99,25 @@ function Canvas () {
     };
     
     this.onSwapClick = function(){
-        this.centerBone.swapChildBones();
+        var cells = this.graph.getSelectionCells();
+        if(cells.length !== 2 
+            || cells[0].getValue().cellType !== cells[1].getValue().cellType
+            || cells[0].getValue().bone.getParentBone() !== cells[1].getValue().bone.getParentBone()){
+            Utils.showMessageDialog(Messages.SWAP_SELECT_SHAPE);
+            return false;
+        };
+        var bone = cells[0].getValue().bone;
+        bone.getParentBone().swapChildBones();
     };
     
     this.onFlipClick = function(){
-        this.centerBone.flipChildBone();
+        var cells = this.graph.getSelectionCells();
+        if(cells.length !== 1){
+            Utils.showMessageDialog(Messages.FLIP_SELECT_SHAPE);
+            return false;
+        };
+        var bone = cells[0].getValue().bone;
+        bone.getParentBone().flipChildBone();
     };
     
     this.buildGraph = function(graphElement){

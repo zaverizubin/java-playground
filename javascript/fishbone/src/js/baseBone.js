@@ -36,6 +36,9 @@ BaseBone.prototype.setId = function(id){
     }
 };
 
+BaseBone.prototype.getValue = function(){
+    return this.hasVertex()? this.vertex.getValue() : this.edge.getValue();
+};
 
 BaseBone.prototype.getParentBone = function(){
     return this.parentBone;
