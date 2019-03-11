@@ -47,7 +47,6 @@ function LateralBone (canvas) {
         geometry.targetPoint = new mxPoint(0, 0);
         
         var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.LATERALBONE_EDGE));
-        cell.geometry.relative = true;
         cell.edge = true;
         cell.parent = this.graphParent;
         this.edge = cell;
@@ -142,15 +141,14 @@ function LateralBone (canvas) {
                          - (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))
                     : this.parentBone.getEdge().getGeometry().targetPoint.y 
                          + (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2));
-                        
-        geometry.sourcePoint = new mxPoint(sourceX, sourceY);
         
+        geometry.sourcePoint = new mxPoint(sourceX, sourceY);
         
         var targetX = (this.getId() % 2 !== 0)
                     ? geometry.sourcePoint.x - this.spacerH - this.getMaxOfChildBoneCount() * this.boneSegmentLength
                     : geometry.sourcePoint.x + this.spacerH + this.getMaxOfChildBoneCount() * this.boneSegmentLength;
         var targetY =  geometry.sourcePoint.y;
-        
+       
         geometry.targetPoint = new mxPoint(targetX, targetY);
         
         this.graph.getModel().setGeometry(this.edge, geometry);
@@ -199,49 +197,19 @@ function LateralBone (canvas) {
     };
    
     this.flipBone = function(){
-        var geometry =  this.edge.getGeometry();
-        if(this.isLeftOfParentBone()){
-            this.setId(this.getId() + 1); 
-        }else{
-            this.setId(this.getId() - 1); 
-        };
-        
-        var newGeometry = new mxGeometry();
-        newGeometry.sourcePoint = new mxPoint(geometry.sourcePoint.x, geometry.sourcePoint.y);
-        newGeometry.targetPoint = new mxPoint(geometry.sourcePoint.x + geometry.sourcePoint.x - geometry.targetPoint.x, geometry.targetPoint.y);
-        this.graph.getModel().setGeometry(this.edge, newGeometry);
-        
+        this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
+        this.positionBone();
     };
    
     this.swapBones = function(boneToSwap){
         var id1 = this.getId();
         var id2 = boneToSwap.getId();
         
-        var edge1 = this.edge;
-        var edge2 = boneToSwap.getEdge();
-        
-        
-        
-        var newGeometry1 = new mxGeometry();
-        var newGeometry2 = new mxGeometry();
-        
-        newGeometry1.sourcePoint =  new mxPoint(edge2.getGeometry().sourcePoint.x, edge2.getGeometry().sourcePoint.y);
-        newGeometry2.sourcePoint =  new mxPoint(edge1.getGeometry().sourcePoint.x, edge1.getGeometry().sourcePoint.y);
-        
-        if(boneToSwap.isLeftOfParentBone() && this.isLeftOfParentBone() ||
-           !boneToSwap.isLeftOfParentBone() && !this.isLeftOfParentBone()){
-            newGeometry1.targetPoint =  new mxPoint(edge2.getGeometry().sourcePoint.x - (edge1.getGeometry().sourcePoint.x - edge1.getGeometry().targetPoint.x), edge2.getGeometry().targetPoint.y);
-            newGeometry2.targetPoint =  new mxPoint(edge1.getGeometry().sourcePoint.x - (edge2.getGeometry().sourcePoint.x - edge2.getGeometry().targetPoint.x), edge1.getGeometry().targetPoint.y);
-        }else{
-            newGeometry1.targetPoint =  new mxPoint(edge2.getGeometry().sourcePoint.x + (edge1.getGeometry().sourcePoint.x - edge1.getGeometry().targetPoint.x), edge2.getGeometry().targetPoint.y);
-            newGeometry2.targetPoint =  new mxPoint(edge1.getGeometry().sourcePoint.x + (edge2.getGeometry().sourcePoint.x - edge2.getGeometry().targetPoint.x), edge1.getGeometry().targetPoint.y);
-        };
-        
-        this.graph.getModel().setGeometry(edge1, newGeometry1);
-        this.graph.getModel().setGeometry(edge2, newGeometry2);
-        
         this.setId(id2);
         boneToSwap.setId(id1);
+        
+        this.positionBone();
+        boneToSwap.positionBone();
     };
    
     this.getVertex = function(){

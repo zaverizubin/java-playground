@@ -57,17 +57,11 @@ function SideBone (canvas) {
                                 toString:function(){return ''},
                                 cellType:Constants.SIDEBONE_EDGE
                             };
-        
-        var xLoc =  this.parentBone.getEdge().getGeometry().sourcePoint.x +
-                    this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2);
-            
-        var yLoc = this.parentBone.getEdge().getGeometry().sourcePoint.y;
-        
+      
         var geometry = new mxGeometry();
-        geometry.targetPoint = new mxPoint(xLoc, yLoc);
-        
+        geometry.targetPoint = new mxPoint(0, 0);
+       
         var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.SIDEBONE_EDGE));
-        cell.geometry.relative = true;
         cell.edge = true;
         cell.source = this.vertex;
         cell.parent = this.graphParent;
@@ -207,6 +201,16 @@ function SideBone (canvas) {
     this.positionBone = function (){
         var maxChildBonesCount = this.getMaxOfChildBoneCount();
         
+        var xLoc =  this.parentBone.getEdge().getGeometry().sourcePoint.x +
+                    this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2);
+            
+        var yLoc = this.parentBone.getEdge().getGeometry().sourcePoint.y;
+        
+        var geometry = new mxGeometry();
+        geometry.targetPoint = new mxPoint(xLoc, yLoc);
+        this.graph.getModel().setGeometry(this.edge, geometry);
+       
+        
         var xLoc = this.getEdge().getGeometry().targetPoint.x 
                    - Math.floor((maxChildBonesCount * this.boneSegmentLength + this.spacerV + this.vertexHeight/2) / Math.tan(this.edgeTheta)) 
                    - this.vertexWidth/2;
@@ -216,8 +220,8 @@ function SideBone (canvas) {
         
         
         var geometry = new mxGeometry(xLoc, yLoc, this.vertex.getGeometry().width, this.vertex.getGeometry().height);
-       
         this.graph.getModel().setGeometry(this.vertex, geometry);
+        
     };
     
     this.flipChildBone = function (){
@@ -307,87 +311,30 @@ function SideBone (canvas) {
     };
    
     this.flipBone = function(){
-        var yloc;
-        yloc = 2* this.parentBone.getEdge().getGeometry().sourcePoint.y 
-                    - this.vertex.getGeometry().y
-                    - this.vertex.getGeometry().height;
-        if(this.isAboveParentBone()){
-            this.setId(this.getId() + 1); 
-        }else{
-            this.setId(this.getId() - 1); 
-        };
+        this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
+        this.positionBone();
         
-        var geometry =  new mxGeometry(this.vertex.getGeometry().x, yloc,
-                                      this.vertex.getGeometry().width,
-                                      this.vertex.getGeometry().height);
-    
-        this.graph.getModel().setGeometry(this.vertex, geometry);
-        
-        var bone = this;
         this.childBones.forEach(function(childBone){
-            childBone.moveBoneByPosition(0, -2*(childBone.getEdge().getGeometry().targetPoint.y - bone.getEdge().getGeometry().targetPoint.y));
+            childBone.positionBone();
         });
     };
    
     this.swapBones = function(boneToSwap){
         var id1 = this.getId();
         var id2 = boneToSwap.getId();
-        
-        var vertex1 = this.vertex;
-        var vertex2 = boneToSwap.getVertex();
-        
-        var edge1 = this.edge;
-        var edge2 = boneToSwap.getEdge();
-        
+       
         this.setId(id2);
         boneToSwap.setId(id1);
         
+        this.positionBone();
+        boneToSwap.positionBone();
         
-        var xloc1;
-        var xloc2;
-        var yloc1;
-        var yloc2;
-        if((boneToSwap.isAboveParentBone() && this.isAboveParentBone()) 
-            || (!boneToSwap.isAboveParentBone() && !this.isAboveParentBone())){
-            xloc1 = vertex2.getGeometry().x;
-            xloc2 = vertex1.getGeometry().x;
-            yloc1 = vertex1.getGeometry().y;
-            yloc2 = vertex2.getGeometry().y;
-        }else{
-            xloc1 = vertex2.getGeometry().x;
-            xloc2 = vertex1.getGeometry().x;
-            yloc1 = 2*this.parentBone.getEdge().getGeometry().sourcePoint.y - vertex1.getGeometry().y - vertex1.getGeometry().height; 
-            yloc2 = 2*this.parentBone.getEdge().getGeometry().sourcePoint.y - vertex2.getGeometry().y - vertex2.getGeometry().height;
-        }
-        
-                    
-        
-        var vertexGeometry1 =  new mxGeometry(xloc1, yloc1,
-                                      vertex1.getGeometry().width,
-                                      vertex1.getGeometry().height);
-                                      
-        var vertexGeometry2 =  new mxGeometry(xloc2, yloc2,
-                                      vertex2.getGeometry().width,
-                                      vertex2.getGeometry().height);
-    
-        var edgeGeometry1 =   edge1.getGeometry();
-        var edgeGeometry2 =   edge2.getGeometry();
-        
-        xloc1 = edgeGeometry2.targetPoint.x;
-        yloc1 = edgeGeometry2.targetPoint.y;
-        
-        xloc2 = edgeGeometry1.targetPoint.x; 
-        yloc2 = edgeGeometry1.targetPoint.y; 
-        
-        edgeGeometry1.targetPoint = new mxPoint(xloc1, yloc1); 
-        edgeGeometry2.targetPoint = new mxPoint(xloc2, yloc2); 
-        
-        this.graph.getModel().setGeometry(vertex1, vertexGeometry1);
-        this.graph.getModel().setGeometry(vertex2, vertexGeometry2);
-        
-        this.graph.getModel().setGeometry(edge1, edgeGeometry1);
-        this.graph.getModel().setGeometry(edge2, edgeGeometry2);
-        
+        this.childBones.forEach(function(childBone){
+            childBone.positionBone();
+        });
+        boneToSwap.childBones.forEach(function(childBone){
+            childBone.positionBone();
+        });
     };
    
     

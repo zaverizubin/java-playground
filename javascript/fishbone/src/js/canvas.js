@@ -57,7 +57,7 @@ function Canvas () {
         var selectedChildBones = this.centerBone.getSelectedChildBones();
         
         if(selectedChildBones.length === 0){
-            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
+            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_CAUSE);
             return;
         };
         selectedChildBones.forEach(function(childBone){
@@ -155,7 +155,7 @@ function Canvas () {
     this.onPropertiesWindowOpen = function(){
         var cells = this.graph.getSelectionCells();
         if(cells.length > 1 || cells.length ===0){
-            Utils.showMessageDialog(Messages.SELECT_SINGLE_SHAPE);
+            Utils.showMessageDialog(Messages.SELECT_SINGLE_GRAPH_ELEMENT);
             return;
         };
         var cell = cells[0];
