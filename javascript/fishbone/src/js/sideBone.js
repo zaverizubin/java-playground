@@ -89,10 +89,7 @@ function SideBone (canvas) {
     
     this.deleteSelectedChildBones = function(){
         var childBonesToDelete = this.getSelectedChildBones();
-        if(childBonesToDelete.length === 0){
-            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
-            return;
-        };
+        
         this.graph.getModel().beginUpdate();
         try
         {   
@@ -150,11 +147,14 @@ function SideBone (canvas) {
         this.sortBones(leftSideBones);
         this.sortBones(rightSideBones);
         
+        var dx = Math.ceil(this.boneSegmentLength/Math.tan(this.edgeTheta));
+        var dy = this.isAboveParentBone()? this.boneSegmentLength : -this.boneSegmentLength;
+                
         var id=1;
         for(var i=0; i<leftSideBones.length ; i++){
             while(leftSideBones[i].getId() > id){
                 for(var j=i; j<leftSideBones.length ; j++){
-                    leftSideBones[j].moveBoneByUnitPosition(this.isAboveParentBone()? this.boneSegmentLength : -this.boneSegmentLength);
+                    leftSideBones[j].moveBoneByUnitPosition(dx, dy);
                 }
             }
             id += 2;
@@ -164,7 +164,7 @@ function SideBone (canvas) {
         for(var i=0; i<rightSideBones.length ; i++){
             while(rightSideBones[i].getId() > id){
                 for(var j=i; j<rightSideBones.length ; j++){
-                    rightSideBones[j].moveBoneByUnitPosition(this.isAboveParentBone()? this.boneSegmentLength : -this.boneSegmentLength);
+                    rightSideBones[j].moveBoneByUnitPosition(dx, dy);
                 }
             }
             id += 2;
@@ -207,7 +207,7 @@ function SideBone (canvas) {
         var maxChildBonesCount = this.getMaxOfChildBoneCount();
         
         var xLoc = this.getEdge().getGeometry().targetPoint.x 
-                   - Math.ceil(((maxChildBonesCount * this.boneSegmentLength) + this.spacerV) / Math.tan(this.edgeTheta)) 
+                   - Math.floor((maxChildBonesCount * this.boneSegmentLength + this.spacerV + this.vertexHeight/2) / Math.tan(this.edgeTheta)) 
                    - this.vertexWidth/2;
         var yLoc = (this.getId() % 2 !==0) 
                     ? this.getEdge().getGeometry().targetPoint.y  - (maxChildBonesCount * this.boneSegmentLength) - this.spacerV - this.vertexHeight 
@@ -252,8 +252,11 @@ function SideBone (canvas) {
         return this.getId() > sideBone.getId();
     };
    
-    this.moveBoneByUnitPosition = function(dx){
-       this.graph.moveCells([this.vertex, this.edge], dx, 0);
+    this.moveBoneByUnitPosition = function(dx, dy){
+       this.graph.moveCells([this.vertex, this.edge], dx, dy);
+       this.childBones.forEach(function(childBone){
+           childBone.moveBoneByUnitPosition(dx, dy);
+       });
        this.setId(this.getId() - 2);
     };
    

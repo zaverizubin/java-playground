@@ -61,10 +61,7 @@ function LateralBone (canvas) {
     
     this.deleteSelectedChildBones = function(){
         var childBonesToDelete = this.getSelectedChildBones();
-        if(childBonesToDelete.length === 0){
-            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
-            return;
-        };
+        
         this.graph.getModel().beginUpdate();
         try
         {   
@@ -137,7 +134,7 @@ function LateralBone (canvas) {
         var geometry = new mxGeometry();
         
         var sourceX =  this.parentBone.getEdge().getGeometry().targetPoint.x 
-                        - Math.ceil((this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))/ Math.tan(this.parentBone.edgeTheta));
+                        - Math.floor((this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))/ Math.tan(this.parentBone.edgeTheta));
         
         var sourceY = (this.parentBone.getId() % 2 !== 0)
                     ? this.parentBone.getEdge().getGeometry().targetPoint.y 
@@ -191,8 +188,8 @@ function LateralBone (canvas) {
         return this.getId() > lateralBone.getId();
     };
    
-    this.moveBoneByUnitPosition = function(dy){
-        this.graph.moveCells([this.edge], Math.ceil(Math.abs(dy)/Math.tan(this.parentBone.edgeTheta)), dy);
+    this.moveBoneByUnitPosition = function(dx, dy){
+        this.graph.moveCells([this.edge], dx, dy);
         this.setId(this.getId()-2);
     };
    

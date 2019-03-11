@@ -81,10 +81,7 @@ function CenterBone (canvas) {
     
     this.deleteSelectedChildBones = function(){
         var childBonesToDelete = this.getSelectedChildBones();
-        if(childBonesToDelete.length === 0){
-            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
-            return;
-        };
+       
         this.graph.getModel().beginUpdate();
         try
         {   
@@ -147,7 +144,7 @@ function CenterBone (canvas) {
         for(var i=0; i<topChildBones.length ; i++){
             while(topChildBones[i].getId() > id){
                 for(var j=i; j<topChildBones.length ; j++){
-                    topChildBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
+                    topChildBones[j].moveBoneByUnitPosition(- this.boneSegmentLength, 0);
                 }
             }
             id += 2;
@@ -157,7 +154,7 @@ function CenterBone (canvas) {
         for(var i=0; i<bottomChildBones.length ; i++){
             while(bottomChildBones[i].getId() > id){
                 for(var j=i; j<bottomChildBones.length ; j++){
-                    bottomChildBones[j].moveBoneByUnitPosition(- this.boneSegmentLength);
+                    bottomChildBones[j].moveBoneByUnitPosition(- this.boneSegmentLength, 0);
                 }
             }
             id += 2;

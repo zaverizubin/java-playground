@@ -36,13 +36,16 @@ function GraphConfiguration(graphElement)
 
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
-            if(cell === null || cell.isEdge() 
-              || cell.getValue().cellType === Constants.CENTERBONE_VERTEX){
+            if(cell === null 
+                || cell.getValue().cellType === Constants.CENTERBONE_VERTEX
+                || cell.getValue().cellType === Constants.CENTERBONE_EDGE
+                || cell.getValue().cellType === Constants.SIDEBONE_EDGE
+                    ){
                 return;
             };
             
             menu.addItem('Delete', null, function(){
-                canvas.onDeleteCauseClick();
+                canvas.onDeleteClick();
             });
             
             menu.addItem('Swap', null, function(){

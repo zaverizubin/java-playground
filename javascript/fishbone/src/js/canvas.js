@@ -40,6 +40,11 @@ function Canvas () {
         return this.graph;
     };
     
+    this.onDeleteClick = function(){
+        this.onDeleteDetailClick();
+        this.onDeleteCauseClick();
+    };
+    
     this.onAddCauseClick = function(){
         this.centerBone.addChildBone();
     };
@@ -61,18 +66,12 @@ function Canvas () {
     };
     
     this.onDeleteDetailClick = function(){
-        var bIsSelected = false;
         var childBones = this.centerBone.getChildBones();
         childBones.forEach(function(childBone){
             if(childBone.getSelectedChildBones().length > 0){
-                bIsSelected = true;
                 childBone.deleteSelectedChildBones();
             }
         });
-        if(!bIsSelected){
-            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_SHAPE);
-            return; 
-        }
     };
     
     this.onApplyStylesClick = function(styleAttributes){
