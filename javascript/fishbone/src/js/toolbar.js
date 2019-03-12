@@ -75,6 +75,14 @@ function Toolbar () {
             canvas.onDeleteDetailClick();
         });
         
+        $("#add-sub-detail").click(function(){
+            canvas.onAddSubDetailClick();
+        });
+        
+        $("#delete-sub-detail").click(function(){
+            canvas.onDeleteSubDetailClick();
+        });
+        
         $("#fontColorPicker").spectrum({
             color: "#000", allowEmpty: true
         });

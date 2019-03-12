@@ -6,6 +6,7 @@ Messages.SELECT_SINGLE_GRAPH_ELEMENT = "Select a single graph to see its propert
 
 Messages.SELECT_ONE_OR_MORE_CAUSE = "One or more causes must be selected.";
 
+Messages.SELECT_ONE_OR_MORE_DETAIL = "One or more details must be selected.";
 
 
 Messages.VERTEX_TOOLTIP = "Right click for context menu.";

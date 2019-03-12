@@ -54,22 +54,52 @@ function Canvas () {
     };
     
     this.onAddDetailClick = function(){
-        var selectedChildBones = this.centerBone.getSelectedChildBones();
+        var selectedSideBones = this.centerBone.getSelectedChildBones();
         
-        if(selectedChildBones.length === 0){
+        if(selectedSideBones.length === 0){
             Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_CAUSE);
             return;
         };
-        selectedChildBones.forEach(function(childBone){
-           childBone.addChildBone(); 
+        selectedSideBones.forEach(function(sideBone){
+           sideBone.addChildBone(); 
         });
     };
     
     this.onDeleteDetailClick = function(){
-        var childBones = this.centerBone.getChildBones();
-        childBones.forEach(function(childBone){
-            if(childBone.getSelectedChildBones().length > 0){
-                childBone.deleteSelectedChildBones();
+        var sideBones = this.centerBone.getChildBones();
+        sideBones.forEach(function(sideBone){
+            if(sideBone.getSelectedChildBones().length > 0){
+                sideBone.deleteSelectedChildBones();
+            }
+        });
+    };
+    
+    this.onAddSubDetailClick = function(){
+        var sideBones = this.centerBone.getChildBones();
+        var selectedLateralBones=[];
+        
+        sideBones.forEach(function(sideBone){
+            selectedLateralBones.push.apply(selectedLateralBones, sideBone.getSelectedChildBones());
+        });
+        
+        if(selectedLateralBones.length === 0){
+            Utils.showMessageDialog(Messages.SELECT_ONE_OR_MORE_DETAIL);
+            return;
+        };
+        selectedLateralBones.forEach(function(lateralBone){
+           lateralBone.addChildBone(); 
+        });
+    };
+    
+    this.onDeleteSubDetailClick = function(){
+        var sideBones = this.centerBone.getChildBones();
+        var lateralBones=[];
+        sideBones.forEach(function(sideBone){
+            lateralBones.concat(sideBone.getChildBones())
+        });
+        lateralBones.forEach(function(lateralBone){
+            if(lateralBone.getSelectedChildBones().length > 0){
+                lateralBone.deleteSelectedChildBones();
             }
         });
     };

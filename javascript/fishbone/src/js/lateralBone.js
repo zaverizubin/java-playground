@@ -54,7 +54,16 @@ function LateralBone (canvas) {
     };
    
     this.addChildBone = function(){
-        
+        this.graph.getModel().beginUpdate();
+        try
+        {
+            this.buildChildBone();
+            this.positionBone();
+        }
+        finally
+        {
+            this.graph.getModel().endUpdate();
+        }
     };
     
     this.deleteSelectedChildBones = function(){
@@ -96,11 +105,19 @@ function LateralBone (canvas) {
     };
     
     this.buildChildBone = function(){
-        
+        var childBone = new AuxillaryBone(this.canvas);
+        childBone.init(this, this.getNextChildId());
+        this.childBones.push(childBone);
     };
     
     this.getSelectedChildBones = function(){
-        
+        var selectedBones = [];
+        this.childBones.forEach(function(childBone) {
+            if(childBone.isSelected()){
+                selectedBones.push(childBone);
+            }
+        });
+        return selectedBones;
     };
     
     this.compactChildBones = function(){
@@ -109,16 +126,28 @@ function LateralBone (canvas) {
     
     this.getTopChildBones = function(){
         var topChildBones = [];
+        this.childBones.forEach(function(childBone) {
+            if(childBone.isAboveParentBone()){
+                topChildBones.push(childBone); 
+            };
+        });
         return topChildBones;
     };
     
     this.getBottomChildBones = function(){
         var bottomChildBones = [];
+        this.childBones.forEach(function(childBone) {
+            if(!childBone.isAboveParentBone()){
+                bottomChildBones.push(childBone); 
+            };
+        });
         return bottomChildBones;
     };
     
     this.getChildBonesCount = function(){
-        
+        var topChildBonesCount = this.getTopChildBones().length;
+        var bottomChildBonesCount = this.getBottomChildBones().length;
+        return topChildBonesCount + bottomChildBonesCount;
     };
     
     this.getMaxOfChildBoneCount = function(){

@@ -10,6 +10,7 @@ Constants.SIDEBONE_EDGE =  "side-edge";
 
 Constants.LATERALBONE_EDGE =  "lateral-edge";
 
+Constants.AUXILLARYBONE_EDGE =  "auxillary-edge";
 
 Constants.STYLE_MAP = new Map();
 
@@ -21,6 +22,8 @@ Constants.STYLE_MAP.set(Constants.CENTERBONE_EDGE, 'curved=1;endArrow=classic;ht
 
 Constants.STYLE_MAP.set(Constants.SIDEBONE_EDGE, 'endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
 
-Constants.STYLE_MAP.set(Constants.LATERALBONE_EDGE, 'startArrow=classic;endArrow=none;html=1verticalAlign=bottom;verticalLabelPosition=bottom;movable=0;resizable=0;selectable=1;');
+Constants.STYLE_MAP.set(Constants.LATERALBONE_EDGE, 'startArrow=classic;endArrow=none;html=1;verticalAlign=bottom;movable=0;resizable=0;selectable=1;');
+
+Constants.STYLE_MAP.set(Constants.AUXILLARYBONE_EDGE, 'startArrow=none;endArrow=none;html=1;movable=0;resizable=0;selectable=1;');
 
 
