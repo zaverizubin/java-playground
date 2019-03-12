@@ -18,9 +18,9 @@ function BaseBone(canvas){
     
     this.childBones = [];
     
-    this.canvasWidth = this.canvas.getCanvasWidth();
+    this.canvasWidth = GraphSettings.CANVAS_WIDTH;
     
-    this.canvasHeight = this.canvas.getCanvasHeight();
+    this.canvasHeight = GraphSettings.CANVAS_HEIGHT;
     
 }
 

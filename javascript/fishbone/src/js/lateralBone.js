@@ -2,13 +2,11 @@ function LateralBone (canvas) {
    
     BaseBone.call(this, canvas);
    
-    this.spacerH = 70; //The initial length of this bone.
+    //The initial length of this bone.
+    this.spacerH = function(){ return GraphSettings.LATERALBONE_SPACER_H;}; 
     
-    this.boneSegmentLength = 100; //Increment distance by which the this bone grows or shrinks.
-    
-    this.edgeX;
-   
-    this.edgeY;
+    //Increment distance by which the this bone grows or shrinks.
+    this.boneSegmentLength = function(){ return GraphSettings.LATERALBONE_SEGMENT_LENGTH;};  
     
     this.init = function (parentBone, id) {
         BaseBone.prototype.init.call(this, parentBone);
@@ -134,19 +132,19 @@ function LateralBone (canvas) {
         var geometry = new mxGeometry();
         
         var sourceX =  this.parentBone.getEdge().getGeometry().targetPoint.x 
-                        - Math.floor((this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))/ Math.tan(this.parentBone.edgeTheta));
+                        - Math.floor((this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2))/ Math.tan(this.parentBone.edgeTheta()));
         
         var sourceY = (this.parentBone.getId() % 2 !== 0)
                     ? this.parentBone.getEdge().getGeometry().targetPoint.y 
-                         - (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))
+                         - (this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2))
                     : this.parentBone.getEdge().getGeometry().targetPoint.y 
-                         + (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2));
+                         + (this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2));
         
         geometry.sourcePoint = new mxPoint(sourceX, sourceY);
         
         var targetX = (this.getId() % 2 !== 0)
-                    ? geometry.sourcePoint.x - this.spacerH - this.getMaxOfChildBoneCount() * this.boneSegmentLength
-                    : geometry.sourcePoint.x + this.spacerH + this.getMaxOfChildBoneCount() * this.boneSegmentLength;
+                    ? geometry.sourcePoint.x - this.spacerH() - this.getMaxOfChildBoneCount() * this.boneSegmentLength()
+                    : geometry.sourcePoint.x + this.spacerH() + this.getMaxOfChildBoneCount() * this.boneSegmentLength();
         var targetY =  geometry.sourcePoint.y;
        
         geometry.targetPoint = new mxPoint(targetX, targetY);

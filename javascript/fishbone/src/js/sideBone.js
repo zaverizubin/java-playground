@@ -2,15 +2,17 @@ function SideBone (canvas) {
    
     BaseBone.call(this, canvas);
     
-    this.spacerV = 50; //The initial length of this bone.
+    //The initial length of this bone.
+    this.spacerV = function(){ return GraphSettings.SIDEBONE_SPACER_V;}; 
     
-    this.boneSegmentLength = 50; //Increment distance by which the this bone grows or shrinks.
+    //Increment distance by which the this bone grows or shrinks.
+    this.boneSegmentLength = function(){ return GraphSettings.SIDEBONE_SEGMENT_LENGTH;}; 
     
-    this.vertexWidth = 150;
+    this.vertexWidth = function(){ return GraphSettings.SIDEBONE_VERTEX_WIDTH;};
     
-    this.vertexHeight = 35;
+    this.vertexHeight = function(){ return GraphSettings.SIDEBONE_VERTEX_HEIGHT;};
    
-    this.edgeTheta = 60 * Math.PI/180;
+    this.edgeTheta = function(){ return GraphSettings.THETA * Math.PI/180;};
    
     this.init = function (parentBone, id) {
         BaseBone.prototype.init.call(this, parentBone);
@@ -47,8 +49,8 @@ function SideBone (canvas) {
                                             valueObject,
                                             0, 
                                             0,
-                                            this.vertexWidth,
-                                            this.vertexHeight,
+                                            this.vertexWidth(),
+                                            this.vertexHeight(),
                                             Constants.STYLE_MAP.get(Constants.SIDEBONE_VERTEX));
     };
    
@@ -142,8 +144,8 @@ function SideBone (canvas) {
         this.sortBones(leftSideBones);
         this.sortBones(rightSideBones);
         
-        var dx = Math.ceil(this.boneSegmentLength/Math.tan(this.edgeTheta));
-        var dy = this.isAboveParentBone()? this.boneSegmentLength : - this.boneSegmentLength;
+        var dx = Math.ceil(this.boneSegmentLength()/Math.tan(this.edgeTheta()));
+        var dy = this.isAboveParentBone()? this.boneSegmentLength() : - this.boneSegmentLength();
                 
         var id=1;
         for(var i=0; i<leftSideBones.length ; i++){
@@ -202,7 +204,7 @@ function SideBone (canvas) {
         var maxChildBonesCount = this.getMaxOfChildBoneCount();
         
         var xLoc =  this.parentBone.getEdge().getGeometry().sourcePoint.x +
-                    this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2);
+                    this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2);
             
         var yLoc = this.parentBone.getEdge().getGeometry().sourcePoint.y;
         
@@ -212,11 +214,11 @@ function SideBone (canvas) {
        
         
         var xLoc = this.getEdge().getGeometry().targetPoint.x 
-                   - Math.floor((maxChildBonesCount * this.boneSegmentLength + this.spacerV + this.vertexHeight/2) / Math.tan(this.edgeTheta)) 
-                   - this.vertexWidth/2;
+                   - Math.floor((maxChildBonesCount * this.boneSegmentLength()) + this.spacerV() + this.vertexHeight()/2) / Math.tan(this.edgeTheta()) 
+                   - this.vertexWidth()/2;
         var yLoc = (this.getId() % 2 !==0) 
-                    ? this.getEdge().getGeometry().targetPoint.y  - (maxChildBonesCount * this.boneSegmentLength) - this.spacerV - this.vertexHeight 
-                    : this.getEdge().getGeometry().targetPoint.y  + (maxChildBonesCount * this.boneSegmentLength) + this.spacerV;
+                    ? this.getEdge().getGeometry().targetPoint.y  - (maxChildBonesCount * this.boneSegmentLength()) - this.spacerV() - this.vertexHeight() 
+                    : this.getEdge().getGeometry().targetPoint.y  + (maxChildBonesCount * this.boneSegmentLength()) + this.spacerV();
         
         
         var geometry = new mxGeometry(xLoc, yLoc, this.vertex.getGeometry().width, this.vertex.getGeometry().height);

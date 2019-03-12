@@ -10,9 +10,9 @@ function Canvas () {
     
     this.centerBone;
     
-    this.canvasWidth = 1220;
+    this.canvasWidth = GraphSettings.CANVAS_WIDTH;
     
-    this.canvasHeight = 700;
+    this.canvasHeight = GraphSettings.CANVAS_HEIGHT;
     
     this.init = function (graphElement, toolbar) {
         this.toolbar = toolbar;
@@ -82,6 +82,10 @@ function Canvas () {
         this.applyStyleAttributes(styleAttributes, true);
     };
     
+    this.onResetGraphSettings = function(styleAttributes){
+        this.applyStyleAttributes(styleAttributes, true);
+    };
+    
     this.onZoomChange = function(value){
         this.graph.zoomTo(1 + (value/100), false);
     };
@@ -90,8 +94,16 @@ function Canvas () {
         this.graph.zoomActual();
     };
     
-    this.onClearDiagram = function(){
+    this.onApplyGraphSettings = function(){
+        var canvas = this;
         var graph = this.graph;
+        Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
+            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
+            canvas.buildCenterBone();
+        });
+    };
+    
+    this.onClearDiagram = function(){
         var canvas = this;
         Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
             canvas.centerBone.deleteAllChildBones();
@@ -150,6 +162,10 @@ function Canvas () {
         {
            this.graph.getModel().endUpdate();
         }
+    };
+    
+    this.onHelpWindowOpen = function(){
+        $("#help-window").dialog("open");
     };
     
     this.onPropertiesWindowOpen = function(){

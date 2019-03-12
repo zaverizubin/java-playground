@@ -21,8 +21,8 @@
     
     <div class="toolbar">
         
-        <h3>Tools Menu</h3>
-        <div class="tools-menu">
+        <h3>Diagram Menu</h3>
+        <div class="diagram-menu">
           <div class="menu-item">
             <button id="add-cause" class="ui-button ui-widget ui-corner-all">Add Cause</button>
             <button id="delete-cause" class="ui-button ui-widget ui-corner-all">Delete Cause</button>
@@ -40,7 +40,7 @@
         <h3>Fonts and Styles</h3>
         <div class="font-styles">
             <div class = "menu-item">
-            <div class=" font-size">
+                <div class=" font-size">
                 <label for="font-size"><b>Font Size:</b></label>    
                 <select id ="font-size-select" name="font-size-select" class="font-size-select">
                     <option value="8">8px</option>
@@ -56,7 +56,7 @@
                     <option value="28">28px</option>
                 </select>
             </div>
-            <div class="font-family">
+                <div class="font-family">
                 <label for="font-family"><b>Font Face:</b></label>
                 <select id ="font-family-select" name="font-family-select" class="font-family-select">
                     <option value="Arial" selected>Arial</option>
@@ -124,8 +124,75 @@
             </div>
         </div>
         
-        <h3>Settings</h3>
-        <div class="settings">
+        <h3>Graph Settings</h3>
+        <div class="graph-settings">
+            <div class="menu-item">
+                <button class="ui-button ui-widget ui-corner-all ui-button-icon-only help-button" id="help-button" title="Help">
+                    <span class="ui-icon ui-icon-help"></span> 
+                </button>
+            </div>
+            <div class="menu-item">
+                <label for="marginH-spinner" style="text-align:left">Margin H</label>
+                <input name="marginH-spinner" id="marginH-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="marginV-spinner" style="text-align:left">Margin V</label>
+                <input name="marginV-spinner" id="marginV-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="centerbone-spacer-h">Center bone spacer H</label>
+                <input name="centerbone-spacer-h" id="centerbone-spacer-h-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="centerbone-segment-length">Center bone segment length</label>
+                <input name="centerbone-segment-length" id="centerbone-segment-length-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="centerbone-vertex-width">Center bone vertex width</label>
+                <input name="centerbone-vertex-width" id="centerbone-vertex-width-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="centerbone-vertex-height">Center bone vertex height</label>
+                <input name="centerbone-vertex-height" id="centerbone-vertex-height-spinner">
+            </div>
+            <div class="menu-item">
+                <label for="sidebone-spacer-v">Side bone spacer V</label>
+                <input name="sidebone-spacer-v" id="sidebone-spacer-v-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="sidebone-segment-length">Side bone segment length</label>
+                <input name="sidebone-segment-length" id="sidebone-segment-length-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="sidebone-vertex-width">Side bone vertex width</label>
+                <input name="sidebone-vertex-width" id="sidebone-vertex-width-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="sidebone-vertex-height">Side bone vertex height</label>
+                <input name="sidebone-vertex-height" id="sidebone-vertex-height-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="lateralbone-spacer-h">Lateral bone spacer H</label>
+                <input name="lateralbone-spacer-h" id="lateralbone-spacer-h-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="lateralbone-segment-length">Lateral bone segment length</label>
+                <input name="lateralbone-segment-length" id="lateralbone-segment-length-spinner"> 
+            </div>
+            <div class="menu-item">
+                <label for="theta">Theta</label>
+                <input name="theta" id="theta-spinner"> 
+            </div>
+             <div class="menu-item"> 
+                <button id ="apply-graph-settings" class="ui-button ui-widget ui-corner-all apply-button">Apply</button>
+            </div>
+            <div class="menu-item">
+                <button id="reset-graph-settings" class="ui-button ui-widget ui-corner-all reset-button">Restore Defaults</button>
+            </div>
+        </div>
+        
+        <h3>Tools</h3>
+        <div class="tools">
             <div class="menu-item">
                 <label for="slider">Canvas Zoom</label>
                 <div id="slider" class="slider">
@@ -204,6 +271,12 @@
                 
     <div id="message-window" title="Alert" class="message-window">
         <div id="alert-content"></div>
+    </div>
+                
+    <div id="help-window" title="Graph Settings Help" class="help-window">
+        <div id="help-content">
+            <img src="resources/drawing.png" />
+        </div>
     </div>            
      
     <div class="canvas"></div>
@@ -215,6 +288,7 @@
     <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="lib/spectrum.js"></script>
     <script type="text/javascript" src="js/canvas.js"></script>
+    <script type="text/javascript" src="js/graphSettings.js"></script>
     <script type="text/javascript" src="js/toolbar.js"></script>
     <script type="text/javascript" src="js/baseBone.js"></script>
     <script type="text/javascript" src="js/centerBone.js"></script>

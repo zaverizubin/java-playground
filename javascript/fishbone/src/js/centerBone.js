@@ -1,16 +1,22 @@
 function CenterBone (canvas) {
     
     BaseBone.call(this, canvas);
-        
-    this.spacerH = 50; //The initial length of this bone.
     
-    this.boneSegmentLength = 175; //Increment distance by which the this bone grows or shrinks.
-        
-    this.marginH = 75; //The initial edge x position
+    //The initial edge x position offset from left of canvas
+    this.marginH = function(){ return GraphSettings.MARGIN_H;}; 
     
-    this.vertexWidth = 130;
+    //The initial edge y position offset from center of canvas
+    this.marginV = function(){ return GraphSettings.MARGIN_V;}; 
     
-    this.vertexHeight = 50;
+    //The initial length of this bone.
+    this.spacerH = function(){ return GraphSettings.CENTERBONE_SPACER_H;}
+
+    //Increment distance by which the this bone grows or shrinks.
+    this.boneSegmentLength = function(){ return GraphSettings.CENTERBONE_SEGMENT_LENGTH;}
+    
+    this.vertexWidth = function(){ return GraphSettings.CENTERBONE_VERTEX_WIDTH;};
+    
+    this.vertexHeight = function(){ return GraphSettings.CENTERBONE_VERTEX_HEIGHT;};
     
     this.init = function () {
         BaseBone.prototype.init.call(this);
@@ -44,9 +50,9 @@ function CenterBone (canvas) {
                 
         this.vertex = this.graph.insertVertex(this.graphParent, null,
                                                 valueObject,
-                                                this.marginH + this.spacerH,
-                                                (this.canvasHeight/2) - (this.vertexHeight/2),
-                                                this.vertexWidth, this.vertexHeight, 
+                                                this.marginH() + this.spacerH(),
+                                                (this.marginV() + this.canvasHeight/2) - (this.vertexHeight()/2),
+                                                this.vertexWidth(), this.vertexHeight(), 
                                                 Constants.STYLE_MAP.get(Constants.CENTERBONE_VERTEX));
     };
     
@@ -56,7 +62,7 @@ function CenterBone (canvas) {
                                 cellType:Constants.CENTERBONE_EDGE
                             };
         var geometry = new mxGeometry();
-        geometry.sourcePoint = new mxPoint(this.marginH, this.canvasHeight/2);
+        geometry.sourcePoint = new mxPoint(this.marginH(), this.marginV() + this.canvasHeight/2);
         
         var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.CENTERBONE_EDGE));
         cell.geometry.relative = true;
@@ -145,7 +151,7 @@ function CenterBone (canvas) {
         for(var i=0; i<topChildBones.length ; i++){
             while(topChildBones[i].getId() > id){
                 for(var j=i; j<topChildBones.length ; j++){
-                    topChildBones[j].moveBoneOnCompact(- this.boneSegmentLength, 0);
+                    topChildBones[j].moveBoneOnCompact(- this.boneSegmentLength(), 0);
                 }
             }
             id += 2;
@@ -155,7 +161,7 @@ function CenterBone (canvas) {
         for(var i=0; i<bottomChildBones.length ; i++){
             while(bottomChildBones[i].getId() > id){
                 for(var j=i; j<bottomChildBones.length ; j++){
-                    bottomChildBones[j].moveBoneOnCompact(- this.boneSegmentLength, 0);
+                    bottomChildBones[j].moveBoneOnCompact(- this.boneSegmentLength(), 0);
                 }
             }
             id += 2;
@@ -195,8 +201,8 @@ function CenterBone (canvas) {
         var bottomChildBonesCount = this.getBottomChildBones().length;
         var maxChildBonesCount = Math.max(topChildBonesCount, bottomChildBonesCount);
         
-        var geometry = new mxGeometry(this.marginH + this.spacerH + maxChildBonesCount * this.boneSegmentLength,
-                                      (this.canvasHeight/2) - (this.vertexHeight/2),
+        var geometry = new mxGeometry(this.marginH() + this.spacerH() + maxChildBonesCount * this.boneSegmentLength(),
+                                      (this.marginV() + this.canvasHeight/2) - (this.vertexHeight()/2),
                                       this.vertex.getGeometry().width, 
                                       this.vertex.getGeometry().height);
        

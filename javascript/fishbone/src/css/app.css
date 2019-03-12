@@ -38,7 +38,7 @@ body{
 .ui-accordion .ui-accordion-content{
     padding:0.4em 0.4em;
 }
-.tools-menu .ui-button{
+.diagram-menu .ui-button{
     padding: .2em 0.2em;
     font-size: 0.8em !important;
     width:110px;
@@ -46,7 +46,7 @@ body{
     vertical-align: middle;
 }
 
-.tools-menu .menu-item{
+.diagram-menu .menu-item{
     display:block;
     height:40px;
 }
@@ -86,23 +86,51 @@ body{
 }
 
 
-.settings label {
+.graph-settings input{
+    width:25px;
+    height:10px;
+    display: block;
+    float:left;
+}
+.graph-settings {
+   font-size: 0.8em; 
+}
+.graph-settings label{
+    display: block;
+    width: 180px;
+    float:left;
+}
+.graph-settings .menu-item {
+    display: block;
+    height: 30px;
+    padding: 5px 0px;
+}
+.graph-settings .help-button{
+    width:25px;
+    height:25px;
+    margin-left: 200px;
+}
+
+.graph-settings .apply-button, .graph-settings .reset-button {
+   width: 220px; 
+}
+
+.tools label {
    font-size: 0.8em; 
 }
 
-.settings .ui-button{
+.tools .ui-button{
     padding: .2em 0.2em;
     font-size: 0.8em !important;
     width:150px;
     display:table-cell;
     vertical-align: middle;
-    
 }
-.settings .slider{
+.tools .slider{
    width:200px;
    margin:0px 10px;
 }
-.settings .menu-item{
+.tools .menu-item{
     display:block;
     height:50px;
     text-align: center;
