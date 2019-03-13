@@ -7,17 +7,17 @@ GraphSettings.DEFAULT_CENTERBONE_VERTEX_SHAPE = "rectangle";
 GraphSettings.DEFAULT_SIDEBONE_VERTEX_SHAPE = "ellipse";
 GraphSettings.DEFAULT_MARGIN_H = 75;
 GraphSettings.DEFAULT_MARGIN_V = 0;
-GraphSettings.DEFAULT_CENTERBONE_SPACER_H = 50;
+GraphSettings.DEFAULT_CENTERBONE_SPACER_H = 75;
 GraphSettings.DEFAULT_CENTERBONE_SEGMENT_LENGTH = 175;
-GraphSettings.DEFAULT_CENTERBONE_VERTEX_WIDTH = 130;
-GraphSettings.DEFAULT_CENTERBONE_VERTEX_HEIGHT = 50;
+GraphSettings.DEFAULT_CENTERBONE_VERTEX_WIDTH = 100;
+GraphSettings.DEFAULT_CENTERBONE_VERTEX_HEIGHT = 60;
 GraphSettings.DEFAULT_SIDEBONE_SPACER_V = 50;
 GraphSettings.DEFAULT_SIDEBONE_SEGMENT_LENGTH = 50;
 GraphSettings.DEFAULT_SIDEBONE_VERTEX_WIDTH = 150;
 GraphSettings.DEFAULT_SIDEBONE_VERTEX_HEIGHT = 35;
 GraphSettings.DEFAULT_LATERALBONE_SPACER_H = 50;
-GraphSettings.DEFAULT_LATERALBONE_SEGMENT_LENGTH = 70;
-GraphSettings.DEFAULT_AUXILLARYBONE_SEGMENT_LENGTH = 25;
+GraphSettings.DEFAULT_LATERALBONE_SEGMENT_LENGTH = 50;
+GraphSettings.DEFAULT_AUXILLARYBONE_SEGMENT_LENGTH = 35;
 GraphSettings.DEFAULT_THETA = 60;
 
 
@@ -35,7 +35,8 @@ GraphSettings.buildStyleMap = function(){
     GraphSettings.STYLE_MAP.set(GraphSettings.CENTERBONE_EDGE, 'curved=1;endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
     GraphSettings.STYLE_MAP.set(GraphSettings.SIDEBONE_EDGE, 'endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
     GraphSettings.STYLE_MAP.set(GraphSettings.LATERALBONE_EDGE, 'startArrow=classic;endArrow=none;html=1;verticalAlign=bottom;movable=0;resizable=0;selectable=1;');
-    GraphSettings.STYLE_MAP.set(GraphSettings.AUXILLARYBONE_EDGE, 'startArrow=none;endArrow=none;html=1;movable=0;resizable=0;selectable=1;');
+    GraphSettings.STYLE_MAP.set(GraphSettings.AUXILLARYBONE_EDGE, 'startArrow=none;endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
+    
 };
 
 GraphSettings.restoreDefaults = function(){

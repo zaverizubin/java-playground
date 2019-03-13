@@ -18,22 +18,16 @@ function GraphConfiguration(graphElement)
         this.canvas = canvas;
         
         this.graph = graph;
-        
         new mxRubberband(this.graph);
-        
         this.graph.setTooltips(true);
-        
         this.graph.setCellsCloneable(false);
+        this.graph.vertexLabelsMovable = true;
         
-        this.graph.getTooltipForCell = function(cell)
-        {
-          if(cell.isVertex()){
-            return Messages.VERTEX_TOOLTIP;
-            };
+        this.graph.getTooltipForCell = function(cell){
+          if(cell.isVertex()){return Messages.VERTEX_TOOLTIP;};
         };
 
         this.graph.popupMenuHandler.autoExpand = true;
-
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
             if(cell === null 

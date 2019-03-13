@@ -41,6 +41,7 @@ function Canvas () {
     };
     
     this.onContextMenuDeleteClick = function(){
+        this.onDeleteSubDetailClick();
         this.onDeleteDetailClick();
         this.onDeleteCauseClick();
     };
@@ -95,7 +96,7 @@ function Canvas () {
         var sideBones = this.centerBone.getChildBones();
         var lateralBones=[];
         sideBones.forEach(function(sideBone){
-            lateralBones.concat(sideBone.getChildBones())
+            lateralBones.push.apply(lateralBones, sideBone.getChildBones());
         });
         lateralBones.forEach(function(lateralBone){
             if(lateralBone.getSelectedChildBones().length > 0){

@@ -32,7 +32,7 @@ function AuxillaryBone (canvas) {
         var counter  = this.parentBone.getChildBones().length + 1;
         
         var valueObject =   {
-                                toString:function(){return 'SubDetail-' + counter;},
+                                toString:function(){return 'Sub-' + counter;},
                                 cellType:GraphSettings.AUXILLARYBONE_EDGE,
                                 bone:this,
                                 id:id
@@ -42,10 +42,9 @@ function AuxillaryBone (canvas) {
         
         geometry.sourcePoint = new mxPoint(0, 0);
         geometry.targetPoint = new mxPoint(0, 0);
+       
         
-        var style = (id % 2 !== 0)
-                    ? GraphSettings.STYLE_MAP.get(GraphSettings.AUXILLARYBONE_EDGE) + "verticalAlign=bottom;"
-                    : GraphSettings.STYLE_MAP.get(GraphSettings.AUXILLARYBONE_EDGE) + "verticalAlign=top;"
+        var style = GraphSettings.STYLE_MAP.get(GraphSettings.AUXILLARYBONE_EDGE);
         var cell = new mxCell(valueObject, geometry, style);
         cell.edge = true;
         cell.parent = this.graphParent;
@@ -61,9 +60,9 @@ function AuxillaryBone (canvas) {
         
         var sourceX =  (this.parentBone.getId() % 2 !== 0)
                         ?   this.parentBone.getEdge().getGeometry().sourcePoint.x 
-                            - this.parentBone.spacerH() - Math.floor(this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2)/ Math.tan(this.edgeTheta()))
+                            - this.parentBone.spacerH() - this.parentBone.boneSegmentLength()  * (Math.ceil(this.getId()/2)-1)
                         : this.parentBone.getEdge().getGeometry().sourcePoint.x 
-                            + this.parentBone.spacerH() + Math.floor(this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2)/ Math.tan(this.edgeTheta()));
+                            + this.parentBone.spacerH() + this.parentBone.boneSegmentLength()  * (Math.ceil(this.getId()/2)-1);
         
         var sourceY = this.parentBone.getEdge().getGeometry().sourcePoint.y;  
         
@@ -77,6 +76,10 @@ function AuxillaryBone (canvas) {
                     : geometry.sourcePoint.y + this.boneSegmentLength();
        
         geometry.targetPoint = new mxPoint(targetX, targetY);
+        
+        geometry.relative = true;
+        geometry.x = 1;
+        geometry.y = 1;
         
         this.graph.getModel().setGeometry(this.edge, geometry);
     };
