@@ -194,8 +194,8 @@ function Canvas () {
         }
     };
     
-    this.onHelpWindowOpen = function(){
-        $("#help-window").dialog("open");
+    this.onHelpWindowOpen = function(dialogExtendOptions){
+        $("#help-window").dialog({}).dialogExtend(dialogExtendOptions);
     };
     
     this.onPropertiesWindowOpen = function(){

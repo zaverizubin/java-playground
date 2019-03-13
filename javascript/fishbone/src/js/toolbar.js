@@ -108,7 +108,10 @@ function Toolbar () {
         });
         
         $("#help-button").click(function(){
-            canvas.onHelpWindowOpen(); 
+            var dialogExtendOptions = {closable : true, maximizable : true, minimizable : true, minimizeLocation : "left",
+             collapsable : true, dblclick : "collapse", titlebar : false};
+         
+            canvas.onHelpWindowOpen(dialogExtendOptions); 
         });
        
         
