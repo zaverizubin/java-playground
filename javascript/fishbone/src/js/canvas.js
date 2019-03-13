@@ -166,7 +166,6 @@ function Canvas () {
         this.graphConfiguration = new GraphConfiguration(graphElement);
         this.graph = new mxGraph(graphElement);
         this.graphConfiguration.init(this.graph, this);
-        GraphSettings.init();
     };
     
     this.buildCenterBone = function(){

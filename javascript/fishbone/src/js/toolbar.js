@@ -31,6 +31,8 @@ function Toolbar () {
         $("#help-window").dialog("option", "position", { my: "left", at: "center center", of: $(".app") } );
         $("#help-window").dialog("close");
         
+        $("#centerbone-vertex-shape-selector").selectmenu({width: 110});
+        $("#sidebone-vertex-shape-selector").selectmenu({width: 110});
         $("#marginH-spinner").spinner({min: 0, max: 200 });
         $("#marginV-spinner").spinner({min: 0, max: 1000 });
         $("#centerbone-spacer-h-spinner").spinner({min: 20, max: 200 });
@@ -109,47 +111,9 @@ function Toolbar () {
             canvas.onHelpWindowOpen(); 
         });
        
-        $("#marginH-spinner").on( "spinchange", function() {
-            GraphSettings.MARGIN_H = $("#marginH-spinner").spinner( "value" );
-        });
-        $("#marginV-spinner").on( "spinchange", function() {
-            GraphSettings.MARGIN_V = $("#marginV-spinner").spinner( "value" );
-        });
-        $("#centerbone-spacer-h-spinner").on( "spinchange", function() {
-            GraphSettings.CENTERBONE_SPACER_H = $("#centerbone-spacer-h-spinner").spinner( "value" );
-        });
-        $("#centerbone-segment-length-spinner").on( "spinchange", function() {
-            GraphSettings.CENTERBONE_SEGMENT_LENGTH = $("#centerbone-segment-length-spinner").spinner( "value" );
-        });
-        $("#centerbone-vertex-width-spinner").on( "spinchange", function() {
-            GraphSettings.CENTERBONE_VERTEX_WIDTH = $("#centerbone-vertex-width-spinner").spinner( "value" );
-        });
-        $("#centerbone-vertex-height-spinner").on( "spinchange", function() {
-            GraphSettings.CENTERBONE_VERTEX_HEIGHT = $("#centerbone-vertex-height-spinner").spinner( "value" );
-        });
-        $("#sidebone-spacer-v-spinner").on( "spinchange", function() {
-            GraphSettings.SIDEBONE_SPACER_V = $("#sidebone-spacer-v-spinner").spinner( "value" );
-        });
-        $("#sidebone-segment-length-spinner").on( "spinchange", function() {
-            GraphSettings.SIDEBONE_SEGMENT_LENGTH = $("#sidebone-segment-length-spinner").spinner( "value" );
-        });
-        $("#sidebone-vertex-width-spinner").on( "spinchange", function() {
-            GraphSettings.SIDEBONE_VERTEX_WIDTH = $("#sidebone-vertex-width-spinner").spinner( "value" );
-        });
-        $("#sidebone-vertex-height-spinner").on( "spinchange", function() {
-            GraphSettings.SIDEBONE_VERTEX_HEIGHT = $("#sidebone-vertex-height-spinner").spinner( "value" );
-        });
-         $("#lateralbone-spacer-h-spinner").on( "spinchange", function() {
-            GraphSettings.LATERALBONE_SPACER_V = $("#lateralbone-spacer-h-spinner").spinner( "value" );
-        });
-        $("#lateralbone-segment-length-spinner").on( "spinchange", function() {
-            GraphSettings.LATERALBONE_SEGMENT_LENGTH = $("#lateralbone-segment-length-spinner").spinner( "value" );
-        });
-        $("#theta-spinner").on( "spinchange", function() {
-            GraphSettings.THETA = $("#theta-spinner").spinner( "value" );
-        });
         
         $("#apply-graph-settings").click(function(){
+            toolbar.getGraphSettings();
             canvas.onApplyGraphSettings();
         });
         
@@ -183,6 +147,8 @@ function Toolbar () {
     this.resetGraphSettings = function(){
         GraphSettings.restoreDefaults();
         
+        $("#centerbone-vertex-shape-selector").val(GraphSettings.CENTERBONE_VERTEX_SHAPE).selectmenu("refresh");
+        $("#sidebone-vertex-shape-selector").val(GraphSettings.SIDEBONE_VERTEX_SHAPE).selectmenu("refresh");
         $("#marginH-spinner").spinner("value", GraphSettings.MARGIN_H);
         $("#marginV-spinner").spinner("value", GraphSettings.MARGIN_V);
         $("#centerbone-spacer-h-spinner").spinner("value", GraphSettings.CENTERBONE_SPACER_H);
@@ -196,7 +162,29 @@ function Toolbar () {
         $("#lateralbone-spacer-h-spinner").spinner("value", GraphSettings.LATERALBONE_SPACER_H);
         $("#lateralbone-segment-length-spinner").spinner("value", GraphSettings.LATERALBONE_SEGMENT_LENGTH);
         $("#theta-spinner").spinner("value", GraphSettings.THETA);
-    }
+        
+    };
+    
+    this.getGraphSettings = function(){
+        
+        GraphSettings.CENTERBONE_VERTEX_SHAPE = $("#centerbone-vertex-shape-selector").children("option:selected").val(),
+        GraphSettings.SIDEBONE_VERTEX_SHAPE = $("#sidebone-vertex-shape-selector").children("option:selected").val(),
+        GraphSettings.MARGIN_H = $("#marginH-spinner").spinner( "value" );
+        GraphSettings.MARGIN_V = $("#marginV-spinner").spinner( "value" );
+        GraphSettings.CENTERBONE_SPACER_H = $("#centerbone-spacer-h-spinner").spinner( "value" );
+        GraphSettings.CENTERBONE_SEGMENT_LENGTH = $("#centerbone-segment-length-spinner").spinner( "value" );
+        GraphSettings.CENTERBONE_VERTEX_WIDTH = $("#centerbone-vertex-width-spinner").spinner( "value" );
+        GraphSettings.CENTERBONE_VERTEX_HEIGHT = $("#centerbone-vertex-height-spinner").spinner( "value" );
+        GraphSettings.SIDEBONE_SPACER_V = $("#sidebone-spacer-v-spinner").spinner( "value" );
+        GraphSettings.SIDEBONE_SEGMENT_LENGTH = $("#sidebone-segment-length-spinner").spinner( "value" );
+        GraphSettings.SIDEBONE_VERTEX_WIDTH = $("#sidebone-vertex-width-spinner").spinner( "value" );
+        GraphSettings.SIDEBONE_VERTEX_HEIGHT = $("#sidebone-vertex-height-spinner").spinner( "value" );
+        GraphSettings.LATERALBONE_SPACER_V = $("#lateralbone-spacer-h-spinner").spinner( "value" );
+        GraphSettings.LATERALBONE_SEGMENT_LENGTH = $("#lateralbone-segment-length-spinner").spinner( "value" );
+        GraphSettings.THETA = $("#theta-spinner").spinner( "value" );
+        
+        GraphSettings.buildStyleMap();
+    };
     
     this.resetStyleAttributes = function(){
         $("#font-family-select").val("Arial").selectmenu("refresh");

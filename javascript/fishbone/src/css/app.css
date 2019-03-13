@@ -85,7 +85,10 @@ body{
    cursor: pointer;
 }
 
-
+.graph-settings .vertex-shape{
+    float:left;
+    margin:0px 5px 10px 0px; 
+}
 .graph-settings input{
     width:25px;
     height:10px;
@@ -94,6 +97,9 @@ body{
 }
 .graph-settings {
    font-size: 0.8em; 
+}
+.graph-settings .vertex-shape label{
+    width: 120px;
 }
 .graph-settings label{
     display: block;

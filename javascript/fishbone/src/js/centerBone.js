@@ -24,6 +24,7 @@ function CenterBone (canvas) {
         try
         {
             this.buildBone();
+            this.positionBone();
             this.graph.fireEvent(new mxEventObject('cellsInserted', 'cells', [this.edge]));
         }
         finally
@@ -50,8 +51,8 @@ function CenterBone (canvas) {
                 
         this.vertex = this.graph.insertVertex(this.graphParent, null,
                                                 valueObject,
-                                                this.marginH() + this.spacerH(),
-                                                (this.marginV() + this.canvasHeight/2) - (this.vertexHeight()/2),
+                                                0,
+                                                0,
                                                 this.vertexWidth(), this.vertexHeight(), 
                                                 GraphSettings.STYLE_MAP.get(GraphSettings.CENTERBONE_VERTEX));
     };
