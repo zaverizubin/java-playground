@@ -128,7 +128,7 @@ BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
                 + "strokeWidth=" + styleAttributes.strokeWidth + ";"
                 + "strokeColor=" + styleAttributes.strokeColor + ";"
                 + "fillColor=" + styleAttributes.fillColor + ";";
-    var defaultStyle = Constants.STYLE_MAP.get(cell.getValue().cellType);
+    var defaultStyle = GraphSettings.STYLE_MAP.get(cell.getValue().cellType);
     style = defaultStyle + style;    
     this.graph.setCellStyle(style,[cell]);
 };

@@ -43,7 +43,7 @@ function CenterBone (canvas) {
         
         var valueObject =   {
                                 toString:function(){return 'Main Cause';},
-                                cellType:Constants.CENTERBONE_VERTEX,
+                                cellType:GraphSettings.CENTERBONE_VERTEX,
                                 bone:this,
                                 id:1
                             };
@@ -53,18 +53,18 @@ function CenterBone (canvas) {
                                                 this.marginH() + this.spacerH(),
                                                 (this.marginV() + this.canvasHeight/2) - (this.vertexHeight()/2),
                                                 this.vertexWidth(), this.vertexHeight(), 
-                                                Constants.STYLE_MAP.get(Constants.CENTERBONE_VERTEX));
+                                                GraphSettings.STYLE_MAP.get(GraphSettings.CENTERBONE_VERTEX));
     };
     
     this.buildEdge = function(){
         var valueObject =   {
                                 toString:function(){return ''},
-                                cellType:Constants.CENTERBONE_EDGE
+                                cellType:GraphSettings.CENTERBONE_EDGE
                             };
         var geometry = new mxGeometry();
         geometry.sourcePoint = new mxPoint(this.marginH(), this.marginV() + this.canvasHeight/2);
         
-        var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.CENTERBONE_EDGE));
+        var cell = new mxCell(valueObject, geometry, GraphSettings.STYLE_MAP.get(GraphSettings.CENTERBONE_EDGE));
         cell.geometry.relative = true;
         cell.edge = true;
         cell.target = this.vertex;

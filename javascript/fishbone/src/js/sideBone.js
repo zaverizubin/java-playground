@@ -40,7 +40,7 @@ function SideBone (canvas) {
         var counter  = this.parentBone.getChildBones().length + 1;
         var valueObject =   {
                                 toString:function(){return 'Cause-' + counter;},
-                                cellType:Constants.SIDEBONE_VERTEX,
+                                cellType:GraphSettings.SIDEBONE_VERTEX,
                                 bone:this,
                                 id:id
                             };
@@ -51,19 +51,19 @@ function SideBone (canvas) {
                                             0,
                                             this.vertexWidth(),
                                             this.vertexHeight(),
-                                            Constants.STYLE_MAP.get(Constants.SIDEBONE_VERTEX));
+                                            GraphSettings.STYLE_MAP.get(GraphSettings.SIDEBONE_VERTEX));
     };
    
     this.buildEdge = function(){
         var valueObject =   {
                                 toString:function(){return ''},
-                                cellType:Constants.SIDEBONE_EDGE
+                                cellType:GraphSettings.SIDEBONE_EDGE
                             };
       
         var geometry = new mxGeometry();
         geometry.targetPoint = new mxPoint(0, 0);
        
-        var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.SIDEBONE_EDGE));
+        var cell = new mxCell(valueObject, geometry, GraphSettings.STYLE_MAP.get(GraphSettings.SIDEBONE_EDGE));
         cell.edge = true;
         cell.source = this.vertex;
         cell.parent = this.graphParent;

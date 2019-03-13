@@ -18,6 +18,28 @@ GraphSettings.DEFAULT_LATERALBONE_SEGMENT_LENGTH = 70;
 GraphSettings.DEFAULT_AUXILLARYBONE_SEGMENT_LENGTH = 25;
 GraphSettings.DEFAULT_THETA = 60;
 
+
+GraphSettings.CENTERBONE_VERTEX = "center-vertex";
+GraphSettings.SIDEBONE_VERTEX = "side-vertex";
+GraphSettings.CENTERBONE_EDGE =  "center-edge";
+GraphSettings.SIDEBONE_EDGE =  "side-edge";
+GraphSettings.LATERALBONE_EDGE =  "lateral-edge";
+GraphSettings.AUXILLARYBONE_EDGE =  "auxillary-edge";
+
+GraphSettings.init = function(){
+    GraphSettings.buildStyleMap();
+};
+
+GraphSettings.buildStyleMap = function(){
+    GraphSettings.STYLE_MAP = new Map();
+    GraphSettings.STYLE_MAP.set(GraphSettings.CENTERBONE_VERTEX, 'movable=0;resizable=1;selectable=1;');
+    GraphSettings.STYLE_MAP.set(GraphSettings.SIDEBONE_VERTEX, 'movable=0;resizable=1;shape=ellipse;');
+    GraphSettings.STYLE_MAP.set(GraphSettings.CENTERBONE_EDGE, 'curved=1;endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
+    GraphSettings.STYLE_MAP.set(GraphSettings.SIDEBONE_EDGE, 'endArrow=classic;html=1;movable=0;resizable=0;selectable=1;');
+    GraphSettings.STYLE_MAP.set(GraphSettings.LATERALBONE_EDGE, 'startArrow=classic;endArrow=none;html=1;verticalAlign=bottom;movable=0;resizable=0;selectable=1;');
+    GraphSettings.STYLE_MAP.set(GraphSettings.AUXILLARYBONE_EDGE, 'startArrow=none;endArrow=none;html=1;movable=0;resizable=0;selectable=1;');
+};
+
 GraphSettings.restoreDefaults = function(){
     GraphSettings.MARGIN_H = GraphSettings.DEFAULT_MARGIN_H;
     GraphSettings.MARGIN_V = GraphSettings.DEFAULT_MARGIN_V;

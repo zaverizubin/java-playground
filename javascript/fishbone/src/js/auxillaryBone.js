@@ -33,7 +33,7 @@ function AuxillaryBone (canvas) {
         
         var valueObject =   {
                                 toString:function(){return 'SubDetail-' + counter;},
-                                cellType:Constants.AUXILLARYBONE_EDGE,
+                                cellType:GraphSettings.AUXILLARYBONE_EDGE,
                                 bone:this,
                                 id:id
                             };
@@ -44,8 +44,8 @@ function AuxillaryBone (canvas) {
         geometry.targetPoint = new mxPoint(0, 0);
         
         var style = (id % 2 !== 0)
-                    ? Constants.STYLE_MAP.get(Constants.AUXILLARYBONE_EDGE) + "verticalAlign=bottom;"
-                    : Constants.STYLE_MAP.get(Constants.AUXILLARYBONE_EDGE) + "verticalAlign=top;"
+                    ? GraphSettings.STYLE_MAP.get(GraphSettings.AUXILLARYBONE_EDGE) + "verticalAlign=bottom;"
+                    : GraphSettings.STYLE_MAP.get(GraphSettings.AUXILLARYBONE_EDGE) + "verticalAlign=top;"
         var cell = new mxCell(valueObject, geometry, style);
         cell.edge = true;
         cell.parent = this.graphParent;

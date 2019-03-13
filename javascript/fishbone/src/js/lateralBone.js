@@ -34,7 +34,7 @@ function LateralBone (canvas) {
         
         var valueObject =   {
                                 toString:function(){return 'Detail-' + counter;},
-                                cellType:Constants.LATERALBONE_EDGE,
+                                cellType:GraphSettings.LATERALBONE_EDGE,
                                 bone:this,
                                 id:id
                             };
@@ -44,7 +44,7 @@ function LateralBone (canvas) {
         geometry.sourcePoint = new mxPoint(0, 0);
         geometry.targetPoint = new mxPoint(0, 0);
         
-        var cell = new mxCell(valueObject, geometry, Constants.STYLE_MAP.get(Constants.LATERALBONE_EDGE));
+        var cell = new mxCell(valueObject, geometry, GraphSettings.STYLE_MAP.get(GraphSettings.LATERALBONE_EDGE));
         cell.edge = true;
         cell.parent = this.graphParent;
         this.edge = cell;
