@@ -301,10 +301,7 @@ function SideBone (canvas) {
     };
    
     this.moveBoneOnCompact = function(dx, dy){
-       this.moveBoneByPosition(dx, dy);
-       this.childBones.forEach(function(childBone){
-           childBone.moveBoneByPosition(dx, dy);
-       });
+       this.recursivelyMoveBones(this, dx, dy);
        this.setId(this.getId() - 2);
     };
     
@@ -314,11 +311,7 @@ function SideBone (canvas) {
    
     this.flipBone = function(){
         this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
-        this.positionBone();
-        
-        this.childBones.forEach(function(childBone){
-            childBone.positionBone();
-        });
+        this.recursivelyPositionBones(this);
     };
    
     this.swapBones = function(boneToSwap){
@@ -328,15 +321,8 @@ function SideBone (canvas) {
         this.setId(id2);
         boneToSwap.setId(id1);
         
-        this.positionBone();
-        boneToSwap.positionBone();
-        
-        this.childBones.forEach(function(childBone){
-            childBone.positionBone();
-        });
-        boneToSwap.childBones.forEach(function(childBone){
-            childBone.positionBone();
-        });
+        this.recursivelyPositionBones(this);
+        this.recursivelyPositionBones(boneToSwap);
     };
    
     

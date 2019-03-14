@@ -286,7 +286,7 @@ function LateralBone (canvas) {
     };
    
     this.moveBoneOnCompact = function(dx, dy){
-        this.moveBoneByPosition(dx, dy);
+        this.recursivelyMoveBones(this, dx, dy);
         this.setId(this.getId()-2);
     };
    
@@ -296,7 +296,7 @@ function LateralBone (canvas) {
    
     this.flipBone = function(){
         this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
-        this.positionBone();
+        this.recursivelyPositionBones(this);
     };
    
     this.swapBones = function(boneToSwap){
@@ -306,17 +306,11 @@ function LateralBone (canvas) {
         this.setId(id2);
         boneToSwap.setId(id1);
         
-        this.positionBone();
-        boneToSwap.positionBone();
+        this.recursivelyPositionBones(this);
+        this.recursivelyPositionBones(boneToSwap);
     };
    
-    this.getVertex = function(){
-        return this.vertex;
-    };
-   
-    this.getEdge = function(){
-        return this.edge;
-    };
+    
 }
 
 LateralBone.prototype = Object.create(BaseBone.prototype);

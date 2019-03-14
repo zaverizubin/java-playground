@@ -101,7 +101,7 @@ function AuxillaryBone (canvas) {
     };
    
     this.moveBoneOnCompact = function(dx, dy){
-        this.moveBoneByPosition(dx, dy);
+        this.recursivelyMoveBones(this, dx, dy);
         this.setId(this.getId()-2);
     };
    
@@ -111,7 +111,7 @@ function AuxillaryBone (canvas) {
    
     this.flipBone = function(){
         this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
-        this.positionBone();
+        this.recursivelyPositionBones(this);
     };
    
     this.swapBones = function(boneToSwap){
@@ -121,16 +121,8 @@ function AuxillaryBone (canvas) {
         this.setId(id2);
         boneToSwap.setId(id1);
         
-        this.positionBone();
-        boneToSwap.positionBone();
-    };
-   
-    this.getVertex = function(){
-        return this.vertex;
-    };
-   
-    this.getEdge = function(){
-        return this.edge;
+        this.recursivelyPositionBones(this);
+        this.recursivelyPositionBones(boneToSwap);
     };
 }
 

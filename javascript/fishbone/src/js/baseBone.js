@@ -92,23 +92,39 @@ BaseBone.prototype.sortBones = function(bones){
     });
 };
 
+BaseBone.prototype.recursivelyPositionBones = function(bone){
+    bone.positionBone();
+    for(var i=0, count = bone.getChildBones().length; i< count; i++){
+        this.recursivelyPositionBones(bone.getChildBones()[i]);
+    };
+};
+
+BaseBone.prototype.recursivelyMoveBones = function(bone, dx, dy){
+    bone.moveBoneByPosition(dx, dy);
+    for(var i=0, count = bone.getChildBones().length; i< count; i++){
+        this.recursivelyMoveBones(bone.getChildBones()[i], dx, dy);
+    };
+};
+
 BaseBone.prototype.reset = function(){
-    var geometry = new mxGeometry(this.vertex.getGeometry().x,
+    if(this.vertex !== undefined){
+        var geometry = new mxGeometry(this.vertex.getGeometry().x,
                                   this.vertex.getGeometry().y,
-                                  this.vertexWidth, 
-                                  this.vertexHeight);
+                                  this.vertexWidth(), 
+                                  this.vertexHeight());
                                       
-    this.graph.getModel().setGeometry(this.vertex,geometry);
+        this.graph.getModel().setGeometry(this.vertex,geometry);
+    };
     this.childBones.forEach(function(childBone) {
         childBone.reset();
     }); 
 };
 
 BaseBone.prototype.applyStyles = function(styleAttributes){
-    if(this.vertex !== null && this.graph.getSelectionModel().isSelected(this.vertex)){
+    if(this.vertex !== undefined && this.graph.getSelectionModel().isSelected(this.vertex)){
         this.applyCellStyle(this.vertex, styleAttributes);
     };
-    if(this.edge !== null  && this.graph.getSelectionModel().isSelected(this.edge)){
+    if(this.edge !== undefined  && this.graph.getSelectionModel().isSelected(this.edge)){
         this.applyCellStyle(this.edge, styleAttributes);
     };
     this.childBones.forEach(function(childBone) {
