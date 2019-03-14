@@ -20,7 +20,6 @@ function GraphConfiguration(graphElement)
     
     
     this.init = function(graph, canvas){
-        
         this.canvas = canvas;
         this.graph = graph;
         
@@ -43,6 +42,7 @@ function GraphConfiguration(graphElement)
     };
        
     this.buildPopupMenu = function(){
+        var canvas = this.canvas;
         this.graph.popupMenuHandler.autoExpand = true;
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
