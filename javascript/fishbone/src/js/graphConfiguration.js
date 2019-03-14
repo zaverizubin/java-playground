@@ -4,6 +4,11 @@ function GraphConfiguration(graphElement)
     
     this.graph;
     
+    mxConstants.HANDLE_FILLCOLOR = '#f44271';
+    mxConstants.HANDLE_STROKECOLOR = '#000';
+    mxConstants.VERTEX_SELECTION_COLOR = '#000';
+    mxConstants.EDGE_SELECTION_COLOR = '#000';
+    
     mxEvent.disableContextMenu(graphElement);
     
     mxGraph.prototype.isCellSelectable = function(cell)
@@ -13,20 +18,31 @@ function GraphConfiguration(graphElement)
         return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
     };
     
+    
     this.init = function(graph, canvas){
         
         this.canvas = canvas;
-        
         this.graph = graph;
+        
+        this.setGraphProperties();
+        this.buildTooltips();
+        this.buildPopupMenu();
+    };
+    
+    this.setGraphProperties = function(){
         new mxRubberband(this.graph);
         this.graph.setTooltips(true);
         this.graph.setCellsCloneable(false);
         this.graph.vertexLabelsMovable = true;
-        
+    };
+    
+    this.buildTooltips = function(){
         this.graph.getTooltipForCell = function(cell){
-          if(cell.isVertex()){return Messages.VERTEX_TOOLTIP;};
+            if(cell.isVertex()){return Messages.VERTEX_TOOLTIP;};
         };
-
+    };
+       
+    this.buildPopupMenu = function(){
         this.graph.popupMenuHandler.autoExpand = true;
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
@@ -48,6 +64,16 @@ function GraphConfiguration(graphElement)
 
             menu.addItem('Flip', null, function(){
                 canvas.onFlipClick();
+            });
+            
+            menu.addSeparator();
+            
+            menu.addItem('Move to Front', null, function(){
+                canvas.onReorderClick(false);
+            });
+            
+            menu.addItem('Send to Back', null, function(){
+                canvas.onReorderClick(true);
             });
         };
     };

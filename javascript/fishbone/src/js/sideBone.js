@@ -214,7 +214,7 @@ function SideBone (canvas) {
        
         
         var xLoc = this.getEdge().getGeometry().targetPoint.x 
-                   - Math.floor((maxChildBonesCount * this.boneSegmentLength()) + this.spacerV() + this.vertexHeight()/2) / Math.tan(this.edgeTheta()) 
+                   - Math.floor(((maxChildBonesCount * this.boneSegmentLength()) + this.spacerV() + this.vertexHeight()/2) / Math.tan(this.edgeTheta())) 
                    - this.vertexWidth()/2;
         var yLoc = (this.getId() % 2 !==0) 
                     ? this.getEdge().getGeometry().targetPoint.y  - (maxChildBonesCount * this.boneSegmentLength()) - this.spacerV() - this.vertexHeight() 

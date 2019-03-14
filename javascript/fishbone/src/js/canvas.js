@@ -46,6 +46,33 @@ function Canvas () {
         this.onDeleteCauseClick();
     };
     
+    this.onSwapClick = function(){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length !== 2 
+            || cells[0].getValue().cellType !== cells[1].getValue().cellType
+            || cells[0].getValue().bone.getParentBone() !== cells[1].getValue().bone.getParentBone()){
+            Utils.showMessageDialog(Messages.SWAP_SELECT_SHAPE);
+            return false;
+        };
+        var bone = cells[0].getValue().bone;
+        bone.getParentBone().swapChildBones();
+    };
+    
+    this.onFlipClick = function(){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length !== 1){
+            Utils.showMessageDialog(Messages.FLIP_SELECT_SHAPE);
+            return false;
+        };
+        var bone = cells[0].getValue().bone;
+        bone.getParentBone().flipChildBone();
+    };
+    
+    this.onReorderClick = function(sendToBack){
+        var cells = this.graph.getSelectionCells();
+        this.graph.orderCells(sendToBack, cells);
+    };
+    
     this.onAddCauseClick = function(){
         this.centerBone.addChildBone();
     };
@@ -136,31 +163,24 @@ function Canvas () {
     
     this.onClearDiagram = function(){
         var canvas = this;
+        var graph = this.graph;
         Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
-            canvas.centerBone.deleteAllChildBones();
+            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
+            canvas.buildCenterBone();
         });
     };
     
-    this.onSwapClick = function(){
-        var cells = this.graph.getSelectionCells();
-        if(cells.length !== 2 
-            || cells[0].getValue().cellType !== cells[1].getValue().cellType
-            || cells[0].getValue().bone.getParentBone() !== cells[1].getValue().bone.getParentBone()){
-            Utils.showMessageDialog(Messages.SWAP_SELECT_SHAPE);
-            return false;
-        };
-        var bone = cells[0].getValue().bone;
-        bone.getParentBone().swapChildBones();
+    this.onSaveDiagram = function(){
+        var encoder = new mxCodec();
+        var node = encoder.encode(this.graph.getModel());
+        var testString = mxUtils.getXml(node); 
+        var result = xmlToJSON.parseString(testString);
+        Utils.showMessageDialog(testString);
+        //mxUtils.popup(JSON.stringify(testString, null, 4), true);
     };
     
-    this.onFlipClick = function(){
-        var cells = this.graph.getSelectionCells();
-        if(cells.length !== 1){
-            Utils.showMessageDialog(Messages.FLIP_SELECT_SHAPE);
-            return false;
-        };
-        var bone = cells[0].getValue().bone;
-        bone.getParentBone().flipChildBone();
+    this.onLoadDiagram = function(){
+       
     };
     
     this.buildGraph = function(graphElement){

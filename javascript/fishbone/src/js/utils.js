@@ -10,7 +10,7 @@ Utils.removeFromArray = function(arr, object){
 };
 
 Utils.showMessageDialog = function(text){
-    $("#message-window").dialog({title: "Alert", width: 400,  buttons: {
+    $("#message-window").dialog({title: "Alert", width: 400,  height: 250, buttons: {
         Ok: function() {
           $( this ).dialog( "close" );
         }

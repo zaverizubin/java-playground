@@ -187,7 +187,7 @@ function LateralBone (canvas) {
         var geometry = new mxGeometry();
         
         var sourceX =  this.parentBone.getEdge().getGeometry().targetPoint.x 
-                        - Math.floor((this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2))/ Math.tan(this.parentBone.edgeTheta()));
+                        - Math.floor(this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2)/ Math.tan(this.parentBone.edgeTheta()));
         
         var sourceY = (this.parentBone.getId() % 2 !== 0)
                     ? this.parentBone.getEdge().getGeometry().targetPoint.y 

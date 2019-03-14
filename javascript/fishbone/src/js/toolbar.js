@@ -138,8 +138,16 @@ function Toolbar () {
             canvas.onZoomReset();
         });
         
-         $("#clear-diagram").click(function(){
+        $("#clear-diagram").click(function(){
             canvas.onClearDiagram();
+        });
+        
+        $("#save-diagram").click(function(){
+            canvas.onSaveDiagram();
+        });
+                
+        $("#load-diagram").click(function(){
+            canvas.onLoadDiagram();
         });
         
         $("#properties").click(function(){
