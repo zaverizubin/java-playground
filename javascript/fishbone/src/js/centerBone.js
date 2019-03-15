@@ -63,7 +63,7 @@ function CenterBone (canvas) {
                                 cellType:GraphSettings.CENTERBONE_EDGE
                             };
         var geometry = new mxGeometry();
-        geometry.sourcePoint = new mxPoint(this.marginH(), this.marginV() + this.canvasHeight/2);
+        geometry.sourcePoint = new mxPoint(0,0);
         
         var cell = new mxCell(valueObject, geometry, GraphSettings.STYLE_MAP.get(GraphSettings.CENTERBONE_EDGE));
         cell.geometry.relative = true;
@@ -204,10 +204,15 @@ function CenterBone (canvas) {
         
         var geometry = new mxGeometry(this.marginH() + this.spacerH() + maxChildBonesCount * this.boneSegmentLength(),
                                       (this.marginV() + this.canvasHeight/2) - (this.vertexHeight()/2),
-                                      this.vertex.getGeometry().width, 
-                                      this.vertex.getGeometry().height);
-       
+                                      this.vertexWidth(), 
+                                      this.vertexHeight());
         this.graph.getModel().setGeometry(this.vertex, geometry);
+        
+        var geometry = new mxGeometry();
+        geometry.sourcePoint = new mxPoint(this.marginH(), this.marginV() + this.canvasHeight/2);
+        this.graph.getModel().setGeometry(this.edge, geometry);
+        
+        this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
     };
     
     this.flipChildBone = function (){

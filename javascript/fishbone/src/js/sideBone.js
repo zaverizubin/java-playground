@@ -220,10 +220,10 @@ function SideBone (canvas) {
                     ? this.getEdge().getGeometry().targetPoint.y  - (maxChildBonesCount * this.boneSegmentLength()) - this.spacerV() - this.vertexHeight() 
                     : this.getEdge().getGeometry().targetPoint.y  + (maxChildBonesCount * this.boneSegmentLength()) + this.spacerV();
         
-        
-        var geometry = new mxGeometry(xLoc, yLoc, this.vertex.getGeometry().width, this.vertex.getGeometry().height);
+        var geometry = new mxGeometry(xLoc, yLoc, this.vertexWidth(), this.vertexHeight());
         this.graph.getModel().setGeometry(this.vertex, geometry);
         
+        this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
     };
     
     this.flipChildBone = function (){

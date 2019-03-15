@@ -140,10 +140,6 @@ function Canvas () {
         this.applyStyleAttributes(styleAttributes, true);
     };
     
-    this.onResetGraphSettings = function(styleAttributes){
-        this.applyStyleAttributes(styleAttributes, true);
-    };
-    
     this.onZoomChange = function(value){
         this.graph.zoomTo(1 + (value/100), false);
     };
@@ -153,12 +149,15 @@ function Canvas () {
     };
     
     this.onApplyGraphSettings = function(){
-        var canvas = this;
-        var graph = this.graph;
-        Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
-            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
-            canvas.buildCenterBone();
-        });
+        this.graph.getModel().beginUpdate();
+        try
+        {
+           this.centerBone.recursivelyPositionBones(this.centerBone);
+        }
+        finally
+        {
+            this.graph.getModel().endUpdate();
+        }
     };
     
     this.onClearDiagram = function(){

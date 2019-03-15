@@ -122,6 +122,7 @@ function Toolbar () {
         
         $("#reset-graph-settings").click(function(){
              toolbar.resetGraphSettings();
+             canvas.onApplyGraphSettings();
         });
                 
         $("#slider").on("slide", function(event, ui) {
@@ -190,7 +191,7 @@ function Toolbar () {
         GraphSettings.SIDEBONE_SEGMENT_LENGTH = $("#sidebone-segment-length-spinner").spinner( "value" );
         GraphSettings.SIDEBONE_VERTEX_WIDTH = $("#sidebone-vertex-width-spinner").spinner( "value" );
         GraphSettings.SIDEBONE_VERTEX_HEIGHT = $("#sidebone-vertex-height-spinner").spinner( "value" );
-        GraphSettings.LATERALBONE_SPACER_V = $("#lateralbone-spacer-h-spinner").spinner( "value" );
+        GraphSettings.LATERALBONE_SPACER_H = $("#lateralbone-spacer-h-spinner").spinner( "value" );
         GraphSettings.LATERALBONE_SEGMENT_LENGTH = $("#lateralbone-segment-length-spinner").spinner( "value" );
         GraphSettings.THETA = $("#theta-spinner").spinner( "value" );
         
