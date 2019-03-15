@@ -172,7 +172,7 @@ function Canvas () {
     this.onSaveDiagramClick = function(){
         var encoder = new mxCodec();
         var node = encoder.encode(this.graph.getModel());
-        var content = mxUtils.getXml(node); 
+        var content = mxUtils.getXml(node);
         Utils.showMessageDialog(content);
         //var result = xmlToJSON.parseString(testString);
     };
@@ -182,6 +182,10 @@ function Canvas () {
         var doc = mxUtils.parseXml(xmlContent);
         var codec = new mxCodec(doc);
         codec.decode(doc.documentElement, this.graph.getModel());
+        var objectGraphBuilder = new ObjectGraphBuilder();
+        var cells = this.graph.getChildCells(graph.getDefaultParent(), true, true);
+        objectGraphBuilder.buildObjectGraphFromCells(this, cells);
+        this.centerBone = objectGraphBuilder.getCenterBone();
         //Utils.showMessageDialog(content, 400, 300);
     };
     

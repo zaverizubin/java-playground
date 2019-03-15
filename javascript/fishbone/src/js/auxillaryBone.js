@@ -32,9 +32,10 @@ function AuxillaryBone (canvas) {
         var counter  = this.parentBone.getChildBones().length + 1;
         
         var valueObject =   {
-                                toString:function(){return 'Sub-' + counter;},
+                                label:'Sub-' + counter,
                                 cellType:GraphSettings.AUXILLARYBONE_EDGE,
                                 bone:this,
+                                parentId:this.parentBone.getId(),
                                 id:id
                             };
                             

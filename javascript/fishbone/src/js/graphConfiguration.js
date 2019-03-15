@@ -19,12 +19,13 @@ function GraphConfiguration(graphElement)
     };
     
     
+    
     this.init = function(graph, canvas){
         this.canvas = canvas;
         this.graph = graph;
         
         this.setGraphProperties();
-        this.buildTooltips();
+        this.buildGraphFunctions();
         this.buildPopupMenu();
     };
     
@@ -35,7 +36,14 @@ function GraphConfiguration(graphElement)
         this.graph.vertexLabelsMovable = true;
     };
     
-    this.buildTooltips = function(){
+    this.buildGraphFunctions = function(){
+        this.graph.convertValueToString = function(cell)
+        {
+            if(cell.value.label !== undefined){
+                return cell.value.label;
+            }
+            return '';
+        };
         this.graph.getTooltipForCell = function(cell){
             if(cell.isVertex()){return Messages.VERTEX_TOOLTIP;};
         };

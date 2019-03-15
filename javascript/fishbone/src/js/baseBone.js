@@ -12,8 +12,6 @@ function BaseBone(canvas){
     
     this.parentBone;
     
-    this.id;
-    
     this.counter;
     
     this.childBones = [];
@@ -52,8 +50,16 @@ BaseBone.prototype.getVertex = function(){
     return this.vertex;
 };
 
+BaseBone.prototype.setVertex = function(vertex){
+    this.vertex = vertex;
+};
+
 BaseBone.prototype.getEdge = function(){
     return this.edge;
+};
+
+BaseBone.prototype.setEdge = function(edge){
+    this.edge = edge;
 };
 
 BaseBone.prototype.hasVertex = function(){

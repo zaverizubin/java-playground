@@ -33,9 +33,10 @@ function LateralBone (canvas) {
         var counter  = this.parentBone.getChildBones().length + 1;
         
         var valueObject =   {
-                                toString:function(){return 'Detail-' + counter;},
+                                label:'Detail-' + counter,
                                 cellType:GraphSettings.LATERALBONE_EDGE,
                                 bone:this,
+                                parentId:this.parentBone.getId(),
                                 id:id
                             };
                             

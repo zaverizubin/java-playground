@@ -31,7 +31,7 @@ function SideBone (canvas) {
 
     this.buildBone = function (id){
         this.buildVertex(id);
-        this.buildEdge();
+        this.buildEdge(id);
         this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
         this.applyCellStyle(this.edge, this.canvas.getToolbar().getStyleAttributes());
     };
@@ -39,9 +39,10 @@ function SideBone (canvas) {
     this.buildVertex = function(id){
         var counter  = this.parentBone.getChildBones().length + 1;
         var valueObject =   {
-                                toString:function(){return 'Cause-' + counter;},
+                                label:'Cause-' + counter,
                                 cellType:GraphSettings.SIDEBONE_VERTEX,
                                 bone:this,
+                                parentId:this.parentBone.getId(),
                                 id:id
                             };
                 
@@ -54,10 +55,12 @@ function SideBone (canvas) {
                                             GraphSettings.STYLE_MAP.get(GraphSettings.SIDEBONE_VERTEX));
     };
    
-    this.buildEdge = function(){
+    this.buildEdge = function(id){
         var valueObject =   {
-                                toString:function(){return ''},
-                                cellType:GraphSettings.SIDEBONE_EDGE
+                                label:'',
+                                cellType:GraphSettings.SIDEBONE_EDGE,
+                                parentId:this.parentBone.getId(),
+                                id:id
                             };
       
         var geometry = new mxGeometry();

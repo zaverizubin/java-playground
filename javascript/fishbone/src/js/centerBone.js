@@ -43,9 +43,10 @@ function CenterBone (canvas) {
     this.buildVertex = function(){
         
         var valueObject =   {
-                                toString:function(){return 'Main Cause';},
+                                label:'Main Cause',
                                 cellType:GraphSettings.CENTERBONE_VERTEX,
                                 bone:this,
+                                parentId:0,
                                 id:1
                             };
                 
@@ -59,8 +60,10 @@ function CenterBone (canvas) {
     
     this.buildEdge = function(){
         var valueObject =   {
-                                toString:function(){return ''},
-                                cellType:GraphSettings.CENTERBONE_EDGE
+                                label:'',
+                                cellType:GraphSettings.CENTERBONE_EDGE,
+                                parentId:0,
+                                id:1
                             };
         var geometry = new mxGeometry();
         geometry.sourcePoint = new mxPoint(0,0);
