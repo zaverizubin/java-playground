@@ -273,6 +273,10 @@ function CenterBone (canvas) {
         return true;
     };
     
+    this.delete = function(){
+       this.deleteAllChildBones(); 
+       this.graph.removeCells([this.vertex]);
+    };
 
 }
 

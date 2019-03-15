@@ -160,7 +160,7 @@ function Canvas () {
         }
     };
     
-    this.onClearDiagram = function(){
+    this.onClearDiagramClick = function(){
         var canvas = this;
         var graph = this.graph;
         Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
@@ -169,18 +169,28 @@ function Canvas () {
         });
     };
     
-    this.onSaveDiagram = function(){
+    this.onSaveDiagramClick = function(){
         var encoder = new mxCodec();
         var node = encoder.encode(this.graph.getModel());
-        var testString = mxUtils.getXml(node); 
-        var result = xmlToJSON.parseString(testString);
-        Utils.showMessageDialog(testString);
-        //mxUtils.popup(JSON.stringify(testString, null, 4), true);
+        var content = mxUtils.getXml(node); 
+        Utils.showMessageDialog(content);
+        //var result = xmlToJSON.parseString(testString);
     };
     
-    this.onLoadDiagram = function(){
-       
+    this.onLoadDiagram = function(xmlContent){
+        this.clearGraph();
+        var doc = mxUtils.parseXml(xmlContent);
+        var codec = new mxCodec(doc);
+        codec.decode(doc.documentElement, this.graph.getModel());
+        //Utils.showMessageDialog(content, 400, 300);
     };
+    
+    this.clearGraph = function(){
+        this.centerBone.delete();
+        this.centerBone = undefined;
+    };
+    
+    
     
     this.buildGraph = function(graphElement){
         this.graphConfiguration = new GraphConfiguration(graphElement);

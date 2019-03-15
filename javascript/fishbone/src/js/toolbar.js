@@ -61,6 +61,11 @@ function Toolbar () {
         var canvas = this.canvas;
         var toolbar = this;
         
+        $('#file-input').change(function(e){
+            var file = e.target.files[0];
+            Utils.readFile(file, canvas.onLoadDiagram, canvas);
+        });
+        
         $("#add-cause").click(function(){
             canvas.onAddCauseClick();
         });
@@ -140,15 +145,15 @@ function Toolbar () {
         });
         
         $("#clear-diagram").click(function(){
-            canvas.onClearDiagram();
+            canvas.onClearDiagramClick();
         });
         
         $("#save-diagram").click(function(){
-            canvas.onSaveDiagram();
+            canvas.onSaveDiagramClick();
         });
                 
         $("#load-diagram").click(function(){
-            canvas.onLoadDiagram();
+            $('#file-input').trigger('click');
         });
         
         $("#properties").click(function(){
