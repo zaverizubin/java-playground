@@ -152,7 +152,18 @@ function Canvas () {
         this.graph.getModel().beginUpdate();
         try
         {
-           this.centerBone.recursivelyPositionBones(this.centerBone);
+            var cells = this.graph.getSelectionCells();
+            var bones = [];
+            if(cells.length >= 1){
+                this.centerBone.recursivelyGetSelectedBones(this.centerBone, bones);
+            }else{
+                this.centerBone.recursivelyGetAllBones(this.centerBone, bones);
+            };
+            var centerBone = this.centerBone;
+            bones.forEach(function(bone){
+                bone.applyGraphSettings();
+                centerBone.recursivelyPositionBones(centerBone);
+            });
         }
         finally
         {
@@ -181,17 +192,22 @@ function Canvas () {
         this.clearGraph();
         var doc = mxUtils.parseXml(xmlContent);
         var codec = new mxCodec(doc);
+        this.graph.getModel().beginUpdate();
         codec.decode(doc.documentElement, this.graph.getModel());
-        var objectGraphBuilder = new ObjectGraphBuilder();
-        var cells = this.graph.getChildCells(graph.getDefaultParent(), true, true);
-        objectGraphBuilder.buildObjectGraphFromCells(this, cells);
+        this.graph.getModel().endUpdate();
+        var objectGraphBuilder = new ObjectGraphBuilder(this);
+        var cells = this.graph.getChildCells(this.graph.getDefaultParent(), true, true);
+        objectGraphBuilder.buildObjectGraphFromCells(cells);
         this.centerBone = objectGraphBuilder.getCenterBone();
         //Utils.showMessageDialog(content, 400, 300);
     };
     
     this.clearGraph = function(){
-        this.centerBone.delete();
+        this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
+        this.graph.removeCells(this.graph.getChildEdges(this.graph.getDefaultParent()));
+        //this.centerBone.delete();
         this.centerBone = undefined;
+        
     };
     
     

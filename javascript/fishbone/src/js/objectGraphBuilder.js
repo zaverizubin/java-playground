@@ -31,10 +31,11 @@ function ObjectGraphBuilder(canvas){
         this.buildCenterBone();
         this.buildSideBones();
         this.buildLateralBones();
+        this.sortBones();
         this.buildAuxillaryBones();
         this.buildAssociation(this.lateralBones, this.auxillaryBones);
         this.buildAssociation(this.sideBones, this.lateralBones);
-        this.centerBone.addChildBones(this.sideBones);
+        this.buildAssociation([this.centerBone], this.sideBones);
     };
     
     this.triageCells = function(cells){
@@ -64,10 +65,11 @@ function ObjectGraphBuilder(canvas){
     };
     
     this.buildCenterBone = function(){
-        this.centerBone = new CenterBone(this);
-        this.centerBone.setVertex(centerBoneVertex);
-        this.centerBone.setEdge(centerBoneEdge);
-        this.centerBone.setId(centerBoneVertex.getValue().id);
+        this.centerBone = new CenterBone(this.canvas);
+        this.centerBone.setVertex(this.centerBoneVertex);
+        this.centerBone.setEdge(this.centerBoneEdge);
+        this.centerBone.setId(this.centerBoneVertex.getValue().id);
+        this.centerBone.getValue().bone = this.centerBone;
     };
     
     this.buildSideBones = function(){
@@ -79,15 +81,12 @@ function ObjectGraphBuilder(canvas){
             for(var j = 0; j < this.sideBoneEdges.length; j++){
                 if(this.sideBoneEdges[j].getValue().id ===  sideBone.getVertex().getValue().id){
                     sideBone.setEdge(this.sideBoneEdges[j]);
+                    sideBone.getValue().bone = sideBone;
                     break;
                 }
             };
         }
         this.sideBones.push(sideBone);
-        if(this.sideBones.length > 0){
-            this.sideBones[0].sortBones(this.sideBones);
-        };
-        
     };
     
     this.buildLateralBones = function(){
@@ -96,11 +95,9 @@ function ObjectGraphBuilder(canvas){
             var lateralBone = new LateralBone(this.canvas);
             lateralBone.setEdge(this.lateralBoneEdges[i]);
             lateralBone.setId(this.lateralBoneEdges[i].getValue().id);
+            lateralBone.getValue().bone = lateralBone;
         }
         this.lateralBones.push(lateralBone);
-        if(this.lateralBones.length > 0){
-            this.lateralBones[0].sortBones(this.lateralBones);
-        };
     };
     
     this.buildAuxillaryBones = function(){
@@ -109,15 +106,30 @@ function ObjectGraphBuilder(canvas){
             var auxillaryBone = new AuxillaryBone(this.canvas);
             auxillaryBone.setEdge(this.auxillaryBoneEdges[i]);
             auxillaryBone.setId(this.auxillaryBoneEdges[i].getValue().id);
+            auxillaryBone.getValue().bone = auxillaryBone;
         }
         this.auxillaryBones.push(auxillaryBone);
-        if(this.auxillaryBones.length > 0){
-            this.auxillaryBones[0].sortBones(this.auxillaryBones);
-        };
+    };
+ 
+    this.sortBones = function(){
+        this.centerBone.sortBones(this.sideBones);
+        this.centerBone.sortBones(this.lateralBones);
+        this.centerBone.sortBones(this.auxillaryBones);
     };
  
     this.buildAssociation = function(parentBones, childBones){
+        if(parentBones.length === 1){
+            parentBones[0].setChildBones(childBones);
+            return; 
+        }
         
+        parentBones.forEach(function(parentBone){
+            childBones.forEach(function(childBone){
+                if(childBones.getValue().parentId === parentBone.getValue().id){
+                    parentBones.getChildBones().push(childBone);
+                };
+            });
+        });
     };
     
 }

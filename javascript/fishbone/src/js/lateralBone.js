@@ -3,14 +3,13 @@ function LateralBone (canvas) {
     BaseBone.call(this, canvas);
    
     //The initial length of this bone.
-    this.spacerH = function(){ return GraphSettings.LATERALBONE_SPACER_H;}; 
-    
+    this.spacerH; 
     //Increment distance by which the this bone grows or shrinks.
-    this.boneSegmentLength = function(){ return GraphSettings.LATERALBONE_SEGMENT_LENGTH;};  
+    this.boneSegmentLength;  
     
     this.init = function (parentBone, id) {
         BaseBone.prototype.init.call(this, parentBone);
-       
+        this.applyGraphSettings();
         this.graph.getModel().beginUpdate();
         try
         {
@@ -110,24 +109,14 @@ function LateralBone (canvas) {
         childBone.init(this, this.getNextChildId());
         this.childBones.push(childBone);
     };
-    
-    this.getSelectedChildBones = function(){
-        var selectedBones = [];
-        this.childBones.forEach(function(childBone) {
-            if(childBone.isSelected()){
-                selectedBones.push(childBone);
-            }
-        });
-        return selectedBones;
-    };
-    
+            
     this.compactChildBones = function(){
         var topAuxillaryBones = this.getTopChildBones();
         var bottomAuxillaryBones = this.getBottomChildBones();
         this.sortBones(topAuxillaryBones);
         this.sortBones(bottomAuxillaryBones);
         
-        var dx = this.isLeftOfParentBone()? this.boneSegmentLength() : -this.boneSegmentLength();
+        var dx = this.isLeftOfParentBone()? this.boneSegmentLength : -this.boneSegmentLength;
         var dy = 0;
                 
         var id=1;
@@ -188,19 +177,19 @@ function LateralBone (canvas) {
         var geometry = new mxGeometry();
         
         var sourceX =  this.parentBone.getEdge().getGeometry().targetPoint.x 
-                        - Math.floor(this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2)/ Math.tan(this.parentBone.edgeTheta()));
+                        - Math.floor(this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2)/ Math.tan(this.parentBone.edgeTheta));
         
         var sourceY = (this.parentBone.getId() % 2 !== 0)
                     ? this.parentBone.getEdge().getGeometry().targetPoint.y 
-                         - (this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2))
+                         - (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2))
                     : this.parentBone.getEdge().getGeometry().targetPoint.y 
-                         + (this.parentBone.boneSegmentLength() * Math.ceil(this.getId()/2));
+                         + (this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2));
         
         geometry.sourcePoint = new mxPoint(sourceX, sourceY);
         
         var targetX = (this.getId() % 2 !== 0)
-                    ? geometry.sourcePoint.x - this.spacerH() - this.getMaxOfChildBoneCount() * this.boneSegmentLength()
-                    : geometry.sourcePoint.x + this.spacerH() + this.getMaxOfChildBoneCount() * this.boneSegmentLength();
+                    ? geometry.sourcePoint.x - this.spacerH - this.getMaxOfChildBoneCount() * this.boneSegmentLength
+                    : geometry.sourcePoint.x + this.spacerH + this.getMaxOfChildBoneCount() * this.boneSegmentLength;
         var targetY =  geometry.sourcePoint.y;
        
         geometry.targetPoint = new mxPoint(targetX, targetY);
@@ -274,10 +263,6 @@ function LateralBone (canvas) {
        this.graph.removeCells([this.edge]);
     };
    
-    this.isSelected = function(){
-       return this.graph.isCellSelected(this.edge);
-    };
-   
     this.isLeftOfParentBone = function(){
        return this.getId() %2 !== 0;
     };
@@ -311,6 +296,10 @@ function LateralBone (canvas) {
         this.recursivelyPositionBones(boneToSwap);
     };
    
+    this.applyGraphSettings = function(){
+        this.spacerH = GraphSettings.LATERALBONE_SPACER_H;
+        this.boneSegmentLength = GraphSettings.LATERALBONE_SEGMENT_LENGTH;
+    };
     
 }
 

@@ -46,6 +46,11 @@ BaseBone.prototype.getChildBones = function(){
     return this.childBones;
 };
 
+BaseBone.prototype.setChildBones = function(childBones){
+    this.childBones = [];
+    this.childBones.push.apply(this.childBones, childBones);
+};
+
 BaseBone.prototype.getVertex = function(){
     return this.vertex;
 };
@@ -69,6 +74,10 @@ BaseBone.prototype.hasVertex = function(){
 BaseBone.prototype.init = function(parentBone){
     this.parentBone = parentBone; 
 };
+
+BaseBone.prototype.isSelected = function(){
+    return this.hasVertex()? this.graph.isCellSelected(this.vertex):this.graph.isCellSelected(this.edge);
+ };
 
 BaseBone.prototype.getNextChildId = function(){
     this.sortBones(this.childBones);
@@ -96,6 +105,32 @@ BaseBone.prototype.sortBones = function(bones){
     bones.sort(function (bone1, bone2) {
         return bone1.getId() - bone2.getId();
     });
+};
+
+BaseBone.prototype.getSelectedChildBones = function(){
+    var selectedBones = [];
+    this.childBones.forEach(function(childBone) {
+        if(childBone.isSelected()){
+            selectedBones.push(childBone);
+        }
+    });
+    return selectedBones;
+};
+
+BaseBone.prototype.recursivelyGetAllBones = function(bone, allBones){
+   allBones.push(bone);
+    for(var i=0, count = bone.getChildBones().length; i< count; i++){
+        this.recursivelyGetAllBones(bone.getChildBones()[i], allBones);
+    }; 
+};
+
+BaseBone.prototype.recursivelyGetSelectedBones = function(bone, selectedBones){
+    if(bone.isSelected()){
+         selectedBones.push(bone);
+    }
+    for(var i=0, count = bone.getChildBones().length; i< count; i++){
+        this.recursivelyGetSelectedBones(bone.getChildBones()[i], selectedBones);
+    };
 };
 
 BaseBone.prototype.recursivelyPositionBones = function(bone){

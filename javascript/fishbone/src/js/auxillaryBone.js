@@ -3,13 +3,12 @@ function AuxillaryBone (canvas) {
     BaseBone.call(this, canvas);
     
     //Increment distance by which the this bone grows or shrinks.
-    this.boneSegmentLength = function(){ return GraphSettings.AUXILLARYBONE_SEGMENT_LENGTH;};  
-    
-    this.edgeTheta = function(){ return GraphSettings.THETA * Math.PI/180;};
+    this.boneSegmentLength;  
+    this.edgeTheta;
     
     this.init = function (parentBone, id) {
         BaseBone.prototype.init.call(this, parentBone);
-       
+       this.applyGraphSettings();
         this.graph.getModel().beginUpdate();
         try
         {
@@ -61,20 +60,20 @@ function AuxillaryBone (canvas) {
         
         var sourceX =  (this.parentBone.getId() % 2 !== 0)
                         ?   this.parentBone.getEdge().getGeometry().sourcePoint.x 
-                            - this.parentBone.spacerH() - this.parentBone.boneSegmentLength()  * (Math.ceil(this.getId()/2)-1)
+                            - this.parentBone.spacerH - this.parentBone.boneSegmentLength  * (Math.ceil(this.getId()/2)-1)
                         : this.parentBone.getEdge().getGeometry().sourcePoint.x 
-                            + this.parentBone.spacerH() + this.parentBone.boneSegmentLength()  * (Math.ceil(this.getId()/2)-1);
+                            + this.parentBone.spacerH + this.parentBone.boneSegmentLength  * (Math.ceil(this.getId()/2)-1);
         
         var sourceY = this.parentBone.getEdge().getGeometry().sourcePoint.y;  
         
         geometry.sourcePoint = new mxPoint(sourceX, sourceY);
         
         var targetX = (this.parentBone.getId() % 2 !== 0)
-                    ? geometry.sourcePoint.x  - Math.ceil(this.boneSegmentLength()/Math.tan(this.edgeTheta()))
-                    : geometry.sourcePoint.x  + Math.ceil(this.boneSegmentLength()/Math.tan(this.edgeTheta()));
+                    ? geometry.sourcePoint.x  - Math.ceil(this.boneSegmentLength/Math.tan(this.edgeTheta))
+                    : geometry.sourcePoint.x  + Math.ceil(this.boneSegmentLength/Math.tan(this.edgeTheta));
         var targetY = (this.getId() % 2 !== 0)
-                    ? geometry.sourcePoint.y - this.boneSegmentLength()
-                    : geometry.sourcePoint.y + this.boneSegmentLength();
+                    ? geometry.sourcePoint.y - this.boneSegmentLength
+                    : geometry.sourcePoint.y + this.boneSegmentLength;
        
         geometry.targetPoint = new mxPoint(targetX, targetY);
         
@@ -88,11 +87,7 @@ function AuxillaryBone (canvas) {
     this.delete = function(){
        this.graph.removeCells([this.edge]);
     };
-   
-    this.isSelected = function(){
-       return this.graph.isCellSelected(this.edge);
-    };
-   
+       
     this.isAboveParentBone = function(){
        return this.getId() %2 !== 0;
     };
@@ -124,6 +119,11 @@ function AuxillaryBone (canvas) {
         
         this.recursivelyPositionBones(this);
         this.recursivelyPositionBones(boneToSwap);
+    };
+    
+    this.applyGraphSettings = function(){
+        this.boneSegmentLength = GraphSettings.AUXILLARYBONE_SEGMENT_LENGTH;  
+        this.edgeTheta = GraphSettings.THETA * Math.PI/180;
     };
 }
 

@@ -3,23 +3,19 @@ function CenterBone (canvas) {
     BaseBone.call(this, canvas);
     
     //The initial edge x position offset from left of canvas
-    this.marginH = function(){ return GraphSettings.MARGIN_H;}; 
-    
+    this.marginH; 
     //The initial edge y position offset from center of canvas
-    this.marginV = function(){ return GraphSettings.MARGIN_V;}; 
-    
+    this.marginV; 
     //The initial length of this bone.
-    this.spacerH = function(){ return GraphSettings.CENTERBONE_SPACER_H;}
-
-    //Increment distance by which the this bone grows or shrinks.
-    this.boneSegmentLength = function(){ return GraphSettings.CENTERBONE_SEGMENT_LENGTH;}
-    
-    this.vertexWidth = function(){ return GraphSettings.CENTERBONE_VERTEX_WIDTH;};
-    
-    this.vertexHeight = function(){ return GraphSettings.CENTERBONE_VERTEX_HEIGHT;};
+    this.spacerH;
+  //Increment distance by which the this bone grows or shrinks.
+    this.boneSegmentLength;
+    this.vertexWidth;
+    this.vertexHeight;
     
     this.init = function () {
         BaseBone.prototype.init.call(this);
+        this.applyGraphSettings();
         this.graph.getModel().beginUpdate();
         try
         {
@@ -54,7 +50,7 @@ function CenterBone (canvas) {
                                                 valueObject,
                                                 0,
                                                 0,
-                                                this.vertexWidth(), this.vertexHeight(), 
+                                                this.vertexWidth, this.vertexHeight, 
                                                 GraphSettings.STYLE_MAP.get(GraphSettings.CENTERBONE_VERTEX));
     };
     
@@ -134,17 +130,6 @@ function CenterBone (canvas) {
         this.childBones.push(childBone);
     };
     
-    
-    this.getSelectedChildBones = function(){
-        var selectedBones = [];
-        this.childBones.forEach(function(childBone) {
-            if(childBone.isSelected()){
-                selectedBones.push(childBone);
-            }
-        });
-        return selectedBones;
-    };
-  
     this.compactChildBones = function(){
         var topChildBones = this.getTopChildBones();
         var bottomChildBones = this.getBottomChildBones();
@@ -155,7 +140,7 @@ function CenterBone (canvas) {
         for(var i=0; i<topChildBones.length ; i++){
             while(topChildBones[i].getId() > id){
                 for(var j=i; j<topChildBones.length ; j++){
-                    topChildBones[j].moveBoneOnCompact(- this.boneSegmentLength(), 0);
+                    topChildBones[j].moveBoneOnCompact(- this.boneSegmentLength, 0);
                 }
             }
             id += 2;
@@ -165,7 +150,7 @@ function CenterBone (canvas) {
         for(var i=0; i<bottomChildBones.length ; i++){
             while(bottomChildBones[i].getId() > id){
                 for(var j=i; j<bottomChildBones.length ; j++){
-                    bottomChildBones[j].moveBoneOnCompact(- this.boneSegmentLength(), 0);
+                    bottomChildBones[j].moveBoneOnCompact(- this.boneSegmentLength, 0);
                 }
             }
             id += 2;
@@ -205,14 +190,14 @@ function CenterBone (canvas) {
         var bottomChildBonesCount = this.getBottomChildBones().length;
         var maxChildBonesCount = Math.max(topChildBonesCount, bottomChildBonesCount);
         
-        var geometry = new mxGeometry(this.marginH() + this.spacerH() + maxChildBonesCount * this.boneSegmentLength(),
-                                      (this.marginV() + this.canvasHeight/2) - (this.vertexHeight()/2),
-                                      this.vertexWidth(), 
-                                      this.vertexHeight());
+        var geometry = new mxGeometry(this.marginH + this.spacerH + maxChildBonesCount * this.boneSegmentLength,
+                                      (this.marginV + this.canvasHeight/2) - (this.vertexHeight/2),
+                                      this.vertexWidth, 
+                                      this.vertexHeight);
         this.graph.getModel().setGeometry(this.vertex, geometry);
         
         var geometry = new mxGeometry();
-        geometry.sourcePoint = new mxPoint(this.marginH(), this.marginV() + this.canvasHeight/2);
+        geometry.sourcePoint = new mxPoint(this.marginH, this.marginV + this.canvasHeight/2);
         this.graph.getModel().setGeometry(this.edge, geometry);
         
         this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
@@ -281,6 +266,15 @@ function CenterBone (canvas) {
        this.graph.removeCells([this.vertex]);
     };
 
+    this.applyGraphSettings = function(){
+        this.marginH = GraphSettings.MARGIN_H;
+        this.marginV = GraphSettings.MARGIN_V;
+        this.spacerH = GraphSettings.CENTERBONE_SPACER_H;
+        this.boneSegmentLength = GraphSettings.CENTERBONE_SEGMENT_LENGTH;
+        this.vertexWidth = GraphSettings.CENTERBONE_VERTEX_WIDTH;
+        this.vertexHeight = GraphSettings.CENTERBONE_VERTEX_HEIGHT;
+    };
+    
 }
 
 CenterBone.prototype = Object.create(BaseBone.prototype);
