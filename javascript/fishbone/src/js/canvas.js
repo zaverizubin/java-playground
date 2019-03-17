@@ -271,10 +271,10 @@ function Canvas () {
         }else{
             cellGeometry = cell.getGeometry();
         }
-        $("#x-location").html(cellGeometry.x  + "px");
-        $("#y-location").html(cellGeometry.y  + "px");
-        $("#width").html(cellGeometry.width  + "px");
-        $("#height").html(cellGeometry.height  + "px");
+        $("#x-location").html(Math.round(cellGeometry.x)  + "px");
+        $("#y-location").html(Math.round(cellGeometry.y)  + "px");
+        $("#width").html(Math.round(cellGeometry.width)  + "px");
+        $("#height").html(Math.round(cellGeometry.height)  + "px");
         
         if(cell.getStyle().indexOf("fontSize") >=0){
             $("#font-size").html(cell.getStyle().split("fontSize=")[1].substr(0,1) +"px");

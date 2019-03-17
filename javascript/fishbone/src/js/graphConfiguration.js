@@ -59,6 +59,11 @@ function GraphConfiguration(graphElement)
                 || cell.getValue().cellType === GraphSettings.CENTERBONE_EDGE
                 || cell.getValue().cellType === GraphSettings.SIDEBONE_EDGE
                     ){
+                
+                menu.addItem('Properties', null, function(){
+                    canvas.onPropertiesWindowOpen();
+                });
+                
                 return;
             };
             
@@ -82,6 +87,11 @@ function GraphConfiguration(graphElement)
             
             menu.addItem('Send to Back', null, function(){
                 canvas.onReorderClick(true);
+            });
+            
+            menu.addSeparator();
+            menu.addItem('Properties', null, function(){
+                canvas.onPropertiesWindowOpen();
             });
         };
     };

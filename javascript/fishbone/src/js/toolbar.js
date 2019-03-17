@@ -155,10 +155,6 @@ function Toolbar () {
         $("#load-diagram").click(function(){
             $('#file-input').trigger('click');
         });
-        
-        $("#properties").click(function(){
-            canvas.onPropertiesWindowOpen();
-        });
     };
     
     this.resetGraphSettings = function(){

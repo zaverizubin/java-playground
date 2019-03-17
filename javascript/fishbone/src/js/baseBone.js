@@ -71,12 +71,21 @@ BaseBone.prototype.hasVertex = function(){
     return this.vertex !== undefined;
 };
 
+BaseBone.prototype.hasEdge = function(){
+    return this.edge !== undefined;
+};
+
+
 BaseBone.prototype.init = function(parentBone){
     this.parentBone = parentBone; 
 };
 
 BaseBone.prototype.isSelected = function(){
-    return this.hasVertex()? this.graph.isCellSelected(this.vertex):this.graph.isCellSelected(this.edge);
+    if(this.hasVertex() && this.hasEdge()){
+        return this.graph.isCellSelected(this.vertex) || this.graph.isCellSelected(this.edge);
+    }else{
+        return this.graph.isCellSelected(this.edge);
+    }
  };
 
 BaseBone.prototype.getNextChildId = function(){
