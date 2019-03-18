@@ -68,7 +68,7 @@ function ObjectGraphBuilder(canvas){
         this.centerBone = new CenterBone(this.canvas);
         this.centerBone.setVertex(this.centerBoneVertex);
         this.centerBone.setEdge(this.centerBoneEdge);
-        this.centerBone.setId(this.centerBoneVertex.getAttribute('id'));
+        this.centerBone.setId(this.centerBoneVertex.getAttribute('cellId'));
         this.centerBone.getValue().bone = this.centerBone;
     };
     
@@ -77,9 +77,9 @@ function ObjectGraphBuilder(canvas){
         {
             var sideBone = new SideBone(this.canvas);
             sideBone.setVertex(this.sideBoneVertices[i]);
-            sideBone.setId(this.sideBoneVertices[i].getAttribute('id'));
+            sideBone.setId(this.sideBoneVertices[i].getAttribute('cellId'));
             for(var j = 0; j < this.sideBoneEdges.length; j++){
-                if(this.sideBoneEdges[j].getAttribute('id') ===  sideBone.getVertex().getAttribute('id')){
+                if(this.sideBoneEdges[j].getAttribute('cellId') ===  sideBone.getVertex().getAttribute('cellId')){
                     sideBone.setEdge(this.sideBoneEdges[j]);
                     sideBone.getValue().bone = sideBone;
                     break;
@@ -94,7 +94,7 @@ function ObjectGraphBuilder(canvas){
         {
             var lateralBone = new LateralBone(this.canvas);
             lateralBone.setEdge(this.lateralBoneEdges[i]);
-            lateralBone.setId(this.lateralBoneEdges[i].getAttribute('id'));
+            lateralBone.setId(this.lateralBoneEdges[i].getAttribute('cellId'));
             lateralBone.getValue().bone = lateralBone;
         }
         this.lateralBones.push(lateralBone);
@@ -105,7 +105,7 @@ function ObjectGraphBuilder(canvas){
         {
             var auxillaryBone = new AuxillaryBone(this.canvas);
             auxillaryBone.setEdge(this.auxillaryBoneEdges[i]);
-            auxillaryBone.setId(this.auxillaryBoneEdges[i].getAttribute('id'));
+            auxillaryBone.setId(this.auxillaryBoneEdges[i].getAttribute('cellId'));
             auxillaryBone.getValue().bone = auxillaryBone;
         }
         this.auxillaryBones.push(auxillaryBone);

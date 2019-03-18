@@ -190,7 +190,6 @@ function Canvas () {
         var node = encoder.encode(this.graph.getModel());
         var content = mxUtils.getXml(node);
         Utils.showMessageDialog(content);
-        //var result = xmlToJSON.parseString(testString);
     };
     
     this.onLoadDiagram = function(xmlContent){
@@ -200,10 +199,10 @@ function Canvas () {
         this.graph.getModel().beginUpdate();
         codec.decode(doc.documentElement, this.graph.getModel());
         this.graph.getModel().endUpdate();
-        var objectGraphBuilder = new ObjectGraphBuilder(this);
+       /* var objectGraphBuilder = new ObjectGraphBuilder(this);
         var cells = this.graph.getChildCells(this.graph.getDefaultParent(), true, true);
         objectGraphBuilder.buildObjectGraphFromCells(cells);
-        this.centerBone = objectGraphBuilder.getCenterBone();
+        this.centerBone = objectGraphBuilder.getCenterBone();*/
         //Utils.showMessageDialog(content, 400, 300);
     };
     

@@ -35,20 +35,10 @@ function LateralBone (canvas) {
         var valueObject = doc.createElement('node')
         valueObject.setAttribute('label', 'Detail-' + counter);
         valueObject.setAttribute('cellType', GraphSettings.LATERALBONE_EDGE);
-        valueObject.setAttribute('parentId', this.parentBone.getId());
-        valueObject.setAttribute('id', id);
-        
-        /*
-        var valueObject =   {
-                                label:'Detail-' + counter,
-                                cellType:GraphSettings.LATERALBONE_EDGE,
-                                bone:this,
-                                parentId:this.parentBone.getId(),
-                                id:id
-                            };*/
+        valueObject.setAttribute('parentCellId', this.parentBone.getId());
+        valueObject.setAttribute('cellId', id);
                             
         var geometry = new mxGeometry();
-        
         geometry.sourcePoint = new mxPoint(0, 0);
         geometry.targetPoint = new mxPoint(0, 0);
         
@@ -250,10 +240,10 @@ function LateralBone (canvas) {
         {
             var childbone = this.childBones[i];
             if(childbone.getVertex() !== cell){
-                if(childbone.isAboveParentBone() && childbone.getId() === Number(cell.getAttribute('id')) - 1){
+                if(childbone.isAboveParentBone() && childbone.getId() === Number(cell.getAttribute('cellId')) - 1){
                     Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
                     return false;
-                }else if(!childbone.isAboveParentBone() && childbone.getId() === Number(cell.getAttribute('id')) + 1){
+                }else if(!childbone.isAboveParentBone() && childbone.getId() === Number(cell.getAttribute('cellId')) + 1){
                     Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
                     return false;
                 };

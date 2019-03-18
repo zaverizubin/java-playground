@@ -64,6 +64,7 @@ function Toolbar () {
         $('#file-input').change(function(e){
             var file = e.target.files[0];
             Utils.readFile(file, canvas.onLoadDiagram, canvas);
+            $(this).val('');
         });
         
         $("#add-cause").click(function(){

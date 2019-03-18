@@ -23,14 +23,14 @@ function BaseBone(canvas){
 }
 
 BaseBone.prototype.getId = function(){
-    return this.hasVertex()? Number(this.vertex.getAttribute('id')) : Number(this.edge.getAttribute('id'));
+    return this.hasVertex()? Number(this.vertex.getAttribute('cellId')) : Number(this.edge.getAttribute('cellId'));
 };
 
 BaseBone.prototype.setId = function(id){
     if(this.hasVertex()){
-        this.vertex.setAttribute('id', id)
+        this.vertex.setAttribute('cellId', id)
     }else{
-        this.edge.setAttribute('id', id);
+        this.edge.setAttribute('cellId', id);
     }
 };
 

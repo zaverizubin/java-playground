@@ -34,19 +34,10 @@ function AuxillaryBone (canvas) {
         var valueObject = doc.createElement('node')
         valueObject.setAttribute('label', 'Sub-' + counter);
         valueObject.setAttribute('cellType', GraphSettings.AUXILLARYBONE_EDGE);
-        valueObject.setAttribute('parentId', this.parentBone.getId());
-        valueObject.setAttribute('id', id);
-        /*
-        var valueObject =   {
-                                label:'Sub-' + counter,
-                                cellType:GraphSettings.AUXILLARYBONE_EDGE,
-                                bone:this,
-                                parentId:this.parentBone.getId(),
-                                id:id
-                            };*/
+        valueObject.setAttribute('parentCellId', this.parentBone.getId());
+        valueObject.setAttribute('cellId', id);
                             
         var geometry = new mxGeometry();
-        
         geometry.sourcePoint = new mxPoint(0, 0);
         geometry.targetPoint = new mxPoint(0, 0);
        
