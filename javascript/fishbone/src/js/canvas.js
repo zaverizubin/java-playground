@@ -193,22 +193,33 @@ function Canvas () {
     };
     
     this.onLoadDiagram = function(xmlContent){
-        this.clearGraph();
-        var doc = mxUtils.parseXml(xmlContent);
-        var codec = new mxCodec(doc);
         this.graph.getModel().beginUpdate();
-        codec.decode(doc.documentElement, this.graph.getModel());
-        this.graph.getModel().endUpdate();
-       /* var objectGraphBuilder = new ObjectGraphBuilder(this);
-        var cells = this.graph.getChildCells(this.graph.getDefaultParent(), true, true);
-        objectGraphBuilder.buildObjectGraphFromCells(cells);
-        this.centerBone = objectGraphBuilder.getCenterBone();*/
-        //Utils.showMessageDialog(content, 400, 300);
+        try
+        {   
+            this.clearGraph();
+            var doc = mxUtils.parseXml(xmlContent);
+            var codec = new mxCodec(doc);
+            codec.lookup = function(id)
+            {
+              return model.getCell(id);
+            }
+            codec.decode(doc.documentElement, this.graph.getModel());
+
+            var objectGraphBuilder = new ObjectGraphBuilder(this);
+            var cells = this.graph.getChildCells(this.graph.getDefaultParent(), true, true);
+            objectGraphBuilder.buildObjectGraphFromCells(cells);
+            this.centerBone = objectGraphBuilder.getCenterBone();
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
     };
     
     this.clearGraph = function(){
         this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
         this.graph.removeCells(this.graph.getChildEdges(this.graph.getDefaultParent()));
+        this.graph.getModel().clear();
         //this.centerBone.delete();
         this.centerBone = undefined;
         

@@ -31,8 +31,8 @@ function ObjectGraphBuilder(canvas){
         this.buildCenterBone();
         this.buildSideBones();
         this.buildLateralBones();
-        this.sortBones();
         this.buildAuxillaryBones();
+        this.sortBones();
         this.buildAssociation(this.lateralBones, this.auxillaryBones);
         this.buildAssociation(this.sideBones, this.lateralBones);
         this.buildAssociation([this.centerBone], this.sideBones);
@@ -41,7 +41,7 @@ function ObjectGraphBuilder(canvas){
     this.triageCells = function(cells){
         for(var i = 0; i < cells.length; i++){
             var cell = cells[i];
-            switch(cell.getValue().cellType){
+            switch(cell.getValue().getAttribute('cellType')){
                 case GraphSettings.CENTERBONE_VERTEX:
                     this.centerBoneVertex = cell;
                     break;
@@ -68,8 +68,7 @@ function ObjectGraphBuilder(canvas){
         this.centerBone = new CenterBone(this.canvas);
         this.centerBone.setVertex(this.centerBoneVertex);
         this.centerBone.setEdge(this.centerBoneEdge);
-        this.centerBone.setId(this.centerBoneVertex.getAttribute('cellId'));
-        this.centerBone.getValue().bone = this.centerBone;
+        this.centerBone.applyGraphSettings();
     };
     
     this.buildSideBones = function(){
@@ -77,16 +76,15 @@ function ObjectGraphBuilder(canvas){
         {
             var sideBone = new SideBone(this.canvas);
             sideBone.setVertex(this.sideBoneVertices[i]);
-            sideBone.setId(this.sideBoneVertices[i].getAttribute('cellId'));
             for(var j = 0; j < this.sideBoneEdges.length; j++){
-                if(this.sideBoneEdges[j].getAttribute('cellId') ===  sideBone.getVertex().getAttribute('cellId')){
+                if(Number(this.sideBoneEdges[j].getAttribute('cellId')) ===  Number(sideBone.getVertex().getAttribute('cellId'))){
                     sideBone.setEdge(this.sideBoneEdges[j]);
-                    sideBone.getValue().bone = sideBone;
                     break;
                 }
             };
+            sideBone.applyGraphSettings();
+            this.sideBones.push(sideBone);
         }
-        this.sideBones.push(sideBone);
     };
     
     this.buildLateralBones = function(){
@@ -94,10 +92,10 @@ function ObjectGraphBuilder(canvas){
         {
             var lateralBone = new LateralBone(this.canvas);
             lateralBone.setEdge(this.lateralBoneEdges[i]);
-            lateralBone.setId(this.lateralBoneEdges[i].getAttribute('cellId'));
-            lateralBone.getValue().bone = lateralBone;
+            lateralBone.applyGraphSettings();
+            this.lateralBones.push(lateralBone);
         }
-        this.lateralBones.push(lateralBone);
+        
     };
     
     this.buildAuxillaryBones = function(){
@@ -105,10 +103,9 @@ function ObjectGraphBuilder(canvas){
         {
             var auxillaryBone = new AuxillaryBone(this.canvas);
             auxillaryBone.setEdge(this.auxillaryBoneEdges[i]);
-            auxillaryBone.setId(this.auxillaryBoneEdges[i].getAttribute('cellId'));
-            auxillaryBone.getValue().bone = auxillaryBone;
+            auxillaryBone.applyGraphSettings();
+            this.auxillaryBones.push(auxillaryBone);
         }
-        this.auxillaryBones.push(auxillaryBone);
     };
  
     this.sortBones = function(){
@@ -118,15 +115,11 @@ function ObjectGraphBuilder(canvas){
     };
  
     this.buildAssociation = function(parentBones, childBones){
-        if(parentBones.length === 1){
-            parentBones[0].setChildBones(childBones);
-            return; 
-        }
-        
         parentBones.forEach(function(parentBone){
             childBones.forEach(function(childBone){
-                if(childBone.getId() === parentBone.getId()){
-                    parentBones.getChildBones().push(childBone);
+                if(Number(childBone.getValue().getAttribute('parentCellId')) === parentBone.getId()){
+                    childBone.setParentBone(parentBone);
+                    parentBone.getChildBones().push(childBone);
                 };
             });
         });

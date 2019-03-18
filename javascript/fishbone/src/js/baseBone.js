@@ -42,6 +42,10 @@ BaseBone.prototype.getParentBone = function(){
     return this.parentBone;
 };
 
+BaseBone.prototype.setParentBone = function(parentBone){
+    this.parentBone = parentBone;
+};
+
 BaseBone.prototype.getChildBones = function(){
     return this.childBones;
 };
