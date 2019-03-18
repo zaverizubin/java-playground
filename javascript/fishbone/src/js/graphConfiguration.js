@@ -19,7 +19,6 @@ function GraphConfiguration(graphElement)
     };
     
     
-    
     this.init = function(graph, canvas){
         this.canvas = canvas;
         this.graph = graph;
@@ -39,11 +38,27 @@ function GraphConfiguration(graphElement)
     this.buildGraphFunctions = function(){
         this.graph.convertValueToString = function(cell)
         {
-            if(cell.value.label !== undefined){
-                return cell.value.label;
+            if (mxUtils.isNode(cell.value))
+            {
+              return cell.getAttribute('label', '');
             }
             return '';
         };
+        
+        var cellLabelChanged = this.graph.cellLabelChanged;
+        this.graph.cellLabelChanged = function(cell, newValue, autoSize)
+        {
+          if (mxUtils.isNode(cell.value))
+          {
+            // Clones the value for correct undo/redo
+            var elt = cell.value.cloneNode(true);
+            elt.setAttribute('label', newValue);
+            newValue = elt;
+          }
+
+          cellLabelChanged.apply(this, arguments);
+        };
+        
         this.graph.getTooltipForCell = function(cell){
             if(cell.isVertex()){return Messages.VERTEX_TOOLTIP;};
         };
@@ -55,9 +70,9 @@ function GraphConfiguration(graphElement)
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
             if(cell === null 
-                || cell.getValue().cellType === GraphSettings.CENTERBONE_VERTEX
-                || cell.getValue().cellType === GraphSettings.CENTERBONE_EDGE
-                || cell.getValue().cellType === GraphSettings.SIDEBONE_EDGE
+                || cell.getAttribute('cellType') === GraphSettings.CENTERBONE_VERTEX
+                || cell.getAttribute('cellType') === GraphSettings.CENTERBONE_EDGE
+                || cell.getAttribute('cellType') === GraphSettings.SIDEBONE_EDGE
                     ){
                 
                 menu.addItem('Properties', null, function(){

@@ -23,14 +23,14 @@ function BaseBone(canvas){
 }
 
 BaseBone.prototype.getId = function(){
-    return this.hasVertex()? this.vertex.getValue().id : this.edge.getValue().id;
+    return this.hasVertex()? Number(this.vertex.getAttribute('id')) : Number(this.edge.getAttribute('id'));
 };
 
 BaseBone.prototype.setId = function(id){
     if(this.hasVertex()){
-        this.vertex.getValue().id = id;
+        this.vertex.setAttribute('id', id)
     }else{
-        this.edge.getValue().id = id;
+        this.edge.setAttribute('id', id);
     }
 };
 
@@ -116,6 +116,17 @@ BaseBone.prototype.sortBones = function(bones){
     });
 };
 
+BaseBone.prototype.getBoneFromCell = function(cell){
+    if(cell === this.getVertex() || cell === this.getEdge())
+        return this;
+    for(var i=0, count = this.getChildBones().length; i< count; i++){
+        var bone = this.getChildBones()[i].getBoneFromCell(cell);
+        if( bone !== undefined){
+            return bone;
+        }
+    };
+};
+
 BaseBone.prototype.getSelectedChildBones = function(){
     var selectedBones = [];
     this.childBones.forEach(function(childBone) {
@@ -126,33 +137,33 @@ BaseBone.prototype.getSelectedChildBones = function(){
     return selectedBones;
 };
 
-BaseBone.prototype.recursivelyGetAllBones = function(bone, allBones){
-   allBones.push(bone);
+BaseBone.prototype.getAllBones = function(bone, allBones){
+    allBones.push(bone);
     for(var i=0, count = bone.getChildBones().length; i< count; i++){
-        this.recursivelyGetAllBones(bone.getChildBones()[i], allBones);
+        this.getAllBones(bone.getChildBones()[i], allBones);
     }; 
 };
 
-BaseBone.prototype.recursivelyGetSelectedBones = function(bone, selectedBones){
+BaseBone.prototype.getAllSelectedBones = function(bone, selectedBones){
     if(bone.isSelected()){
          selectedBones.push(bone);
     }
     for(var i=0, count = bone.getChildBones().length; i< count; i++){
-        this.recursivelyGetSelectedBones(bone.getChildBones()[i], selectedBones);
+        this.getAllSelectedBones(bone.getChildBones()[i], selectedBones);
     };
 };
 
-BaseBone.prototype.recursivelyPositionBones = function(bone){
+BaseBone.prototype.positionBonesInHierarchy = function(bone){
     bone.positionBone();
     for(var i=0, count = bone.getChildBones().length; i< count; i++){
-        this.recursivelyPositionBones(bone.getChildBones()[i]);
+        this.positionBonesInHierarchy(bone.getChildBones()[i]);
     };
 };
 
-BaseBone.prototype.recursivelyMoveBones = function(bone, dx, dy){
+BaseBone.prototype.moveBonesInHierarchy = function(bone, dx, dy){
     bone.moveBoneByPosition(dx, dy);
     for(var i=0, count = bone.getChildBones().length; i< count; i++){
-        this.recursivelyMoveBones(bone.getChildBones()[i], dx, dy);
+        this.moveBonesInHierarchy(bone.getChildBones()[i], dx, dy);
     };
 };
 
@@ -194,7 +205,7 @@ BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
                 + "strokeWidth=" + styleAttributes.strokeWidth + ";"
                 + "strokeColor=" + styleAttributes.strokeColor + ";"
                 + "fillColor=" + styleAttributes.fillColor + ";";
-    var defaultStyle = GraphSettings.STYLE_MAP.get(cell.getValue().cellType);
+    var defaultStyle = GraphSettings.STYLE_MAP.get(cell.getAttribute('cellType'));
     style = defaultStyle + style;    
     this.graph.setCellStyle(style,[cell]);
 };

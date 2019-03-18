@@ -38,14 +38,13 @@ function CenterBone (canvas) {
     
     this.buildVertex = function(){
         
-        var valueObject =   {
-                                label:'Main Cause',
-                                cellType:GraphSettings.CENTERBONE_VERTEX,
-                                bone:this,
-                                parentId:0,
-                                id:1
-                            };
-                
+        var doc = mxUtils.createXmlDocument();
+        var valueObject = doc.createElement('node')
+        valueObject.setAttribute('label', 'Main Cause');
+        valueObject.setAttribute('cellType', GraphSettings.CENTERBONE_VERTEX);
+        valueObject.setAttribute('parentId', 0);
+        valueObject.setAttribute('id', 1);
+       
         this.vertex = this.graph.insertVertex(this.graphParent, null,
                                                 valueObject,
                                                 0,
@@ -55,12 +54,13 @@ function CenterBone (canvas) {
     };
     
     this.buildEdge = function(){
-        var valueObject =   {
-                                label:'',
-                                cellType:GraphSettings.CENTERBONE_EDGE,
-                                parentId:0,
-                                id:1
-                            };
+        var doc = mxUtils.createXmlDocument();
+        var valueObject = doc.createElement('node')
+        valueObject.setAttribute('label', '');
+        valueObject.setAttribute('cellType', GraphSettings.CENTERBONE_EDGE);
+        valueObject.setAttribute('parentId', 0);
+        valueObject.setAttribute('id', 1);
+        
         var geometry = new mxGeometry();
         geometry.sourcePoint = new mxPoint(0,0);
         
@@ -249,10 +249,10 @@ function CenterBone (canvas) {
         {
             var childbone = this.childBones[i];
             if(childbone.getVertex() !== cell){
-                if(childbone.isAboveParentBone() && childbone.getId() === cell.getValue().id - 1){
+                if(childbone.isAboveParentBone() && childbone.getId() === Number(cell.getAttribute('id')) - 1){
                     Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
                     return false;
-                }else if(!childbone.isAboveParentBone() && childbone.getId() === cell.getValue().id + 1){
+                }else if(!childbone.isAboveParentBone() && childbone.getId() === Number(cell.getAttribute('id')) + 1){
                     Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
                     return false;
                 };

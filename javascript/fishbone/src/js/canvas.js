@@ -48,14 +48,19 @@ function Canvas () {
     
     this.onSwapClick = function(){
         var cells = this.graph.getSelectionCells();
-        if(cells.length !== 2 
-            || cells[0].getValue().cellType !== cells[1].getValue().cellType
-            || cells[0].getValue().bone.getParentBone() !== cells[1].getValue().bone.getParentBone()){
+        if(cells.length !== 2 ){
             Utils.showMessageDialog(Messages.SWAP_SELECT_SHAPE);
             return false;
         };
-        var bone = cells[0].getValue().bone;
-        bone.getParentBone().swapChildBones();
+        var bone1 = this.centerBone.getBoneFromCell(cells[0]);
+        var bone2 = this.centerBone.getBoneFromCell(cells[1]);
+        if(cells[0].getValue().cellType !== cells[1].getValue().cellType
+            || bone1.getParentBone() !== bone2.getParentBone()){
+            Utils.showMessageDialog(Messages.SWAP_SELECT_SHAPE);
+            return false;
+        }
+        
+        bone1.getParentBone().swapChildBones();
     };
     
     this.onFlipClick = function(){
@@ -64,7 +69,7 @@ function Canvas () {
             Utils.showMessageDialog(Messages.FLIP_SELECT_SHAPE);
             return false;
         };
-        var bone = cells[0].getValue().bone;
+        var bone = this.centerBone.getBoneFromCell(cells[0]);
         bone.getParentBone().flipChildBone();
     };
     
@@ -155,14 +160,14 @@ function Canvas () {
             var cells = this.graph.getSelectionCells();
             var bones = [];
             if(cells.length >= 1){
-                this.centerBone.recursivelyGetSelectedBones(this.centerBone, bones);
+                this.centerBone.getAllSelectedBones(this.centerBone, bones);
             }else{
-                this.centerBone.recursivelyGetAllBones(this.centerBone, bones);
+                this.centerBone.getAllBones(this.centerBone, bones);
             };
             var centerBone = this.centerBone;
             bones.forEach(function(bone){
                 bone.applyGraphSettings();
-                centerBone.recursivelyPositionBones(centerBone);
+                bone.positionBonesInHierarchy(bone);
             });
         }
         finally

@@ -34,6 +34,15 @@ function SideBone (canvas) {
    
     this.buildVertex = function(id){
         var counter  = this.parentBone.getChildBones().length + 1;
+        
+        var doc = mxUtils.createXmlDocument();
+        var valueObject = doc.createElement('node')
+        valueObject.setAttribute('label', 'Cause-' + counter);
+        valueObject.setAttribute('cellType', GraphSettings.SIDEBONE_VERTEX);
+        valueObject.setAttribute('parentId', this.parentBone.getId());
+        valueObject.setAttribute('id', id);
+        
+        /*
         var valueObject =   {
                                 label:'Cause-' + counter,
                                 cellType:GraphSettings.SIDEBONE_VERTEX,
@@ -41,7 +50,7 @@ function SideBone (canvas) {
                                 parentId:this.parentBone.getId(),
                                 id:id
                             };
-                
+        */        
         this.vertex = this.graph.insertVertex(this.graphParent, null, 
                                             valueObject,
                                             0, 
@@ -52,12 +61,21 @@ function SideBone (canvas) {
     };
    
     this.buildEdge = function(id){
+        
+        var doc = mxUtils.createXmlDocument();
+        var valueObject = doc.createElement('node')
+        valueObject.setAttribute('label', '');
+        valueObject.setAttribute('cellType', GraphSettings.SIDEBONE_EDGE);
+        valueObject.setAttribute('parentId', this.parentBone.getId());
+        valueObject.setAttribute('id', id);
+        
+        /*
         var valueObject =   {
                                 label:'',
                                 cellType:GraphSettings.SIDEBONE_EDGE,
                                 parentId:this.parentBone.getId(),
                                 id:id
-                            };
+                            };*/
       
         var geometry = new mxGeometry();
         geometry.targetPoint = new mxPoint(0, 0);
@@ -260,10 +278,10 @@ function SideBone (canvas) {
         {
             var childbone = this.childBones[i];
             if(childbone.getVertex() !== cell){
-                if(childbone.isLeftOfParentBone() && childbone.getId() === cell.getValue().id - 1){
+                if(childbone.isLeftOfParentBone() && childbone.getId() === Number(cell.getAttribute('id')) - 1){
                     Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
                     return false;
-                }else if(!childbone.isLeftOfParentBone() && childbone.getId() === cell.getValue().id + 1){
+                }else if(!childbone.isLeftOfParentBone() && childbone.getId() === Number(cell.getAttribute('id')) + 1){
                     Utils.showMessageDialog(Messages.FLIP_POSITION_NOT_EMPTY);
                     return false;
                 };
@@ -286,7 +304,7 @@ function SideBone (canvas) {
     };
    
     this.moveBoneOnCompact = function(dx, dy){
-       this.recursivelyMoveBones(this, dx, dy);
+       this.moveBonesInHierarchy(this, dx, dy);
        this.setId(this.getId() - 2);
     };
     
@@ -296,7 +314,7 @@ function SideBone (canvas) {
    
     this.flipBone = function(){
         this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
-        this.recursivelyPositionBones(this);
+        this.positionBonesInHierarchy(this);
     };
    
     this.swapBones = function(boneToSwap){
@@ -306,8 +324,8 @@ function SideBone (canvas) {
         this.setId(id2);
         boneToSwap.setId(id1);
         
-        this.recursivelyPositionBones(this);
-        this.recursivelyPositionBones(boneToSwap);
+        this.positionBonesInHierarchy(this);
+        this.positionBonesInHierarchy(boneToSwap);
     };
    
     this.applyGraphSettings = function(){

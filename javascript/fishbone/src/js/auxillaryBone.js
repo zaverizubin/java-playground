@@ -30,13 +30,20 @@ function AuxillaryBone (canvas) {
     this.buildEdge = function(id){
         var counter  = this.parentBone.getChildBones().length + 1;
         
+        var doc = mxUtils.createXmlDocument();
+        var valueObject = doc.createElement('node')
+        valueObject.setAttribute('label', 'Sub-' + counter);
+        valueObject.setAttribute('cellType', GraphSettings.AUXILLARYBONE_EDGE);
+        valueObject.setAttribute('parentId', this.parentBone.getId());
+        valueObject.setAttribute('id', id);
+        /*
         var valueObject =   {
                                 label:'Sub-' + counter,
                                 cellType:GraphSettings.AUXILLARYBONE_EDGE,
                                 bone:this,
                                 parentId:this.parentBone.getId(),
                                 id:id
-                            };
+                            };*/
                             
         var geometry = new mxGeometry();
         
@@ -97,7 +104,7 @@ function AuxillaryBone (canvas) {
     };
    
     this.moveBoneOnCompact = function(dx, dy){
-        this.recursivelyMoveBones(this, dx, dy);
+        this.moveBonesInHierarchy(this, dx, dy);
         this.setId(this.getId()-2);
     };
    
@@ -107,7 +114,7 @@ function AuxillaryBone (canvas) {
    
     this.flipBone = function(){
         this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
-        this.recursivelyPositionBones(this);
+        this.positionBonesInHierarchy(this);
     };
    
     this.swapBones = function(boneToSwap){
@@ -117,8 +124,8 @@ function AuxillaryBone (canvas) {
         this.setId(id2);
         boneToSwap.setId(id1);
         
-        this.recursivelyPositionBones(this);
-        this.recursivelyPositionBones(boneToSwap);
+        this.positionBonesInHierarchy(this);
+        this.positionBonesInHierarchy(boneToSwap);
     };
     
     this.applyGraphSettings = function(){
