@@ -115,14 +115,16 @@ function ObjectGraphBuilder(canvas){
     };
  
     this.buildAssociation = function(parentBones, childBones){
-        parentBones.forEach(function(parentBone){
-            childBones.forEach(function(childBone){
+        for(var i=0; i< parentBones.length; i++){
+            for(var j=0; j< childBones.length; j++){
+                var parentBone = parentBones[i];
+                var childBone = childBones[j];
                 if(Number(childBone.getValue().getAttribute('parentCellId')) === parentBone.getId()){
                     childBone.setParentBone(parentBone);
                     parentBone.getChildBones().push(childBone);
                 };
-            });
-        });
+            }
+        }
     };
     
 }

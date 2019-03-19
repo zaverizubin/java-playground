@@ -22,7 +22,7 @@ Utils.showMessageDialog = function(text, width, height){
     $("#message-window").text(text);
 };
 
-Utils.showConfirmationBox = function(message, okCallback){
+Utils.showConfirmationBox = function(message, okCallback, width, height){
     $("#message-window").dialog({ 
         buttons: [{text: "Ok",click: function() {
                     okCallback();
@@ -32,6 +32,8 @@ Utils.showConfirmationBox = function(message, okCallback){
                         $(this).dialog( "close" );}}
                 ],
         title: "Alert",
+        width: (width !== undefined)? width:400,
+        height: (height !== undefined)? height:200,
         modal:true,
         resizable: false,
         width: 400,

@@ -274,10 +274,6 @@ function LateralBone (canvas) {
         this.setId(this.getId()-2);
     };
    
-    this.moveBoneByPosition = function(dx, dy){
-        this.graph.moveCells([this.edge], dx, dy);
-    };
-   
     this.flipBone = function(){
         this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
         this.positionBonesInHierarchy(this);

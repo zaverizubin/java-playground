@@ -186,10 +186,11 @@ function Canvas () {
     };
     
     this.onSaveDiagramClick = function(){
-        var encoder = new mxCodec();
-        var node = encoder.encode(this.graph.getModel());
+        var codec = new mxCodec();
+        codec.lookup = function(id){return model.getCell(id);}
+        var node = codec.encode(this.graph.getModel());
         var content = mxUtils.getXml(node);
-        Utils.showMessageDialog(content);
+        Utils.showMessageDialog(content, 400, 400);
     };
     
     this.onLoadDiagram = function(xmlContent){
@@ -199,10 +200,7 @@ function Canvas () {
             this.clearGraph();
             var doc = mxUtils.parseXml(xmlContent);
             var codec = new mxCodec(doc);
-            codec.lookup = function(id)
-            {
-              return model.getCell(id);
-            }
+            codec.lookup = function(id){return model.getCell(id);}
             codec.decode(doc.documentElement, this.graph.getModel());
 
             var objectGraphBuilder = new ObjectGraphBuilder(this);

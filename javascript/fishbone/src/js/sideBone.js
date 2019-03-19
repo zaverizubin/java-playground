@@ -193,24 +193,24 @@ function SideBone (canvas) {
     this.positionBone = function (){
         var maxChildBonesCount = this.getMaxOfChildBoneCount();
         
-        var xLoc =  this.parentBone.getEdge().getGeometry().sourcePoint.x +
+        var xLocEdge =  this.parentBone.getEdge().getGeometry().sourcePoint.x +
                     this.parentBone.boneSegmentLength * Math.ceil(this.getId()/2);
             
-        var yLoc = this.parentBone.getEdge().getGeometry().sourcePoint.y;
+        var yLocEdge = this.parentBone.getEdge().getGeometry().sourcePoint.y;
         
         var geometry = new mxGeometry();
-        geometry.targetPoint = new mxPoint(xLoc, yLoc);
+        geometry.targetPoint = new mxPoint(xLocEdge, yLocEdge);
         this.graph.getModel().setGeometry(this.edge, geometry);
        
         
-        var xLoc = this.getEdge().getGeometry().targetPoint.x 
+        var xLocVertex = xLocEdge 
                    - Math.floor(((maxChildBonesCount * this.boneSegmentLength) + this.spacerV + this.vertexHeight/2) / Math.tan(this.edgeTheta)) 
                    - this.vertexWidth/2;
-        var yLoc = (this.getId() % 2 !==0) 
-                    ? this.getEdge().getGeometry().targetPoint.y  - (maxChildBonesCount * this.boneSegmentLength) - this.spacerV - this.vertexHeight 
-                    : this.getEdge().getGeometry().targetPoint.y  + (maxChildBonesCount * this.boneSegmentLength) + this.spacerV;
+        var yLocVertex = (this.getId() % 2 !==0) 
+                    ? yLocEdge  - (maxChildBonesCount * this.boneSegmentLength) - this.spacerV - this.vertexHeight 
+                    : yLocEdge  + (maxChildBonesCount * this.boneSegmentLength) + this.spacerV;
         
-        var geometry = new mxGeometry(xLoc, yLoc, this.vertexWidth, this.vertexHeight);
+        var geometry = new mxGeometry(xLocVertex, yLocVertex, this.vertexWidth, this.vertexHeight);
         this.graph.getModel().setGeometry(this.vertex, geometry);
         
         this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
@@ -291,10 +291,6 @@ function SideBone (canvas) {
        this.setId(this.getId() - 2);
     };
     
-    this.moveBoneByPosition = function(dx, dy){
-        this.graph.moveCells([this.vertex, this.edge], dx, dy);
-    };
-   
     this.flipBone = function(){
         this.setId(this.getId() %2 !== 0 ? this.getId()+1 : this.getId()-1);
         this.positionBonesInHierarchy(this);

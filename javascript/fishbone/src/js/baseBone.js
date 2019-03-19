@@ -28,10 +28,20 @@ BaseBone.prototype.getId = function(){
 
 BaseBone.prototype.setId = function(id){
     if(this.hasVertex()){
-        this.vertex.setAttribute('cellId', id)
-    }else{
-        this.edge.setAttribute('cellId', id);
+        this.vertex.setAttribute('cellId', id);
     }
+    if(this.hasEdge()){
+        this.edge.setAttribute('cellId', id);   
+    }
+    this.childBones.forEach(function(childBone){
+        if(childBone.hasVertex()){
+            childBone.getVertex().setAttribute('parentCellId', id);
+        };
+        if(childBone.hasEdge()){
+            childBone.getEdge().setAttribute('parentCellId', id);
+        }
+        
+    });
 };
 
 BaseBone.prototype.getValue = function(){
@@ -168,6 +178,14 @@ BaseBone.prototype.moveBonesInHierarchy = function(bone, dx, dy){
     bone.moveBoneByPosition(dx, dy);
     for(var i=0, count = bone.getChildBones().length; i< count; i++){
         this.moveBonesInHierarchy(bone.getChildBones()[i], dx, dy);
+    };
+};
+
+BaseBone.prototype.moveBoneByPosition = function(dx, dy){
+    if(this.hasVertex() && this.hasEdge()){
+        this.graph.moveCells([this.vertex, this.edge], dx, dy);
+    }else if(this.hasEdge()){
+        this.graph.moveCells([this.edge], dx, dy);
     };
 };
 
