@@ -34,7 +34,7 @@ function AuxillaryBone (canvas) {
         var valueObject = doc.createElement('node')
         valueObject.setAttribute('label', 'Sub-' + counter);
         valueObject.setAttribute('cellType', GraphSettings.AUXILLARYBONE_EDGE);
-        valueObject.setAttribute('parentCellId', this.parentBone.getId());
+        valueObject.setAttribute('parentCellId', this.parentBone.getParentId() + "|" + this.parentBone.getId());
         valueObject.setAttribute('cellId', id);
                             
         var geometry = new mxGeometry();

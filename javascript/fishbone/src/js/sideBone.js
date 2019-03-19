@@ -39,7 +39,7 @@ function SideBone (canvas) {
         var valueObject = doc.createElement('node')
         valueObject.setAttribute('label', 'Cause-' + counter);
         valueObject.setAttribute('cellType', GraphSettings.SIDEBONE_VERTEX);
-        valueObject.setAttribute('parentCellId', this.parentBone.getId());
+        valueObject.setAttribute('parentCellId',  this.parentBone.getParentId() + "|" + this.parentBone.getId());
         valueObject.setAttribute('cellId', id);
                 
         this.vertex = this.graph.insertVertex(this.graphParent, null, 
@@ -57,7 +57,7 @@ function SideBone (canvas) {
         var valueObject = doc.createElement('node')
         valueObject.setAttribute('label', '');
         valueObject.setAttribute('cellType', GraphSettings.SIDEBONE_EDGE);
-        valueObject.setAttribute('parentCellId', this.parentBone.getId());
+        valueObject.setAttribute('parentCellId',  this.parentBone.getParentId() + "|" + this.parentBone.getId());
         valueObject.setAttribute('cellId', id);
        
         var geometry = new mxGeometry();

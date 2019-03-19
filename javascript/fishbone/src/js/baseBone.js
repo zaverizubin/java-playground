@@ -33,15 +33,28 @@ BaseBone.prototype.setId = function(id){
     if(this.hasEdge()){
         this.edge.setAttribute('cellId', id);   
     }
-    this.childBones.forEach(function(childBone){
-        if(childBone.hasVertex()){
-            childBone.getVertex().setAttribute('parentCellId', id);
-        };
-        if(childBone.hasEdge()){
-            childBone.getEdge().setAttribute('parentCellId', id);
-        }
-        
-    });
+    this.updateParentIdInHierarchy(this);
+};
+
+BaseBone.prototype.updateParentIdInHierarchy = function(bone){
+    for(var i = 0; i < bone.childBones.length; i++) {
+        var childBone = bone.childBones[i];
+        childBone.setParentId(bone.getParentId() + "|" + bone.getId());
+        this.updateParentIdInHierarchy(childBone);
+    };
+};
+    
+BaseBone.prototype.getParentId = function(){
+    return this.hasVertex()? this.vertex.getAttribute('parentCellId') : this.edge.getAttribute('parentCellId');
+};
+
+BaseBone.prototype.setParentId = function(id){
+    if(this.hasVertex()){
+        this.vertex.setAttribute('parentCellId', id);
+    };
+    if(this.hasEdge()){
+        this.edge.setAttribute('parentCellId', id);   
+    };
 };
 
 BaseBone.prototype.getValue = function(){

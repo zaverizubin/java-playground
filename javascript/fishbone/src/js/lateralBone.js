@@ -35,7 +35,7 @@ function LateralBone (canvas) {
         var valueObject = doc.createElement('node')
         valueObject.setAttribute('label', 'Detail-' + counter);
         valueObject.setAttribute('cellType', GraphSettings.LATERALBONE_EDGE);
-        valueObject.setAttribute('parentCellId', this.parentBone.getId());
+        valueObject.setAttribute('parentCellId', this.parentBone.getParentId() + "|" + this.parentBone.getId());
         valueObject.setAttribute('cellId', id);
                             
         var geometry = new mxGeometry();

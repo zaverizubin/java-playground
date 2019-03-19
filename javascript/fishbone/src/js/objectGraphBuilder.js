@@ -119,7 +119,7 @@ function ObjectGraphBuilder(canvas){
             for(var j=0; j< childBones.length; j++){
                 var parentBone = parentBones[i];
                 var childBone = childBones[j];
-                if(Number(childBone.getValue().getAttribute('parentCellId')) === parentBone.getId()){
+                if(childBone.getParentId() === parentBone.getParentId() + "|" + parentBone.getId()){
                     childBone.setParentBone(parentBone);
                     parentBone.getChildBones().push(childBone);
                 };

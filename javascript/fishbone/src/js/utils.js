@@ -36,7 +36,6 @@ Utils.showConfirmationBox = function(message, okCallback, width, height){
         height: (height !== undefined)? height:200,
         modal:true,
         resizable: false,
-        width: 400,
         dialogClass: "alert"
     }).html(message).show();
 };
