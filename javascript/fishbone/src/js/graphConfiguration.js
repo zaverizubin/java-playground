@@ -105,6 +105,16 @@ function GraphConfiguration(graphElement)
             });
             
             menu.addSeparator();
+            
+            menu.addItem('Apply Styles', null, function(){
+                canvas.onApplyStylesContextMenuClick(false);
+            });
+            
+            menu.addItem('Reset Styles', null, function(){
+                canvas.onResetStylesContextMenuClick(true);
+            });
+            
+            menu.addSeparator();
             menu.addItem('Properties', null, function(){
                 canvas.onPropertiesWindowOpen();
             });

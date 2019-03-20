@@ -233,7 +233,10 @@ function Toolbar () {
             fillColor: $("#fillColorPicker").spectrum('get').toHexString()
         };
     }
-
+    
+    this.getDefaultStyleAttributes = function(){
+        return this.defaultStyles;
+    };
     
 }
 

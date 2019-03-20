@@ -229,6 +229,16 @@ function Canvas () {
         this.centerBone.init();
     };
     
+    this.onApplyStylesContextMenuClick = function(){
+        var styleAttributes = this.toolbar.getStyleAttributes();
+        this.applyStyleAttributes(styleAttributes);
+    };
+    
+    this.onResetStylesContextMenuClick = function(){
+        var styleAttributes = this.toolbar.getDefaultStyleAttributes();
+        this.applyStyleAttributes(styleAttributes);
+    };
+    
     this.applyStyleAttributes = function(styleAttributes){
         var bones = [];
         this.centerBone.getAllSelectedBones(this.centerBone, bones);
