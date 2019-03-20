@@ -8,7 +8,7 @@ function AuxillaryBone (canvas) {
     
     this.init = function (parentBone, id) {
         BaseBone.prototype.init.call(this, parentBone);
-       this.applyGraphSettings();
+        this.applyGraphSettings();
         this.graph.getModel().beginUpdate();
         try
         {
@@ -117,7 +117,28 @@ function AuxillaryBone (canvas) {
     
     this.applyGraphSettings = function(){
         this.boneSegmentLength = GraphSettings.AUXILLARYBONE_SEGMENT_LENGTH;  
-        this.edgeTheta = GraphSettings.THETA * Math.PI/180;
+        this.edgeTheta = Math.round(GraphSettings.THETA * (Math.PI/180) * 100) / 100 ;
+    };
+    
+    this.restoreGraphSettingsFromValueObject = function(){
+        var graphSettings = this.getValue().getAttribute("graphSettings");
+        var arr = graphSettings.split(',');
+        var map = new Map();
+        arr.forEach(function(item){
+           var key = item.split(':')[0];
+           var value = item.split(':')[1];
+           map.set(key, value);
+        });
+       
+        this.boneSegmentLength = Number(map.get("boneSegmentLength"));
+        this.edgeTheta = Number(map.get("edgeTheta"));
+        this.getValue().setAttribute("graphSettings", null);
+    };
+    
+    this.saveGraphSettingsToValueObject = function(){
+        var graphSettings = "boneSegmentLength:" + this.boneSegmentLength + ","
+                            +  "edgeTheta:" + this.edgeTheta;
+        this.getValue().setAttribute("graphSettings", graphSettings);
     };
 }
 

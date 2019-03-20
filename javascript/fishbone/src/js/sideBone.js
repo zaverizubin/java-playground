@@ -275,7 +275,7 @@ function SideBone (canvas) {
     
     this.delete = function(){
        this.deleteAllChildBones(); 
-       this.graph.removeCells([this.vertex]);
+       this.graph.removeCells([this.vertex, this.edge]);
     };
    
     this.isAboveParentBone = function(){
@@ -312,7 +312,34 @@ function SideBone (canvas) {
         this.boneSegmentLength = GraphSettings.SIDEBONE_SEGMENT_LENGTH;
         this.vertexWidth = GraphSettings.SIDEBONE_VERTEX_WIDTH;
         this.vertexHeight = GraphSettings.SIDEBONE_VERTEX_HEIGHT;
-        this.edgeTheta = GraphSettings.THETA * Math.PI/180;
+        this.edgeTheta = Math.round(GraphSettings.THETA * (Math.PI/180) * 100) / 100 ;
+    };
+    
+    this.restoreGraphSettingsFromValueObject = function(){
+        var graphSettings = this.getValue().getAttribute("graphSettings");
+        var arr = graphSettings.split(',');
+        var map = new Map();
+        arr.forEach(function(item){
+           var key = item.split(':')[0];
+           var value = item.split(':')[1];
+           map.set(key, value);
+        });
+       
+        this.spacerV= Number(map.get("spacerV"));
+        this.boneSegmentLength = Number(map.get("boneSegmentLength"));
+        this.vertexWidth = Number(map.get("vertexWidth"));
+        this.vertexHeight = Number(map.get("vertexHeight"));
+        this.edgeTheta = Number(map.get("edgeTheta"));
+        this.getValue().setAttribute("graphSettings", null);
+    };
+    
+    this.saveGraphSettingsToValueObject = function(){
+        var graphSettings = "spacerV:" + this.spacerV + ","
+            +  "boneSegmentLength:" + this.boneSegmentLength + ","
+            +  "vertexWidth:" + this.vertexWidth + ","
+            +  "vertexHeight:" + this.vertexHeight + ","
+            + "edgeTheta:" + this.edgeTheta;
+        this.getValue().setAttribute("graphSettings", graphSettings);
     };
     
 }

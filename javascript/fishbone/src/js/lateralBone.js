@@ -295,6 +295,27 @@ function LateralBone (canvas) {
         this.boneSegmentLength = GraphSettings.LATERALBONE_SEGMENT_LENGTH;
     };
     
+    this.restoreGraphSettingsFromValueObject = function(){
+        var graphSettings = this.getValue().getAttribute("graphSettings");
+        var arr = graphSettings.split(',');
+        var map = new Map();
+        arr.forEach(function(item){
+           var key = item.split(':')[0];
+           var value = item.split(':')[1];
+           map.set(key, value);
+        });
+       
+        this.spacerH = Number(map.get("spacerH"));
+        this.boneSegmentLength = Number(map.get("boneSegmentLength"));
+        this.getValue().setAttribute("graphSettings", null);
+    };
+    
+    this.saveGraphSettingsToValueObject = function(){
+        var graphSettings = "spacerH:" + this.spacerH + ","
+                        +  "boneSegmentLength:" + this.boneSegmentLength;
+        this.getValue().setAttribute("graphSettings", graphSettings);
+    };
+    
 }
 
 LateralBone.prototype = Object.create(BaseBone.prototype);

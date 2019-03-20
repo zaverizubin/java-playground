@@ -180,16 +180,21 @@ function Canvas () {
         var canvas = this;
         var graph = this.graph;
         Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
-            graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
+            //graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
+            canvas.clearGraph();
             canvas.buildCenterBone();
         });
     };
     
     this.onSaveDiagramClick = function(){
+        this.graph.refresh(this.centerBone.getVertex());
+        this.centerBone.saveGraphSettingsToValueObjectInHierarchy(this.centerBone);
+        
         var codec = new mxCodec();
         codec.lookup = function(id){return model.getCell(id);}
         var node = codec.encode(this.graph.getModel());
         var content = mxUtils.getXml(node);
+        
         Utils.showMessageDialog(content, 400, 400);
     };
     
@@ -207,6 +212,7 @@ function Canvas () {
             var cells = this.graph.getChildCells(this.graph.getDefaultParent(), true, true);
             objectGraphBuilder.buildObjectGraphFromCells(cells);
             this.centerBone = objectGraphBuilder.getCenterBone();
+            
         }
         finally
         {
@@ -215,15 +221,10 @@ function Canvas () {
     };
     
     this.clearGraph = function(){
-        this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
-        this.graph.removeCells(this.graph.getChildEdges(this.graph.getDefaultParent()));
+        this.graph.removeCells(this.graph.getChildCells(this.graph.getDefaultParent(), true, true));
         this.graph.getModel().clear();
-        //this.centerBone.delete();
         this.centerBone = undefined;
-        
     };
-    
-    
     
     this.buildGraph = function(graphElement){
         this.graphConfiguration = new GraphConfiguration(graphElement);

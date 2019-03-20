@@ -180,6 +180,13 @@ BaseBone.prototype.getAllSelectedBones = function(bone, selectedBones){
     };
 };
 
+BaseBone.prototype.saveGraphSettingsToValueObjectInHierarchy = function(bone){
+    bone.saveGraphSettingsToValueObject();
+    for(var i=0, count = bone.getChildBones().length; i< count; i++){
+        this.saveGraphSettingsToValueObjectInHierarchy(bone.getChildBones()[i]);
+    };
+};
+
 BaseBone.prototype.positionBonesInHierarchy = function(bone){
     bone.positionBone();
     for(var i=0, count = bone.getChildBones().length; i< count; i++){

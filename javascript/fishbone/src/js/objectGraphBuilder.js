@@ -68,7 +68,7 @@ function ObjectGraphBuilder(canvas){
         this.centerBone = new CenterBone(this.canvas);
         this.centerBone.setVertex(this.centerBoneVertex);
         this.centerBone.setEdge(this.centerBoneEdge);
-        this.centerBone.applyGraphSettings();
+        this.centerBone.restoreGraphSettingsFromValueObject();
     };
     
     this.buildSideBones = function(){
@@ -82,7 +82,7 @@ function ObjectGraphBuilder(canvas){
                     break;
                 }
             };
-            sideBone.applyGraphSettings();
+            sideBone.restoreGraphSettingsFromValueObject();
             this.sideBones.push(sideBone);
         }
     };
@@ -92,7 +92,7 @@ function ObjectGraphBuilder(canvas){
         {
             var lateralBone = new LateralBone(this.canvas);
             lateralBone.setEdge(this.lateralBoneEdges[i]);
-            lateralBone.applyGraphSettings();
+            lateralBone.restoreGraphSettingsFromValueObject();
             this.lateralBones.push(lateralBone);
         }
         
@@ -103,7 +103,7 @@ function ObjectGraphBuilder(canvas){
         {
             var auxillaryBone = new AuxillaryBone(this.canvas);
             auxillaryBone.setEdge(this.auxillaryBoneEdges[i]);
-            auxillaryBone.applyGraphSettings();
+            auxillaryBone.restoreGraphSettingsFromValueObject();
             this.auxillaryBones.push(auxillaryBone);
         }
     };

@@ -275,6 +275,33 @@ function CenterBone (canvas) {
         this.vertexHeight = GraphSettings.CENTERBONE_VERTEX_HEIGHT;
     };
     
+    this.restoreGraphSettingsFromValueObject = function(){
+        var graphSettings = this.getValue().getAttribute("graphSettings");
+        var arr = graphSettings.split(',');
+        var map = new Map();
+        arr.forEach(function(item){
+           var key = item.split(':')[0];
+           var value = item.split(':')[1];
+           map.set(key, value);
+        });
+        this.marginH = Number(map.get("marginH"));
+        this.marginV = Number(map.get("marginV"));
+        this.spacerH = Number(map.get("spacerH"));
+        this.boneSegmentLength = Number(map.get("boneSegmentLength"));
+        this.vertexWidth = Number(map.get("vertexWidth"));
+        this.vertexHeight = Number(map.get("vertexHeight"));
+        this.getValue().setAttribute("graphSettings", null);
+    };
+    
+    this.saveGraphSettingsToValueObject = function(){
+        var graphSettings =  "marginH:" +  this.marginH + ","
+            +  "marginV:" +  this.marginV + ","
+            +  "spacerH:" +  this.spacerH + ","
+            +  "boneSegmentLength:" +  this.boneSegmentLength + ","
+            +  "vertexWidth:" +  this.vertexWidth + ","
+            +  "vertexHeight:" +  this.vertexHeight;
+        this.getValue().setAttribute("graphSettings", graphSettings);
+    };
 }
 
 CenterBone.prototype = Object.create(BaseBone.prototype);
