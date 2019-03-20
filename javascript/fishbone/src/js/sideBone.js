@@ -212,8 +212,6 @@ function SideBone (canvas) {
         
         var geometry = new mxGeometry(xLocVertex, yLocVertex, this.vertexWidth, this.vertexHeight);
         this.graph.getModel().setGeometry(this.vertex, geometry);
-        
-        this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
     };
     
     this.flipChildBone = function (){

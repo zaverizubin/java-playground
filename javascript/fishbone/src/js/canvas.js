@@ -137,14 +137,6 @@ function Canvas () {
         });
     };
     
-    this.onApplyStylesClick = function(styleAttributes){
-        this.applyStyleAttributes(styleAttributes, false);
-    };
-    
-    this.onResetStylesClick = function(styleAttributes){
-        this.applyStyleAttributes(styleAttributes, true);
-    };
-    
     this.onZoomChange = function(value){
         this.graph.zoomTo(1 + (value/100), false);
     };
@@ -237,20 +229,20 @@ function Canvas () {
         this.centerBone.init();
     };
     
-    this.applyStyleAttributes = function(styleAttributes, isReset){
-        var cells = this.graph.getSelectionCells();
-        if(cells.length === 0){
-            return;
+    this.applyStyleAttributes = function(styleAttributes){
+        var bones = [];
+        this.centerBone.getAllSelectedBones(this.centerBone, bones);
+        if(bones.length === 0){
+           this.centerBone.getAllBones(this.centerBone, bones);
         };
             
         this.graph.getModel().beginUpdate();
         var graph = this.graph;
         try
         {
-           this.centerBone.applyStyles(styleAttributes);
-           if(isReset){
-               this.centerBone.reset();
-           };
+           bones.forEach(function(bone){
+               bone.applyStyles(styleAttributes);
+           }) ;
         }
         finally
         {

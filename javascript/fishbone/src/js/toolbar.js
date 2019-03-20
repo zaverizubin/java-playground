@@ -105,12 +105,12 @@ function Toolbar () {
         
         $("#apply-font-styles").click(function(){
             var styleAttributes = toolbar.getStyleAttributes();
-            canvas.onApplyStylesClick(styleAttributes);
+            canvas.applyStyleAttributes(styleAttributes);
         });
        
         $("#reset-font-styles").click(function(){
             toolbar.resetStyleAttributes();
-            canvas.onResetStylesClick(toolbar.defaultStyles);
+            canvas.applyStyleAttributes(toolbar.defaultStyles);
         });
         
         $("#help-button").click(function(){

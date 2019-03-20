@@ -224,10 +224,10 @@ BaseBone.prototype.reset = function(){
 };
 
 BaseBone.prototype.applyStyles = function(styleAttributes){
-    if(this.vertex !== undefined && this.graph.getSelectionModel().isSelected(this.vertex)){
+    if(this.vertex !== undefined){
         this.applyCellStyle(this.vertex, styleAttributes);
     };
-    if(this.edge !== undefined  && this.graph.getSelectionModel().isSelected(this.edge)){
+    if(this.edge !== undefined){
         this.applyCellStyle(this.edge, styleAttributes);
     };
     this.childBones.forEach(function(childBone) {

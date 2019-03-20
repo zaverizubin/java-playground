@@ -200,7 +200,6 @@ function CenterBone (canvas) {
         geometry.sourcePoint = new mxPoint(this.marginH, this.marginV + this.canvasHeight/2);
         this.graph.getModel().setGeometry(this.edge, geometry);
         
-        this.applyCellStyle(this.vertex, this.canvas.getToolbar().getStyleAttributes());
     };
     
     this.flipChildBone = function (){
