@@ -68,9 +68,8 @@ function CenterBone (canvas) {
         cell.geometry.relative = true;
         cell.edge = true;
         cell.target = this.vertex;
-        cell.parent = this.graphParent;
         this.edge = cell;
-        this.graph.addCell(cell);
+        this.graph.addEdge(cell, this.graphParent);
     };
     
     this.addChildBone = function(){

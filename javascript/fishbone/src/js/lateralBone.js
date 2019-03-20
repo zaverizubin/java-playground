@@ -44,9 +44,8 @@ function LateralBone (canvas) {
         
         var cell = new mxCell(valueObject, geometry, GraphSettings.STYLE_MAP.get(GraphSettings.LATERALBONE_EDGE));
         cell.edge = true;
-        cell.parent = this.graphParent;
         this.edge = cell;
-        this.graph.addCell(cell);
+        this.graph.addEdge(cell, this.graphParent);
         
         
     };

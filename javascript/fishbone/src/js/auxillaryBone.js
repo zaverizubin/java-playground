@@ -45,9 +45,8 @@ function AuxillaryBone (canvas) {
         var style = GraphSettings.STYLE_MAP.get(GraphSettings.AUXILLARYBONE_EDGE);
         var cell = new mxCell(valueObject, geometry, style);
         cell.edge = true;
-        cell.parent = this.graphParent;
         this.edge = cell;
-        this.graph.addCell(cell);
+        this.graph.addEdge(cell, this.graphParent);
         
         
     };

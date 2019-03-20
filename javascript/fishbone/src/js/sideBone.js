@@ -65,10 +65,8 @@ function SideBone (canvas) {
        
         var cell = new mxCell(valueObject, geometry, GraphSettings.STYLE_MAP.get(GraphSettings.SIDEBONE_EDGE));
         cell.edge = true;
-        cell.source = this.vertex;
-        cell.parent = this.graphParent;
         this.edge = cell;
-        this.graph.addCell(cell);
+        this.graph.addEdge(cell, this.graphParent, this.vertex);
     };
    
     this.addChildBone = function(){
