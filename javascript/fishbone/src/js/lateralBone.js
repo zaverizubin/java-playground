@@ -289,6 +289,30 @@ function LateralBone (canvas) {
         this.positionBonesInHierarchy(boneToSwap);
     };
    
+    this.getGraphSettings = function(){
+        var bone = this;
+        var map = new Map();
+        map.set(GraphSettings.LATERALBONE_EDGE, {
+            spacerH : bone.spacerH,
+            boneSegmentLength : bone.boneSegmentLength
+        });
+        return map;
+    };
+
+    this.applyGraphSettingsFromClipboard = function(graphSettingsObj){
+        var graphSettings = graphSettingsObj.get(GraphSettings.LATERALBONE_EDGE);
+        if( graphSettings === undefined){
+            return;
+        };
+        
+        if(graphSettings.spacerH !== undefined){
+            this.spacerH = graphSettings.spacerH;
+        };
+        if(graphSettings.boneSegmentLength !== undefined){
+            this.boneSegmentLength = graphSettings.boneSegmentLength;
+        };
+    };
+   
     this.applyGraphSettings = function(){
         this.spacerH = GraphSettings.LATERALBONE_SPACER_H;
         this.boneSegmentLength = GraphSettings.LATERALBONE_SEGMENT_LENGTH;

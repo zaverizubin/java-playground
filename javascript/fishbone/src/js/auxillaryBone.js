@@ -114,6 +114,30 @@ function AuxillaryBone (canvas) {
         this.positionBonesInHierarchy(boneToSwap);
     };
     
+    this.getGraphSettings = function(){
+        var bone = this;
+        var map = new Map();
+        map.set(GraphSettings.AUXILLARYBONE_EDGE, {
+            boneSegmentLength : bone.boneSegmentLength,
+            edgeTheta : bone.edgeTheta
+        });
+        return map;
+    };
+
+    this.applyGraphSettingsFromClipboard = function(graphSettingsObj){
+        var graphSettings = graphSettingsObj.get(GraphSettings.AUXILLARYBONE_EDGE);
+        if( graphSettings === undefined){
+            return;
+        };
+        
+        if(graphSettings.boneSegmentLength !== undefined){
+            this.boneSegmentLength = graphSettings.boneSegmentLength;
+        };
+        if(graphSettings.edgeTheta !== undefined){
+            this.edgeTheta = graphSettings.edgeTheta;
+        };
+    };
+    
     this.applyGraphSettings = function(){
         this.boneSegmentLength = GraphSettings.AUXILLARYBONE_SEGMENT_LENGTH;  
         this.edgeTheta = Math.round(GraphSettings.THETA * (Math.PI/180) * 100) / 100 ;

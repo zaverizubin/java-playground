@@ -264,6 +264,46 @@ function CenterBone (canvas) {
        this.graph.removeCells([this.vertex]);
     };
 
+    this.getGraphSettings = function(){
+        var bone = this;
+        var map = new Map();
+        map.set(GraphSettings.CENTERBONE_VERTEX , {
+            marginH : bone.marginH,
+            marginV : bone.marginV,
+            spacerH : bone.spacerH,
+            boneSegmentLength : bone.boneSegmentLength,
+            vertexWidth : bone.vertexWidth,
+            vertexHeight : bone.vertexHeight
+        });
+        return map;
+    };
+
+    this.applyGraphSettingsFromClipboard = function(graphSettingsObj){
+        var graphSettings = graphSettingsObj.get(GraphSettings.CENTERBONE_VERTEX);
+        if( graphSettings === undefined){
+            return;
+        };
+        
+        if(graphSettings.marginH !== undefined){
+            this.marginH = graphSettings.marginH;
+        };
+        if(graphSettings.marginV !== undefined){
+            this.marginV = graphSettings.marginV;
+        };
+        if(graphSettings.spacerH !== undefined){
+            this.spacerH = graphSettings.spacerH;
+        };
+        if(graphSettings.boneSegmentLength !== undefined){
+            this.boneSegmentLength = graphSettings.boneSegmentLength;
+        };
+        if(graphSettings.vertexWidth !== undefined){
+            this.vertexWidth = graphSettings.vertexWidth;
+        };
+        if(graphSettings.vertexHeight !== undefined){
+            this.vertexHeight = graphSettings.vertexHeight;
+        };
+    };
+
     this.applyGraphSettings = function(){
         this.marginH = GraphSettings.MARGIN_H;
         this.marginV = GraphSettings.MARGIN_V;

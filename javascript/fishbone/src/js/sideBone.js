@@ -303,6 +303,43 @@ function SideBone (canvas) {
         this.positionBonesInHierarchy(boneToSwap);
     };
    
+    this.getGraphSettings = function(){
+        var bone = this;
+        var map = new Map();
+        map.set(GraphSettings.SIDEBONE_VERTEX, {
+            spacerV : bone.spacerV,
+            boneSegmentLength : bone.boneSegmentLength,
+            vertexWidth : bone.vertexWidth,
+            vertexHeight : bone.vertexHeight,
+            edgeTheta : bone.edgeTheta
+        });
+        return map;
+       
+    };
+
+    this.applyGraphSettingsFromClipboard = function(graphSettingsObj){
+        var graphSettings = graphSettingsObj.get(GraphSettings.SIDEBONE_VERTEX);
+        if( graphSettings === undefined){
+            return;
+        };
+       
+        if(graphSettings.spacerV !== undefined){
+            this.spacerV = graphSettings.spacerV;
+        };
+        if(graphSettings.boneSegmentLength !== undefined){
+            this.boneSegmentLength = graphSettings.boneSegmentLength;
+        };
+        if(graphSettings.vertexWidth !== undefined){
+            this.vertexWidth = graphSettings.vertexWidth;
+        };
+        if(graphSettings.vertexHeight !== undefined){
+            this.vertexHeight = graphSettings.vertexHeight;
+        };
+        if(graphSettings.edgeTheta !== undefined){
+            this.edgeTheta = graphSettings.edgeTheta;
+        };
+    };
+   
     this.applyGraphSettings = function(){
         this.spacerV = GraphSettings.SIDEBONE_SPACER_V;
         this.boneSegmentLength = GraphSettings.SIDEBONE_SEGMENT_LENGTH;

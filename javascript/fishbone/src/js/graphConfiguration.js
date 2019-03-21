@@ -106,6 +106,14 @@ function GraphConfiguration(graphElement)
             
             menu.addSeparator();
             
+            menu.addItem('Copy Styles', null, function(){
+                canvas.onCopyStylesContextMenuClick(false);
+            });
+            
+            menu.addItem('Paste Styles', null, function(){
+                canvas.onPasteStylesContextMenuClick(false);
+            });
+            
             menu.addItem('Apply Styles', null, function(){
                 canvas.onApplyStylesContextMenuClick(false);
             });
@@ -115,6 +123,17 @@ function GraphConfiguration(graphElement)
             });
             
             menu.addSeparator();
+            
+            menu.addItem('Copy Graph Settings', null, function(){
+                canvas.onCopyGraphSettingsContextMenuClick(false);
+            });
+            
+            menu.addItem('Paste Graph Settings', null, function(){
+                canvas.onPasteGraphSettingsContextMenuClick(false);
+            });
+            
+            menu.addSeparator();
+            
             menu.addItem('Properties', null, function(){
                 canvas.onPropertiesWindowOpen();
             });

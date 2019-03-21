@@ -232,7 +232,7 @@ function Toolbar () {
             strokeColor: $("#strokeColorPicker").spectrum('get').toHexString(),
             fillColor: $("#fillColorPicker").spectrum('get').toHexString()
         };
-    }
+    };
     
     this.getDefaultStyleAttributes = function(){
         return this.defaultStyles;

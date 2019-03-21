@@ -252,3 +252,16 @@ BaseBone.prototype.applyCellStyle = function (cell, styleAttributes){
     this.graph.setCellStyle(style,[cell]);
 };
 
+BaseBone.prototype.getCellStyle = function(cell){
+    var style = this.graph.getCellStyle(cell);
+    return {
+        fontFamily: style["fontFamily"],
+        fontSize: style["fontSize"],
+        fontStyle: style["fontStyle"],
+        fontColor: style["fontColor"],
+        strokeWidth: style["strokeWidth"],
+        strokeColor: style["strokeColor"],
+        fillColor: style["fillColor"]
+    };
+};
+

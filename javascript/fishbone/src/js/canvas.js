@@ -1,5 +1,7 @@
 function Canvas () {
     
+    this.clipboard;
+    
     this.toolbar;
     
     this.graph;
@@ -15,6 +17,7 @@ function Canvas () {
     this.canvasHeight = GraphSettings.CANVAS_HEIGHT;
     
     this.init = function (graphElement, toolbar) {
+        this.clipboard = new Clipboard();
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
         this.buildCenterBone();
@@ -172,7 +175,6 @@ function Canvas () {
         var canvas = this;
         var graph = this.graph;
         Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
-            //graph.removeCells(graph.getChildCells(graph.getDefaultParent(), true, true));
             canvas.clearGraph();
             canvas.buildCenterBone();
         });
@@ -227,6 +229,77 @@ function Canvas () {
     this.buildCenterBone = function(){
         this.centerBone = new CenterBone(this);
         this.centerBone.init();
+    };
+        
+    this.onCopyStylesContextMenuClick = function(){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length> 1){
+             Utils.showMessageDialog(Messages.SELECT_SINGLE_GRAPH_ELEMENT);
+             return;
+        }
+        var cell = cells[0];
+        var bone = this.centerBone.getBoneFromCell(cell);
+        if(bone !== undefined){
+           var styles = bone.getCellStyle(cell);
+           this.clipboard.setStyles(styles);
+        }
+    };
+    
+    this.onPasteStylesContextMenuClick = function(){
+        if(this.clipboard.getStyles() === undefined){
+             Utils.showMessageDialog(Messages.NO_STYLE_IN_CLIPBOARD);
+        }
+        var cells = this.graph.getSelectionCells();
+        var centerBone = this.centerBone;
+        var clipboard = this.clipboard;
+        var bones = [];
+        cells.forEach(function(cell){
+             var bone = centerBone.getBoneFromCell(cell); 
+             bones.push(bone);
+        });
+        bones.forEach(function(bone){
+            bone.applyStyles(clipboard.getStyles()); 
+        });
+    };
+    
+    this.onCopyGraphSettingsContextMenuClick = function(){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length> 1){
+             Utils.showMessageDialog(Messages.SELECT_SINGLE_GRAPH_ELEMENT);
+             return;
+        }
+        var cell = cells[0];
+        var bone = this.centerBone.getBoneFromCell(cell);
+        if(bone !== undefined){
+           var settings = bone.getGraphSettings();
+           this.clipboard.setSettings(settings);
+        }
+    };
+    
+    this.onPasteGraphSettingsContextMenuClick = function(){
+         if(this.clipboard.getSettings() === undefined){
+             Utils.showMessageDialog(Messages.NO_SETTING_IN_CLIPBOARD);
+        }
+        var cells = this.graph.getSelectionCells();
+        var centerBone = this.centerBone;
+        var clipboard = this.clipboard;
+        var bones = [];
+        cells.forEach(function(cell){
+             var bone = centerBone.getBoneFromCell(cell); 
+             bones.push(bone);
+        });
+        this.graph.getModel().beginUpdate();
+        try
+        { 
+            bones.forEach(function(bone){
+                bone.applyGraphSettingsFromClipboard(clipboard.getSettings());
+                bone.positionBone();
+            });
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
     };
     
     this.onApplyStylesContextMenuClick = function(){
