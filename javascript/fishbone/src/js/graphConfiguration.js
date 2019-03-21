@@ -114,14 +114,6 @@ function GraphConfiguration(graphElement)
                 canvas.onPasteStylesContextMenuClick(false);
             });
             
-            menu.addItem('Apply Styles', null, function(){
-                canvas.onApplyStylesContextMenuClick(false);
-            });
-            
-            menu.addItem('Reset Styles', null, function(){
-                canvas.onResetStylesContextMenuClick(true);
-            });
-            
             menu.addSeparator();
             
             menu.addItem('Copy Graph Settings', null, function(){
