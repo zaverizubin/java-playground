@@ -43,12 +43,6 @@ function Canvas () {
         return this.graph;
     };
     
-    this.onContextMenuDeleteClick = function(){
-        this.onDeleteSubDetailClick();
-        this.onDeleteDetailClick();
-        this.onDeleteCauseClick();
-    };
-    
     this.onSwapClick = function(){
         var cells = this.graph.getSelectionCells();
         if(cells.length !== 2 ){
@@ -230,7 +224,13 @@ function Canvas () {
         this.centerBone = new CenterBone(this);
         this.centerBone.init();
     };
-        
+    
+    this.onContextMenuDeleteClick = function(){
+        this.onDeleteSubDetailClick();
+        this.onDeleteDetailClick();
+        this.onDeleteCauseClick();
+    };
+    
     this.onCopyStylesContextMenuClick = function(){
         var cells = this.graph.getSelectionCells();
         if(cells.length> 1){
@@ -315,22 +315,36 @@ function Canvas () {
     this.applyStyleAttributes = function(styleAttributes){
         var bones = [];
         this.centerBone.getAllSelectedBones(this.centerBone, bones);
+        
         if(bones.length === 0){
-           this.centerBone.getAllBones(this.centerBone, bones);
+            this.centerBone.getAllBones(this.centerBone, bones);
+            var graph = this.graph;
+            Utils.showConfirmationBox(Messages.APPLY_STYLE_TO_ALL_ELEMENTS, null, null, function(){
+                graph.getModel().beginUpdate();
+                try
+                {
+                   bones.forEach(function(bone){
+                       bone.applyStyles(styleAttributes);
+                   }) ;
+                }
+                finally
+                {
+                   graph.getModel().endUpdate();
+                } 
+           });
+        }else{
+            this.graph.getModel().beginUpdate();
+            try
+            {
+               bones.forEach(function(bone){
+                   bone.applyStyles(styleAttributes);
+               }) ;
+            }
+            finally
+            {
+               this.graph.getModel().endUpdate();
+            } 
         };
-            
-        this.graph.getModel().beginUpdate();
-        var graph = this.graph;
-        try
-        {
-           bones.forEach(function(bone){
-               bone.applyStyles(styleAttributes);
-           }) ;
-        }
-        finally
-        {
-           this.graph.getModel().endUpdate();
-        }
     };
     
     this.onHelpWindowOpen = function(dialogExtendOptions){
