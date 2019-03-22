@@ -311,6 +311,18 @@ function CenterBone (canvas) {
         this.boneSegmentLength = GraphSettings.CENTERBONE_SEGMENT_LENGTH;
         this.vertexWidth = GraphSettings.CENTERBONE_VERTEX_WIDTH;
         this.vertexHeight = GraphSettings.CENTERBONE_VERTEX_HEIGHT;
+        
+        if(this.vertex !== undefined){
+            var style = this.vertex.getStyle();
+            if(style.toLowerCase().indexOf('ellipse') !== -1){
+                style = style.replace('ellipse', GraphSettings.CENTERBONE_VERTEX_SHAPE)
+            }else if (style.toLowerCase().indexOf('rectangle') !== -1){
+                style = style.replace('rectangle', GraphSettings.CENTERBONE_VERTEX_SHAPE)
+            }else{
+                style = style.replace('triangle', GraphSettings.CENTERBONE_VERTEX_SHAPE)
+            };
+            this.graph.setCellStyle(style,[this.vertex]);
+        };
     };
     
     this.restoreGraphSettingsFromValueObject = function(){

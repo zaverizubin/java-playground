@@ -168,7 +168,7 @@ function Canvas () {
     this.onClearDiagramClick = function(){
         var canvas = this;
         var graph = this.graph;
-        Utils.showConfirmationBox(Messages.CLEAR_GRAPH, function(){
+        Utils.showConfirmationBox(Messages.CLEAR_GRAPH,null,null, function(){
             canvas.clearGraph();
             canvas.buildCenterBone();
         });
