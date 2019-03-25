@@ -1,35 +1,42 @@
+html{
+  height: 100%;  
+}
+
 body{
     font-family: Arial,Helvetica,sans-serif;
     margin:0px 0px;
+    height: calc(100% - 50px);
 }
 
 .app{
-    width:1400px;
-    height:790px;
+    width: 100%;
+    height: 100%;
+    display: flex;
 }
 .app-title{
     padding: 10px 0px;
     font-size: 28px;
     color:#fff;
-    width:1400px;
+    width:100%;
     height:30px;
     background-color: #824ba0;
 }
 .toolbar{
-    float: left;
     width: 250px;
-    height: 700px;
+    height: 100%;
+    position: relative;
     background-color: #fff;
     border: 1px solid #666;
+    box-sizing: border-box;
 }
 .canvas {
-    float: left;
-    width: 1146px;
-    height: 700px;
+    width: calc(100% - 250px);
+    height: 100%;
     background-color: #dbd9d9;
     margin: 0px 0px;
     border:1px solid #666;
     overflow:auto;
+    box-sizing: border-box;
 }
 
 .ui-accordion .ui-accordion-header-active{
@@ -102,15 +109,15 @@ body{
     width: 120px;
 }
 .graph-settings label{
-    display: block;
-    width: 180px;
-    float:left;
+    display: table-cell;
+    width: 170px;
 }
 .graph-settings .menu-item {
-    display: block;
+    display: table;
     height: 30px;
     padding: 5px 0px;
 }
+
 .graph-settings .help-button{
     width:25px;
     height:25px;

@@ -16,25 +16,27 @@
 </head>
 
 <body style="background-color: #E5E4E5;" >
+    
+<div class="app-title"><span>Fishbone Diagram<span></div> 
+            
 <div class="app">
-    <div class="app-title"><span>Fishbone Diagram<span></div> 
     
     <div class="toolbar">
         
         <h3>Diagram Menu</h3>
         <div class="diagram-menu">
-          <div class="menu-item">
+            <div class="menu-item">
             <button id="add-cause" class="ui-button ui-widget ui-corner-all">Add Cause</button>
             <button id="delete-cause" class="ui-button ui-widget ui-corner-all">Delete Cause</button>
           </div>
-          <div class="menu-item">
+            <div class="menu-item">
             <button id="add-detail" class="ui-button ui-widget ui-corner-all">Add Detail</button>
             <button id="delete-detail" class="ui-button ui-widget ui-corner-all">Delete Detail</button>
           </div>
             <div class="menu-item">
-            <button id="add-sub-detail" class="ui-button ui-widget ui-corner-all">Add Sub Detail</button>
-            <button id="delete-sub-detail" class="ui-button ui-widget ui-corner-all">Delete Sub Detail</button>
-          </div>
+                <button id="add-sub-detail" class="ui-button ui-widget ui-corner-all">Add Sub Detail</button>
+                <button id="delete-sub-detail" class="ui-button ui-widget ui-corner-all">Delete Sub Detail</button>
+            </div>
         </div>
         
         <h3>Fonts and Styles</h3>
@@ -132,24 +134,24 @@
                 </button>
             </div>
             <div class="menu-item">
-                <div class="vertex-shape">
-                    <label for="centerbone-vertex-shape-selector">Main Vertex Shape</label>
-                    <select name="centerbone-vertex-shape-selector" id="centerbone-vertex-shape-selector">
-                        <option selected="selected">rectangle</option>
-                        <option>ellipse</option>
-                        <option>triangle</option>
-                    </select> 
-                </div>
+
+                <label for="centerbone-vertex-shape-selector">Main Vertex Shape</label>
+                <select name="centerbone-vertex-shape-selector" id="centerbone-vertex-shape-selector">
+                    <option selected="selected">rectangle</option>
+                    <option>ellipse</option>
+                    <option>triangle</option>
+                </select> 
+                
             </div>
             <div class="menu-item">
-                <div class="vertex-shape">
+               
                     <label for="sidebone-vertex-shape-selector">Cause Vertex Shape</label>
                     <select name="sidebone-vertex-shape-selector" id="sidebone-vertex-shape-selector">
                         <option>rectangle</option>
                         <option selected="selected">ellipse</option>
                         <option>triangle</option>
                     </select>
-                </div>
+                
             </div>
             <div class="menu-item">
                 <label for="marginH-spinner">Margin H</label>
@@ -165,7 +167,7 @@
             </div>
             <div class="menu-item">
                 <label for="centerbone-segment-length">Center bone segment length</label>
-                <input name="centerbone-segment-length" id="centerbone-segment-length-spinner"> 
+                <input name="centerbone-segment-length" id="centerbone-segment-length-spinner">
             </div>
             <div class="menu-item">
                 <label for="centerbone-vertex-width">Center bone vertex width</label>
@@ -203,7 +205,7 @@
                 <label for="theta">Theta</label>
                 <input name="theta" id="theta-spinner"> 
             </div>
-             <div class="menu-item"> 
+            <div class="menu-item"> 
                 <button id ="apply-graph-settings" class="ui-button ui-widget ui-corner-all apply-button">Apply</button>
             </div>
             <div class="menu-item">
@@ -286,43 +288,43 @@
         </div>  
     </div>   
                 
-    <div id="message-window" title="Alert" class="message-window">
-        <div id="alert-content"></div>
-    </div>
-                
-    <div id="help-window" title="Graph Settings Help" class="help-window">
-        <div id="help-content">
-            <img src="resources/drawing.png" />
-        </div>
-    </div>            
-    
-    <input type="file" name="file-input" id="file-input" accept=".xml">
-                
     <div class="canvas"></div>
 </div>
 
+<div id="message-window" title="Alert" class="message-window">
+    <div id="alert-content"></div>
+</div>
+
+<div id="help-window" title="Graph Settings Help" class="help-window">
+    <div id="help-content">
+        <img src="resources/drawing.png" />
+    </div>
+</div>            
     
-    <script type="text/javascript" src="lib/mxClient.js"></script>
-    <script type="text/javascript" src="lib/jquery.min.js"></script>
-    <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="lib/jquery.dialogextend.min.js"></script>
-    <script type="text/javascript" src="lib/spectrum.js"></script>
-    <script type="text/javascript" src="js/canvas.js"></script>
-    <script type="text/javascript" src="js/graphSettings.js"></script>
-    <script type="text/javascript" src="js/clipboard.js"></script>
-    <script type="text/javascript" src="js/toolbar.js"></script>
-    <script type="text/javascript" src="js/baseBone.js"></script>
-    <script type="text/javascript" src="js/centerBone.js"></script>
-    <script type="text/javascript" src="js/sideBone.js"></script>
-    <script type="text/javascript" src="js/lateralBone.js"></script>
-    <script type="text/javascript" src="js/auxillaryBone.js"></script>
-    <script type="text/javascript" src="js/graphListener.js"></script>
-    <script type="text/javascript" src="js/graphConfiguration.js"></script>
-    <script type="text/javascript" src="js/objectGraphBuilder.js"></script>
-    <script type="text/javascript" src="js/constants.js"></script>
-    <script type="text/javascript" src="js/messages.js"></script>
-    <script type="text/javascript" src="js/utils.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+<input type="file" name="file-input" id="file-input" style="position:absolute" accept=".xml" >
+    
+<script type="text/javascript" src="lib/mxClient.js"></script>
+<script type="text/javascript" src="lib/jquery.min.js"></script>
+<script type="text/javascript" src="lib/jquery-ui.min.js"></script>
+<script type="text/javascript" src="lib/jquery.dialogextend.min.js"></script>
+<script type="text/javascript" src="lib/spectrum.js"></script>
+<script type="text/javascript" src="js/canvas.js"></script>
+<script type="text/javascript" src="js/graphSettings.js"></script>
+<script type="text/javascript" src="js/clipboard.js"></script>
+<script type="text/javascript" src="js/toolbar.js"></script>
+<script type="text/javascript" src="js/baseBone.js"></script>
+<script type="text/javascript" src="js/centerBone.js"></script>
+<script type="text/javascript" src="js/sideBone.js"></script>
+<script type="text/javascript" src="js/lateralBone.js"></script>
+<script type="text/javascript" src="js/auxillaryBone.js"></script>
+<script type="text/javascript" src="js/graphListener.js"></script>
+<script type="text/javascript" src="js/graphConfiguration.js"></script>
+<script type="text/javascript" src="js/objectGraphBuilder.js"></script>
+<script type="text/javascript" src="js/constants.js"></script>
+<script type="text/javascript" src="js/messages.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="app.js"></script>
+
 </body>
 
 </html>
