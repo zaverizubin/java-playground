@@ -9,35 +9,69 @@ Utils.removeFromArray = function(arr, object){
     };
 };
 
-Utils.showMessageDialog = function(text, width, height){
-    $("#message-window").dialog({title: "Alert", 
-                                 width: (width !== undefined)? width:400,
-                                 height: (height !== undefined)? height:200,
-                                 buttons: {
-                                    Ok: function() {
-                                      $( this ).dialog( "close" );
-                                    }
-                                    }});
-    $("#message-window").dialog("open");
-    $("#message-window").text(text);
+Utils.showMessageDialog = function(message){
+    var dialog = $("#message-window").get(0);
+    dialog.opened = true;
+    dialog.renderer = function(root, dialog) {
+        if (!root.firstElementChild) {
+            const header = window.document.createElement('header');
+            header.innerHTML = '<b>Message</b>';
+          
+            const main = window.document.createElement('main');
+            main.innerHTML = message;
+            root.appendChild(header);
+            root.appendChild(main);
+        };
+    };
+};
+
+Utils.showPlainTextMessageDialog = function(message){
+    var dialog = $("#message-window").get(0);
+    dialog.opened = true;
+    dialog.renderer = function(root, dialog) {
+        if (!root.firstElementChild) {
+            const header = window.document.createElement('header');
+            header.innerHTML = '<b>Message</b>';
+          
+            const main = window.document.createElement('main');
+            main.textContent  = message;
+            root.appendChild(header);
+            root.appendChild(main);
+        };
+    };
 };
 
 Utils.showConfirmationBox = function(message, width, height, okCallback){
-    $("#message-window").dialog({ 
-        buttons: [{text: "Ok",click: function() {
-                    okCallback();
-                    $("#message-window").dialog("close");
-                }.bind(this)},
-                {text: "Cancel", click: function() {
-                        $(this).dialog( "close" );}}
-                ],
-        title: "Alert",
-        width: (width !== undefined && width !== null)? width:400,
-        height: (height !== undefined  && height !== null)? height:200,
-        modal:true,
-        resizable: false,
-        dialogClass: "alert"
-    }).html(message).show();
+    var dialog = $("#message-window").get(0);
+    dialog.opened = true;
+    dialog.renderer = function(root, dialog) {
+        const header = window.document.createElement('header');
+        header.innerHTML = '<b>Message</b>';
+
+        const main = window.document.createElement('main');
+        main.innerHTML = message;
+
+        const okButton = window.document.createElement('vaadin-button');
+        okButton.setAttribute('theme', 'primary');
+        okButton.textContent = 'OK';
+        okButton.setAttribute('style', 'margin-right: 1em');
+        okButton.addEventListener('click', function() {
+            okCallback();
+            dialog.opened = false;
+        });
+
+        const cancelButton = window.document.createElement('vaadin-button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.addEventListener('click', function() {
+          dialog.opened = false;
+        });
+
+        root.appendChild(header);
+        root.appendChild(main);
+        root.appendChild(okButton);
+        root.appendChild(cancelButton);
+    };
+
 };
 
 

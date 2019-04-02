@@ -26,7 +26,8 @@ function App(graphElement){
     
     
 }
-$(document).ready(function() {
+
+$(document).on('WebComponentsReady', function() {
     new App($(".canvas")[0]);
 });
 

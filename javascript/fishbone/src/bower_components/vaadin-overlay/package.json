@@ -1,0 +1,32 @@
+{
+  "name": "@vaadin/vaadin-overlay",
+  "version": "3.2.11",
+  "description": "vaadin-overlay",
+  "main": "vaadin-overlay.html",
+  "repository": "vaadin/vaadin-overlay",
+  "keywords": [
+    "Vaadin",
+    "vaadin-overlay",
+    "overlay",
+    "web-components",
+    "web-component",
+    "polymer"
+  ],
+  "author": "Vaadin Ltd",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/vaadin/vaadin-overlay/issues"
+  },
+  "homepage": "https://vaadin.com/components",
+  "files": [
+    "vaadin-*.js",
+    "src",
+    "theme"
+  ],
+  "scripts": {
+    "test": "wct"
+  },
+  "devDependencies": {
+    "@vaadin/vaadin-component-dev-dependencies": "^1.0.0"
+  }
+}

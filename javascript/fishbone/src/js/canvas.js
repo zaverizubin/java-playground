@@ -183,7 +183,7 @@ function Canvas () {
         var node = codec.encode(this.graph.getModel());
         var content = mxUtils.getXml(node);
         
-        Utils.showMessageDialog(content, 400, 400);
+        Utils.showPlainTextMessageDialog(content);
     };
     
     this.onLoadDiagram = function(xmlContent){
@@ -347,9 +347,6 @@ function Canvas () {
         };
     };
     
-    this.onHelpWindowOpen = function(dialogExtendOptions){
-        $("#help-window").dialog({}).dialogExtend(dialogExtendOptions);
-    };
     
     this.onPropertiesWindowOpen = function(){
         var cells = this.graph.getSelectionCells();
@@ -358,13 +355,15 @@ function Canvas () {
             return;
         };
         var cell = cells[0];
-        $("#properties-window").dialog("open");
+        var dialog = $("#properties-window").get(0);
+        dialog.opened = true;
         this.showProperties(cell);
     };
     
     this.showProperties = function(cell){
+        var dialog = $("#properties-window").get(0);
         
-        if(!$('#properties-window').dialog('isOpen')){
+        if(!dialog.opened){
             return;
         }
         
@@ -380,7 +379,7 @@ function Canvas () {
         $("#height").html(Math.round(cellGeometry.height)  + "px");
         
         if(cell.getStyle().indexOf("fontSize") >=0){
-            $("#font-size").html(cell.getStyle().split("fontSize=")[1].substr(0,1) +"px");
+            $("#font-size").html(cell.getStyle().split("fontSize=")[1].split(";")[0] +"px");
         }else{
             $("#font-size").html("-");
         };

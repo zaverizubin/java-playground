@@ -1,0 +1,10 @@
+bower_components
+components
+node_modules
+build
+.vscode
+
+*.iml
+*.log
+
+node_modules

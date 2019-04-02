@@ -1,6 +1,6 @@
 function Messages(){}
 
-Messages.CLEAR_GRAPH = "This will clear the entire graph.<br/> Are you sure?";
+Messages.CLEAR_GRAPH = "This will clear the entire graph. Are you sure?";
 
 Messages.SELECT_SINGLE_GRAPH_ELEMENT = "Select a single graph element.";
 

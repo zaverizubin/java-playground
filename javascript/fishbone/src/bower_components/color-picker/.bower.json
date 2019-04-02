@@ -1,0 +1,16 @@
+{
+  "name": "color-picker",
+  "licence": "https://github.com/fooloomanzoo/color-picker/raw/master/LICENSE.txt",
+  "homepage": "https://github.com/fooloomanzoo/color-picker",
+  "version": "3.0.2",
+  "_release": "3.0.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.0.2",
+    "commit": "0937369b64832a33ccd58b32e18a393e1f9cf83a"
+  },
+  "_source": "https://github.com/fooloomanzoo/color-picker.git",
+  "_target": "^3.0.2",
+  "_originalSource": "fooloomanzoo/color-picker",
+  "_direct": true
+}

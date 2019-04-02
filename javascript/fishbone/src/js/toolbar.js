@@ -6,56 +6,12 @@ function Toolbar () {
     
     this.init = function (canvas) {
         this.canvas = canvas;
-        this.styleJQueryWidgets();
         this.attachEventListeners();
         this.resetGraphSettings();
         this.defaultStyles = this.getStyleAttributes(); 
-        
     };
         
-    this.styleJQueryWidgets = function(){
-        $(".toolbar").accordion({
-            heightStyle: "content",
-            collapsible: true,
-            icons: {header: "ui-icon-circle-plus", activeHeader: "ui-icon-circle-minus"}
-        });
-        $("#font-size-select").selectmenu({width: 100});
-        $("#font-family-select").selectmenu({width: 100});
-        $("#stroke-width-select").selectmenu({width: 100});
-        $("#checkbox-bold").checkboxradio();
-        $("#checkbox-italic").checkboxradio();
-        $("#checkbox-underline").checkboxradio();
-        
-        
-        $("#help-window").dialog({width:690, height:550});
-        $("#help-window").dialog("option", "position", { my: "left", at: "center center", of: $(".app") } );
-        $("#help-window").dialog("close");
-        
-        $("#centerbone-vertex-shape-selector").selectmenu({width: 110});
-        $("#sidebone-vertex-shape-selector").selectmenu({width: 110});
-        $("#marginH-spinner").spinner({min: 0, max: 200 });
-        $("#marginV-spinner").spinner({min: 0, max: 1000 });
-        $("#centerbone-spacer-h-spinner").spinner({min: 20, max: 200 });
-        $("#centerbone-segment-length-spinner").spinner({min:50, max: 400 });
-        $("#centerbone-vertex-width-spinner").spinner({min: 20,max: 200 });
-        $("#centerbone-vertex-height-spinner").spinner({min: 20,max: 200 });
-        $("#sidebone-spacer-v-spinner").spinner({min: 20,max: 200 });
-        $("#sidebone-segment-length-spinner").spinner({min: 50,max: 400 });
-        $("#sidebone-vertex-width-spinner").spinner({min: 20,max: 200 });
-        $("#sidebone-vertex-height-spinner").spinner({min: 20,max: 200 });
-        $("#lateralbone-spacer-h-spinner").spinner({min: 20,max: 200 });
-        $("#lateralbone-segment-length-spinner").spinner({min: 50,max: 400 });
-        $("#theta-spinner").spinner({min: 40,max: 80 });
-        
-        $("#slider").slider({
-            create: function(event, ui) {
-               $("#custom-handle").text(0); 
-            }
-        });
-        $("#properties-window").dialog();
-        $("#properties-window").dialog("option", "position", { my: "left", at: "center center", of: $(".app") } );
-        $("#properties-window").dialog("close");
-    };
+    
     
     this.attachEventListeners = function(){
         var canvas = this.canvas;
@@ -114,10 +70,7 @@ function Toolbar () {
         });
         
         $("#help-button").click(function(){
-            var dialogExtendOptions = {closable : true, maximizable : true, minimizable : true, minimizeLocation : "left",
-             collapsable : true, dblclick : "collapse", titlebar : false};
-         
-            canvas.onHelpWindowOpen(dialogExtendOptions); 
+            Utils.showMessageDialog("<img src='resources/drawing.png' />");
         });
        
         
@@ -130,18 +83,13 @@ function Toolbar () {
              toolbar.resetGraphSettings();
              canvas.onApplyGraphSettings();
         });
-                
-        $("#slider").on("slide", function(event, ui) {
-            $("#custom-handle").text(ui.value);
-            canvas.onZoomChange(ui.value);
-        });
         
-        $("#slider").on("slidechange", function(event,ui) {
-            $("#custom-handle").text(ui.value);
+        $("#zoom-setting").on("change", function(event) {
+            canvas.onZoomChange(event.target.value);
         });
         
         $("#reset-zoom").click(function(){
-            $("#slider").slider("value",0);
+            $("#zoom-setting").get(0).value = 0;
             canvas.onZoomReset();
         });
         
@@ -161,52 +109,54 @@ function Toolbar () {
     this.resetGraphSettings = function(){
         GraphSettings.restoreDefaults();
         
-        $("#centerbone-vertex-shape-selector").val(GraphSettings.CENTERBONE_VERTEX_SHAPE).selectmenu("refresh");
-        $("#sidebone-vertex-shape-selector").val(GraphSettings.SIDEBONE_VERTEX_SHAPE).selectmenu("refresh");
-        $("#marginH-spinner").spinner("value", GraphSettings.MARGIN_H);
-        $("#marginV-spinner").spinner("value", GraphSettings.MARGIN_V);
-        $("#centerbone-spacer-h-spinner").spinner("value", GraphSettings.CENTERBONE_SPACER_H);
-        $("#centerbone-segment-length-spinner").spinner("value", GraphSettings.CENTERBONE_SEGMENT_LENGTH);
-        $("#centerbone-vertex-width-spinner").spinner("value", GraphSettings.CENTERBONE_VERTEX_WIDTH);
-        $("#centerbone-vertex-height-spinner").spinner("value", GraphSettings.CENTERBONE_VERTEX_HEIGHT);
-        $("#sidebone-spacer-v-spinner").spinner("value", GraphSettings.SIDEBONE_SPACER_V);
-        $("#sidebone-segment-length-spinner").spinner("value", GraphSettings.SIDEBONE_SEGMENT_LENGTH);
-        $("#sidebone-vertex-width-spinner").spinner("value", GraphSettings.SIDEBONE_VERTEX_WIDTH);
-        $("#sidebone-vertex-height-spinner").spinner("value", GraphSettings.SIDEBONE_VERTEX_HEIGHT);
-        $("#lateralbone-spacer-h-spinner").spinner("value", GraphSettings.LATERALBONE_SPACER_H);
-        $("#lateralbone-segment-length-spinner").spinner("value", GraphSettings.LATERALBONE_SEGMENT_LENGTH);
-        $("#theta-spinner").spinner("value", GraphSettings.THETA);
+        $("#centerbone-vertex-shape-selector").get(0).value = GraphSettings.CENTERBONE_VERTEX_SHAPE;
+        $("#sidebone-vertex-shape-selector").get(0).value =  GraphSettings.SIDEBONE_VERTEX_SHAPE;
+        $("#marginH-spinner").get(0).value = GraphSettings.MARGIN_H;
+        $("#marginV-spinner").get(0).value = GraphSettings.MARGIN_V;
+        $("#centerbone-spacer-h-spinner").get(0).value = GraphSettings.CENTERBONE_SPACER_H;
+        $("#centerbone-segment-length-spinner").get(0).value = GraphSettings.CENTERBONE_SEGMENT_LENGTH;
+        $("#centerbone-vertex-width-spinner").get(0).value = GraphSettings.CENTERBONE_VERTEX_WIDTH;
+        $("#centerbone-vertex-height-spinner").get(0).value = GraphSettings.CENTERBONE_VERTEX_HEIGHT;
+        $("#sidebone-spacer-v-spinner").get(0).value = GraphSettings.SIDEBONE_SPACER_V;
+        $("#sidebone-segment-length-spinner").get(0).value = GraphSettings.SIDEBONE_SEGMENT_LENGTH;
+        $("#sidebone-vertex-width-spinner").get(0).value =  GraphSettings.SIDEBONE_VERTEX_WIDTH;
+        $("#sidebone-vertex-height-spinner").get(0).value = GraphSettings.SIDEBONE_VERTEX_HEIGHT;
+        $("#lateralbone-spacer-h-spinner").get(0).value = GraphSettings.LATERALBONE_SPACER_H;
+        $("#lateralbone-segment-length-spinner").get(0).value = GraphSettings.LATERALBONE_SEGMENT_LENGTH;
+        $("#theta-spinner").get(0).value = GraphSettings.THETA;
         
     };
     
     this.getGraphSettings = function(){
         
-        GraphSettings.CENTERBONE_VERTEX_SHAPE = $("#centerbone-vertex-shape-selector").children("option:selected").val(),
-        GraphSettings.SIDEBONE_VERTEX_SHAPE = $("#sidebone-vertex-shape-selector").children("option:selected").val(),
-        GraphSettings.MARGIN_H = $("#marginH-spinner").spinner( "value" );
-        GraphSettings.MARGIN_V = $("#marginV-spinner").spinner( "value" );
-        GraphSettings.CENTERBONE_SPACER_H = $("#centerbone-spacer-h-spinner").spinner( "value" );
-        GraphSettings.CENTERBONE_SEGMENT_LENGTH = $("#centerbone-segment-length-spinner").spinner( "value" );
-        GraphSettings.CENTERBONE_VERTEX_WIDTH = $("#centerbone-vertex-width-spinner").spinner( "value" );
-        GraphSettings.CENTERBONE_VERTEX_HEIGHT = $("#centerbone-vertex-height-spinner").spinner( "value" );
-        GraphSettings.SIDEBONE_SPACER_V = $("#sidebone-spacer-v-spinner").spinner( "value" );
-        GraphSettings.SIDEBONE_SEGMENT_LENGTH = $("#sidebone-segment-length-spinner").spinner( "value" );
-        GraphSettings.SIDEBONE_VERTEX_WIDTH = $("#sidebone-vertex-width-spinner").spinner( "value" );
-        GraphSettings.SIDEBONE_VERTEX_HEIGHT = $("#sidebone-vertex-height-spinner").spinner( "value" );
-        GraphSettings.LATERALBONE_SPACER_H = $("#lateralbone-spacer-h-spinner").spinner( "value" );
-        GraphSettings.LATERALBONE_SEGMENT_LENGTH = $("#lateralbone-segment-length-spinner").spinner( "value" );
-        GraphSettings.THETA = $("#theta-spinner").spinner( "value" );
+        GraphSettings.CENTERBONE_VERTEX_SHAPE = $("#centerbone-vertex-shape-selector").get(0).value;
+        GraphSettings.SIDEBONE_VERTEX_SHAPE = $("#sidebone-vertex-shape-selector").get(0).value;
+        GraphSettings.MARGIN_H = Number($("#marginH-spinner").get(0).value);
+        GraphSettings.MARGIN_V = Number($("#marginV-spinner").get(0).value);
+        GraphSettings.CENTERBONE_SPACER_H = Number($("#centerbone-spacer-h-spinner").get(0).value);
+        GraphSettings.CENTERBONE_SEGMENT_LENGTH = Number($("#centerbone-segment-length-spinner").get(0).value);
+        GraphSettings.CENTERBONE_VERTEX_WIDTH = Number($("#centerbone-vertex-width-spinner").get(0).value);
+        GraphSettings.CENTERBONE_VERTEX_HEIGHT = Number($("#centerbone-vertex-height-spinner").get(0).value);
+        GraphSettings.SIDEBONE_SPACER_V = Number($("#sidebone-spacer-v-spinner").get(0).value);
+        GraphSettings.SIDEBONE_SEGMENT_LENGTH = Number($("#sidebone-segment-length-spinner").get(0).value);
+        GraphSettings.SIDEBONE_VERTEX_WIDTH = Number($("#sidebone-vertex-width-spinner").get(0).value);
+        GraphSettings.SIDEBONE_VERTEX_HEIGHT = Number($("#sidebone-vertex-height-spinner").get(0).value);
+        GraphSettings.LATERALBONE_SPACER_H = Number($("#lateralbone-spacer-h-spinner").get(0).value);
+        GraphSettings.LATERALBONE_SEGMENT_LENGTH = Number($("#lateralbone-segment-length-spinner").get(0).value);
+        GraphSettings.THETA = Number($("#theta-spinner").get(0).value);
         
         GraphSettings.buildStyleMap();
     };
     
     this.resetStyleAttributes = function(){
-        $("#font-family-select").val("Arial").selectmenu("refresh");
-        $("#font-size-select").val(this.defaultStyles.fontSize).selectmenu("refresh");
-        $("#checkbox-bold").prop('checked', this.defaultStyles.fontBold).checkboxradio( "refresh" );
-        $("#checkbox-italic").prop('checked', this.defaultStyles.fontItalic).checkboxradio( "refresh" );
-        $("#checkbox-underline").prop('checked', this.defaultStyles.fontItalic).checkboxradio( "refresh" );
-        $("#stroke-width-select").val(this.defaultStyles.strokeWidth).selectmenu("refresh");
+        
+        $("#font-family-select").get(0).value = this.defaultStyles.fontFamily;
+        $("#font-size-select").get(0).value = this.defaultStyles.fontSize;
+        $("#checkbox-bold").get(0).checked = this.defaultStyles.fontBold;
+        $("#checkbox-italic").get(0).checked = this.defaultStyles.fontItalic;
+        $("#checkbox-underline").get(0).checked = this.defaultStyles.fontUnderline;
+        $("#stroke-width-select").get(0).value = this.defaultStyles.strokeWidth;
+        
         $("#fontColorPicker").spectrum({
             color: "#000", allowEmpty: true
         });
@@ -222,13 +172,13 @@ function Toolbar () {
     
     this.getStyleAttributes = function(){
         return {
-            fontFamily: $("#font-family-select").children("option:selected").val(),
-            fontSize: $("#font-size-select").children("option:selected").val(),
-            fontBold: $("#checkbox-bold").is(':checked'),
-            fontItalic: $("#checkbox-italic").is(':checked'),
-            fontUnderline: $("#checkbox-underline").is(':checked'),
+            fontFamily: $("#font-family-select").get(0).value,
+            fontSize: $("#font-size-select").get(0).value,
+            fontBold: $("#checkbox-bold").get(0).checked,
+            fontItalic: $("#checkbox-italic").get(0).checked,
+            fontUnderline: $("#checkbox-underline").get(0).checked,
             fontColor: $("#fontColorPicker").spectrum('get').toHexString(),
-            strokeWidth: $("#stroke-width-select").children("option:selected").val(),
+            strokeWidth: $("#stroke-width-select").get(0).value,
             strokeColor: $("#strokeColorPicker").spectrum('get').toHexString(),
             fillColor: $("#fillColorPicker").spectrum('get').toHexString()
         };

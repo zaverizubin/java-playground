@@ -28,6 +28,7 @@ body{
     background-color: #fff;
     border: 1px solid #666;
     box-sizing: border-box;
+    overflow:auto;  
 }
 .canvas {
     width: calc(100% - 250px);
@@ -45,23 +46,28 @@ body{
 .ui-accordion .ui-accordion-content{
     padding:0.4em 0.4em;
 }
-.diagram-menu .ui-button{
+.diagram-menu vaadin-button{
     padding: .2em 0.2em;
     font-size: 0.8em !important;
     width:110px;
     display:table-cell;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 .diagram-menu .menu-item{
     display:block;
     height:40px;
+    margin: 5px 10px;
+}
+
+.font-styles vaadin-button {
+    width: 200px;
 }
 
 .font-styles .menu-item{
     display:block;
-    height:45px;
-    padding:5px 0px;
+    margin: 5px 10px;
 }
 
 .font-styles label {
@@ -69,18 +75,10 @@ body{
 }
 
 .font-styles .apply-button, .font-styles .reset-button {
-   width: 220px; 
+   width: 200px; 
+   cursor: pointer;
 }
 
-.font-styles .ui-widget {
-  font-size: 0.8em; 
-}
-
-.font-styles .font-size, .font-styles .font-family{
-    width:100px;
-    float:left;
-    margin:0px 5px 0px 0px;
-}
 
 .font-styles .fontColorLabel, .font-styles .strokeColorLabel, .font-styles .fillColorLabel{
     float:left;
@@ -92,6 +90,14 @@ body{
    cursor: pointer;
 }
 
+.graph-settings .menu-item {
+    display: table;
+    margin: 5px 10px;
+}
+.graph-settings vaadin-number-field{
+    width: 200px;
+    padding: 0px 10px 0px 0px;
+}
 .graph-settings .vertex-shape{
     float:left;
     margin:0px 5px 10px 0px; 
@@ -109,43 +115,32 @@ body{
     width: 120px;
 }
 .graph-settings label{
-    display: table-cell;
-    width: 170px;
-}
-.graph-settings .menu-item {
-    display: table;
-    height: 30px;
-    padding: 5px 0px;
+    width: 250px;
 }
 
 .graph-settings .help-button{
-    width:25px;
-    height:25px;
-    margin-left: 200px;
+    margin-left: 130px;
+    cursor:pointer;
 }
 
 .graph-settings .apply-button, .graph-settings .reset-button {
-   width: 220px; 
+   width: 200px; 
 }
 
 .tools label {
    font-size: 0.8em; 
 }
 
-.tools .ui-button{
+.tools vaadin-button{
     padding: .2em 0.2em;
     font-size: 0.8em !important;
     width:150px;
-    display:table-cell;
     vertical-align: middle;
+    cursor: pointer;
 }
-.tools .slider{
-   width:200px;
-   margin:0px 10px;
-}
+
 .tools .menu-item{
     display:block;
-    height:50px;
     text-align: center;
 }
 
