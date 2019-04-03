@@ -21,12 +21,6 @@
     <link rel="import" href="bower_components/vaadin-accordion/vaadin-accordion.html" />
     <link rel="import" href="bower_components/vaadin-icons/vaadin-icons.html">
     
-    <script type="module" > 
-        
-        import '@polymer/paper-swatch-picker/paper-swatch-picker.js';
-    
-    
-    </script>
 </head>
 
 <body style="background-color: #E5E4E5;" >
@@ -113,9 +107,7 @@
                                 <label><b>Color:&nbsp;</b></label>
                             </div>
                             <div>
-                                <!--<color-picker id="fontColorPicker" value="yellow"></color-picker>
-                                <paper-swatch-picker id="fontColorPicker"></paper-swatch-picker>-->
-                                <input title="Click to pick color" type='text' id="fontColorPicker"/>
+                                <input type="color" id="fontColorPicker" value="#000000">
                             </div>
                         </div>
                     </div>
@@ -143,8 +135,7 @@
                                 <label><b>Stroke Color:&nbsp;</b></label>
                             </div>
                             <div>
-                                <!--<paper-swatch-picker id="strokeColorPicker"></paper-swatch-picker>-->
-                                <input title="Click for color" type='text' id="strokeColorPicker"/>
+                                 <input type="color" id="strokeColorPicker" value="#8282c8">
                             </div>
                         </div>
                         <div  class="fillColor">
@@ -152,8 +143,7 @@
                                 <label><b>Fill Color:&nbsp;</b></label>
                             </div>
                             <div>
-                                <!--<paper-swatch-picker id="fillColorPicker"></paper-swatch-picker>-->
-                                <input title="Click for color" type='text' id="fillColorPicker"/>
+                                <input type="color" id="fillColorPicker" value="#c8c8e6">
                             </div>
                         </div>
                     </div>

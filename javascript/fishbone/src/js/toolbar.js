@@ -47,18 +47,6 @@ function Toolbar () {
             canvas.onDeleteSubDetailClick();
         });
         
-        $("#fontColorPicker").spectrum({
-            color: "#000", allowEmpty: true
-        });
-        
-        $("#strokeColorPicker").spectrum({
-            color: "#8282c8", allowEmpty: true
-        });
-        
-        $("#fillColorPicker").spectrum({
-            color: "#c8c8e6", allowEmpty: true
-        });
-        
         $("#apply-font-styles").click(function(){
             var styleAttributes = toolbar.getStyleAttributes();
             canvas.applyStyleAttributes(styleAttributes);
@@ -156,18 +144,9 @@ function Toolbar () {
         $("#checkbox-italic").get(0).checked = this.defaultStyles.fontItalic;
         $("#checkbox-underline").get(0).checked = this.defaultStyles.fontUnderline;
         $("#stroke-width-select").get(0).value = this.defaultStyles.strokeWidth;
-        
-        $("#fontColorPicker").spectrum({
-            color: "#000", allowEmpty: true
-        });
-        
-        $("#strokeColorPicker").spectrum({
-            color: "#8282c8", allowEmpty: true
-        });
-        
-        $("#fillColorPicker").spectrum({
-            color: "#c8c8e6", allowEmpty: true
-        });
+        $("#fontColorPicker").get(0).value = '#000000'; 
+    	$("#strokeColorPicker").get(0).value = '#8282c8';
+    	$("#fillColorPicker").get(0).value = '#c8c8e6';
     };
     
     this.getStyleAttributes = function(){
@@ -177,10 +156,10 @@ function Toolbar () {
             fontBold: $("#checkbox-bold").get(0).checked,
             fontItalic: $("#checkbox-italic").get(0).checked,
             fontUnderline: $("#checkbox-underline").get(0).checked,
-            fontColor: $("#fontColorPicker").spectrum('get').toHexString(),
+            fontColor:  $("#fontColorPicker").get(0).value,
             strokeWidth: $("#stroke-width-select").get(0).value,
-            strokeColor: $("#strokeColorPicker").spectrum('get').toHexString(),
-            fillColor: $("#fillColorPicker").spectrum('get').toHexString()
+            strokeColor: $("#strokeColorPicker").get(0).value,
+            fillColor: $("#fillColorPicker").get(0).value
         };
     };
     
