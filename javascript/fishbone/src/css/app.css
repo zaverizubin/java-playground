@@ -6,6 +6,7 @@ body{
     font-family: Arial,Helvetica,sans-serif;
     margin:0px 0px;
     height: calc(100% - 50px);
+    background-color: #E5E4E5;
 }
 
 .app{
@@ -144,7 +145,7 @@ body{
     text-align: center;
 }
 
-.properties-window .colorbox{
+.colorbox{
     border:1px solid #666;
     width:20px;
     height:20px;

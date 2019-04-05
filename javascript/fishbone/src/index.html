@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cause Mapping Tool</title>
+    <title>Fishbone</title>
 
     <script >mxBasePath = '';</script>
     <link rel="stylesheet" href="css/common.css" type="text/css" />
@@ -23,359 +23,351 @@
     
 </head>
 
-<body style="background-color: #E5E4E5;" >
+<body>
 
-<div class="app-title"><span>Fishbone Diagram<span></div> 
+    <div class="app-title"><span>Fishbone Diagram<span></div> 
             
-<div class="app">
-    
-    <div class="toolbar">
-        
-        <vaadin-accordion>
-            <vaadin-accordion-panel>
-              <div slot="summary">Diagram Menu</div>
-                <div class="diagram-menu">
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="add-cause">Add Cause</vaadin-button>
-                        <vaadin-button id="delete-cause">Delete Cause</vaadin-button>
+    <div class="app">
+
+        <div class="toolbar">
+            <vaadin-accordion>
+                <vaadin-accordion-panel>
+                  <div slot="summary">Diagram Menu</div>
+                    <div class="diagram-menu">
+
+                        <div class="menu-item">
+                            <vaadin-button id="add-cause">Add Cause</vaadin-button>
+                            <vaadin-button id="delete-cause">Delete Cause</vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="add-detail">Add Detail</vaadin-button>
+                            <vaadin-button id="delete-detail">Delete Detail</vaadin-button> 
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="add-sub-detail">Add Sub Detail</vaadin-button>
+                            <vaadin-button id="delete-sub-detail">Delete Sub Detail</vaadin-button> 
+                        </div>
+
                     </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="add-detail">Add Detail</vaadin-button>
-                        <vaadin-button id="delete-detail">Delete Detail</vaadin-button> 
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="add-sub-detail">Add Sub Detail</vaadin-button>
-                        <vaadin-button id="delete-sub-detail">Delete Sub Detail</vaadin-button> 
-                    </div>
-                    
-                </div>
-            </vaadin-accordion-panel>
-            <vaadin-accordion-panel>
-              <div slot="summary">Fonts and Styles</div>
-                <div class="font-styles">
-            
-                    <div class="menu-item">
-                        <div class="font-size">
-                            <vaadin-select label="Font Size:" value="12" id="font-size-select">
+                </vaadin-accordion-panel>
+                <vaadin-accordion-panel>
+                  <div slot="summary">Fonts and Styles</div>
+                    <div class="font-styles">
+
+                        <div class="menu-item">
+                            <div class="font-size">
+                                <vaadin-select label="Font Size:" value="12" id="font-size-select">
+                                    <template>
+                                        <vaadin-list-box>
+                                            <vaadin-item value="8">8px</vaadin-item>
+                                            <vaadin-item value="10">10px</vaadin-item>
+                                            <vaadin-item value="12">12px</vaadin-item>
+                                            <vaadin-item value="14">14px</vaadin-item>
+                                            <vaadin-item value="16">16px</vaadin-item>
+                                            <vaadin-item value="18">18px</vaadin-item>
+                                            <vaadin-item value="20">20px</vaadin-item>
+                                            <vaadin-item value="22">22px</vaadin-item>
+                                            <vaadin-item value="24">24px</vaadin-item>
+                                            <vaadin-item value="26">26px</vaadin-item>
+                                            <vaadin-item value="28">28px</vaadin-item>
+                                        </vaadin-list-box>
+                                    </template>
+                                </vaadin-select>
+                            </div>
+                        </div>
+
+                        <div class = "menu-item">
+                            <div class="font-family">
+                                <vaadin-select label="Font Face:" value="Arial" id="font-family-select">
+                                    <template>
+                                        <vaadin-list-box>
+                                            <vaadin-item value="Arial">Arial</vaadin-item>
+                                            <vaadin-item value="Calibri">Calibri</vaadin-item>
+                                            <vaadin-item value="Verdana">Verdana</vaadin-item>
+                                            <vaadin-item value="Times New Roman">Times New Roman</vaadin-item>
+                                        </vaadin-list-box>
+                                    </template>
+                                </vaadin-select>
+                            </div>
+                        </div>
+
+                        <div class="menu-item">
+                            <label><b>Font Style:</b></label><br/>
+                            <vaadin-checkbox id="checkbox-bold"><b>B</b></vaadin-checkbox>
+                            <vaadin-checkbox id="checkbox-italic"><i>I</i></vaadin-checkbox>
+                            <vaadin-checkbox id="checkbox-underline"><u>U</u></vaadin-checkbox>
+                        </div>
+
+                        <div class="menu-item">
+                            <div class="fontColor">
+                                <div class="fontColorLabel">
+                                    <label><b>Color:&nbsp;</b></label>
+                                </div>
+                                <div>
+                                    <input type="color" id="fontColorPicker" value="#000000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-select label="Stroke Width:" value="2" id="stroke-width-select">
                                 <template>
                                     <vaadin-list-box>
+                                        <vaadin-item value="1">1px</vaadin-item>
+                                        <vaadin-item value="2">2px</vaadin-item>
+                                        <vaadin-item value="3">3px</vaadin-item>
+                                        <vaadin-item value="4">4px</vaadin-item>
+                                        <vaadin-item value="5">5px</vaadin-item>
+                                        <vaadin-item value="6">6px</vaadin-item>
+                                        <vaadin-item value="7">7px</vaadin-item>
                                         <vaadin-item value="8">8px</vaadin-item>
-                                        <vaadin-item value="10">10px</vaadin-item>
-                                        <vaadin-item value="12">12px</vaadin-item>
-                                        <vaadin-item value="14">14px</vaadin-item>
-                                        <vaadin-item value="16">16px</vaadin-item>
-                                        <vaadin-item value="18">18px</vaadin-item>
-                                        <vaadin-item value="20">20px</vaadin-item>
-                                        <vaadin-item value="22">22px</vaadin-item>
-                                        <vaadin-item value="24">24px</vaadin-item>
-                                        <vaadin-item value="26">26px</vaadin-item>
-                                        <vaadin-item value="28">28px</vaadin-item>
                                     </vaadin-list-box>
                                 </template>
                             </vaadin-select>
                         </div>
-                    </div>
 
-                    <div class = "menu-item">
-                        <div class="font-family">
-                            <vaadin-select label="Font Face:" value="Arial" id="font-family-select">
+                        <div class="menu-item">
+                            <div class="strokeColor">
+                                <div class="strokeColorLabel">
+                                    <label><b>Stroke Color:&nbsp;</b></label>
+                                </div>
+                                <div>
+                                     <input type="color" id="strokeColorPicker" value="#8282c8">
+                                </div>
+                            </div>
+                            <div  class="fillColor">
+                                <div class="fillColorLabel">
+                                    <label><b>Fill Color:&nbsp;</b></label>
+                                </div>
+                                <div>
+                                    <input type="color" id="fillColorPicker" value="#c8c8e6">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="apply-font-styles">Apply</vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="reset-font-styles">Reset</vaadin-button>
+                        </div>
+
+                    </div>
+                </vaadin-accordion-panel>
+                <vaadin-accordion-panel>
+                    <div slot="summary">Graph Settings</div>
+                    <div class="graph-settings">
+
+                        <div class="menu-item">
+                            <vaadin-button class="help-button" id="help-button">
+                                <iron-icon icon="vaadin:vaadin-h"></iron-icon>
+                            </vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-select label="Main Vertex Shape" value="rectangle" id="centerbone-vertex-shape-selector">
                                 <template>
                                     <vaadin-list-box>
-                                        <vaadin-item value="Arial">Arial</vaadin-item>
-                                        <vaadin-item value="Calibri">Calibri</vaadin-item>
-                                        <vaadin-item value="Verdana">Verdana</vaadin-item>
-                                        <vaadin-item value="Times New Roman">Times New Roman</vaadin-item>
+                                        <vaadin-item value="rectangle">rectangle</vaadin-item>
+                                        <vaadin-item value="ellipse">ellipse</vaadin-item>
+                                        <vaadin-item value="triangle">triangle</vaadin-item>
                                     </vaadin-list-box>
                                 </template>
                             </vaadin-select>
                         </div>
-                    </div>
 
-                    <div class="menu-item">
-                        <label><b>Font Style:</b></label><br/>
-                        <vaadin-checkbox id="checkbox-bold"><b>B</b></vaadin-checkbox>
-                        <vaadin-checkbox id="checkbox-italic"><i>I</i></vaadin-checkbox>
-                        <vaadin-checkbox id="checkbox-underline"><u>U</u></vaadin-checkbox>
-                    </div>
+                        <div class="menu-item">
+                             <vaadin-select label="Cause Vertex Shape" value="ellipse" id="sidebone-vertex-shape-selector">
+                                <template>
+                                    <vaadin-list-box>
+                                        <vaadin-item value="rectangle">rectangle</vaadin-item>
+                                        <vaadin-item value="ellipse">ellipse</vaadin-item>
+                                        <vaadin-item value="triangle">triangle</vaadin-item>
+                                    </vaadin-list-box>
+                                </template>
+                            </vaadin-select>
+                        </div>
 
-                    <div class="menu-item">
-                        <div class="fontColor">
-                            <div class="fontColorLabel">
-                                <label><b>Color:&nbsp;</b></label>
-                            </div>
-                            <div>
-                                <input type="color" id="fontColorPicker" value="#000000">
-                            </div>
+                        <div class="menu-item">
+                            <vaadin-number-field id="marginH-spinner" value="0" label="Margin H" min="0" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="marginV-spinner" value="0" label="Margin V" min="0" max="500" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="centerbone-spacer-h-spinner" value="75" label="Center bone spacer H" min="20" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="centerbone-segment-length-spinner" value="175" label="Center bone segment length" min="50" max="400" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="centerbone-vertex-width-spinner" value="100" label="Center bone vertex width" min="20" max="200" has-controls></vaadin-number-field>    
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="centerbone-vertex-height-spinner" value="60" label="Center bone vertex height" min="20" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="sidebone-spacer-v-spinner" value="50" label="Side bone spacer V" min="20" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="sidebone-segment-length-spinner" value="50" label="Side bone segment length" min="50" max="400" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="sidebone-vertex-width-spinner" value="150" label="Side bone vertex width" min="20" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="sidebone-vertex-height-spinner" value="35" label="Side bone vertex height" min="20" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="lateralbone-spacer-h-spinner" value="50" label="Lateral bone spacer H" min="20" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="lateralbone-segment-length-spinner" value="50" label="Lateral bone segment length" min="20" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-number-field id="theta-spinner" value="60" label="Theta" min="40" max="80" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="apply-graph-settings" class="apply-button">Apply</vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="reset-graph-settings" class="reset-button">Restore Defaults</vaadin-button>
                         </div>
                     </div>
+                </vaadin-accordion-panel>
+                <vaadin-accordion-panel>
+                    <div slot="summary">Tools</div>
+                    <div class="tools">
 
-                    <div class="menu-item">
-                        <vaadin-select label="Stroke Width:" value="2" id="stroke-width-select">
-                            <template>
-                                <vaadin-list-box>
-                                    <vaadin-item value="1">1px</vaadin-item>
-                                    <vaadin-item value="2">2px</vaadin-item>
-                                    <vaadin-item value="3">3px</vaadin-item>
-                                    <vaadin-item value="4">4px</vaadin-item>
-                                    <vaadin-item value="5">5px</vaadin-item>
-                                    <vaadin-item value="6">6px</vaadin-item>
-                                    <vaadin-item value="7">7px</vaadin-item>
-                                    <vaadin-item value="8">8px</vaadin-item>
-                                </vaadin-list-box>
-                            </template>
-                        </vaadin-select>
+                        <div class="menu-item">
+                            <vaadin-number-field id="zoom-setting" value="0" label="Canvas Zoom" min="0" max="200" has-controls></vaadin-number-field>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="reset-zoom" class="">Reset Zoom</vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="clear-diagram" class="">Clear Diagram</vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="save-diagram" class="">Save Diagram</vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="load-diagram" class="">Load Diagram</vaadin-button>
+                        </div>
+
+                        <div class="menu-item">
+                            <vaadin-button id="convert-to-cause-map" class="">Convert to Cause Map</vaadin-button>
+                        </div>
+
                     </div>
+                </vaadin-accordion-panel>
+            </vaadin-accordion>
+        </div>
 
-                    <div class="menu-item">
-                        <div class="strokeColor">
-                            <div class="strokeColorLabel">
-                                <label><b>Stroke Color:&nbsp;</b></label>
-                            </div>
-                            <div>
-                                 <input type="color" id="strokeColorPicker" value="#8282c8">
+        <vaadin-dialog id="properties-window" class="properties-window">
+            <template>
+                <div  title="Properties" >
+                    <div class="divTable minimalistBlack">
+                        <div class="divTableHeading">
+                            <div class="divTableRow">
+                                <div class="divTableHead">Property</div>
+                                <div class="divTableHead">Value</div>
                             </div>
                         </div>
-                        <div  class="fillColor">
-                            <div class="fillColorLabel">
-                                <label><b>Fill Color:&nbsp;</b></label>
+                        <div class="divTableBody">
+                            <div class="divTableRow">
+                                <div class="divTableCell">x-location</div>
+                                <div class="divTableCell" id="x-location"></div>
                             </div>
-                            <div>
-                                <input type="color" id="fillColorPicker" value="#c8c8e6">
+                            <div class="divTableRow">
+                                <div class="divTableCell">y-location</div>
+                                <div class="divTableCell" id="y-location"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">width</div>
+                                <div class="divTableCell" id="width"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">height</div>
+                                <div class="divTableCell" id="height"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">font size</div>
+                                <div class="divTableCell" id="font-size"></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">font color</div>
+                                <div class="divTableCell" id="font-color"><div class= "colorbox"></div></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">stroke color</div>
+                                <div class="divTableCell" id="stroke-color"><div class= "colorbox"></div></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">fill color</div>
+                                <div class="divTableCell" id="fill-color"><div class= "colorbox"></div></div>
+                            </div>
+                            <div class="divTableRow">
+                                <div class="divTableCell">stroke width</div>
+                                <div class="divTableCell" id="stroke-width"></div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="menu-item">
-                        <vaadin-button id="apply-font-styles">Apply</vaadin-button>
-                    </div>
-
-                    <div class="menu-item">
-                        <vaadin-button id="reset-font-styles">Reset</vaadin-button>
-                    </div>
-
+                    </div>  
                 </div>
-            </vaadin-accordion-panel>
-            <vaadin-accordion-panel>
-                <div slot="summary">Graph Settings</div>
-                <div class="graph-settings">
-                    
-                    <div class="menu-item">
-                        <vaadin-button class="help-button" id="help-button">
-                            <iron-icon icon="vaadin:vaadin-h"></iron-icon>
-                        </vaadin-button>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-select label="Main Vertex Shape" value="rectangle" id="centerbone-vertex-shape-selector">
-                            <template>
-                                <vaadin-list-box>
-                                    <vaadin-item value="rectangle">rectangle</vaadin-item>
-                                    <vaadin-item value="ellipse">ellipse</vaadin-item>
-                                    <vaadin-item value="triangle">triangle</vaadin-item>
-                                </vaadin-list-box>
-                            </template>
-                        </vaadin-select>
-                    </div>
-                    
-                    <div class="menu-item">
-                         <vaadin-select label="Cause Vertex Shape" value="ellipse" id="sidebone-vertex-shape-selector">
-                            <template>
-                                <vaadin-list-box>
-                                    <vaadin-item value="rectangle">rectangle</vaadin-item>
-                                    <vaadin-item value="ellipse">ellipse</vaadin-item>
-                                    <vaadin-item value="triangle">triangle</vaadin-item>
-                                </vaadin-list-box>
-                            </template>
-                        </vaadin-select>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="marginH-spinner" value="0" label="Margin H" min="0" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="marginV-spinner" value="0" label="Margin V" min="0" max="500" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="centerbone-spacer-h-spinner" value="75" label="Center bone spacer H" min="20" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="centerbone-segment-length-spinner" value="175" label="Center bone segment length" min="50" max="400" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="centerbone-vertex-width-spinner" value="100" label="Center bone vertex width" min="20" max="200" has-controls></vaadin-number-field>    
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="centerbone-vertex-height-spinner" value="60" label="Center bone vertex height" min="20" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="sidebone-spacer-v-spinner" value="50" label="Side bone spacer V" min="20" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="sidebone-segment-length-spinner" value="50" label="Side bone segment length" min="50" max="400" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="sidebone-vertex-width-spinner" value="150" label="Side bone vertex width" min="20" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="sidebone-vertex-height-spinner" value="35" label="Side bone vertex height" min="20" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="lateralbone-spacer-h-spinner" value="50" label="Lateral bone spacer H" min="20" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="lateralbone-segment-length-spinner" value="50" label="Lateral bone segment length" min="20" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="theta-spinner" value="60" label="Theta" min="40" max="80" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="apply-graph-settings" class="apply-button">Apply</vaadin-button>
-                    </div>
+            </template>
+        </vaadin-dialog>
 
-                    <div class="menu-item">
-                        <vaadin-button id="reset-graph-settings" class="reset-button">Restore Defaults</vaadin-button>
-                    </div>
-                </div>
-            </vaadin-accordion-panel>
-            <vaadin-accordion-panel>
-                <div slot="summary">Tools</div>
-                <div class="tools">
-                    
-                    <div class="menu-item">
-                        <vaadin-number-field id="zoom-setting" value="0" label="Canvas Zoom" min="0" max="200" has-controls></vaadin-number-field>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="reset-zoom" class="">Reset Zoom</vaadin-button>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="clear-diagram" class="">Clear Diagram</vaadin-button>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="save-diagram" class="">Save Diagram</vaadin-button>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="load-diagram" class="">Load Diagram</vaadin-button>
-                    </div>
-                    
-                    <div class="menu-item">
-                        <vaadin-button id="convert-to-cause-map" class="">Convert to Cause Map</vaadin-button>
-                    </div>
-                    
-                </div>
-            </vaadin-accordion-panel>
-        </vaadin-accordion>
-    
+        <div class="canvas"></div>
     </div>
-    <vaadin-dialog id="properties-window" class="properties-window">
-        <template>
-            <div  title="Properties" >
-                <div class="divTable minimalistBlack">
-                    <div class="divTableHeading">
-                        <div class="divTableRow">
-                            <div class="divTableHead">Property</div>
-                            <div class="divTableHead">Value</div>
-                        </div>
-                    </div>
-                    <div class="divTableBody">
-                        <div class="divTableRow">
-                            <div class="divTableCell">x-location</div>
-                            <div class="divTableCell" id="x-location"></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">y-location</div>
-                            <div class="divTableCell" id="y-location"></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">width</div>
-                            <div class="divTableCell" id="width"></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">height</div>
-                            <div class="divTableCell" id="height"></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">font size</div>
-                            <div class="divTableCell" id="font-size"></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">font color</div>
-                            <div class="divTableCell" id="font-color"><div class="colorbox"></div></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">stroke color</div>
-                            <div class="divTableCell" id="stroke-color"><div class="colorbox"></div></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">fill color</div>
-                            <div class="divTableCell" id="fill-color"><div class="colorbox"></div></div>
-                        </div>
-                        <div class="divTableRow">
-                            <div class="divTableCell">stroke width</div>
-                            <div class="divTableCell" id="stroke-width"></div>
-                        </div>
-                    </div>
-                </div>  
-            </div>
-        </template>
-    </vaadin-dialog>
-                
-    <div class="canvas"></div>
-</div>
 
-<vaadin-dialog id="message-window"></vaadin-dialog>
-
-           
+    <vaadin-dialog id="message-window"></vaadin-dialog>
     
-<input type="file" name="file-input" id="file-input" style="position:absolute" accept=".xml" >
+    <input type="file" name="file-input" id="file-input" style="position:absolute" accept=".xml" >
 
-<script  src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-<script  src="lib/mxClient.min.js"></script>
-<script  src="lib/jquery.min.js"></script>
-<script  src="lib/jquery-ui.min.js"></script>
-<script  src="lib/jquery.dialogextend.min.js"></script>
-<script  src="lib/spectrum.js"></script>
-<script  src="js/canvas.js"></script>
-<script  src="js/graphSettings.js"></script>
-<script  src="js/clipboard.js"></script>
-<script  src="js/toolbar.js"></script>
-<script  src="js/baseBone.js"></script>
-<script  src="js/centerBone.js"></script>
-<script  src="js/sideBone.js"></script>
-<script  src="js/lateralBone.js"></script>
-<script  src="js/auxillaryBone.js"></script>
-<script  src="js/graphListener.js"></script>
-<script  src="js/graphConfiguration.js"></script>
-<script  src="js/objectGraphBuilder.js"></script>
-<script  src="js/constants.js"></script>
-<script  src="js/messages.js"></script>
-<script  src="js/utils.js"></script>
-<script  src="app.js"></script>
+    <script  src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+    <script  src="lib/mxClient.min.js"></script>
+    <script  src="lib/jquery.min.js"></script>
+    <script  src="lib/jquery-ui.min.js"></script>
+    <script  src="lib/jquery.dialogextend.min.js"></script>
+    <script  src="lib/spectrum.js"></script>
+    <script  src="js/canvas.js"></script>
+    <script  src="js/graphSettings.js"></script>
+    <script  src="js/clipboard.js"></script>
+    <script  src="js/toolbar.js"></script>
+    <script  src="js/baseBone.js"></script>
+    <script  src="js/centerBone.js"></script>
+    <script  src="js/sideBone.js"></script>
+    <script  src="js/lateralBone.js"></script>
+    <script  src="js/auxillaryBone.js"></script>
+    <script  src="js/graphListener.js"></script>
+    <script  src="js/graphConfiguration.js"></script>
+    <script  src="js/objectGraphBuilder.js"></script>
+    <script  src="js/constants.js"></script>
+    <script  src="js/messages.js"></script>
+    <script  src="js/utils.js"></script>
+    <script  src="app.js"></script>
 
-<!--
-<script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/custom-elements-es5-adapter.js"></script>
-<script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/babel-helpers.min.js"></script>
-<script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/webcomponents-loader.js"></script>
-<script src="bower_components/color-picker/demo/dist/demo-form-import.js"></script>-->
 </body>
 
 </html>
