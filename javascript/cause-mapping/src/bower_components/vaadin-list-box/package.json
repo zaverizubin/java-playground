@@ -1,0 +1,27 @@
+{
+  "name": "@vaadin/vaadin-list-box",
+  "version": "1.1.0",
+  "description": "vaadin-list-box",
+  "main": "vaadin-list-box.html",
+  "repository": "vaadin/vaadin-list-box",
+  "keywords": [
+    "Vaadin",
+    "vaadin-list-box",
+    "web-components",
+    "web-component",
+    "polymer"
+  ],
+  "author": "Vaadin Ltd",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/vaadin/vaadin-list-box/issues"
+  },
+  "homepage": "https://vaadin.com/components",
+  "scripts": {
+    "test": "wct",
+    "preversion": "gulp version:update"
+  },
+  "devDependencies": {
+    "@vaadin/vaadin-component-dev-dependencies": "^1.0.0"
+  }
+}

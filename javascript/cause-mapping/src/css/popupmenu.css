@@ -1,0 +1,36 @@
+body div.mxPopupMenu {
+    -webkit-box-shadow: 3px 3px 6px #C0C0C0;
+    -moz-box-shadow: 3px 3px 6px #C0C0C0;
+    box-shadow: 3px 3px 6px #C0C0C0;
+    background: #eee;
+    position: absolute;
+    border: 1px solid #333;
+    padding: 1px;
+}
+body table.mxPopupMenu {
+    border-collapse: collapse;
+    margin: 0px;
+}
+body tr.mxPopupMenuItem {
+    color: black;
+    cursor: default;
+}
+body td.mxPopupMenuItem {
+    padding: 5px 10px 5px 30px;
+    font-family: Arial;
+    font-size: 10pt;
+}
+body td.mxPopupMenuIcon {
+    background-color: white;
+    padding: 0px;
+}
+body tr.mxPopupMenuItemHover {
+    background-color: #ccc;
+    color: black;
+}
+table.mxPopupMenu hr {
+    border-top: solid 1px #333;
+}
+table.mxPopupMenu tr {
+    font-size: 4pt;
+}

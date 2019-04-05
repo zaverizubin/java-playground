@@ -1,0 +1,92 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>color-picker demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script>if (!window.customElements) { document.write('<!--'); }</script>
+    <script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/custom-elements-es5-adapter.js"></script>
+    <!--! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+
+    <style>
+      body {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Create a polyfill color-picker, if available</h3>
+      <demo-snippet>
+        <template>
+          <dom-bind>
+            <template is="dom-bind">
+              <input type="checkbox" checked="{{native::change}}">native color picker
+              <br>
+              <input type="checkbox" checked="{{autoConfirm::change}}">auto confirm
+              <br>
+              <input type="checkbox" checked="{{withoutAlpha::change}}">without alpha
+              <br>
+              <input type="checkbox" checked="{{hideRandomButton::change}}">hide random button
+              <br><br>
+              format: <select id="formats" value="{{format::change}}">
+                <option value="auto">auto</option>
+                <option value="rgb">rgb</option>
+                <option value="hex">hex</option>
+                <option value="hsl">hsl</option>
+              </select>
+              <br>
+              <br>
+              <color-picker value="{{value}}" alpha="{{alpha}}" color-string="#123abc" hex="{{hex}}" auto-confirm="[[autoConfirm]]" confirmed-value="{{confirmedValue}}" native="{{native}}" format="{{format}}" without-alpha="[[withoutAlpha]]" hide-random-button="[[hideRandomButton]]"></color-picker>
+              <div class="vertical-section-container result">
+                <div><code>hex</code>: <b>[[hex]]</b></div>
+                <div><code>alpha</code>: <b>[[alpha]]</b></div>
+                <div><code>value</code>: <b>[[value]]</b></div>
+                <div><code>(confirmed) value</code>: <b>[[confirmedValue]]</b></div>
+              </div>
+            </template>
+          </dom-bind>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>An color-picker in an overlay in custom-style</h3>
+      <demo-snippet>
+        <template>
+          <dom-bind>
+            <template is="dom-bind">
+              <custom-style>
+                <style>
+                  .custom {
+                    --input-color: #222;
+                    --input-background: #eee;
+                    --input-focus-color: #0b0b0b;
+                    --input-focus-background: #9fa1d4;
+                    --input-picker-color: #222;
+                    --input-picker-background: #dddddd;
+                    --inner-input-focus-color: #121212;
+                    --inner-input-focus-background: #8bc4a6;
+                    --input-picker-border-radius: 10px;
+                  }
+                </style>
+              </custom-style>
+              <overlay-color-picker class="custom" default="yellow" alpha="{{alpha}}" no-overlap="" no-tip="" vertical-align="bottom"></overlay-color-picker>
+            </template>
+          </dom-bind>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <!-- Load the external helpers to run the code transpiled to ES5 -->
+    <script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/babel-helpers.min.js"></script>
+    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+    <script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/webcomponents-loader.js"></script>
+    <!-- Load bundled dependencies for the demos -->
+    <script src="./dist/demo-picker-import.js"></script>
+  </body>
+</html>

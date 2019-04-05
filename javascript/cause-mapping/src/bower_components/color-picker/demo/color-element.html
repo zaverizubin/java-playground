@@ -1,0 +1,63 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>color-picker demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script>if (!window.customElements) { document.write('<!--'); }</script>
+    <script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/custom-elements-es5-adapter.js"></script>
+    <!--! DO NOT REMOVE THIS COMMENT, WE NEED ITS CLOSING MARKER -->
+
+    <style>
+      body {
+        font-family: 'Roboto', 'Noto', sans-serif;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Create a standalone color-element</h3>
+      <demo-snippet>
+        <template>
+          <dom-bind>
+            <template is="dom-bind">
+              <color-input color-string="{{value}}" default="rgb(222, 133, 11)" alpha="{{alpha}}" format="{{format}}" without-alpha="[[withoutAlpha]]"></color-input>
+              <br>
+              <br>
+              <color-element color-string="{{value}}" hex="{{hex}}" alpha="{{alpha}}" format="{{format}}" without-alpha="[[withoutAlpha]]" hide-random-button="[[hideRandomButton]]"></color-element>
+              <div class="vertical-section-container result">
+                <div>
+                  <span>format </span>
+                  <select id="formats" value="{{format::change}}">
+                    <option value="auto">auto</option>
+                    <option value="rgb">rgb</option>
+                    <option value="hex">hex</option>
+                    <option value="hsl">hsl</option>
+                  </select>
+                  <br>
+                  <input type="checkbox" checked="{{withoutAlpha::change}}">without alpha
+                  <br>
+                  <input type="checkbox" checked="{{hideRandomButton::change}}">hide random button
+                </div>
+                <div><code>hex</code>: <b>[[hex]]</b></div>
+                <div><code>alpha</code>: <b>[[alpha]]</b></div>
+                <div><code>color-string</code>: <b>[[value]]</b></div>
+              </div>
+            </template>
+          </dom-bind>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <!-- Load the external helpers to run the code transpiled to ES5 -->
+    <script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/babel-helpers.min.js"></script>
+    <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
+    <script src="https://fooloomanzoo.github.io/input-picker-pattern/demo/dist/webcomponents-loader.js"></script>
+    <!-- Load bundled dependencies for the demos -->
+    <script src="./dist/demo-element-import.js"></script>
+</body>
+</html>
