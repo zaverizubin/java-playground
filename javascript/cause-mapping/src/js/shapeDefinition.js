@@ -1,39 +1,36 @@
 class ShapeDefinition {
     
-    shapeDefinitionList;
-     
-    defaultShapeTypes = ["rectangle", "rounded-rectangle", "circle", "ellipse", "diamond"];
-    defaultShapeTexts = ["Outcome", "Factor", "Cause"]
-    
-    shapeType;
-    shapeText;
-    shapeDescription;
-    shapeStrokeColor;
-    shapeFillColor;
-    shapeFontFace;
-    shapeFontSize;
-    shapeTextColor;
-    shapeTextBold;
-    shapeTextItalic;
-    shapeTextUnderline;
-    
-    constructor () {
+    constructor (toolbar) {
+        this.toolbar = toolbar;
+        this.shapeDialogOpened = false;
+        
+        this.defaultShapeTypes = ["rectangle", "rounded-rectangle", "circle", "ellipse", "diamond"];
+        this.defaultShapeTexts = ["Outcome", "Factor", "Cause"];
+        this.defaultStrokeColors = ["#6e91be", "#6e91be", "#418728"];
+        this.defaultFillColors = ["#7dc3d7", "#fffa82", "#9bd77d"];
+        this.defaultTextColors = ["#41648c", "#41648c", "#418728"];
+        
         this.shapeDefinitionList = this.getDefaultDefinitionList();
+        
+        
+
     };
     
     getDefaultValues () {
+        var defaultShapeType = this.defaultShapeTypes[0];
+        var defaultShapeText = this.defaultShapeTexts[0];
         return{
-            shapeType : this.defaultShapeTypes[0],
-            shapeText : this.defaultShapeTexts[0],
+            shapeType : defaultShapeType,
+            shapeText : defaultShapeText,
             shapeDescription : "",
             shapeStrokeColor : "#000000",
             shapeFillColor : "#e66465",
             shapeFontFace : "arial",
             shapeFontSize : "12",
             shapeTextColor : "#000000",
-            shapeTextBold : true,
-            shapeTextItalic : true,
-            shapeTextUnderline : true
+            shapeTextBold : false,
+            shapeTextItalic : false,
+            shapeTextUnderline : false
         };
     };
     
@@ -44,14 +41,18 @@ class ShapeDefinition {
             let def = this.getDefaultValues();
             def.shapeType = this.defaultShapeTypes[i];
             def.shapeText = this.defaultShapeTexts[i];
+            def.shapeStrokeColor = this.defaultStrokeColors[i];
+            def.shapeFillColor = this.defaultFillColors[i];
+            def.shapeTextColor = this.defaultTextColors[i];
             this.shapeDefinitionList.push(def);
         };
         
         return this.shapeDefinitionList;
     };
     
-    openShapesDialog (){
+    openShapeDefinitionDialog (){
         var shapeDefinition = this;
+        var toolbar = this.toolbar;
         
         var dialog = $('#shapes-dialog').get(0);
         dialog.opened = true;
@@ -62,17 +63,34 @@ class ShapeDefinition {
         
         if(!this.shapeDialogOpened){
             this.shapeDialogOpened = true;
+            
+            dialog.addEventListener('opened-changed', function(event){
+                if(event.detail.value===false){
+                    toolbar.buildShapes();
+                };
+            });
             var addShapeButton = $('#overlay #add-shape').get(0);
+            var restoreDefaultButton = $('#overlay #restore-default').get(0);
+            
             addShapeButton.addEventListener('click', function(){shapeDefinition.addShape();});
+            restoreDefaultButton.addEventListener('click', function(){shapeDefinition.restoreDefaults();});
             setTimeout(function(){shapeDefinition.assignDeleteShapeListeners();}, 500);
         }
+        return dialog;
     };
     
     addShape(){
-        this.shapeDefinitionList.push(this.getDefaultValues());
         var grid = $('#overlay #shapes-grid').get(0);
+        grid.items.push(this.getDefaultValues());
         grid.clearCache();
     };
+    
+    restoreDefaults(){
+        var grid = $('#overlay #shapes-grid').get(0);
+        grid.items.splice(0, grid.items.length);
+        grid.items.push.apply(grid.items, this.getDefaultDefinitionList());
+        grid.clearCache();
+    }
     
     assignDeleteShapeListeners(){
         var deleteShapeButtonList = $('#overlay #shapes-grid #shape-delete');

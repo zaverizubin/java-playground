@@ -1,24 +1,17 @@
 class Toolbar {
     
-    canvas;
-    
-    shapeDefinition;
-    
-    shapeDefinitionList;
-    
-    shapeDialogOpened;
-    
     constructor (canvas) {
         this.canvas = canvas;
         this.shapeDialogOpened = false;
-        this.shapeDefinition = new ShapeDefinition();
-        this.shapeDefinitionList = this.shapeDefinition.getDefaultDefinitionList();
+        this.shapeDefinition = new ShapeDefinition(this);
+        this.shapeDefinitionList = [];
+        
         this.attachEventListeners();
+        this.buildShapes();
     };
     
     attachEventListeners (){
         var canvas = this.canvas;
-        var toolbar = this;
         var shapeDefinition = this.shapeDefinition;
         
         $('#file-input').change(function(e){
@@ -28,47 +21,59 @@ class Toolbar {
         });
         
         $("#create-shape").click(function(){
-            shapeDefinition.openShapesDialog();
+            shapeDefinition.openShapeDefinitionDialog();
+            
         });
     };
     
-    /*
-    openShapesDialog (){
-        var toolbar = this;
-        
-        var dialog = $('#shapes-dialog').get(0);
-        dialog.opened = true;
-        
-        $('#overlay').addClass("shape-selector");
-        var grid = $('#overlay #shapes-grid').get(0);
-        grid.items = this.shapeDefinitionList;
-        
-        if(!this.shapeDialogOpened){
-            this.shapeDialogOpened = true;
-            var addShapeButton = $('#overlay #add-shape').get(0);
-            addShapeButton.addEventListener('click', function(){toolbar.addShape();});
-            setTimeout(function(){toolbar.assignDeleteShapeListeners();}, 500);
+    buildShapes(){
+        var svgShapesNode = document.querySelector("#svg-shapes");
+        while (svgShapesNode.firstChild) {
+            svgShapesNode.removeChild(svgShapesNode.firstChild);
         }
+        
+        var shapeDefinitionList = this.shapeDefinition.shapeDefinitionList;
+        for(var i=0; i<shapeDefinitionList.length; i++){
+            var cloneNode;
+            switch(shapeDefinitionList[i].shapeType){
+                case "rounded-rectangle":
+                    cloneNode = document.querySelector("#round-rectangle-template").content.cloneNode(true);
+                    break;
+                case "rectangle":
+                    cloneNode = document.querySelector("#rectangle-template").content.cloneNode(true);
+                    break;
+                case "circle":
+                    cloneNode = document.querySelector("#circle-template").content.cloneNode(true);
+                    break;
+                case "ellipse":
+                    cloneNode = document.querySelector("#ellipse-template").content.cloneNode(true);
+                    break;
+                case "diamond":
+                    cloneNode = document.querySelector("#diamond-template").content.cloneNode(true);
+                    break;
+            }
+            var innerHTML = cloneNode.children[0].innerHTML;
+            innerHTML = innerHTML.replace("[[stroke-color]]", shapeDefinitionList[i].shapeStrokeColor);
+            innerHTML = innerHTML.replace("[[fill-color]]", shapeDefinitionList[i].shapeFillColor);
+            innerHTML = innerHTML.replace("[[text-color]]", shapeDefinitionList[i].shapeTextColor);
+            innerHTML = innerHTML.replace("[[text]]", shapeDefinitionList[i].shapeText);
+            
+            innerHTML = shapeDefinitionList[i].shapeTextBold
+                        ? innerHTML.replace("[[font-weight]]", "bold")
+                        : innerHTML.replace("[[font-weight]]", "normal");
+            innerHTML = shapeDefinitionList[i].shapeTextItalic
+                        ? innerHTML.replace("[[font-style]]", "italic")
+                        : innerHTML.replace("[[font-style]]", "normal");
+            innerHTML = shapeDefinitionList[i].shapeTextUnderline
+                        ? innerHTML.replace("[[text-decoration]]", "underline")
+                        : innerHTML.replace("[[text-decoration]]", "none");
+            
+            cloneNode.children[0].innerHTML = innerHTML;
+            svgShapesNode.appendChild(cloneNode);
+        }
+        
     };
     
-    addShape(){
-        var shapeDefinition = this.shapeDefinition.getDefaultDefinition();
-        this.shapeDefinitionList.push(shapeDefinition);
-        var grid = $('#overlay #shapes-grid').get(0);
-        grid.clearCache();
-    };
-    
-    assignDeleteShapeListeners(){
-        var deleteShapeButtonList = $('#overlay #shapes-grid #shape-delete');
-        var grid = $('#overlay #shapes-grid').get(0);
-        for(let i=0; i<deleteShapeButtonList.length; i++){
-            deleteShapeButtonList[i].addEventListener('click', function() {
-                grid.items.splice(i, 1);
-                grid.clearCache();
-            });
-        }
-    }
-    */
 }
 
 

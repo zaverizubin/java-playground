@@ -32,25 +32,60 @@
                 <vaadin-accordion-panel>
                     <div slot="summary">Shapes</div>
                     <div class="diagram-menu">
-                        <div class="menu-item svgshapes">
-                            <svg width="200" height="100">
-                                <g>
-                                    <rect x="50" y="10" width="100" height="75" rx="5" ry="5" stroke="#6e91be" fill="#7dc3d7" stroke-width="1"></rect>
-                                    <text x="65" y="55" fill="#41648c">Outcome</text>
-                                </g>
-                            </svg>
-                            <svg width="200" height="100">
-                                <g>
-                                    <rect x="50" y="10" width="100" height="75" stroke="#6e91be" fill="#fffa82" stroke-width="1"></rect>
-                                    <text x="80" y="55" fill="#41648c">Factor</text>
-                                </g>
-                            </svg>
-                            <svg width="200" height="100">
-                                <g>
-                                    <circle cx="100" cy="50" r="45" stroke="#418728" fill="#9bd77d"></circle>
-                                    <text x="75" y="55" fill="#418728">Cause</text>
-                                </g>
-                            </svg>
+                        <div id="svg-shapes-holder" class="menu-item svgshapes">
+                            <div id="svg-shapes">
+                                
+                            </div>
+                            <template id="rectangle-template">
+                                <div>
+                                    <svg width="200" height="100">
+                                        <g>
+                                            <rect x="50" y="10" width="100" height="75" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1"></rect>
+                                            <text x="70" y="55" fill="[[text-color]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </template>
+                            <template id="round-rectangle-template">
+                                <div>
+                                    <svg width="200" height="100" >
+                                        <g>
+                                            <rect x="50" y="10" width="100" height="75" rx="5" ry="5" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1"></rect>
+                                            <text x="75" y="55" fill="[[text-color]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </template>
+                            <template id="circle-template">
+                                <div>
+                                    <svg width="200" height="100">
+                                        <g>
+                                            <circle cx="100" cy="50" r="45" stroke="[[stroke-color]]" fill="[[fill-color]]"></circle>
+                                            <text x="75" y="55" fill="[[text-color]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </template>
+                            <template id="ellipse-template">
+                                <div>
+                                    <svg width="200" height="100">
+                                        <g>
+                                            <ellipse cx="100" cy="50" rx="60" ry="40" stroke="[[stroke-color]]" fill="[[fill-color]]"></ellipse>
+                                            <text x="75" y="55" fill="[[text-color]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </template>
+                            <template id="diamond-template">
+                                <div>
+                                    <svg width="200" height="120">
+                                        <g>
+                                           <rect x="70" y="-60" width="75" height="75" transform="rotate(45)" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1"></rect>
+                                           <text x="65" y="65" fill="[[text-color]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </template>
                         </div>
                         <div class="menu-item">
                             <vaadin-button id="create-shape">Create Shapes</vaadin-button>
@@ -92,7 +127,8 @@
 
     <vaadin-dialog id="shapes-dialog">
         <template>
-                <vaadin-button id="add-shape" class="">Add Shape</vaadin-button>  
+                <vaadin-button id="add-shape" class="">Add Shape</vaadin-button>
+                <vaadin-button id="restore-default" class="">Restore Defaults</vaadin-button>
                 <vaadin-grid items='' id="shapes-grid">
                     <vaadin-grid-column width="240px">
                         <template class="header">Shape</template>

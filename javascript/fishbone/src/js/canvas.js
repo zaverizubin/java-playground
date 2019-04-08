@@ -357,52 +357,17 @@ function Canvas () {
         var cell = cells[0];
         var dialog = $("#properties-window").get(0);
         dialog.opened = true;
-        this.showProperties(cell);
+        
+        
+        
+        var shapeProperty = new ShapeProperty();
+        shapeProperty.setShapeProperties(this.graph, cell);
+        
+        $('#overlay').addClass("shape-properties");
+        var grid = $('#overlay #properties-grid').get(0);
+        grid.items = shapeProperty.getShapeProperties();
+       
     };
     
-    this.showProperties = function(cell){
-        var dialog = $("#properties-window").get(0);
-        
-        if(!dialog.opened){
-            return;
-        }
-        
-        var cellGeometry;
-        if(cell.isEdge()){
-            cellGeometry = this.graph.getView().getState(cell,false).cellBounds;
-        }else{
-            cellGeometry = cell.getGeometry();
-        }
-        $("#x-location").html(Math.round(cellGeometry.x)  + "px");
-        $("#y-location").html(Math.round(cellGeometry.y)  + "px");
-        $("#width").html(Math.round(cellGeometry.width)  + "px");
-        $("#height").html(Math.round(cellGeometry.height)  + "px");
-        
-        if(cell.getStyle().indexOf("fontSize") >=0){
-            $("#font-size").html(cell.getStyle().split("fontSize=")[1].split(";")[0] +"px");
-        }else{
-            $("#font-size").html("-");
-        };
-        if(cell.getStyle().indexOf("fontColor") >=0){
-            $("#font-color > .colorbox").css("background-color", cell.getStyle().split("fontColor=")[1].substr(0,7));
-        }else{
-            $("#font-color > .colorbox").css("background-color", "#fff");
-        };    
-        if(cell.getStyle().indexOf("strokeColor") >=0){
-            $("#stroke-color > .colorbox").css("background-color", cell.getStyle().split("strokeColor=")[1].substr(0,7));
-        }else{
-            $("#stroke-color > .colorbox").css("background-color", "#fff");
-        };
-        if(cell.getStyle().indexOf("fillColor") >=0){
-            $("#fill-color > .colorbox").css("background-color", cell.getStyle().split("fillColor=")[1].substr(0,7));
-        }else{
-            $("#fill-color > .colorbox").css("background-color", "#fff");
-        };
-        if(cell.getStyle().indexOf("strokeWidth") >=0){
-            $("#stroke-width").html(cell.getStyle().split("strokeWidth=")[1].substr(0,1) +"px");
-        }else{
-            $("#stroke-width").html("-");
-        };
-    };
 }
 

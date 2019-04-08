@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/spectrum.css" type="text/css" />
     <link rel="stylesheet" href="css/popupmenu.css" type="text/css" />
     <link rel="stylesheet" href="css/app.css" type="text/css" />
+    <link rel="import" href="styles/fishbone-styles.html">
     <link rel="import" href="bower_components/vaadin-button/vaadin-button.html" />
     <link rel="import" href="bower_components/vaadin-select/vaadin-select.html" />
     <link rel="import" href="bower_components/vaadin-checkbox/vaadin-checkbox.html" />
@@ -19,6 +20,7 @@
     <link rel="import" href="bower_components/vaadin-text-field/vaadin-number-field.html" />
     <link rel="import" href="bower_components/vaadin-dialog/vaadin-dialog.html" />
     <link rel="import" href="bower_components/vaadin-accordion/vaadin-accordion.html" />
+    <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
     <link rel="import" href="bower_components/vaadin-icons/vaadin-icons.html">
     
 </head>
@@ -285,57 +287,19 @@
             </vaadin-accordion>
         </div>
 
-        <vaadin-dialog id="properties-window" class="properties-window">
+        <vaadin-dialog id="properties-window">
             <template>
-                <div  title="Properties" >
-                    <div class="divTable minimalistBlack">
-                        <div class="divTableHeading">
-                            <div class="divTableRow">
-                                <div class="divTableHead">Property</div>
-                                <div class="divTableHead">Value</div>
-                            </div>
-                        </div>
-                        <div class="divTableBody">
-                            <div class="divTableRow">
-                                <div class="divTableCell">x-location</div>
-                                <div class="divTableCell" id="x-location"></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">y-location</div>
-                                <div class="divTableCell" id="y-location"></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">width</div>
-                                <div class="divTableCell" id="width"></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">height</div>
-                                <div class="divTableCell" id="height"></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">font size</div>
-                                <div class="divTableCell" id="font-size"></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">font color</div>
-                                <div class="divTableCell" id="font-color"><div class= "colorbox"></div></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">stroke color</div>
-                                <div class="divTableCell" id="stroke-color"><div class= "colorbox"></div></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">fill color</div>
-                                <div class="divTableCell" id="fill-color"><div class= "colorbox"></div></div>
-                            </div>
-                            <div class="divTableRow">
-                                <div class="divTableCell">stroke width</div>
-                                <div class="divTableCell" id="stroke-width"></div>
-                            </div>
-                        </div>
-                    </div>  
-                </div>
-            </template>
+                <vaadin-grid id="properties-grid">
+                    <vaadin-grid-column width="130px">
+                        <template class="header">Property</template>
+                        <template>{{item.label}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="140px">
+                      <template class="header">Value</template>
+                      <template><div style= "float:left;width:20px; height:20px; background-color:{{item.color}}"></div>&nbsp;{{item.value}}</template>
+                    </vaadin-grid-column>
+                </vaadin-grid>                        
+            </template> 
         </vaadin-dialog>
 
         <div class="canvas"></div>
@@ -363,6 +327,7 @@
     <script  src="js/graphListener.js"></script>
     <script  src="js/graphConfiguration.js"></script>
     <script  src="js/objectGraphBuilder.js"></script>
+    <script  src="js/shapeProperty.js"></script>
     <script  src="js/constants.js"></script>
     <script  src="js/messages.js"></script>
     <script  src="js/utils.js"></script>
