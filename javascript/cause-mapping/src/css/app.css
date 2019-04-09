@@ -79,6 +79,10 @@ body{
     text-align: center;
 }
 
+#svg-shapes{
+    padding: 5px 40px;
+}
+
 #shapes-dialog{
     width:500px;
     height:400px;

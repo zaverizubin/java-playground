@@ -25,7 +25,7 @@ class ShapeDefinition {
             shapeDescription : "",
             shapeStrokeColor : "#000000",
             shapeFillColor : "#e66465",
-            shapeFontFace : "arial",
+            shapeFontFamily : "arial",
             shapeFontSize : "12",
             shapeTextColor : "#000000",
             shapeTextBold : false,
@@ -52,7 +52,6 @@ class ShapeDefinition {
     
     openShapeDefinitionDialog (){
         var shapeDefinition = this;
-        var toolbar = this.toolbar;
         
         var dialog = $('#shapes-dialog').get(0);
         dialog.opened = true;
@@ -63,26 +62,57 @@ class ShapeDefinition {
         
         if(!this.shapeDialogOpened){
             this.shapeDialogOpened = true;
-            
-            dialog.addEventListener('opened-changed', function(event){
-                if(event.detail.value===false){
-                    toolbar.buildShapes();
-                };
-            });
-            var addShapeButton = $('#overlay #add-shape').get(0);
-            var restoreDefaultButton = $('#overlay #restore-default').get(0);
-            
-            addShapeButton.addEventListener('click', function(){shapeDefinition.addShape();});
-            restoreDefaultButton.addEventListener('click', function(){shapeDefinition.restoreDefaults();});
-            setTimeout(function(){shapeDefinition.assignDeleteShapeListeners();}, 500);
+            setTimeout(function(){
+                shapeDefinition.assignEventListeners();
+            }, 500);
         }
-        return dialog;
     };
     
-    addShape(){
+    assignEventListeners(){
+        var shapeDefinition = this;
+        var toolbar = this.toolbar;
+        var grid = $('#overlay #shapes-grid').get(0);
+        var dialog = $('#shapes-dialog').get(0);
+        
+        dialog.addEventListener('opened-changed', function(event){
+            if(event.detail.value===false){
+                shapeDefinition.updateShapeDefinitions();
+                toolbar.buildShapes();
+            };
+        });
+        
+        var addShapeButton = $('#overlay #add-shape').get(0);
+        addShapeButton.addEventListener('click', function (){shapeDefinition.addShapeDefinition();});
+        
+        var restoreDefaultButton = $('#overlay #restore-default').get(0);
+        restoreDefaultButton.addEventListener('click', function(){shapeDefinition.restoreDefaults();});
+        
+       
+        for(let i=0; i<grid.items.length; i++){
+            var deleteShapeButton = $('#overlay #shapes-grid #shape-delete-' + i).get(0);
+            deleteShapeButton.addEventListener('click', function() {
+                grid.items.splice(i, 1);
+                grid.clearCache();
+            });
+        };
+    };
+    
+    addShapeDefinition(){
         var grid = $('#overlay #shapes-grid').get(0);
         grid.items.push(this.getDefaultValues());
         grid.clearCache();
+        
+        var index = (grid.items.length-1);
+        setTimeout(function(){
+            var deleteShapeButton = $('#overlay #shapes-grid #shape-delete-' + index).get(0);
+            if(!!deleteShapeButton.onclick){
+                deleteShapeButton.addEventListener('click', function() {
+                    grid.items.splice(index, 1);
+                    grid.clearCache();
+                });
+            }
+        }, 500);
+        
     };
     
     restoreDefaults(){
@@ -91,15 +121,18 @@ class ShapeDefinition {
         grid.items.push.apply(grid.items, this.getDefaultDefinitionList());
         grid.clearCache();
     }
+   
     
-    assignDeleteShapeListeners(){
-        var deleteShapeButtonList = $('#overlay #shapes-grid #shape-delete');
+    updateShapeDefinitions(){
         var grid = $('#overlay #shapes-grid').get(0);
-        for(let i=0; i<deleteShapeButtonList.length; i++){
-            deleteShapeButtonList[i].addEventListener('click', function() {
-                grid.items.splice(i, 1);
-                grid.clearCache();
-            });
+        for(let i=0; i<grid.items.length; i++)
+        {
+            var strokeColor = $('#overlay #shapes-grid #shape-stroke-color-' + i).get(0).value;
+            var fillColor = $('#overlay #shapes-grid #shape-fill-color-' + i).get(0).value;
+            var textColor = $('#overlay #shapes-grid #shape-text-color-' + i).get(0).value;
+            grid.items[i].shapeStrokeColor = strokeColor;
+            grid.items[i].shapeFillColor = fillColor;
+            grid.items[i].shapeTextColor = textColor;
         };
     }
 }

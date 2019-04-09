@@ -34,44 +34,71 @@ class Toolbar {
         
         var shapeDefinitionList = this.shapeDefinition.shapeDefinitionList;
         for(var i=0; i<shapeDefinitionList.length; i++){
-            var cloneNode;
-            switch(shapeDefinitionList[i].shapeType){
-                case "rounded-rectangle":
-                    cloneNode = document.querySelector("#round-rectangle-template").content.cloneNode(true);
-                    break;
-                case "rectangle":
-                    cloneNode = document.querySelector("#rectangle-template").content.cloneNode(true);
-                    break;
-                case "circle":
-                    cloneNode = document.querySelector("#circle-template").content.cloneNode(true);
-                    break;
-                case "ellipse":
-                    cloneNode = document.querySelector("#ellipse-template").content.cloneNode(true);
-                    break;
-                case "diamond":
-                    cloneNode = document.querySelector("#diamond-template").content.cloneNode(true);
-                    break;
-            }
-            var innerHTML = cloneNode.children[0].innerHTML;
-            innerHTML = innerHTML.replace("[[stroke-color]]", shapeDefinitionList[i].shapeStrokeColor);
-            innerHTML = innerHTML.replace("[[fill-color]]", shapeDefinitionList[i].shapeFillColor);
-            innerHTML = innerHTML.replace("[[text-color]]", shapeDefinitionList[i].shapeTextColor);
-            innerHTML = innerHTML.replace("[[text]]", shapeDefinitionList[i].shapeText);
-            
-            innerHTML = shapeDefinitionList[i].shapeTextBold
-                        ? innerHTML.replace("[[font-weight]]", "bold")
-                        : innerHTML.replace("[[font-weight]]", "normal");
-            innerHTML = shapeDefinitionList[i].shapeTextItalic
-                        ? innerHTML.replace("[[font-style]]", "italic")
-                        : innerHTML.replace("[[font-style]]", "normal");
-            innerHTML = shapeDefinitionList[i].shapeTextUnderline
-                        ? innerHTML.replace("[[text-decoration]]", "underline")
-                        : innerHTML.replace("[[text-decoration]]", "none");
-            
-            cloneNode.children[0].innerHTML = innerHTML;
+            var cloneNode = this.getShapeClone(shapeDefinitionList[i]);
+            this.setShapeAttributes(cloneNode, shapeDefinitionList[i]);
+            this.assignShapeEventHandlers(cloneNode);
             svgShapesNode.appendChild(cloneNode);
         }
         
+    };
+    
+    getShapeClone(shapeDefinition){
+        var cloneNode;
+        switch(shapeDefinition.shapeType){
+            case "rounded-rectangle":
+                cloneNode = $("#rounded-rectangle-template").get(0).content.cloneNode(true);
+                break;
+            case "rectangle":
+                cloneNode = $("#rectangle-template").get(0).content.cloneNode(true);
+                break;
+            case "circle":
+                cloneNode = $("#circle-template").get(0).content.cloneNode(true);
+                break;
+            case "ellipse":
+                cloneNode = $("#ellipse-template").get(0).content.cloneNode(true);
+                break;
+            case "diamond":
+                cloneNode = $("#diamond-template").get(0).content.cloneNode(true);
+                break;
+        };
+        return cloneNode;
+    };
+    
+    assignShapeEventHandlers(cloneNode){
+        var toolbar = this;
+        $(cloneNode.children[0]).on( "dragstop", $.proxy(function (evt, ui) {
+            toolbar.onDragStop(evt, ui);
+        },this));
+        $(cloneNode.children[0]).on( "drag", $.proxy(function (evt, ui) {
+            toolbar.onDrag(evt, ui);
+        },this));
+    };
+    
+    onDrag(evt, ui){
+        //ui.position.left = Math.max(this.bounds.left, Math.min(this.bounds.right + evt.target.clientWidth/2, ui.position.left));
+        //ui.position.top = Math.max(this.bounds.top, Math.min(this.bounds.bottom + evt.target.clientHeight/2, ui.position.top));
+    };
+    
+    setShapeAttributes(node, shapeDefinition){
+        var innerHTML = node.children[0].innerHTML;
+        
+        innerHTML = innerHTML.replace("[[stroke-color]]", shapeDefinition.shapeStrokeColor);
+        innerHTML = innerHTML.replace("[[fill-color]]", shapeDefinition.shapeFillColor);
+        innerHTML = innerHTML.replace("[[text-color]]", shapeDefinition.shapeTextColor);
+        innerHTML = innerHTML.replace("[[font-family]]", shapeDefinition.shapeFontFamily);
+        innerHTML = innerHTML.replace("[[text]]", shapeDefinition.shapeText);
+
+
+        innerHTML = shapeDefinition.shapeTextBold
+                    ? innerHTML.replace("[[font-weight]]", "bold")
+                    : innerHTML.replace("[[font-weight]]", "normal");
+        innerHTML = shapeDefinition.shapeTextItalic
+                    ? innerHTML.replace("[[font-style]]", "italic")
+                    : innerHTML.replace("[[font-style]]", "normal");
+        innerHTML = shapeDefinition.shapeTextUnderline
+                    ? innerHTML.replace("[[text-decoration]]", "underline")
+                    : innerHTML.replace("[[text-decoration]]", "none");
+        node.children[0].innerHTML = innerHTML;
     };
     
 }
