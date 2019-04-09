@@ -65,19 +65,10 @@ class Toolbar {
     };
     
     assignShapeEventHandlers(cloneNode){
-        var toolbar = this;
-        $(cloneNode.children[0]).on( "dragstop", $.proxy(function (evt, ui) {
-            toolbar.onDragStop(evt, ui);
-        },this));
-        $(cloneNode.children[0]).on( "drag", $.proxy(function (evt, ui) {
-            toolbar.onDrag(evt, ui);
-        },this));
+       
     };
     
-    onDrag(evt, ui){
-        //ui.position.left = Math.max(this.bounds.left, Math.min(this.bounds.right + evt.target.clientWidth/2, ui.position.left));
-        //ui.position.top = Math.max(this.bounds.top, Math.min(this.bounds.bottom + evt.target.clientHeight/2, ui.position.top));
-    };
+    
     
     setShapeAttributes(node, shapeDefinition){
         var innerHTML = node.children[0].innerHTML;

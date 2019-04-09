@@ -23,8 +23,8 @@ class ShapeDefinition {
             shapeType : defaultShapeType,
             shapeText : defaultShapeText,
             shapeDescription : "",
-            shapeStrokeColor : "#000000",
-            shapeFillColor : "#e66465",
+            shapeStrokeColor : "#82553c",
+            shapeFillColor : "#ebbe82",
             shapeFontFamily : "arial",
             shapeFontSize : "12",
             shapeTextColor : "#000000",
@@ -105,7 +105,7 @@ class ShapeDefinition {
         var index = (grid.items.length-1);
         setTimeout(function(){
             var deleteShapeButton = $('#overlay #shapes-grid #shape-delete-' + index).get(0);
-            if(!!deleteShapeButton.onclick){
+            if(deleteShapeButton.onclick === null){
                 deleteShapeButton.addEventListener('click', function() {
                     grid.items.splice(index, 1);
                     grid.clearCache();

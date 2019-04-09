@@ -41,12 +41,11 @@ body{
 }
 
 .diagram-menu{
-    cursor: grab;
     width: 200px;
 }
 
 .diagram-menu .svgshapes{
-    height:350px;
+    height:400px;
     overflow: auto;
 }
 
@@ -83,6 +82,11 @@ body{
     padding: 5px 40px;
 }
 
+
+.draggable {
+    cursor: pointer;
+}
+
 #shapes-dialog{
     width:500px;
     height:400px;
@@ -102,5 +106,8 @@ body{
 
 svg text::selection {
     background: none;
+}
+svg .svg-circleplus{
+    cursor:pointer;
 }
 
