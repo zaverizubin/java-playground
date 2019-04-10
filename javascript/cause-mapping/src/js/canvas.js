@@ -1,25 +1,36 @@
-function Canvas () {
+class Canvas {
     
-    this.clipboard;
+    constructor(){
+        this.clipboard;
+        this.toolbar;
+        this.graph;
+        this.graphListeners;
+        this.graphConfiguration;
+        this.lastInsertedVertex;
+    };
     
-    this.toolbar;
     
-    this.graph;
-    
-    this.graphListeners;
-    
-    this.graphConfiguration;
-    
-    this.canvasWidth = GraphSettings.CANVAS_WIDTH;
-    
-    this.canvasHeight = GraphSettings.CANVAS_HEIGHT;
-    
-    this.init = function (graphElement, toolbar) {
+    init(graphElement, toolbar) {
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
     };
     
-    this.buildGraph = function(graphElement){
-        
+    buildGraph(graphElement){
+        this.graph = new mxGraph(graphElement);
+        this.graphConfiguration = new GraphConfiguration(graphElement);
+        this.graphConfiguration.init(this.graph, this);
     };
+    
+    insertShape(shapeDefinition){
+        var graphShapeBuilder = new GraphShapeBuilder(this.graph, shapeDefinition);
+        var vertex = graphShapeBuilder.getGraphShape();
+        
+        if(this.lastInsertedVertex !== undefined){
+            graphShapeBuilder.positionVertex(vertex, this.lastInsertedVertex);
+        };
+        this.lastInsertedVertex = vertex;
+    }; 
+    
+    
+    
 }

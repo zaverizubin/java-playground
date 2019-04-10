@@ -1,4 +1,9 @@
-function GraphSettings(){}
+class GraphSettings{
+    
+    static canvasWidth() {return 1220;};
+    static canvasHeight() {return 700;};
+    
+    
+}
 
-GraphSettings.CANVAS_WIDTH = 1220;
-GraphSettings.CANVAS_HEIGHT = 700;
+

@@ -1,22 +1,36 @@
-class ShapeDefinition {
+class ShapeDefinitionBuilder {
     
     constructor (toolbar) {
         this.toolbar = toolbar;
         this.shapeDialogOpened = false;
         
-        this.defaultShapeTypes = ["rectangle", "rounded-rectangle", "circle", "ellipse", "diamond"];
+        this.defaultShapeTypes = [ShapeDefinitionBuilder.Rectangle(), ShapeDefinitionBuilder.Rounded_Rectangle(), ShapeDefinitionBuilder.Circle(), ShapeDefinitionBuilder.Ellipse(), ShapeDefinitionBuilder.Diamond()];
         this.defaultShapeTexts = ["Outcome", "Factor", "Cause"];
         this.defaultStrokeColors = ["#6e91be", "#6e91be", "#418728"];
         this.defaultFillColors = ["#7dc3d7", "#fffa82", "#9bd77d"];
         this.defaultTextColors = ["#41648c", "#41648c", "#418728"];
         
         this.shapeDefinitionList = this.getDefaultDefinitionList();
-        
-        
-
+   
     };
     
-    getDefaultValues () {
+    static Rectangle(){
+        return "rectangle";
+    };
+    static Rounded_Rectangle(){
+        return "rounded-rectangle";
+    };
+    static Circle(){
+        return "circle";
+    };
+    static Ellipse(){
+        return "ellipse";
+    };
+    static Diamond(){
+        return "diamond";
+    };
+    
+    getShapeDefinition () {
         var defaultShapeType = this.defaultShapeTypes[0];
         var defaultShapeText = this.defaultShapeTexts[0];
         return{
@@ -38,7 +52,7 @@ class ShapeDefinition {
         this.shapeDefinitionList = [];
         
         for(var i=0; i<3; i++){
-            let def = this.getDefaultValues();
+            let def = this.getShapeDefinition();
             def.shapeType = this.defaultShapeTypes[i];
             def.shapeText = this.defaultShapeTexts[i];
             def.shapeStrokeColor = this.defaultStrokeColors[i];
@@ -99,7 +113,7 @@ class ShapeDefinition {
     
     addShapeDefinition(){
         var grid = $('#overlay #shapes-grid').get(0);
-        grid.items.push(this.getDefaultValues());
+        grid.items.push(this.getShapeDefinition());
         grid.clearCache();
         
         var index = (grid.items.length-1);

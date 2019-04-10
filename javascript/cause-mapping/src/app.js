@@ -11,7 +11,7 @@ function App(graphElement){
         }
 			
         this.canvas = new Canvas();
-        this.toolbar = new Toolbar();
+        this.toolbar = new Toolbar(this.canvas);
         this.canvas.init(graphElement, this.toolbar);
     }).call(this);
     

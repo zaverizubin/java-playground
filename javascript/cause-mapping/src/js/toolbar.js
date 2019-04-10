@@ -3,8 +3,7 @@ class Toolbar {
     constructor (canvas) {
         this.canvas = canvas;
         this.shapeDialogOpened = false;
-        this.shapeDefinition = new ShapeDefinition(this);
-        this.shapeDefinitionList = [];
+        this.shapeDefinitionBuilder = new ShapeDefinitionBuilder(this);
         
         this.attachEventListeners();
         this.buildShapes();
@@ -12,7 +11,7 @@ class Toolbar {
     
     attachEventListeners (){
         var canvas = this.canvas;
-        var shapeDefinition = this.shapeDefinition;
+        var shapeDefinitionBuilder = this.shapeDefinitionBuilder;
         
         $('#file-input').change(function(e){
             var file = e.target.files[0];
@@ -21,7 +20,7 @@ class Toolbar {
         });
         
         $("#create-shape").click(function(){
-            shapeDefinition.openShapeDefinitionDialog();
+            shapeDefinitionBuilder.openShapeDefinitionDialog();
             
         });
     };
@@ -32,11 +31,11 @@ class Toolbar {
             svgShapesNode.removeChild(svgShapesNode.firstChild);
         }
         
-        var shapeDefinitionList = this.shapeDefinition.shapeDefinitionList;
+        var shapeDefinitionList = this.shapeDefinitionBuilder.shapeDefinitionList;
         for(var i=0; i<shapeDefinitionList.length; i++){
             var cloneNode = this.getShapeClone(shapeDefinitionList[i]);
             this.setShapeAttributes(cloneNode, shapeDefinitionList[i]);
-            this.assignShapeEventHandlers(cloneNode);
+            this.assignShapeEventHandlers(cloneNode, shapeDefinitionList[i]);
             svgShapesNode.appendChild(cloneNode);
         }
         
@@ -64,12 +63,6 @@ class Toolbar {
         return cloneNode;
     };
     
-    assignShapeEventHandlers(cloneNode){
-       
-    };
-    
-    
-    
     setShapeAttributes(node, shapeDefinition){
         var innerHTML = node.children[0].innerHTML;
         
@@ -91,6 +84,18 @@ class Toolbar {
                     : innerHTML.replace("[[text-decoration]]", "none");
         node.children[0].innerHTML = innerHTML;
     };
+    
+    assignShapeEventHandlers(node, shapeDefinition){
+        var canvas = this.canvas;
+        var element = node.children[0];
+        var plusCircle = $(element).find(".plus-circle");
+        plusCircle.click(function(){
+            canvas.insertShape(shapeDefinition);
+        });
+    };
+    
+    
+    
     
 }
 
