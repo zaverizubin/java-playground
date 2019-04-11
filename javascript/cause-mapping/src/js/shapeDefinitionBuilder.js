@@ -4,11 +4,15 @@ class ShapeDefinitionBuilder {
         this.toolbar = toolbar;
         this.shapeDialogOpened = false;
         
-        this.defaultShapeTypes = [ShapeDefinitionBuilder.Rectangle(), ShapeDefinitionBuilder.Rounded_Rectangle(), ShapeDefinitionBuilder.Circle(), ShapeDefinitionBuilder.Ellipse(), ShapeDefinitionBuilder.Diamond()];
+        this.defaultShapeTypes = [ShapeDefinitionBuilder.Rectangle(), 
+                                    ShapeDefinitionBuilder.Rounded_Rectangle(),
+                                    ShapeDefinitionBuilder.Ellipse(),
+                                    ShapeDefinitionBuilder.Circle(),
+                                    ShapeDefinitionBuilder.Diamond()];
         this.defaultShapeTexts = ["Outcome", "Factor", "Cause"];
-        this.defaultStrokeColors = ["#6e91be", "#6e91be", "#418728"];
-        this.defaultFillColors = ["#7dc3d7", "#fffa82", "#9bd77d"];
-        this.defaultTextColors = ["#41648c", "#41648c", "#418728"];
+        this.defaultStrokeColors = ["#39537c", "#7c7a61", "#6f6870"];
+        this.defaultFillColors = ["#839abf", "#ceccad", "#b8aeba"];
+        this.defaultTextColors = ["#2d3542", "#474638", "#3c363d"];
         
         this.shapeDefinitionList = this.getDefaultDefinitionList();
    
@@ -40,7 +44,7 @@ class ShapeDefinitionBuilder {
             shapeStrokeColor : "#82553c",
             shapeFillColor : "#ebbe82",
             shapeFontFamily : "arial",
-            shapeFontSize : "12",
+            shapeFontSize : "14",
             shapeTextColor : "#000000",
             shapeTextBold : false,
             shapeTextItalic : false,

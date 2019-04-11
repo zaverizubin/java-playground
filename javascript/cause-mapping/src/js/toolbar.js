@@ -21,7 +21,27 @@ class Toolbar {
         
         $("#create-shape").click(function(){
             shapeDefinitionBuilder.openShapeDefinitionDialog();
-            
+        });
+        
+        $("#zoom-setting").on("change", function(event) {
+            canvas.onZoomChange(event.target.value);
+        });
+        
+        $("#reset-zoom").click(function(){
+            $("#zoom-setting").get(0).value = 0;
+            canvas.onZoomReset();
+        });
+        
+        $("#clear-diagram").click(function(){
+            canvas.onClearDiagramClick();
+        });
+        
+        $("#save-diagram").click(function(){
+            canvas.onSaveDiagramClick();
+        });
+                
+        $("#load-diagram").click(function(){
+            $('#file-input').trigger('click');
         });
     };
     
@@ -69,6 +89,7 @@ class Toolbar {
         innerHTML = innerHTML.replace("[[stroke-color]]", shapeDefinition.shapeStrokeColor);
         innerHTML = innerHTML.replace("[[fill-color]]", shapeDefinition.shapeFillColor);
         innerHTML = innerHTML.replace("[[text-color]]", shapeDefinition.shapeTextColor);
+        innerHTML = innerHTML.replace("[[font-size]]", shapeDefinition.shapeFontSize);
         innerHTML = innerHTML.replace("[[font-family]]", shapeDefinition.shapeFontFamily);
         innerHTML = innerHTML.replace("[[text]]", shapeDefinition.shapeText);
 
@@ -92,9 +113,10 @@ class Toolbar {
         plusCircle.click(function(){
             canvas.insertShape(shapeDefinition);
         });
+        
     };
     
-    
+   
     
     
 }

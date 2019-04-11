@@ -1,51 +1,71 @@
-function GraphConfiguration(graphElement)
+class GraphConfiguration
 {
-    this.canvas;
-    
-    this.graph;
-    
-    mxConstants.HANDLE_FILLCOLOR = '#f44271';
-    mxConstants.HANDLE_STROKECOLOR = '#000';
-    mxConstants.VERTEX_SELECTION_COLOR = '#000';
-    mxConstants.EDGE_SELECTION_COLOR = '#000';
-    
-    mxVertexHandler.prototype.rotationEnabled = true;
-    
-    mxEvent.disableContextMenu(graphElement);
-    
-    mxGraph.prototype.isCellSelectable = function(cell)
-    {
-        var state = this.view.getState(cell);
-        var style = (state !== null) ? state.style : this.getCellStyle(cell);
-        return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
-    };
-    
-    
-    this.init = function(graph, canvas){
+    constructor (graph, canvas, graphElement) {
         this.graph = graph;
         this.canvas = canvas;
+        this.graphElement = graphElement;
         
+        this.setGraphConstants();
         this.setGraphProperties();
+        this.setGraphKeyHandlers();
         this.buildGraphFunctions();
-        this.buildPopupMenu();
+        this.buildGraphContextMenu();
     };
     
-    this.setGraphProperties = function(){
+    setGraphConstants(){
+        mxConstants.HANDLE_FILLCOLOR = '#F44271';
+        mxConstants.HANDLE_STROKECOLOR = '#000';
+        mxConstants.VERTEX_SELECTION_COLOR = '#000';
+        mxConstants.EDGE_SELECTION_COLOR = '#000';
+        mxConstants.DEFAULT_HOTSPOT = 0.3;
+        mxConstants.MIN_HOTSPOT_SIZE = 8;
+        mxConstants.MAX_HOTSPOT_SIZE = 15;
+        mxConstants.STYLE_AUTOSIZE = 1;
+        mxConstants.HIGHLIGHT_COLOR = "#FF0000";
+    };
+    
+    setGraphProperties(){
+        
+        mxVertexHandler.prototype.rotationEnabled = true;
+        mxEvent.disableContextMenu(this.graphElement);
+        mxGraph.prototype.isCellSelectable = function(cell)
+        {
+            var state = this.view.getState(cell);
+            var style = (state !== null) ? state.style : this.getCellStyle(cell);
+            return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
+        };
+        
         new mxRubberband(this.graph);
+        this.graph.setConnectable(true);
         this.graph.setTooltips(true);
         this.graph.setCellsCloneable(false);
         this.graph.vertexLabelsMovable = true;
+        
     };
     
-    this.buildGraphFunctions = function(){
+    setGraphKeyHandlers(){
+        var graph = this.graph;
+        var keyHandler = new mxKeyHandler(graph);
+        keyHandler.bindKey(46, function(evt){
+            graph.removeCells();
+        });
+    };
+    
+    buildGraphFunctions(){
+        var graph = this.graph;
+        this.graph.connectionHandler.createEdgeState = function(me)
+        {
+            var edge = graph.createEdge(null, null, null, null, null);
+            return new mxCellState(graph.view, edge, graph.getCellStyle(edge));
+        };
+                                
         this.graph.convertValueToString = function(cell)
         {
-            if (mxUtils.isNode(cell.value))
-            {
-              return cell.getAttribute('label', '');
+            if (mxUtils.isNode(cell.value)){
+                return cell.getAttribute('label', '');
             }
             return '';
-        };
+        };  
         
         var cellLabelChanged = this.graph.cellLabelChanged;
         this.graph.cellLabelChanged = function(cell, newValue, autoSize)
@@ -66,34 +86,13 @@ function GraphConfiguration(graphElement)
         };
     };
        
-    this.buildPopupMenu = function(){
+    buildGraphContextMenu(){
         var canvas = this.canvas;
         this.graph.popupMenuHandler.autoExpand = true;
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
-            if(cell === null 
-                || cell.getAttribute('cellType') === GraphSettings.CENTERBONE_VERTEX
-                || cell.getAttribute('cellType') === GraphSettings.CENTERBONE_EDGE
-                || cell.getAttribute('cellType') === GraphSettings.SIDEBONE_EDGE
-                    ){
-                
-                menu.addItem('Properties', null, function(){
-                    canvas.onPropertiesWindowOpen();
-                });
-                
-                return;
-            };
-            
             menu.addItem('Delete', null, function(){
-                canvas.onContextMenuDeleteClick();
-            });
-            
-            menu.addItem('Swap', null, function(){
-                canvas.onSwapClick();
-            });
-
-            menu.addItem('Flip', null, function(){
-                canvas.onFlipClick();
+                canvas.onDeleteClick();
             });
             
             menu.addSeparator();
@@ -104,26 +103,6 @@ function GraphConfiguration(graphElement)
             
             menu.addItem('Send to Back', null, function(){
                 canvas.onReorderClick(true);
-            });
-            
-            menu.addSeparator();
-            
-            menu.addItem('Copy Styles', null, function(){
-                canvas.onCopyStylesContextMenuClick(false);
-            });
-            
-            menu.addItem('Paste Styles', null, function(){
-                canvas.onPasteStylesContextMenuClick(false);
-            });
-            
-            menu.addSeparator();
-            
-            menu.addItem('Copy Graph Settings', null, function(){
-                canvas.onCopyGraphSettingsContextMenuClick(false);
-            });
-            
-            menu.addItem('Paste Graph Settings', null, function(){
-                canvas.onPasteGraphSettingsContextMenuClick(false);
             });
             
             menu.addSeparator();
