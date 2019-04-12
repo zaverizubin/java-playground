@@ -97,7 +97,51 @@ class Canvas {
         }
     };
     
-    onPropertiesWindowOpen(){
+    onShapeDetailsClick(){
+        var cells = this.graph.getSelectionCells();
+        if(cells.length > 1 || cells.length ===0){
+            Utils.showMessageDialog(Messages.SELECT_SINGLE_GRAPH_ELEMENT);
+            return;
+        };
+        
+        var dialog = $("#shape-details").get(0);
+        dialog.opened = true;
+        
+        $('#overlay').addClass("shape-details");
+        
+        var btnNotes = $('#overlay #shape-notes-button');
+        var btnActions = $('#overlay #shape-actions-button');
+        var btnEvidence = $('#overlay #shape-evidence-button');
+        
+        var vsNotes = $('#overlay #vertical-layout-notes');
+        var vsActions = $('#overlay #vertical-layout-actions');
+        var vsEvidence = $('#overlay #vertical-layout-evidence');
+        
+        vsActions.toggle(false);
+        vsEvidence.toggle(false);
+        
+        btnNotes.click(function(){
+            vsNotes.toggle(true);
+            vsActions.toggle(false);
+            vsEvidence.toggle(false);
+        });
+        
+        btnActions.click(function(){
+            vsNotes.toggle(false);
+            vsActions.toggle(true);
+            vsEvidence.toggle(false);
+        });
+        
+        btnEvidence.click(function(){
+            vsNotes.toggle(false);
+            vsActions.toggle(false);
+            vsEvidence.toggle(true);
+        });
+        
+    };
+    
+    
+    onPropertiesClick(){
         var cells = this.graph.getSelectionCells();
         if(cells.length > 1 || cells.length ===0){
             Utils.showMessageDialog(Messages.SELECT_SINGLE_GRAPH_ELEMENT);

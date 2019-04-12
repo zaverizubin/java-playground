@@ -18,6 +18,8 @@
     <link rel="import" href="bower_components/vaadin-accordion/vaadin-accordion.html" />
     <link rel="import" href="bower_components/vaadin-icons/vaadin-icons.html">
     <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
+    <link rel="import" href="bower_components/vaadin-tabs/vaadin-tabs.html">
+    <link rel="import" href="bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
     
 </head>
 
@@ -256,6 +258,99 @@
             </vaadin-grid>                        
         </template> 
     </vaadin-dialog>
+    
+    <vaadin-dialog id="shape-details">
+       <template>
+            <vaadin-button id="shape-notes-button" class="">Notes</vaadin-button>
+            <vaadin-button id="shape-actions-button" class="">Actions</vaadin-button>
+            <vaadin-button id="shape-evidence-button" class="">Evidence</vaadin-button>
+            <vaadin-vertical-layout id="vertical-layout-notes">
+                <vaadin-button id="add-shape-note" class="">Add Note</vaadin-button>
+                <vaadin-grid id="shape-notes-grid">
+                    <vaadin-grid-column width="20px">
+                        <template class="header">ID</template>
+                        <template>{{item.id}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="240px">
+                        <template class="header">Description</template>
+                        <template><vaadin-text-field value="{{item.description}}"></vaadin-text-field></template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="250px">
+                        <template class="header">Comments</template>
+                        <template><vaadin-text-field value="{{item.comments}}"></vaadin-text-field></template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="50px">
+                        <template class="header">Delete</template>
+                        <template><vaadin-button id="delete-note" class=""><b>X</b></vaadin-button></template>
+                    </vaadin-grid-column>
+                </vaadin-grid>
+            </vaadin-vertical-layout>
+            <vaadin-vertical-layout id="vertical-layout-actions">
+                <vaadin-button id="add-shape-action" class="">Add Action</vaadin-button>
+                <vaadin-grid id="shape-actions-grid">
+                    <vaadin-grid-column width="20px">
+                        <template class="header">ID</template>
+                        <template>{{item.id}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="200px">
+                        <template class="header">Description</template>
+                        <template>{{item.description}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="100px">
+                        <template class="header">Assign To</template>
+                        <template>{{item.assignedTo}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="100px">
+                        <template class="header">Resources</template>
+                        <template>{{item.resources}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="70px">
+                        <template class="header">Start Date</template>
+                        <template>{{item.startDate}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="70px">
+                        <template class="header">End Date</template>
+                        <template>{{item.endDate}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="50px">
+                        <template class="header">Delete</template>
+                        <template><vaadin-button id="delete-action" class=""><b>X</b></vaadin-button></template>
+                    </vaadin-grid-column>
+                </vaadin-grid>
+            </vaadin-vertical-layout>    
+            <vaadin-vertical-layout id="vertical-layout-evidence"> 
+                <vaadin-button id="add-shape-evidence" class="">Add Evidence</vaadin-button>
+                <vaadin-grid id="shape-evidence-grid">
+                    <vaadin-grid-column width="20px">
+                        <template class="header">ID</template>
+                        <template>{{item.id}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="140px">
+                        <template class="header">Description</template>
+                        <template>{{item.description}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="140px">
+                        <template class="header">Document Type</template>
+                        <template>{{item.documentType}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="140px">
+                        <template class="header">People</template>
+                        <template>{{item.people}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="140px">
+                        <template class="header">Date</template>
+                        <template>{{item.date}}</template>
+                    </vaadin-grid-column>
+                    <vaadin-grid-column width="50px">
+                        <template class="header">Delete</template>
+                        <template><vaadin-button id="delete-evidence" class=""><b>X</b></vaadin-button></template>
+                    </vaadin-grid-column>
+                </vaadin-grid>
+            </vaadin-vertical-layout>  
+        </template> 
+    </vaadin-dialog>
+                
+    
                 
     <vaadin-dialog id="message-window"></vaadin-dialog>
     

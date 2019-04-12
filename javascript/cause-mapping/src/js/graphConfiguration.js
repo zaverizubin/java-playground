@@ -105,11 +105,20 @@ class GraphConfiguration
                 canvas.onReorderClick(true);
             });
             
-            menu.addSeparator();
+            if(cell.isVertex()){
+                menu.addSeparator();
+                
+                menu.addItem('Details', null, function(evt){
+                    canvas.onShapeDetailsClick();
+                });
+                
+                menu.addSeparator();
+                
+                menu.addItem('Properties', null, function(){
+                    canvas.onPropertiesClick();
+                });
+            }
             
-            menu.addItem('Properties', null, function(){
-                canvas.onPropertiesWindowOpen();
-            });
         };
     };
 }
