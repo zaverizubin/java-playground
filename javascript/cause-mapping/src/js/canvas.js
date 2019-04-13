@@ -1,18 +1,21 @@
 class Canvas {
     
-    constructor(){
-        this.clipboard;
-        this.toolbar;
-        this.graph;
-        this.graphListeners;
-        this.graphConfiguration;
-        this.lastInsertedVertex;
-    };
+    clipboard;
+    toolbar;
+    graph;
+    graphListeners;
+    graphConfiguration;
+    lastInsertedVertex;
+    shapeDetails;
     
+    constructor(){
+        
+    };
     
     init(graphElement, toolbar) {
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
+        this.shapeDetails = new ShapeDetails();
     };
     
     buildGraph(graphElement){
@@ -104,40 +107,7 @@ class Canvas {
             return;
         };
         
-        var dialog = $("#shape-details").get(0);
-        dialog.opened = true;
-        
-        $('#overlay').addClass("shape-details");
-        
-        var btnNotes = $('#overlay #shape-notes-button');
-        var btnActions = $('#overlay #shape-actions-button');
-        var btnEvidence = $('#overlay #shape-evidence-button');
-        
-        var vsNotes = $('#overlay #vertical-layout-notes');
-        var vsActions = $('#overlay #vertical-layout-actions');
-        var vsEvidence = $('#overlay #vertical-layout-evidence');
-        
-        vsActions.toggle(false);
-        vsEvidence.toggle(false);
-        
-        btnNotes.click(function(){
-            vsNotes.toggle(true);
-            vsActions.toggle(false);
-            vsEvidence.toggle(false);
-        });
-        
-        btnActions.click(function(){
-            vsNotes.toggle(false);
-            vsActions.toggle(true);
-            vsEvidence.toggle(false);
-        });
-        
-        btnEvidence.click(function(){
-            vsNotes.toggle(false);
-            vsActions.toggle(false);
-            vsEvidence.toggle(true);
-        });
-        
+        this.shapeDetails.buildDetails();
     };
     
     

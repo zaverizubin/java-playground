@@ -29,9 +29,9 @@ class GraphShapeBuilder{
         valueObject.setAttribute('label', this.shapeDefinition.shapeText);
         valueObject.setAttribute('cellType', this.shapeDefinition.shapeType);
         
-        var notes = valueObject.createElement('notes');
-        var actions = valueObject.createElement('actions');
-        var evidence = valueObject.createElement('evidence');
+        //var notes = valueObject.createElement('notes');
+        //var actions = valueObject.createElement('actions');
+        //var evidence = valueObject.createElement('evidence');
         
         
         var vertex = this.graph.insertVertex(this.graph.getDefaultParent(), null,

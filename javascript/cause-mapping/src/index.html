@@ -269,7 +269,7 @@
                 <vaadin-grid id="shape-notes-grid">
                     <vaadin-grid-column width="20px">
                         <template class="header">ID</template>
-                        <template>{{item.id}}</template>
+                        <template>[[index]]</template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="240px">
                         <template class="header">Description</template>
@@ -281,7 +281,7 @@
                     </vaadin-grid-column>
                     <vaadin-grid-column width="50px">
                         <template class="header">Delete</template>
-                        <template><vaadin-button id="delete-note" class=""><b>X</b></vaadin-button></template>
+                        <template><vaadin-button id="delete-note-[[index]]" class=""><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>
@@ -290,31 +290,31 @@
                 <vaadin-grid id="shape-actions-grid">
                     <vaadin-grid-column width="20px">
                         <template class="header">ID</template>
-                        <template>{{item.id}}</template>
+                        <template>[[index]]</template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="200px">
                         <template class="header">Description</template>
-                        <template>{{item.description}}</template>
+                        <template><vaadin-text-field value="{{item.description}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="100px">
                         <template class="header">Assign To</template>
-                        <template>{{item.assignedTo}}</template>
+                        <template><vaadin-text-field value="{{item.assignedTo}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="100px">
                         <template class="header">Resources</template>
-                        <template>{{item.resources}}</template>
+                        <template><vaadin-text-field value="{{item.resources}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="70px">
                         <template class="header">Start Date</template>
-                        <template>{{item.startDate}}</template>
+                        <template><vaadin-text-field value="{{item.startDate}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="70px">
                         <template class="header">End Date</template>
-                        <template>{{item.endDate}}</template>
+                        <template><vaadin-text-field value="{{item.endDate}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="50px">
                         <template class="header">Delete</template>
-                        <template><vaadin-button id="delete-action" class=""><b>X</b></vaadin-button></template>
+                        <template><vaadin-button id="delete-action-[[index]]" class=""><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>    
@@ -323,27 +323,27 @@
                 <vaadin-grid id="shape-evidence-grid">
                     <vaadin-grid-column width="20px">
                         <template class="header">ID</template>
-                        <template>{{item.id}}</template>
+                        <template>[[index]]</template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="140px">
                         <template class="header">Description</template>
-                        <template>{{item.description}}</template>
+                        <template><vaadin-text-field value="{{item.description}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="140px">
                         <template class="header">Document Type</template>
-                        <template>{{item.documentType}}</template>
+                        <template><vaadin-text-field value="{{item.documentType}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="140px">
                         <template class="header">People</template>
-                        <template>{{item.people}}</template>
+                        <template><vaadin-text-field value="{{item.people}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="140px">
                         <template class="header">Date</template>
-                        <template>{{item.date}}</template>
+                        <template><vaadin-text-field value="{{item.date}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="50px">
                         <template class="header">Delete</template>
-                        <template><vaadin-button id="delete-evidence" class=""><b>X</b></vaadin-button></template>
+                        <template><vaadin-button id="delete-evidence-[[index]]" class=""><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>  
@@ -360,15 +360,17 @@
     <script  src="lib/mxClient.min.js"></script>
     <script  src="lib/jquery.min.js"></script>
     <script  src="js/canvas.js"></script>
+    <script  src="js/dragNdrop.js"></script>
     <script  src="js/graphConfiguration.js"></script>
     <script  src="js/graphSettings.js"></script>
     <script  src="js/graphShapeBuilder.js"></script>
     <script  src="js/messages.js"></script>
     <script  src="js/shapeDefinitionBuilder.js"></script>
-    <script  src="js/toolbar.js"></script>
-    <script  src="js/dragNdrop.js"></script>
-    <script  src="js/utils.js"></script>
+    <script  src="js/shapeDetails.js"></script>
     <script  src="js/shapeProperty.js"></script>
+    <script  src="js/toolbar.js"></script>
+    <script  src="js/utils.js"></script>
+    
     <script  src="app.js"></script>
 </body>
 
