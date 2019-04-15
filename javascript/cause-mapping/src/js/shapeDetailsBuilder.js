@@ -50,7 +50,7 @@ class ShapeDetailsBuilder{
         dialog.opened = true;
         $('#overlay').addClass("shape-details");
         
-        this.getShapeDetails();
+        this.getShapeDetails(this.cell);
         this.bindGrids();
         if(!this.initComplete){
             
@@ -92,6 +92,7 @@ class ShapeDetailsBuilder{
         dialog.addEventListener('opened-changed', function(event){
             if(event.detail.value === false){
                 shapeDetailsBuilder.updateShapeDetails();
+                shapeDetailsBuilder.showCellOverlays(shapeDetailsBuilder.cell);
             };
         });
         
@@ -215,8 +216,8 @@ class ShapeDetailsBuilder{
         };
     };
     
-    getShapeDetails(){
-        var valueObject =  this.cell.getValue();
+    getShapeDetails(cell){
+        var valueObject =  cell.getValue();
         if(valueObject.getAttribute('notes') !== null){
             this.notesList = JSON.parse(valueObject.getAttribute('notes'));
         }else{
@@ -241,6 +242,49 @@ class ShapeDetailsBuilder{
        valueObject.setAttribute('evidence', JSON.stringify(this.evidenceList));
        this.cell.setValue(valueObject);
     };
+    
+    showCellOverlays(cell){
+        var shapeDetailsBuilder = this;
+        var overlay1 = new mxCellOverlay(new mxImage('images/notes.png', 16, 16), 'Click for Notes');
+        var overlay2 = new mxCellOverlay(new mxImage('images/actions.png', 16, 16), 'Click for Actions');
+        var overlay3 = new mxCellOverlay(new mxImage('images/evidence.png', 16, 16), 'Click for Evidence');
+        
+        overlay1.verticalAlign = mxConstants.ALIGN_BOTTOM;
+        overlay2.verticalAlign = mxConstants.ALIGN_MIDDLE;
+        overlay3.verticalAlign = mxConstants.ALIGN_TOP;
+        
+        overlay1.addListener(mxEvent.CLICK, function(sender, evt)
+        {
+            shapeDetailsBuilder.buildDetails(cell);
+        });
+        overlay2.addListener(mxEvent.CLICK, function(sender, evt)
+        {
+            shapeDetailsBuilder.buildDetails(cell);
+        });
+        overlay3.addListener(mxEvent.CLICK, function(sender, evt)
+        {
+             shapeDetailsBuilder.buildDetails(cell);
+        });
+        
+        this.graph.getModel().beginUpdate();
+        try
+        { 
+            this.graph.removeCellOverlays(cell);
+            if(this.notesList.length > 0){
+                this.graph.addCellOverlay(cell, overlay1);
+            };
+            if(this.actionsList.length > 0){
+                this.graph.addCellOverlay(cell, overlay2);
+            };
+            if(this.evidenceList.length > 0){
+                this.graph.addCellOverlay(cell, overlay3);
+            };
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    }
 }
 
 ShapeDetailsBuilder.Note = class Note{

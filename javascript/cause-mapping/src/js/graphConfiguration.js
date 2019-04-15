@@ -22,6 +22,7 @@ class GraphConfiguration
         mxConstants.MAX_HOTSPOT_SIZE = 15;
         mxConstants.STYLE_AUTOSIZE = 1;
         mxConstants.HIGHLIGHT_COLOR = "#FF0000";
+        
     };
     
     setGraphProperties(){
@@ -40,7 +41,6 @@ class GraphConfiguration
         this.graph.setTooltips(true);
         this.graph.setCellsCloneable(false);
         this.graph.vertexLabelsMovable = true;
-        
     };
     
     setGraphKeyHandlers(){
@@ -106,6 +106,39 @@ class GraphConfiguration
             menu.addItem('Send to Back', null, function(){
                 canvas.onReorderClick(true);
             });
+            
+            if(cell.isEdge()){
+                menu.addSeparator();
+                
+                var submenu1 = menu.addItem('Edge Styles', null, null);
+                
+                menu.addItem('Rounded', null, function(){
+                     canvas.onEdgeStyleChange(cell, 'rounded');
+                }, submenu1);
+                
+                menu.addItem('Right Angle', null, function(){
+                     canvas.onEdgeStyleChange(cell, 'rightangle');
+                }, submenu1);
+                
+                menu.addSeparator(submenu1);
+                
+		menu.addItem('Elbow Connector', null, function(){
+                     canvas.onEdgeStyleChange(cell, 'elbowEdgeStyle');
+                }, submenu1);
+                menu.addItem('Segment Connector', null, function(){
+                   canvas.onEdgeStyleChange(cell, 'segmentEdgeStyle');         
+                }, submenu1);
+                menu.addItem('Orth Connector', null, function(){
+                    canvas.onEdgeStyleChange(cell, 'orthogonalEdgeStyle');           
+                }, submenu1);
+                menu.addItem('Side To Side', null, function(){
+                    canvas.onEdgeStyleChange(cell, 'sideToSideEdgeStyle');           
+                }, submenu1);
+                menu.addItem('Top To Bottom', null, function(){
+                    canvas.onEdgeStyleChange(cell, 'topToBottomEdgeStyle');           
+                }, submenu1);
+                
+            }
             
             if(cell.isVertex()){
                 menu.addSeparator();

@@ -6,7 +6,7 @@ class Canvas {
     graphListeners;
     graphConfiguration;
     lastInsertedVertex;
-    shapeDetails;
+    shapeDetailsBuilder;
     
     constructor(){
         
@@ -15,7 +15,7 @@ class Canvas {
     init(graphElement, toolbar) {
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
-        this.shapeDetails = new ShapeDetailsBuilder(this.graph);
+        this.shapeDetailsBuilder = new ShapeDetailsBuilder(this.graph);
     };
     
     buildGraph(graphElement){
@@ -39,6 +39,42 @@ class Canvas {
         
         this.lastInsertedVertex = vertex;
     }; 
+    
+    onEdgeStyleChange(cell, edgeStyle){
+        var style;
+        this.graph.getModel().beginUpdate();
+        try
+        { 
+            switch(edgeStyle){
+                case "rounded":
+                    style = mxUtils.setStyle(cell.getStyle(), mxConstants.STYLE_ROUNDED, 1);
+                    break;
+                case "rightangle":
+                    style = mxUtils.setStyle(cell.getStyle(), mxConstants.STYLE_ROUNDED, 0);
+                    break;    
+                case "elbowEdgeStyle":
+                    style = mxUtils.setStyle(cell.getStyle(), mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_ELBOW);
+                    break;
+                case "segmentEdgeStyle":
+                    style = mxUtils.setStyle(cell.getStyle(), mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_SEGMENT);
+                    break;
+                case "orthogonalEdgeStyle":
+                    style = mxUtils.setStyle(cell.getStyle(), mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_ORTHOGONAL);
+                    break;
+                case "sideToSideEdgeStyle":
+                    style = mxUtils.setStyle(cell.getStyle(), mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_SIDETOSIDE);
+                    break;
+                case "topToBottomEdgeStyle":
+                    style = mxUtils.setStyle(cell.getStyle(), mxConstants.STYLE_EDGE, mxConstants.EDGESTYLE_TOPTOBOTTOM);
+                    break;
+            };
+            this.graph.setCellStyle(style,[cell]);
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
+    };
     
     onReorderClick(sendToBack){
         var cells = this.graph.getSelectionCells();
@@ -65,8 +101,16 @@ class Canvas {
     };
     
     clearGraph(){
-        this.graph.removeCells(this.graph.getChildCells(this.graph.getDefaultParent(), true, true));
-        this.graph.getModel().clear();
+        this.graph.getModel().beginUpdate();
+        try
+        { 
+            this.graph.removeCells(this.graph.getChildCells(this.graph.getDefaultParent(), true, true));
+            this.graph.getModel().clear();
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
     };
         
     onSaveDiagramClick(){
@@ -87,6 +131,12 @@ class Canvas {
             var codec = new mxCodec(doc);
             codec.lookup = function(id){return model.getCell(id);}
             codec.decode(doc.documentElement, this.graph.getModel());
+            
+            var cells = this.graph.getChildVertices(this.graph.getDefaultParent());
+            for(var i=0;i<cells.length;i++){
+                this.shapeDetailsBuilder.getShapeDetails(cells[i]);
+                this.shapeDetailsBuilder.showCellOverlays(cells[i]);
+            };
         }
         finally
         {
@@ -101,7 +151,7 @@ class Canvas {
             return;
         };
         
-        this.shapeDetails.buildDetails(cells[0]);
+        this.shapeDetailsBuilder.buildDetails(cells[0]);
     };
     
     
