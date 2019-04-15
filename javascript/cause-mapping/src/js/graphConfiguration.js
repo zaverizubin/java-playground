@@ -22,6 +22,9 @@ class GraphConfiguration
         mxConstants.MAX_HOTSPOT_SIZE = 15;
         mxConstants.STYLE_AUTOSIZE = 1;
         mxConstants.HIGHLIGHT_COLOR = "#FF0000";
+        mxConstants.GUIDE_COLOR = '#4f1325';
+        mxConstants.GUIDE_STROKEWIDTH = 1;
+        
         
     };
     
@@ -36,11 +39,23 @@ class GraphConfiguration
             return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
         };
         
+        mxGraphHandler.prototype.guidesEnabled = true;
+	mxGraphHandler.prototype.useGuidesForEvent = function(me)
+        {
+            return !mxEvent.isAltDown(me.getEvent());
+        };
+		
+        mxEdgeHandler.prototype.snapToTerminals = true;
+       
+        
         new mxRubberband(this.graph);
         this.graph.setConnectable(true);
         this.graph.setTooltips(true);
         this.graph.setCellsCloneable(false);
         this.graph.vertexLabelsMovable = true;
+        this.graph.gridSize = 30;
+        this.graph.setGridEnabled(true);
+        this.graph.container.focus();
     };
     
     setGraphKeyHandlers(){
@@ -88,10 +103,20 @@ class GraphConfiguration
        
     buildGraphContextMenu(){
         var canvas = this.canvas;
+        var graph = this.graph;
+        
         this.graph.popupMenuHandler.autoExpand = true;
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
-            if(cell === null) return;
+            if(cell === null){
+                menu.addItem('Toggle Grid', null, function(){
+                    graph.setGridEnabled(!graph.gridEnabled);
+                });
+                menu.addItem('Toggle Guide', null, function(){
+                     mxGraphHandler.prototype.guidesEnabled = ! mxGraphHandler.prototype.guidesEnabled;
+                });
+                return;
+            }
             
             menu.addItem('Delete', null, function(){
                 canvas.onDeleteClick();
