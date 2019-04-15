@@ -69,73 +69,76 @@ class ShapeDefinitionBuilder {
     };
     
     openShapeDefinitionDialog (){
-        var shapeDefinition = this;
+        var shapeDefinitionBuilder = this;
         
         var dialog = $('#shapes-dialog').get(0);
         dialog.opened = true;
         
         $('#overlay').addClass("shape-selector");
         var grid = $('#overlay #shapes-grid').get(0);
-        
-        //grid.items = this.shapeDefinitionList;
-        
-        
+                
         if(!this.shapeDialogOpened){
             this.shapeDialogOpened = true;
             grid.items = [];
             grid.items.push.apply(grid.items, this.shapeDefinitionList);
+            
             grid.clearCache();
             setTimeout(function(){
-                shapeDefinition.assignEventListeners();
+                shapeDefinitionBuilder.assignEventListeners();
             }, 500);
         }
     };
     
     assignEventListeners(){
-        var shapeDefinition = this;
+        var shapeDefinitionBuilder = this;
         var toolbar = this.toolbar;
         var grid = $('#overlay #shapes-grid').get(0);
         var dialog = $('#shapes-dialog').get(0);
         
         dialog.addEventListener('opened-changed', function(event){
-            if(event.detail.value===false){
-                shapeDefinition.updateShapeDefinitions();
+            if(event.detail.value === false){
+                shapeDefinitionBuilder.updateShapeDefinitions();
                 toolbar.buildShapes();
             };
         });
         
         var addShapeButton = $('#overlay #add-shape').get(0);
-        addShapeButton.addEventListener('click', function (){shapeDefinition.addShapeDefinition();});
+        addShapeButton.addEventListener('click', function (){shapeDefinitionBuilder.addShapeDefinition();});
         
         var restoreDefaultButton = $('#overlay #restore-default').get(0);
-        restoreDefaultButton.addEventListener('click', function(){shapeDefinition.restoreDefaults();});
-        
-       
+        restoreDefaultButton.addEventListener('click', function(){shapeDefinitionBuilder.restoreDefaults();});
+               
         for(let i=0; i<grid.items.length; i++){
             var deleteShapeButton = $('#overlay #shapes-grid #shape-delete-' + i).get(0);
-            if(deleteShapeButton !== undefined && deleteShapeButton.onclick === null){
-                deleteShapeButton.addEventListener('click', function() {
-                    grid.items.splice(i, 1);
-                    grid.clearCache();
-                });
-            }
+            this.assignDeleteRowEventHandler(deleteShapeButton, i);
         };
     };
     
+    assignDeleteRowEventHandler(deleteShapeButton, index){
+        var shapeDefinitionBuilder = this;
+        if(deleteShapeButton !== undefined && deleteShapeButton.onclick === null){
+            deleteShapeButton.onclick = function () {
+                shapeDefinitionBuilder.removeGridItem(index);
+            };
+        };
+    };
+    
+    removeGridItem(index){
+        var grid = $('#overlay #shapes-grid').get(0);
+        grid.items.splice(index, 1);
+        grid.clearCache();
+    };
+    
     addShapeDefinition(){
+        var shapeDefinitionBuilder = this;
         var grid = $('#overlay #shapes-grid').get(0);
         grid.items.push(this.getShapeDefinition());
         grid.clearCache();
         
-        var index = (grid.items.length-1);
+        var index = (grid.items.length - 1);
         setTimeout(function(){
             var deleteShapeButton = $('#overlay #shapes-grid #shape-delete-' + index).get(0);
-            if(deleteShapeButton.onclick === null){
-                deleteShapeButton.addEventListener('click', function() {
-                    grid.items.splice(index, 1);
-                    grid.clearCache();
-                });
-            }
+            shapeDefinitionBuilder.assignDeleteRowEventHandler(deleteShapeButton, index);
         }, 500);
         
     };
@@ -145,9 +148,8 @@ class ShapeDefinitionBuilder {
         grid.items.splice(0, grid.items.length);
         grid.items.push.apply(grid.items, this.getDefaultDefinitionList());
         grid.clearCache();
-    }
-   
-    
+    };
+       
     updateShapeDefinitions(){
         var grid = $('#overlay #shapes-grid').get(0);
         for(let i=0; i<grid.items.length; i++)
@@ -161,6 +163,6 @@ class ShapeDefinitionBuilder {
         };
         this.shapeDefinitionList.splice(0, this.shapeDefinitionList.length);
         this.shapeDefinitionList.push.apply(this.shapeDefinitionList, grid.items);
-    }
+    };
 }
 

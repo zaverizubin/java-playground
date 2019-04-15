@@ -15,7 +15,7 @@ class Canvas {
     init(graphElement, toolbar) {
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
-        this.shapeDetails = new ShapeDetails();
+        this.shapeDetails = new ShapeDetailsBuilder(this.graph);
     };
     
     buildGraph(graphElement){
@@ -87,12 +87,6 @@ class Canvas {
             var codec = new mxCodec(doc);
             codec.lookup = function(id){return model.getCell(id);}
             codec.decode(doc.documentElement, this.graph.getModel());
-
-            var objectGraphBuilder = new ObjectGraphBuilder(this);
-            var cells = this.graph.getChildCells(this.graph.getDefaultParent(), true, true);
-            objectGraphBuilder.buildObjectGraphFromCells(cells);
-            this.centerBone = objectGraphBuilder.getCenterBone();
-            
         }
         finally
         {
@@ -107,7 +101,7 @@ class Canvas {
             return;
         };
         
-        this.shapeDetails.buildDetails();
+        this.shapeDetails.buildDetails(cells[0]);
     };
     
     

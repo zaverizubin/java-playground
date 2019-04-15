@@ -269,7 +269,7 @@
                 <vaadin-grid id="shape-notes-grid">
                     <vaadin-grid-column width="20px">
                         <template class="header">ID</template>
-                        <template>[[index]]</template>
+                        <template>[[item.id]]</template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="240px">
                         <template class="header">Description</template>
@@ -279,7 +279,7 @@
                         <template class="header">Comments</template>
                         <template><vaadin-text-field value="{{item.comments}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="50px">
+                    <vaadin-grid-column width="70px">
                         <template class="header">Delete</template>
                         <template><vaadin-button id="delete-note-[[index]]" class=""><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
@@ -290,14 +290,14 @@
                 <vaadin-grid id="shape-actions-grid">
                     <vaadin-grid-column width="20px">
                         <template class="header">ID</template>
-                        <template>[[index]]</template>
+                        <template>[[item.id]]</template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="200px">
                         <template class="header">Description</template>
                         <template><vaadin-text-field value="{{item.description}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="100px">
-                        <template class="header">Assign To</template>
+                        <template class="header">Assigned To</template>
                         <template><vaadin-text-field value="{{item.assignedTo}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="100px">
@@ -312,7 +312,7 @@
                         <template class="header">End Date</template>
                         <template><vaadin-text-field value="{{item.endDate}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="50px">
+                    <vaadin-grid-column width="70px">
                         <template class="header">Delete</template>
                         <template><vaadin-button id="delete-action-[[index]]" class=""><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
@@ -323,7 +323,7 @@
                 <vaadin-grid id="shape-evidence-grid">
                     <vaadin-grid-column width="20px">
                         <template class="header">ID</template>
-                        <template>[[index]]</template>
+                        <template>[[item.id]]</template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="140px">
                         <template class="header">Description</template>
@@ -341,7 +341,7 @@
                         <template class="header">Date</template>
                         <template><vaadin-text-field value="{{item.date}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="50px">
+                    <vaadin-grid-column width="70px">
                         <template class="header">Delete</template>
                         <template><vaadin-button id="delete-evidence-[[index]]" class=""><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
@@ -366,7 +366,7 @@
     <script  src="js/graphShapeBuilder.js"></script>
     <script  src="js/messages.js"></script>
     <script  src="js/shapeDefinitionBuilder.js"></script>
-    <script  src="js/shapeDetails.js"></script>
+    <script  src="js/shapeDetailsBuilder.js"></script>
     <script  src="js/shapeProperty.js"></script>
     <script  src="js/toolbar.js"></script>
     <script  src="js/utils.js"></script>
