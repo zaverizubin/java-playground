@@ -76,10 +76,15 @@ class ShapeDefinitionBuilder {
         
         $('#overlay').addClass("shape-selector");
         var grid = $('#overlay #shapes-grid').get(0);
-        grid.items = this.shapeDefinitionList;
+        
+        //grid.items = this.shapeDefinitionList;
+        
         
         if(!this.shapeDialogOpened){
             this.shapeDialogOpened = true;
+            grid.items = [];
+            grid.items.push.apply(grid.items, this.shapeDefinitionList);
+            grid.clearCache();
             setTimeout(function(){
                 shapeDefinition.assignEventListeners();
             }, 500);
@@ -108,10 +113,12 @@ class ShapeDefinitionBuilder {
        
         for(let i=0; i<grid.items.length; i++){
             var deleteShapeButton = $('#overlay #shapes-grid #shape-delete-' + i).get(0);
-            deleteShapeButton.addEventListener('click', function() {
-                grid.items.splice(i, 1);
-                grid.clearCache();
-            });
+            if(deleteShapeButton !== undefined && deleteShapeButton.onclick === null){
+                deleteShapeButton.addEventListener('click', function() {
+                    grid.items.splice(i, 1);
+                    grid.clearCache();
+                });
+            }
         };
     };
     
@@ -152,6 +159,8 @@ class ShapeDefinitionBuilder {
             grid.items[i].shapeFillColor = fillColor;
             grid.items[i].shapeTextColor = textColor;
         };
+        this.shapeDefinitionList.splice(0, this.shapeDefinitionList.length);
+        this.shapeDefinitionList.push.apply(this.shapeDefinitionList, grid.items);
     }
 }
 

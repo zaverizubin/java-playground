@@ -91,6 +91,8 @@ class GraphConfiguration
         this.graph.popupMenuHandler.autoExpand = true;
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
         {
+            if(cell === null) return;
+            
             menu.addItem('Delete', null, function(){
                 canvas.onDeleteClick();
             });
@@ -117,7 +119,7 @@ class GraphConfiguration
                 menu.addItem('Properties', null, function(){
                     canvas.onPropertiesClick();
                 });
-            }
+            };
             
         };
     };
