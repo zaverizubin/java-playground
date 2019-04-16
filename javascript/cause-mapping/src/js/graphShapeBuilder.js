@@ -27,6 +27,7 @@ class GraphShapeBuilder{
         var doc = mxUtils.createXmlDocument();
         var valueObject = doc.createElement('node');
         valueObject.setAttribute('label', this.shapeDefinition.shapeText);
+        valueObject.setAttribute('description', this.shapeDefinition.shapeDescription);
         valueObject.setAttribute('cellType', this.shapeDefinition.shapeType);
        
         

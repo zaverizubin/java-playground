@@ -13,6 +13,7 @@
     <link rel="import" href="bower_components/vaadin-select/vaadin-select.html" />
     <link rel="import" href="bower_components/vaadin-checkbox/vaadin-checkbox.html" />
     <link rel="import" href="bower_components/vaadin-text-field/vaadin-text-field.html" />
+    <link rel="import" href="bower_components/vaadin-text-field/vaadin-text-area.html" />
     <link rel="import" href="bower_components/vaadin-text-field/vaadin-number-field.html" />
     <link rel="import" href="bower_components/vaadin-dialog/vaadin-dialog.html" />
     <link rel="import" href="bower_components/vaadin-accordion/vaadin-accordion.html" />
@@ -269,11 +270,10 @@
             <vaadin-button id="shape-actions-button" class="">Actions</vaadin-button>
             <vaadin-button id="shape-evidence-button" class="">Evidence</vaadin-button>
             <vaadin-vertical-layout id="vertical-layout-properties">
-                <vaadin-button id="restore-shape-default" class="">Restore Defaults</vaadin-button>
                 <vaadin-horizontal-layout id="horizontal-layout-properties">
                     <vaadin-vertical-layout class="inner-vertical-layout-properties">
-                        <vaadin-text-field label="Text"></vaadin-text-field>
-                        <vaadin-text-field label="Description"></vaadin-text-field>
+                        <vaadin-text-field label="Text" class="shape-label width-300 "></vaadin-text-field>
+                        <vaadin-text-area label="Description" class="shape-description width-300"></vaadin-text-area>
                         <vaadin-select label="Font Face" class="shape-font-family" value="Arial">
                             <template>
                                 <vaadin-list-box>
@@ -324,13 +324,13 @@
                         <template class="header">ID</template>
                         <template>[[item.id]]</template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="240px">
+                    <vaadin-grid-column width="300px">
                         <template class="header">Description</template>
-                        <template><vaadin-text-field value="{{item.description}}"></vaadin-text-field></template>
+                        <template><vaadin-text-area class="width-300" value="{{item.description}}"></vaadin-text-area></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="250px">
                         <template class="header">Comments</template>
-                        <template><vaadin-text-field value="{{item.comments}}"></vaadin-text-field></template>
+                        <template><vaadin-text-area class="width-250" value="{{item.comments}}"></vaadin-text-area></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="70px">
                         <template class="header">Delete</template>
@@ -347,7 +347,7 @@
                     </vaadin-grid-column>
                     <vaadin-grid-column width="200px">
                         <template class="header">Description</template>
-                        <template><vaadin-text-field value="{{item.description}}"></vaadin-text-field></template>
+                        <template><vaadin-text-area value="{{item.description}}"></vaadin-text-area></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="100px">
                         <template class="header">Assigned To</template>
@@ -380,15 +380,15 @@
                     </vaadin-grid-column>
                     <vaadin-grid-column width="140px">
                         <template class="header">Description</template>
-                        <template><vaadin-text-field value="{{item.description}}"></vaadin-text-field></template>
+                        <template><vaadin-text-area value="{{item.description}}" clear-button-visible> </vaadin-text-area></template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="140px">
+                    <vaadin-grid-column width="170px">
                         <template class="header">Document Type</template>
-                        <template><vaadin-text-field value="{{item.documentType}}"></vaadin-text-field></template>
+                        <template><vaadin-text-field value="{{item.documentType}}" clear-button-visible></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="140px">
                         <template class="header">People</template>
-                        <template><vaadin-text-field value="{{item.people}}"></vaadin-text-field></template>
+                        <template><vaadin-text-field value="{{item.people}}" clear-button-visible></vaadin-text-field></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="160px">
                         <template class="header">Date</template>

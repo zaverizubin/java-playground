@@ -1,4 +1,4 @@
-<dom-module id="dialog-overlay-theme" theme-for="vaadin-dialog-overlay">
+<dom-module id="dialog-overlay-styles" theme-for="vaadin-dialog-overlay">
   <template>
     <style>
       :host(.shape-selector) [part = "content"] {
@@ -9,7 +9,7 @@
       }
       
       :host(.shape-details) [part = "content"] {
-      	width:900px;
+      	width:1000px;
         height:500px;
       }
       :host(.save-dialog) [part = "content"] {
@@ -20,13 +20,26 @@
   </template>
 </dom-module>
 
-<dom-module id="vaadin-vertical-layout-theme" theme-for="vaadin-vertical-layout">
+<dom-module id="vaadin-vertical-layout-styles" theme-for="vaadin-vertical-layout">
   <template>
     <style>
       :host(.inner-vertical-layout-properties) {
-      	width:300px;
+      	width:400px;
       }
       
+    </style>
+  </template>
+</dom-module>
+
+<dom-module id="vaadin-text-field-styles" theme-for="vaadin-text-field vaadin-text-area">
+  <template>
+    <style>
+      :host(.width-300) [part="input-field"] {
+        width:300px;
+      }
+      :host(.width-200) [part="input-field"] {
+        width:300px;
+      }
     </style>
   </template>
 </dom-module>

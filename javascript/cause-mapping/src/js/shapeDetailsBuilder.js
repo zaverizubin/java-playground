@@ -1,5 +1,7 @@
 class ShapeDetailsBuilder{
     
+    properties;
+    
     notesList;
     actionsList;
     evidenceList;
@@ -13,6 +15,7 @@ class ShapeDetailsBuilder{
     
     constructor(graph){
         this.graph = graph;
+        this.properties = new ShapeDetailsBuilder.Properties();
         this.notesList = [];
         this.actionsList = [];
         this.evidenceList = [];
@@ -49,6 +52,8 @@ class ShapeDetailsBuilder{
         $('#overlay').addClass("shape-details");
         
         this.getShapeDetails(this.cell);
+        this.getStyleDetails(this.cell);
+        this.setShapePropertiesToUI();
         this.bindGrids();
         
         setTimeout(function(){
@@ -88,6 +93,7 @@ class ShapeDetailsBuilder{
         var dialog = $("#shape-details").get(0);
         dialog.addEventListener('opened-changed', function(event){
             if(event.detail.value === false){
+                shapeDetailsBuilder.getShapePropertiesFromUI();
                 shapeDetailsBuilder.updateShapeDetails();
                 shapeDetailsBuilder.showCellOverlays(shapeDetailsBuilder.cell);
             };
@@ -210,6 +216,7 @@ class ShapeDetailsBuilder{
     
     getShapeDetails(cell){
         var valueObject =  cell.getValue();
+       
         if(valueObject.getAttribute('notes') !== null){
             this.notesList = JSON.parse(valueObject.getAttribute('notes'));
         }else{
@@ -225,14 +232,103 @@ class ShapeDetailsBuilder{
         }else{
             this.evidenceList = [];
         }
+    };
+    
+    getStyleDetails(cell){
+        var valueObject =  cell.getValue();
+        var style = this.graph.getCellStyle(cell) ;
+        this.properties.text = valueObject.getAttribute('label');
+        this.properties.description = valueObject.getAttribute('description');
+        this.properties.fontFamily = style.fontFamily;
+        this.properties.fontSize = style.fontSize;
+        this.properties.strokeColor = style.strokeColor;
+        this.properties.fillColor = style.fillColor;
+        this.properties.fontColor = style.fontColor;
+        switch(Number(style.fontStyle)){
+            case 1:
+                this.properties.fontBold = true;
+                break;
+            case 2:
+                this.properties.fontItalic = true;
+                break;
+            case 4:
+                this.properties.fontUnderline = true;
+                break;
+            case 3:
+                this.properties.fontBold = true;
+                this.properties.fontItalic = true;
+                break;
+            case 5:
+                this.properties.fontBold = true;
+                this.properties.fontUnderline = true;
+                break;
+            case 6:
+                this.properties.fontItalic = true;
+                this.properties.fontUnderline = true;
+                break;    
+            case 7:
+                this.properties.fontBold = true;
+                this.properties.fontItalic = true;
+                this.properties.fontUnderline = true;
+                break;    
+        }
     }
+    
+    setShapePropertiesToUI(){
+        $('#overlay .shape-label').get(0).value = this.properties.text;
+        $('#overlay .shape-description').get(0).value  = this.properties.description;
+        $('#overlay .shape-font-family').get(0).value = this.properties.fontFamily;
+        $('#overlay .shape-font-size').get(0).value = String(this.properties.fontSize);
+        $('#overlay .shape-stroke-color').get(0).value = this.properties.strokeColor;
+        $('#overlay .shape-fill-color').get(0).value = this.properties.fillColor;
+        $('#overlay .shape-text-color').get(0).value = this.properties.fontColor;
+        $('#overlay .shape-text-bold').get(0).checked = this.properties.fontBold;
+        $('#overlay .shape-text-italic').get(0).checked = this.properties.fontItalic;
+        $('#overlay .shape-text-underline').get(0).checked = this.properties.fontUnderline;
+    };
+    
+    getShapePropertiesFromUI(){
+        this.properties.text = $('#overlay .shape-label').get(0).value;
+        this.properties.description = $('#overlay .shape-description').get(0).value;
+        this.properties.fontFamily = $('#overlay .shape-font-family').get(0).value;
+        this.properties.fontSize = Number($('#overlay .shape-font-size').get(0).value);
+        this.properties.strokeColor = $('#overlay .shape-stroke-color').get(0).value;
+        this.properties.fillColor = $('#overlay .shape-fill-color').get(0).value;
+        this.properties.fontColor = $('#overlay .shape-text-color').get(0).value;
+        this.properties.fontBold = $('#overlay .shape-text-bold').get(0).checked;
+        this.properties.fontItalic = $('#overlay .shape-text-italic').get(0).checked;
+        this.properties.fontUnderline = $('#overlay .shape-text-underline').get(0).checked;
+    };
     
     updateShapeDetails(){
        var valueObject =  this.cell.getValue();
+       valueObject.setAttribute('label', this.properties.text);
+       valueObject.setAttribute('description', this.properties.description);
        valueObject.setAttribute('notes', JSON.stringify(this.notesList));
        valueObject.setAttribute('actions', JSON.stringify(this.actionsList));
        valueObject.setAttribute('evidence', JSON.stringify(this.evidenceList));
        this.cell.setValue(valueObject);
+       
+       var fontStyle = 0;
+       if(this.properties.fontBold){
+           fontStyle += 1;
+       }
+       if(this.properties.fontItalic){
+           fontStyle += 2;
+       }
+       if(this.properties.fontUnderline){
+           fontStyle += 4;
+       }
+       
+       var style = this.cell.getStyle();
+       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTFAMILY, this.properties.fontFamily);
+       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSIZE, this.properties.fontSize);
+       style = mxUtils.setStyle(style, mxConstants.STYLE_STROKECOLOR, this.properties.strokeColor);
+       style = mxUtils.setStyle(style, mxConstants.STYLE_FILLCOLOR, this.properties.fillColor);
+       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTCOLOR, this.properties.fontColor);
+       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSTYLE, fontStyle);
+       
+       this.graph.setCellStyle(style,[this.cell]);
     };
     
     showCellOverlays(cell){
@@ -278,6 +374,19 @@ class ShapeDetailsBuilder{
         }
     }
 }
+
+ShapeDetailsBuilder.Properties = class Properties{
+    text = "";
+    description = "";
+    fontFamily = "";
+    fontSize = "";
+    strokeColor = "";
+    fillColor = "";
+    fontColor = "";
+    fontBold = false;
+    fontItalic = false;
+    fontUnderline = false;
+};
 
 ShapeDetailsBuilder.Note = class Note{
     id = "";
