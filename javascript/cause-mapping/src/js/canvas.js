@@ -119,7 +119,7 @@ class Canvas {
         var node = codec.encode(this.graph.getModel());
         var content = mxUtils.getXml(node);
         
-        Utils.showPlainTextMessageDialog(content);
+        Utils.showPlainTextMessageDialog(content,"save-dialog");
     };
     
     onLoadDiagram(xmlContent){

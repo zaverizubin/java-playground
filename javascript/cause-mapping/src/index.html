@@ -20,6 +20,9 @@
     <link rel="import" href="bower_components/vaadin-grid/vaadin-grid.html">
     <link rel="import" href="bower_components/vaadin-tabs/vaadin-tabs.html">
     <link rel="import" href="bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
+    <link rel="import" href="bower_components/vaadin-ordered-layout/vaadin-horizontal-layout.html">
+    <link rel="import" href="bower_components/vaadin-date-picker/vaadin-date-picker.html">
+    <link rel="import" href="bower_components/vaadin-custom-field/vaadin-custom-field.html">
     
 </head>
 
@@ -261,9 +264,59 @@
     
     <vaadin-dialog id="shape-details">
        <template>
+           <vaadin-button id="shape-properties-button" class="" theme = "primary">Properties</vaadin-button>
             <vaadin-button id="shape-notes-button" class="">Notes</vaadin-button>
             <vaadin-button id="shape-actions-button" class="">Actions</vaadin-button>
             <vaadin-button id="shape-evidence-button" class="">Evidence</vaadin-button>
+            <vaadin-vertical-layout id="vertical-layout-properties">
+                <vaadin-button id="restore-shape-default" class="">Restore Defaults</vaadin-button>
+                <vaadin-horizontal-layout id="horizontal-layout-properties">
+                    <vaadin-vertical-layout class="inner-vertical-layout-properties">
+                        <vaadin-text-field label="Text"></vaadin-text-field>
+                        <vaadin-text-field label="Description"></vaadin-text-field>
+                        <vaadin-select label="Font Face" class="shape-font-family" value="Arial">
+                            <template>
+                                <vaadin-list-box>
+                                    <vaadin-item value="arial">Arial</vaadin-item>
+                                    <vaadin-item value="calibri">Calibri</vaadin-item>
+                                    <vaadin-item value="verdana">Verdana</vaadin-item>
+                                    <vaadin-item value="times-new-roman">Times New Roman</vaadin-item>
+                                </vaadin-list-box>
+                            </template>
+                        </vaadin-select>
+                        <vaadin-select label="Font Size" class="shape-font-size" value="12">
+                            <template>
+                                <vaadin-list-box>
+                                    <vaadin-item value="10">10px</vaadin-item>
+                                    <vaadin-item value="12">12px</vaadin-item>
+                                    <vaadin-item value="14">14px</vaadin-item>
+                                    <vaadin-item value="16">16px</vaadin-item>
+                                    <vaadin-item value="18">18px</vaadin-item>
+                                    <vaadin-item value="20">20px</vaadin-item>
+                                    <vaadin-item value="22">22px</vaadin-item>
+                                </vaadin-list-box>
+                            </template>
+                        </vaadin-select>
+                    </vaadin-vertical-layout>
+                    <vaadin-vertical-layout class="inner-vertical-layout-properties">
+                        <vaadin-custom-field label="Stroke color">
+                            <input type="color" class="shape-stroke-color" value="#000000">
+                        </vaadin-custom-field>
+                        <vaadin-custom-field label="Fill color">
+                            <input type="color" class="shape-fill-color" value="#ffffff">
+                        </vaadin-custom-field>
+                        <vaadin-custom-field label="Text color">
+                            <input type="color" class="shape-text-color" value="#ffffff">
+                        </vaadin-custom-field>
+                        <vaadin-custom-field label="Text Decoration">
+                            <vaadin-checkbox class="shape-text-bold" checked="false"><b>B</b></vaadin-checkbox>
+                            <vaadin-checkbox class="shape-text-italic" checked="false"><i>I</i></vaadin-checkbox>
+                            <vaadin-checkbox class="shape-text-underline" checked="false"><u>U</u></vaadin-checkbox>
+                        </vaadin-custom-field>
+                    </vaadin-vertical-layout>
+                </vaadin-horizontal-layout>
+                
+            </vaadin-vertical-layout>
             <vaadin-vertical-layout id="vertical-layout-notes">
                 <vaadin-button id="add-shape-note" class="">Add Note</vaadin-button>
                 <vaadin-grid id="shape-notes-grid">
@@ -281,7 +334,7 @@
                     </vaadin-grid-column>
                     <vaadin-grid-column width="70px">
                         <template class="header">Delete</template>
-                        <template><vaadin-button id="delete-note-[[index]]" class=""><b>X</b></vaadin-button></template>
+                        <template><vaadin-button id="delete-[[index]]" ><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>
@@ -304,17 +357,17 @@
                         <template class="header">Resources</template>
                         <template><vaadin-text-field value="{{item.resources}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="70px">
+                    <vaadin-grid-column width="80px">
                         <template class="header">Start Date</template>
-                        <template><vaadin-text-field value="{{item.startDate}}"></vaadin-text-field></template>
+                        <template><vaadin-date-picker value="{{item.startDate}}"></vaadin-date-picker></template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="70px">
+                    <vaadin-grid-column width="80px">
                         <template class="header">End Date</template>
-                        <template><vaadin-text-field value="{{item.endDate}}"></vaadin-text-field></template>
+                        <template><vaadin-date-picker value="{{item.endDate}}"></vaadin-date-picker></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="70px">
                         <template class="header">Delete</template>
-                        <template><vaadin-button id="delete-action-[[index]]" class=""><b>X</b></vaadin-button></template>
+                        <template><vaadin-button id="delete-[[index]]" ><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>    
@@ -337,13 +390,13 @@
                         <template class="header">People</template>
                         <template><vaadin-text-field value="{{item.people}}"></vaadin-text-field></template>
                     </vaadin-grid-column>
-                    <vaadin-grid-column width="140px">
+                    <vaadin-grid-column width="160px">
                         <template class="header">Date</template>
-                        <template><vaadin-text-field value="{{item.date}}"></vaadin-text-field></template>
+                        <template><vaadin-date-picker value="{{item.date}}"></vaadin-date-picker></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="70px">
                         <template class="header">Delete</template>
-                        <template><vaadin-button id="delete-evidence-[[index]]" class=""><b>X</b></vaadin-button></template>
+                        <template><vaadin-button id="delete-[[index]]" ><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>  

@@ -1,4 +1,4 @@
-<dom-module id="my-dialog-overlay-theme" theme-for="vaadin-dialog-overlay">
+<dom-module id="dialog-overlay-theme" theme-for="vaadin-dialog-overlay">
   <template>
     <style>
       :host(.shape-selector) [part = "content"] {
@@ -7,9 +7,24 @@
       :host(.shape-properties) [part = "content"] {
       	width:275px;
       }
+      
       :host(.shape-details) [part = "content"] {
       	width:900px;
         height:500px;
+      }
+      :host(.save-dialog) [part = "content"] {
+      	width:600px;
+        height:400px;
+      }
+    </style>
+  </template>
+</dom-module>
+
+<dom-module id="vaadin-vertical-layout-theme" theme-for="vaadin-vertical-layout">
+  <template>
+    <style>
+      :host(.inner-vertical-layout-properties) {
+      	width:300px;
       }
       
     </style>

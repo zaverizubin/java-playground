@@ -9,9 +9,15 @@ class Utils{
         };
     };
     
-    static showMessageDialog (message){
+    static showMessageDialog (message, classSelector){
         var dialog = $("#message-window").get(0);
         dialog.opened = true;
+        
+        if(classSelector !== undefined){
+            $('#overlay').get(0).className = classSelector;
+        }else{
+            $('#overlay').get(0).className = '';
+        };
         dialog.renderer = function(root, dialog) {
             if (!root.firstElementChild) {
                 const header = window.document.createElement('header');
@@ -25,9 +31,15 @@ class Utils{
         };
     };
     
-    static showPlainTextMessageDialog (message){
+    static showPlainTextMessageDialog (message, classSelector){
         var dialog = $("#message-window").get(0);
         dialog.opened = true;
+        if(classSelector !== undefined){
+            $('#overlay').get(0).className = classSelector;
+        }else{
+            $('#overlay').get(0).className = '';
+        };
+        
         dialog.renderer = function(root, dialog) {
             if (!root.firstElementChild) {
                 const header = window.document.createElement('header');
@@ -41,9 +53,14 @@ class Utils{
         };
     };
     
-    static showConfirmationBox (message, width, height, okCallback){
+    static showConfirmationBox (message, width, height, okCallback, classSelector){
         var dialog = $("#message-window").get(0);
         dialog.opened = true;
+        if(classSelector !== undefined){
+            $('#overlay').get(0).className = classSelector;
+        }else{
+            $('#overlay').get(0).className = '';
+        }
         dialog.renderer = function(root, dialog) {
             const header = window.document.createElement('header');
             header.innerHTML = '<b>Message</b>';

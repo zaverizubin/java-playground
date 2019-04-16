@@ -4,8 +4,6 @@ class ShapeDetailsBuilder{
     actionsList;
     evidenceList;
     
-    initComplete;
-    
     notesGrid;
     actionsGrid;
     evidenceGrid;
@@ -52,12 +50,9 @@ class ShapeDetailsBuilder{
         
         this.getShapeDetails(this.cell);
         this.bindGrids();
-        if(!this.initComplete){
-            
-        }
+        
         setTimeout(function(){
             shapeDetailsBuilder.assignEventHandlers();
-            shapeDetailsBuilder.initComplete = true;
         }, 500);
         
     };
@@ -76,11 +71,13 @@ class ShapeDetailsBuilder{
         this.evidenceGrid.items = this.evidenceList;
         this.evidenceGrid.clearCache();
         
+        var vsProperties = $('#overlay #vertical-layout-properties');
         var vsNotes = $('#overlay #vertical-layout-notes');
         var vsActions = $('#overlay #vertical-layout-actions');
         var vsEvidence = $('#overlay #vertical-layout-evidence');
         
-        vsNotes.toggle(true);
+        vsProperties.toggle(true);
+        vsNotes.toggle(false);
         vsActions.toggle(false);
         vsEvidence.toggle(false);
     };
@@ -96,14 +93,7 @@ class ShapeDetailsBuilder{
             };
         });
         
-        var vsNotes = $('#overlay #vertical-layout-notes');
-        var vsActions = $('#overlay #vertical-layout-actions');
-        var vsEvidence = $('#overlay #vertical-layout-evidence');
-        
-        var notesGrid = $('#overlay #shape-notes-grid').get(0);
-        var actionsGrid = $('#overlay #shape-actions-grid').get(0);
-        var evidenceGrid = $('#overlay #shape-evidence-grid').get(0);
-        
+        var btnProperties = $('#overlay #shape-properties-button').get(0);
         var btnNotes = $('#overlay #shape-notes-button').get(0);
         var btnActions = $('#overlay #shape-actions-button').get(0);
         var btnEvidence = $('#overlay #shape-evidence-button').get(0);
@@ -112,95 +102,97 @@ class ShapeDetailsBuilder{
         var btnAddAction = $('#overlay #add-shape-action').get(0);
         var btnAddEvidence = $('#overlay #add-shape-evidence ').get(0);
         
-        if(btnNotes.onclick === null){
-            btnNotes.onclick = function(){
-                vsNotes.toggle(true);
-                vsActions.toggle(false);
-                vsEvidence.toggle(false);
-            };
-        }
         
-        if(btnActions.onclick === null){
-            btnActions.onclick = function(){
-                vsNotes.toggle(false);
-                vsActions.toggle(true);
-                vsEvidence.toggle(false);
-            };
-        };
+        this.assignShowUnitClickHandler(btnProperties);
+        this.assignShowUnitClickHandler(btnNotes);
+        this.assignShowUnitClickHandler(btnActions);
+        this.assignShowUnitClickHandler(btnEvidence);
         
-        if(btnEvidence.onclick === null){
-            btnEvidence.onclick = function(){
-                vsNotes.toggle(false);
-                vsActions.toggle(false);
-                vsEvidence.toggle(true);
-            };
-        };
+        this.assignAddDetailClickHandler(btnAddNote, "#shape-notes-grid", shapeDetailsBuilder.addNote);
+        this.assignAddDetailClickHandler(btnAddAction, "#shape-actions-grid", shapeDetailsBuilder.addAction);
+        this.assignAddDetailClickHandler(btnAddEvidence, "#shape-evidence-grid", shapeDetailsBuilder.addEvidence);
         
-    
+        this.assignDeleteGridItemHandler("#shape-notes-grid");
+        this.assignDeleteGridItemHandler("#shape-actions-grid");
+        this.assignDeleteGridItemHandler("#shape-evidence-grid");
         
-        if(btnAddNote.onclick === null){
-            btnAddNote.onclick = function(){
-                var button = this;
-                button.disabled = true;
-                shapeDetailsBuilder.addNote();
-                notesGrid.clearCache();
-                setTimeout(function(){
-                    button.disabled = false;
-                    var index = notesGrid.items.length-1;
-                    var deleteButton = $('#overlay #shape-notes-grid #delete-note-' + index).get(0);
-                    shapeDetailsBuilder.assignDeleteHandler(index, deleteButton, notesGrid);
-                }, 500);
-            };
-        }
-        
-        if(btnAddAction.onclick === null){
-            btnAddAction.onclick = function(){
-                var button = this;
-                button.disabled = true;
-                shapeDetailsBuilder.addAction();
-                actionsGrid.clearCache();
-                setTimeout(function(){
-                    button.disabled = false;
-                    var index = actionsGrid.items.length-1;
-                    var deleteButton = $('#overlay #shape-actions-grid #delete-action-' + index).get(0);
-                    shapeDetailsBuilder.assignDeleteHandler(index, deleteButton, actionsGrid);
-                }, 500);
-            };
-        };
-        
-        if(btnAddEvidence.onclick === null){
-            btnAddEvidence.onclick = function(){
-                var button = this;
-                button.disabled = true;
-                shapeDetailsBuilder.addEvidence();
-                evidenceGrid.clearCache();
-                setTimeout(function(){
-                    button.disabled = false;
-                    var index = evidenceGrid.items.length-1;
-                    var deleteButton = $('#overlay #shape-evidence-grid #delete-evidence-' + index).get(0);
-                    shapeDetailsBuilder.assignDeleteHandler(index, deleteButton, evidenceGrid);
-                }, 500);
-
-            };
-        };
-        
-        
-        for(let i = 0; i < notesGrid.items.length; i++){
-            var deleteButton = $('#overlay #shape-notes-grid #delete-note-' + i).get(0);
-            this.assignDeleteHandler(i, deleteButton, notesGrid);
-        };
-        for(let i = 0; i < actionsGrid.items.length; i++){
-            var deleteButton = $('#overlay #shape-actions-grid #delete-action-' + i).get(0);
-            this.assignDeleteHandler(i, deleteButton, actionsGrid);
-        };
-        for(let i = 0; i < evidenceGrid.items.length; i++){
-            var deleteButton = $('#overlay #shape-evidence-grid #delete-evidence-' + i).get(0);
-            this.assignDeleteHandler(i, deleteButton, evidenceGrid);
-        };
     }
     
-    assignDeleteHandler(index, deleteButton,  grid){
+    assignShowUnitClickHandler(button){
+        
+        var btnProperties = $('#overlay #shape-properties-button').get(0);
+        var btnNotes = $('#overlay #shape-notes-button').get(0);
+        var btnActions = $('#overlay #shape-actions-button').get(0);
+        var btnEvidence = $('#overlay #shape-evidence-button').get(0);
+         
+        var vsProperties = $('#overlay #vertical-layout-properties');
+        var vsNotes = $('#overlay #vertical-layout-notes');
+        var vsActions = $('#overlay #vertical-layout-actions');
+        var vsEvidence = $('#overlay #vertical-layout-evidence');
+        
+        btnProperties.setAttribute('theme', 'primary');
+        btnNotes.removeAttribute('theme');
+        btnActions.removeAttribute('theme');
+        btnEvidence.removeAttribute('theme');
+        
+        if(button.onclick === null){
+            button.onclick = function(){
+                btnProperties.removeAttribute('theme');
+                btnNotes.removeAttribute('theme');
+                btnActions.removeAttribute('theme');
+                btnEvidence.removeAttribute('theme');
+                button.setAttribute('theme', 'primary');
+                
+                vsProperties.toggle(false);
+                vsNotes.toggle(false);
+                vsActions.toggle(false);
+                vsEvidence.toggle(false);
+                
+                if(button ===  btnProperties){
+                    vsProperties.toggle(true);
+                }else if (button ===  btnNotes){
+                    vsNotes.toggle(true);
+                }else if (button ===  btnActions){
+                   vsActions.toggle(true); 
+                }else if (button ===  btnEvidence){
+                    vsEvidence.toggle(true);
+                }
+            };
+        }
+    }
+    
+    assignAddDetailClickHandler(button, selector, addDetailFunction){
+        
+        var grid = $('#overlay ' + selector).get(0);
         var shapeDetailsBuilder = this;
+        
+        if(button.onclick === null){
+           button.onclick = function(){
+               var button = this;
+               button.disabled = true;
+               addDetailFunction.apply(shapeDetailsBuilder); 
+               grid.clearCache();
+               setTimeout(function(){
+                   button.disabled = false;
+                   var index = grid.items.length-1;
+                   shapeDetailsBuilder.assignDeleteHandler(index, selector);
+               }, 500);
+           };
+        }
+    };
+    
+    assignDeleteGridItemHandler(selector){
+        var grid = $('#overlay ' + selector).get(0);
+        for(let i = 0; i < grid.items.length; i++){
+            this.assignDeleteHandler(i, selector);
+        };
+    };
+    
+    assignDeleteHandler(index,  selector){
+        
+        var grid = $('#overlay ' + selector).get(0);
+        var shapeDetailsBuilder = this;
+        var deleteButton = $('#overlay ' + selector + ' #delete-' + index).get(0);
         if(deleteButton !== undefined && deleteButton.onclick === null){
             deleteButton.onclick = function() {
                 grid.items.splice(index, 1);
