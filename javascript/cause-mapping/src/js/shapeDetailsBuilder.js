@@ -75,16 +75,7 @@ class ShapeDetailsBuilder{
                 
         this.evidenceGrid.items = this.evidenceList;
         this.evidenceGrid.clearCache();
-        
-        var vsProperties = $('#overlay #vertical-layout-properties');
-        var vsNotes = $('#overlay #vertical-layout-notes');
-        var vsActions = $('#overlay #vertical-layout-actions');
-        var vsEvidence = $('#overlay #vertical-layout-evidence');
-        
-        vsProperties.toggle(true);
-        vsNotes.toggle(false);
-        vsActions.toggle(false);
-        vsEvidence.toggle(false);
+       
     };
     
     assignEventHandlers(){
@@ -135,11 +126,6 @@ class ShapeDetailsBuilder{
         var vsNotes = $('#overlay #vertical-layout-notes');
         var vsActions = $('#overlay #vertical-layout-actions');
         var vsEvidence = $('#overlay #vertical-layout-evidence');
-        
-        btnProperties.setAttribute('theme', 'primary');
-        btnNotes.removeAttribute('theme');
-        btnActions.removeAttribute('theme');
-        btnEvidence.removeAttribute('theme');
         
         if(button.onclick === null){
             button.onclick = function(){

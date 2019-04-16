@@ -1,5 +1,6 @@
 class Canvas {
     
+    graphElement;
     clipboard;
     toolbar;
     graph;
@@ -13,6 +14,7 @@ class Canvas {
     };
     
     init(graphElement, toolbar) {
+        this.graphElement = graphElement;
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
         this.shapeDetailsBuilder = new ShapeDetailsBuilder(this.graph);
@@ -39,6 +41,21 @@ class Canvas {
         
         this.lastInsertedVertex = vertex;
     }; 
+    
+    onToggleGrid(){
+        this.graph.setGridEnabled(!this.graph.gridEnabled);
+        if(this.graph.gridEnabled){
+            this.graphElement.style.backgroundImage = null;
+            this.graphElement.style.backgroundColor = "#dbd9d9";
+        }else{
+            this.graphElement.style.backgroundColor = null;
+            this.graphElement.style.backgroundImage = "url('../images/grid.gif')";
+        };
+    };
+    
+    onToggleGuide(){
+        mxGraphHandler.prototype.guidesEnabled = ! mxGraphHandler.prototype.guidesEnabled;
+    };
     
     onEdgeStyleChange(cell, edgeStyle){
         var style;

@@ -46,14 +46,15 @@ class GraphConfiguration
         };
 		
         mxEdgeHandler.prototype.snapToTerminals = true;
-       
+        var style = this.graph.stylesheet.getDefaultEdgeStyle();
+        style[mxConstants.STYLE_EDGE] = mxEdgeStyle.TopToBottom;
         
         new mxRubberband(this.graph);
         this.graph.setConnectable(true);
         this.graph.setTooltips(true);
         this.graph.setCellsCloneable(false);
         this.graph.vertexLabelsMovable = true;
-        this.graph.gridSize = 30;
+        this.graph.gridSize = 15;
         this.graph.setGridEnabled(true);
         this.graph.container.focus();
     };
@@ -110,10 +111,10 @@ class GraphConfiguration
         {
             if(cell === null){
                 menu.addItem('Toggle Grid', null, function(){
-                    graph.setGridEnabled(!graph.gridEnabled);
+                    canvas.onToggleGrid();
                 });
                 menu.addItem('Toggle Guide', null, function(){
-                     mxGraphHandler.prototype.guidesEnabled = ! mxGraphHandler.prototype.guidesEnabled;
+                    canvas.onToggleGuide();
                 });
                 return;
             }
