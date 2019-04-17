@@ -10,8 +10,8 @@ class ShapeDefinitionBuilder {
                                     ShapeDefinitionBuilder.Or(),
                                     ShapeDefinitionBuilder.And()];
         this.defaultShapeTexts = ["Outcome", "Factor", "Cause", "Or", "And"];
-        this.defaultStrokeColors = ["#39537c", "#7c7a61", "#6f6870", "#1e87b4", "#1e87b4"];
-        this.defaultFillColors = ["#839abf", "#ceccad", "#b8aeba", "#23a0d7", "#23a0d7"];
+        this.defaultStrokeColors = ["#39537c", "#7c7a61", "#6f6870", "#39536b", "#39536b"];
+        this.defaultFillColors = ["#839abf", "#ceccad", "#b8aeba", "#3382c6", "#3382c6"];
         this.defaultFontColors = ["#2d3542", "#474638", "#3c363d", "#ffffff", "#ffffff"];
         
         this.shapeDefinitionList = this.getDefaultDefinitionList();

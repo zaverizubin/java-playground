@@ -1,13 +1,14 @@
 class Canvas {
     
     graphElement;
-    clipboard;
     toolbar;
     graph;
-    graphListeners;
+    
     graphConfiguration;
-    lastInsertedVertex;
     shapeDetailsBuilder;
+    stencilShapes;
+    
+    lastInsertedVertex;
     
     constructor(){
         
@@ -18,6 +19,7 @@ class Canvas {
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
         this.shapeDetailsBuilder = new ShapeDetailsBuilder(this.graph);
+        this.stencilShapes = new StencilShapes();
     };
     
     buildGraph(graphElement){

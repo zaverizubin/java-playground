@@ -78,7 +78,8 @@ class GraphShapeBuilder{
     
     positionVertex(vertex, referenceVertex){
         
-        var geometry = new mxGeometry(referenceVertex.getGeometry().x,
+        var geometry = new mxGeometry(referenceVertex.getGeometry().x 
+                                        + Math.round(referenceVertex.getGeometry().width/2 - vertex.getGeometry().width/2),
                                         referenceVertex.getGeometry().y + (3/2)*referenceVertex.getGeometry().height,
                                         vertex.getGeometry().width, vertex.getGeometry().height);
                                       
@@ -103,10 +104,10 @@ class GraphShapeBuilder{
                 return {width:110, height:110};
                 break;
             case ShapeDefinitionBuilder.Or():
-                return {width:100, height:90};
+                return {width:60, height:60};
                 break;
             case ShapeDefinitionBuilder.And():
-                return {width:100, height:90};
+                return {width:80, height:60};
                 break;
         }
     };
@@ -135,10 +136,10 @@ class GraphShapeBuilder{
                 return style + 'shape=rhombus;';
                 break;
             case ShapeDefinitionBuilder.Or():
-                return style + 'shape=custom-polyline;';
+                return style + 'shape=or;';
                 break;
             case ShapeDefinitionBuilder.And():
-                return style + 'shape=custom-polyline;';
+                return style + 'shape=and;';
                 break;
         }
     };

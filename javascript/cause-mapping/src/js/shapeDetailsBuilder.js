@@ -13,6 +13,8 @@ class ShapeDetailsBuilder{
     graph;
     cell;
     
+    initComplete;
+    
     constructor(graph){
         this.graph = graph;
         this.properties = new ShapeDetailsBuilder.Properties();
@@ -55,7 +57,9 @@ class ShapeDetailsBuilder{
         var shapeDetailsBuilder = this;
         setTimeout(function(){
             shapeDetailsBuilder.assignEventHandlers();
+            shapeDetailsBuilder.initComplete = true;
         }, 500);
+        
         
     };
     
@@ -73,6 +77,8 @@ class ShapeDetailsBuilder{
         vsNotes.toggle(false);
         vsActions.toggle(false);
         vsEvidence.toggle(false);
+        
+        
     };
     
     bindGrids(){
@@ -95,13 +101,15 @@ class ShapeDetailsBuilder{
         var shapeDetailsBuilder = this;
         
         var dialog = $("#shape-details").get(0);
-        dialog.addEventListener('opened-changed', function(event){
-            if(event.detail.value === false){
-                shapeDetailsBuilder.getShapePropertiesFromUI();
-                shapeDetailsBuilder.updateShapeDetails();
-                shapeDetailsBuilder.showCellOverlays(shapeDetailsBuilder.cell);
-            };
-        });
+        if(!this.initComplete){
+            dialog.addEventListener('opened-changed', function(event){
+                if(event.detail.value === false){
+                    shapeDetailsBuilder.getShapePropertiesFromUI();
+                    shapeDetailsBuilder.updateShapeDetails();
+                    shapeDetailsBuilder.showCellOverlays(shapeDetailsBuilder.cell);
+                };
+            });
+        }
         
         var btnClose = $('#shape-details-close-button').get(0);
         if(btnClose.onclick === null){
