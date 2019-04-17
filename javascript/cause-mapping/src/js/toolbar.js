@@ -58,7 +58,6 @@ class Toolbar {
             this.assignShapeEventHandlers(cloneNode, shapeDefinitionList[i]);
             svgShapesNode.appendChild(cloneNode);
         }
-        
     };
     
     getShapeClone(shapeDefinition){
@@ -79,6 +78,12 @@ class Toolbar {
             case "diamond":
                 cloneNode = $("#diamond-template").get(0).content.cloneNode(true);
                 break;
+            case "and":
+                cloneNode = $("#and-template").get(0).content.cloneNode(true);
+                break;
+            case "or":
+                cloneNode = $("#or-template").get(0).content.cloneNode(true);
+                break;
         };
         return cloneNode;
     };
@@ -88,7 +93,7 @@ class Toolbar {
         
         innerHTML = innerHTML.replace("[[stroke-color]]", shapeDefinition.shapeStrokeColor);
         innerHTML = innerHTML.replace("[[fill-color]]", shapeDefinition.shapeFillColor);
-        innerHTML = innerHTML.replace("[[text-color]]", shapeDefinition.shapeTextColor);
+        innerHTML = innerHTML.replace("[[font-color]]", shapeDefinition.shapeFontColor);
         innerHTML = innerHTML.replace("[[font-size]]", shapeDefinition.shapeFontSize);
         innerHTML = innerHTML.replace("[[font-family]]", shapeDefinition.shapeFontFamily);
         innerHTML = innerHTML.replace("[[text]]", shapeDefinition.shapeText);

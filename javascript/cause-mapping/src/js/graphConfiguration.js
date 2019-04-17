@@ -7,6 +7,7 @@ class GraphConfiguration
         
         this.setGraphConstants();
         this.setGraphProperties();
+        this.setGraphMouseHandlers();
         this.setGraphKeyHandlers();
         this.buildGraphFunctions();
         this.buildGraphContextMenu();
@@ -44,7 +45,9 @@ class GraphConfiguration
         {
             return !mxEvent.isAltDown(me.getEvent());
         };
-		
+	
+        mxCellRenderer.registerShape("custom-polyline", this.getPolylineShape());
+        
         mxEdgeHandler.prototype.snapToTerminals = true;
         var style = this.graph.stylesheet.getDefaultEdgeStyle();
         style[mxConstants.STYLE_EDGE] = mxEdgeStyle.TopToBottom;
@@ -57,6 +60,21 @@ class GraphConfiguration
         this.graph.gridSize = 15;
         this.graph.setGridEnabled(true);
         this.graph.container.focus();
+    };
+    
+    getPolylineShape(){
+        var points = [];
+        points.push(new mxPoint(20,60));
+        points.push(new mxPoint(20,30));
+        points.push(new mxPoint(45,10));
+        points.push(new mxPoint(70,30));
+        points.push(new mxPoint(70,60));
+        points.push(new mxPoint(20,60));
+        return new mxPolyline(points, 'black' , 1);
+    }
+    
+    setGraphMouseHandlers(){
+        
     };
     
     setGraphKeyHandlers(){

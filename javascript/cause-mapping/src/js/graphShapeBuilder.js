@@ -30,7 +30,6 @@ class GraphShapeBuilder{
         valueObject.setAttribute('description', this.shapeDefinition.shapeDescription);
         valueObject.setAttribute('cellType', this.shapeDefinition.shapeType);
        
-        
         var vertex = this.graph.insertVertex(this.graph.getDefaultParent(), null,
                                                 valueObject,
                                                 this.vertexLoc().x,
@@ -65,14 +64,15 @@ class GraphShapeBuilder{
         if(this.shapeDefinition.shapeTextBold) fontStyleValue+=1;
         if(this.shapeDefinition.shapeTextItalic) fontStyleValue+=2;
         if(this.shapeDefinition.shapeTextUnderline) fontStyleValue+=4;
-        var style = "fontFamily=" + this.shapeDefinition.shapeFontFamily + ";" 
-                    + "fontSize=" + this.shapeDefinition.shapeFontSize + ";"
-                    + "fontStyle=" + fontStyleValue + ";"
-                    + "fontColor=" + this.shapeDefinition.shapeTextColor + ";"
-                    + "strokeWidth=1;"
-                    + "strokeColor=" + this.shapeDefinition.shapeStrokeColor + ";"
-                    + "fillColor=" + this.shapeDefinition.shapeFillColor + ";";
-        style = this.getVertexStyle(this.shapeDefinition.shapeType) + style;    
+        
+        var style = cell.getStyle();
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTFAMILY, this.shapeDefinition.shapeFontFamily);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSIZE, this.shapeDefinition.shapeFontSize);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_STROKECOLOR, this.shapeDefinition.shapeStrokeColor);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FILLCOLOR, this.shapeDefinition.shapeFillColor);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTCOLOR, this.shapeDefinition.shapeFontColor);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSTYLE, fontStyleValue);
+        
         this.graph.setCellStyle(style,[cell]);
     };
     
@@ -100,7 +100,13 @@ class GraphShapeBuilder{
                 return {width:100, height:100};
                 break;
             case ShapeDefinitionBuilder.Diamond():
-               return {width:110, height:110};
+                return {width:110, height:110};
+                break;
+            case ShapeDefinitionBuilder.Or():
+                return {width:100, height:90};
+                break;
+            case ShapeDefinitionBuilder.And():
+                return {width:100, height:90};
                 break;
         }
     };
@@ -127,6 +133,12 @@ class GraphShapeBuilder{
                 break;
             case ShapeDefinitionBuilder.Diamond():
                 return style + 'shape=rhombus;';
+                break;
+            case ShapeDefinitionBuilder.Or():
+                return style + 'shape=custom-polyline;';
+                break;
+            case ShapeDefinitionBuilder.And():
+                return style + 'shape=custom-polyline;';
                 break;
         }
     };

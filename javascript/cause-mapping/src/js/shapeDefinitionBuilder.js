@@ -7,12 +7,12 @@ class ShapeDefinitionBuilder {
         this.defaultShapeTypes = [ShapeDefinitionBuilder.Rectangle(), 
                                     ShapeDefinitionBuilder.Rounded_Rectangle(),
                                     ShapeDefinitionBuilder.Ellipse(),
-                                    ShapeDefinitionBuilder.Circle(),
-                                    ShapeDefinitionBuilder.Diamond()];
-        this.defaultShapeTexts = ["Outcome", "Factor", "Cause"];
-        this.defaultStrokeColors = ["#39537c", "#7c7a61", "#6f6870"];
-        this.defaultFillColors = ["#839abf", "#ceccad", "#b8aeba"];
-        this.defaultTextColors = ["#2d3542", "#474638", "#3c363d"];
+                                    ShapeDefinitionBuilder.Or(),
+                                    ShapeDefinitionBuilder.And()];
+        this.defaultShapeTexts = ["Outcome", "Factor", "Cause", "Or", "And"];
+        this.defaultStrokeColors = ["#39537c", "#7c7a61", "#6f6870", "#1e87b4", "#1e87b4"];
+        this.defaultFillColors = ["#839abf", "#ceccad", "#b8aeba", "#23a0d7", "#23a0d7"];
+        this.defaultFontColors = ["#2d3542", "#474638", "#3c363d", "#ffffff", "#ffffff"];
         
         this.shapeDefinitionList = this.getDefaultDefinitionList();
    
@@ -33,19 +33,24 @@ class ShapeDefinitionBuilder {
     static Diamond(){
         return "diamond";
     };
+    static And(){
+        return "and";
+    };
+    static Or(){
+        return "or";
+    };
     
     getShapeDefinition () {
-        var defaultShapeType = this.defaultShapeTypes[0];
         var defaultShapeText = this.defaultShapeTexts[0];
         return{
-            shapeType : defaultShapeType,
+            shapeType : ShapeDefinitionBuilder.Rectangle(),
             shapeText : defaultShapeText,
             shapeDescription : "",
             shapeStrokeColor : "#82553c",
             shapeFillColor : "#ebbe82",
             shapeFontFamily : "arial",
             shapeFontSize : "14",
-            shapeTextColor : "#000000",
+            shapeFontColor : "#000000",
             shapeTextBold : false,
             shapeTextItalic : false,
             shapeTextUnderline : false
@@ -55,18 +60,20 @@ class ShapeDefinitionBuilder {
     getDefaultDefinitionList(){
         this.shapeDefinitionList = [];
         
-        for(var i=0; i<3; i++){
+        for(var i=0; i< this.defaultShapeTexts.length; i++){
             let def = this.getShapeDefinition();
             def.shapeType = this.defaultShapeTypes[i];
             def.shapeText = this.defaultShapeTexts[i];
             def.shapeStrokeColor = this.defaultStrokeColors[i];
             def.shapeFillColor = this.defaultFillColors[i];
-            def.shapeTextColor = this.defaultTextColors[i];
+            def.shapeFontColor = this.defaultFontColors[i];
             this.shapeDefinitionList.push(def);
         };
         
         return this.shapeDefinitionList;
     };
+    
+ 
     
     openShapeDefinitionDialog (){
         var shapeDefinitionBuilder = this;
@@ -156,10 +163,10 @@ class ShapeDefinitionBuilder {
         {
             var strokeColor = $('#overlay #shapes-grid #shape-stroke-color-' + i).get(0).value;
             var fillColor = $('#overlay #shapes-grid #shape-fill-color-' + i).get(0).value;
-            var textColor = $('#overlay #shapes-grid #shape-text-color-' + i).get(0).value;
+            var fontColor = $('#overlay #shapes-grid #shape-font-color-' + i).get(0).value;
             grid.items[i].shapeStrokeColor = strokeColor;
             grid.items[i].shapeFillColor = fillColor;
-            grid.items[i].shapeTextColor = textColor;
+            grid.items[i].shapeFontColor = fontColor;
         };
         this.shapeDefinitionList.splice(0, this.shapeDefinitionList.length);
         this.shapeDefinitionList.push.apply(this.shapeDefinitionList, grid.items);

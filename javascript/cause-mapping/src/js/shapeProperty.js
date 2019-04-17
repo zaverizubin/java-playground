@@ -9,7 +9,6 @@ class ShapeProperty{
         this.fontColor;
         this.strokeColor;
         this.fillColor;
-        this.strokeWidth;
     };
     
     getShapeProperties(){
@@ -23,8 +22,7 @@ class ShapeProperty{
         shapeProperties.push({label: 'font-color', value: this.fontColor, color:this.fontColor});
         shapeProperties.push({label: 'stroke-color', value: this.strokeColor, color:this.strokeColor});
         shapeProperties.push({label: 'fill-color', value: this.fillColor, color:this.fillColor});
-        shapeProperties.push({label: 'stroke-width', value: this.strokeWidth + 'px', color:'#fff'});
-
+     
         return shapeProperties;
     };
 
@@ -41,25 +39,29 @@ class ShapeProperty{
         this.yLocation = Math.round(cellGeometry.y);
         this.width = Math.round(cellGeometry.width);
         this.height = Math.round(cellGeometry.height);
-        this.fontSize =  (cell.getStyle().indexOf("fontSize") >=0)  
-                                    ? cell.getStyle().split("fontSize=")[1].split(";")[0]
-                                    :"-";
-
-        this.fontColor = (cell.getStyle().indexOf("fontColor") >=0) 
-                                    ? cell.getStyle().split("fontColor=")[1].substr(0,7)
-                                    :"#fff";
-
-        this.strokeColor = (cell.getStyle().indexOf("strokeColor") >=0)
-                                    ? cell.getStyle().split("strokeColor=")[1].substr(0,7)
-                                    : "#fff";
-
-        this.fillColor = (cell.getStyle().indexOf("fillColor") >=0)
-                                    ? cell.getStyle().split("fillColor=")[1].substr(0,7)  
-                                    : "#fff";
-
-        this.strokeWidth = (cell.getStyle().indexOf("strokeWidth") >=0)
-                                    ? cell.getStyle().split("strokeWidth=")[1].substr(0,1)
-                                    :"-";
+       
+        var styleComponents = cell.getStyle().split(";");
+        for(var i=0;i<styleComponents.length;i++){
+            var styleName = ""; var styleValue = "-";
+            if(styleComponents[i].indexOf('=') > 0){
+                styleName = styleComponents[i].split('=')[0];
+                styleValue = styleComponents[i].split('=')[1].split(";")[0];
+            };
+            switch(styleName){
+                case "fontSize":
+                    this.fontSize = styleValue;
+                    break; 
+                case "fontColor":
+                    this.fontColor = styleValue;
+                    break; 
+                case "strokeColor":
+                    this.strokeColor = styleValue;
+                    break; 
+                case "fillColor":
+                    this.fillColor = styleValue;
+                    break; 
+            };
+        };
     };
 }
 

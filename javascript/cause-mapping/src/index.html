@@ -42,12 +42,13 @@
                             <div id="svg-shapes">
                                 
                             </div>
+                            
                             <template id="rectangle-template">
                                 <div id="rectangle-shape" title ="Add to graph">
                                     <svg width="100" height="75">
                                         <g>
                                             <rect x="0" y="0"  width="100" height="75" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1"></rect>
-                                            <text x="15" y="42" font-family ="[[font-family]]" fill="[[text-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                            <text x="15" y="42" font-family ="[[font-family]]" fill="[[font-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
                                             <svg class="plus-circle">
                                                 <circle cx="85" cy="60" r="8" stroke-width="2" stroke="red" fill="#fff"></circle>
                                                 <line x1="80" y1="60" x2="90" y2="60" stroke="#000" stroke-width="2"></line>
@@ -57,12 +58,13 @@
                                     </svg>
                                 </div>
                             </template>
+                           
                             <template id="rounded-rectangle-template">
                                 <div id="rounded-rectangle-shape" title ="Add to graph">
                                     <svg width="105" height="75">
                                         <g>
                                             <rect x="2" y="2" width="100" height="70" rx="10" ry="10" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1"></rect>
-                                            <text x="25" y="40" font-family="[[font-family]]" fill="[[text-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                            <text x="25" y="40" font-family="[[font-family]]" fill="[[font-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
                                             <svg class="plus-circle">
                                                 <circle cx="85" cy="60" r="8" stroke-width="2" stroke="red" fill="#fff"></circle>
                                                 <line x1="80" y1="60" x2="90" y2="60" stroke="#000" stroke-width="2"></line>
@@ -72,12 +74,13 @@
                                     </svg>
                                 </div>
                             </template>
+                            
                             <template id="ellipse-template">
                                 <div id="ellipse-shape" title ="Add to graph">
                                     <svg width="105" height="90">
                                         <g>
                                             <ellipse cx="52" cy="45" rx="50" ry="40" stroke="[[stroke-color]]" fill="[[fill-color]]"></ellipse>
-                                            <text x="30" y="50" font-family ="[[font-family]]" fill="[[text-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">Cause</text>
+                                            <text x="30" y="50" font-family ="[[font-family]]" fill="[[font-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
                                             <svg class="plus-circle">
                                                 <circle cx="85" cy="60" r="8" stroke-width="2" stroke="red" fill="#fff"></circle>
                                                 <line x1="80" y1="60" x2="90" y2="60" stroke="#000" stroke-width="2"></line>
@@ -87,12 +90,13 @@
                                     </svg>
                                 </div>
                             </template>
+                            
                             <template id="circle-template">
                                 <div id="circle-shape" title ="Add to graph">
                                     <svg width="100" height="100">
                                         <g>
                                             <circle cx="50" cy="50" r="45" stroke="[[stroke-color]]" fill="[[fill-color]]"></circle>
-                                            <text x="30" y="55" font-family ="[[font-family]]" fill="[[text-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                            <text x="30" y="55" font-family ="[[font-family]]" fill="[[font-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
                                             <svg class="plus-circle">
                                                 <circle cx="85" cy="70" r="8" stroke-width="2" stroke="red" fill="#fff"></circle>
                                                 <line x1="80" y1="70" x2="90" y2="70" stroke="#000" stroke-width="2"></line>
@@ -102,13 +106,46 @@
                                     </svg>
                                 </div>
                             </template>
+                           
                             <template id="diamond-template">
                                 <div id="diamond-shape" title ="Add to graph">
                                     <svg width="110" height="120">
                                         <g>
                                            <rect x="45" y="-30" width="75" height="75" transform="rotate(45)" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1"></rect>
-                                           <text x="30" y="65" font-family="[[font-family]]" fill="[[text-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                           <text x="30" y="65" font-family="[[font-family]]" fill="[[font-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
                                            <svg class="plus-circle">
+                                                <circle cx="85" cy="80" r="8" stroke-width="2" stroke="red" fill="#fff"></circle>
+                                                <line x1="80" y1="80" x2="90" y2="80" stroke="#000" stroke-width="2"></line>
+                                                <line x1="85" y1="75" x2="85" y2="85" stroke="#000" stroke-width="2"></line>
+                                            </svg>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </template>
+                            
+                            <template id="or-template">
+                                <div id="or-shape" title ="Add to graph">
+                                    <svg width="100" height="90">
+                                        <g>
+                                            <polygon points="20,60 20,30 45,10 70,30 70,60 20,60" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1"/>
+                                            <text x="35" y="45" font-family="[[font-family]]" fill="[[font-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                            <svg class="plus-circle">
+                                                <circle cx="85" cy="80" r="8" stroke-width="2" stroke="red" fill="#fff"></circle>
+                                                <line x1="80" y1="80" x2="90" y2="80" stroke="#000" stroke-width="2"></line>
+                                                <line x1="85" y1="75" x2="85" y2="85" stroke="#000" stroke-width="2"></line>
+                                            </svg>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </template>
+                            
+                            <template id="and-template">
+                                <div id="and-shape" title ="Add to graph">
+                                    <svg width="100" height="90">
+                                        <g>
+                                            <path d="M20 60 L20 30  A 20 20, 0, 0, 1, 70 30  L70 60 L20 60" stroke="[[stroke-color]]" fill="[[fill-color]]" stroke-width="1" />
+                                            <text x="35" y="40" font-family="[[font-family]]" fill="[[font-color]]" font-size="[[font-size]]" font-weight="[[font-weight]]" font-style="[[font-style]]" text-decoration="[[text-decoration]]">[[text]]</text>
+                                            <svg class="plus-circle">
                                                 <circle cx="85" cy="80" r="8" stroke-width="2" stroke="red" fill="#fff"></circle>
                                                 <line x1="80" y1="80" x2="90" y2="80" stroke="#000" stroke-width="2"></line>
                                                 <line x1="85" y1="75" x2="85" y2="85" stroke="#000" stroke-width="2"></line>
@@ -172,6 +209,8 @@
                                             <vaadin-item value="circle">Circle</vaadin-item>
                                             <vaadin-item value="ellipse">Ellipse</vaadin-item>
                                             <vaadin-item value="diamond">Diamond</vaadin-item>
+                                            <vaadin-item value="and">And</vaadin-item>
+                                            <vaadin-item value="or">Or</vaadin-item>
                                         </vaadin-list-box>
                                     </template>
                             </vaadin-select>
@@ -227,8 +266,8 @@
                         </template>
                     </vaadin-grid-column>
                     <vaadin-grid-column>
-                        <template class="header">Text Color</template>
-                        <template><input type="color" id="shape-text-color-[[index]]" value="{{item.shapeTextColor}}"></template>
+                        <template class="header">Font Color</template>
+                        <template><input type="color" id="shape-font-color-[[index]]" value="{{item.shapeFontColor}}"></template>
                     </vaadin-grid-column>
                     <vaadin-grid-column width="200px">
                         <template class="header">Font Style</template>
@@ -265,15 +304,18 @@
     
     <vaadin-dialog id="shape-details">
        <template>
-           <vaadin-button id="shape-properties-button" class="" theme = "primary">Properties</vaadin-button>
+            <vaadin-button id="shape-properties-button" class="" theme = "primary">Properties</vaadin-button>
             <vaadin-button id="shape-notes-button" class="">Notes</vaadin-button>
             <vaadin-button id="shape-actions-button" class="">Actions</vaadin-button>
             <vaadin-button id="shape-evidence-button" class="">Evidence</vaadin-button>
+            
             <vaadin-vertical-layout id="vertical-layout-properties">
                 <vaadin-horizontal-layout id="horizontal-layout-properties">
                     <vaadin-vertical-layout class="inner-vertical-layout-properties">
                         <vaadin-text-field label="Text" class="shape-label width-300 "></vaadin-text-field>
+                        
                         <vaadin-text-area label="Description" class="shape-description width-300"></vaadin-text-area>
+                        
                         <vaadin-select label="Font Face" class="shape-font-family" value="Arial">
                             <template>
                                 <vaadin-list-box>
@@ -284,6 +326,7 @@
                                 </vaadin-list-box>
                             </template>
                         </vaadin-select>
+                        
                         <vaadin-select label="Font Size" class="shape-font-size" value="12">
                             <template>
                                 <vaadin-list-box>
@@ -305,8 +348,8 @@
                         <vaadin-custom-field label="Fill color">
                             <input type="color" class="shape-fill-color" value="#ffffff">
                         </vaadin-custom-field>
-                        <vaadin-custom-field label="Text color">
-                            <input type="color" class="shape-text-color" value="#ffffff">
+                        <vaadin-custom-field label="Font color">
+                            <input type="color" class="shape-font-color" value="#ffffff">
                         </vaadin-custom-field>
                         <vaadin-custom-field label="Text Decoration">
                             <vaadin-checkbox class="shape-text-bold" checked="false"><b>B</b></vaadin-checkbox>
@@ -315,8 +358,8 @@
                         </vaadin-custom-field>
                     </vaadin-vertical-layout>
                 </vaadin-horizontal-layout>
-                
             </vaadin-vertical-layout>
+            
             <vaadin-vertical-layout id="vertical-layout-notes">
                 <vaadin-button id="add-shape-note" class="">Add Note</vaadin-button>
                 <vaadin-grid id="shape-notes-grid">
@@ -338,6 +381,7 @@
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>
+            
             <vaadin-vertical-layout id="vertical-layout-actions">
                 <vaadin-button id="add-shape-action" class="">Add Action</vaadin-button>
                 <vaadin-grid id="shape-actions-grid">
@@ -371,6 +415,7 @@
                     </vaadin-grid-column>
                 </vaadin-grid>
             </vaadin-vertical-layout>    
+            
             <vaadin-vertical-layout id="vertical-layout-evidence"> 
                 <vaadin-button id="add-shape-evidence" class="">Add Evidence</vaadin-button>
                 <vaadin-grid id="shape-evidence-grid">
@@ -399,7 +444,11 @@
                         <template><vaadin-button id="delete-[[index]]" ><b>X</b></vaadin-button></template>
                     </vaadin-grid-column>
                 </vaadin-grid>
-            </vaadin-vertical-layout>  
+            </vaadin-vertical-layout>
+            
+            <footer>
+                <vaadin-button id="shape-details-close-button">Close</vaadin-button>
+            </footer>
         </template> 
     </vaadin-dialog>
                 

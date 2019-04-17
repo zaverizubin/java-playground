@@ -46,20 +46,33 @@ class ShapeDetailsBuilder{
     buildDetails(cell){
         this.cell = cell;
         
-        var shapeDetailsBuilder = this;
-        var dialog = $("#shape-details").get(0);
-        dialog.opened = true;
-        $('#overlay').addClass("shape-details");
-        
+        this.openDialog();
         this.getShapeDetails(this.cell);
         this.getStyleDetails(this.cell);
         this.setShapePropertiesToUI();
         this.bindGrids();
         
+        var shapeDetailsBuilder = this;
         setTimeout(function(){
             shapeDetailsBuilder.assignEventHandlers();
         }, 500);
         
+    };
+    
+    openDialog(){
+        var dialog = $("#shape-details").get(0);
+        dialog.opened = true;
+        $('#overlay').addClass("shape-details");
+        
+        var vsProperties = $('#overlay #vertical-layout-properties');
+        var vsNotes = $('#overlay #vertical-layout-notes');
+        var vsActions = $('#overlay #vertical-layout-actions');
+        var vsEvidence = $('#overlay #vertical-layout-evidence');
+        
+        vsProperties.toggle(true);
+        vsNotes.toggle(false);
+        vsActions.toggle(false);
+        vsEvidence.toggle(false);
     };
     
     bindGrids(){
@@ -89,6 +102,13 @@ class ShapeDetailsBuilder{
                 shapeDetailsBuilder.showCellOverlays(shapeDetailsBuilder.cell);
             };
         });
+        
+        var btnClose = $('#shape-details-close-button').get(0);
+        if(btnClose.onclick === null){
+           btnClose.onclick = function(){
+              dialog.opened = false; 
+           };
+        }
         
         var btnProperties = $('#overlay #shape-properties-button').get(0);
         var btnNotes = $('#overlay #shape-notes-button').get(0);
@@ -267,7 +287,7 @@ class ShapeDetailsBuilder{
         $('#overlay .shape-font-size').get(0).value = String(this.properties.fontSize);
         $('#overlay .shape-stroke-color').get(0).value = this.properties.strokeColor;
         $('#overlay .shape-fill-color').get(0).value = this.properties.fillColor;
-        $('#overlay .shape-text-color').get(0).value = this.properties.fontColor;
+        $('#overlay .shape-font-color').get(0).value = this.properties.fontColor;
         $('#overlay .shape-text-bold').get(0).checked = this.properties.fontBold;
         $('#overlay .shape-text-italic').get(0).checked = this.properties.fontItalic;
         $('#overlay .shape-text-underline').get(0).checked = this.properties.fontUnderline;
@@ -280,7 +300,7 @@ class ShapeDetailsBuilder{
         this.properties.fontSize = Number($('#overlay .shape-font-size').get(0).value);
         this.properties.strokeColor = $('#overlay .shape-stroke-color').get(0).value;
         this.properties.fillColor = $('#overlay .shape-fill-color').get(0).value;
-        this.properties.fontColor = $('#overlay .shape-text-color').get(0).value;
+        this.properties.fontColor = $('#overlay .shape-font-color').get(0).value;
         this.properties.fontBold = $('#overlay .shape-text-bold').get(0).checked;
         this.properties.fontItalic = $('#overlay .shape-text-italic').get(0).checked;
         this.properties.fontUnderline = $('#overlay .shape-text-underline').get(0).checked;
