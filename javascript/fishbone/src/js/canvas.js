@@ -187,13 +187,14 @@ function Canvas () {
     };
     
     this.onLoadDiagram = function(xmlContent){
+        var graph = this.graph;
         this.graph.getModel().beginUpdate();
         try
         {   
             this.clearGraph();
             var doc = mxUtils.parseXml(xmlContent);
             var codec = new mxCodec(doc);
-            codec.lookup = function(id){return model.getCell(id);}
+            codec.lookup = function(id){return graph.getModel().getCell(id);}
             codec.decode(doc.documentElement, this.graph.getModel());
 
             var objectGraphBuilder = new ObjectGraphBuilder(this);
@@ -207,6 +208,37 @@ function Canvas () {
            this.graph.getModel().endUpdate();
         }
     };
+    
+    this.on8MDiagramClick = function(){
+        var canvas = this;
+        var graph = this.graph;
+        Utils.showConfirmationBox(Messages.CLEAR_GRAPH ,null ,null, function(){
+            canvas.addDefaultDiagram(Constants._8Ms);
+        });
+    };
+    
+    this.on4SDiagramClick = function(){
+        var canvas = this;
+        var graph = this.graph;
+        Utils.showConfirmationBox(Messages.CLEAR_GRAPH, null, null, function(){
+            canvas.addDefaultDiagram(Constants._4Ss);
+        });
+    };
+    
+    this.addDefaultDiagram = function(arr){
+        this.graph.getModel().beginUpdate();
+        try{
+            this.clearGraph();
+            this.buildCenterBone();
+            for(var i = 0; i < arr.length; i++){
+                this.centerBone.addChildBone();
+                var  childBone = this.centerBone.childBones[i];
+                childBone.getValue().setAttribute('label', arr[i]);
+            }
+        }finally{
+             this.graph.getModel().endUpdate();
+        }
+    }
     
     this.clearGraph = function(){
         this.graph.removeCells(this.graph.getChildCells(this.graph.getDefaultParent(), true, true));
@@ -346,8 +378,7 @@ function Canvas () {
             } 
         };
     };
-    
-    
+        
     this.onPropertiesWindowOpen = function(){
         var cells = this.graph.getSelectionCells();
         if(cells.length > 1 || cells.length ===0){
