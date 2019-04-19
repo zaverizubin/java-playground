@@ -8,9 +8,11 @@ class GraphConfiguration
         this.setGraphConstants();
         this.setGraphProperties();
         this.setGraphMouseHandlers();
-        this.setGraphKeyHandlers();
+        this.setGraphHandlers();
+        this.setGraphPanningProperties();
         this.buildGraphFunctions();
         this.buildGraphContextMenu();
+        //new GraphCellFolding(this.graph);
         
     };
     
@@ -29,8 +31,7 @@ class GraphConfiguration
     };
     
     setGraphProperties(){
-        
-        mxVertexHandler.prototype.rotationEnabled = true;
+       
         mxEvent.disableContextMenu(this.graphElement);
         mxGraph.prototype.isCellSelectable = function(cell)
         {
@@ -39,13 +40,7 @@ class GraphConfiguration
             return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
         };
         
-        mxGraphHandler.prototype.guidesEnabled = true;
-	mxGraphHandler.prototype.useGuidesForEvent = function(me)
-        {
-            return !mxEvent.isAltDown(me.getEvent());
-        };
-	
-        mxEdgeHandler.prototype.snapToTerminals = true;
+        
         var style = this.graph.stylesheet.getDefaultEdgeStyle();
         style[mxConstants.STYLE_EDGE] = mxEdgeStyle.TopToBottom;
         
@@ -56,6 +51,7 @@ class GraphConfiguration
         this.graph.vertexLabelsMovable = true;
         this.graph.gridSize = 15;
         this.graph.setGridEnabled(true);
+        this.graph.keepEdgesInBackground = true;
         this.graph.container.focus();
         
     };
@@ -65,7 +61,17 @@ class GraphConfiguration
       
     };
     
-    setGraphKeyHandlers(){
+    setGraphHandlers(){
+        
+        mxVertexHandler.prototype.rotationEnabled = true;
+        mxGraphHandler.prototype.guidesEnabled = true;
+	mxGraphHandler.prototype.useGuidesForEvent = function(me)
+        {
+            return !mxEvent.isAltDown(me.getEvent());
+        };
+	
+        mxEdgeHandler.prototype.snapToTerminals = true;
+        
         var graph = this.graph;
         var keyHandler = new mxKeyHandler(graph);
         keyHandler.bindKey(46, function(evt){
@@ -73,7 +79,17 @@ class GraphConfiguration
         });
     };
     
-    
+    setGraphPanningProperties(){
+        this.graph.setPanning(true);
+        this.graph.panningHandler.useLeftButtonForPanning = false;
+        this.graph.panningHandler.addListener(mxEvent.PAN_START, function() {
+            this.graph.container.style.cursor = 'move'; 
+        });
+        this.graph.panningHandler.addListener(mxEvent.PAN_END, function() { 
+            this.graph.container.style.cursor = 'default'; 
+        });
+        this.graph.panningHandler.ignoreCell = false;
+    };
     
     buildGraphFunctions(){
         var graph = this.graph;

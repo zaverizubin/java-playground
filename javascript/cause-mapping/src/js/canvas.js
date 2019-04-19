@@ -114,8 +114,8 @@ class Canvas {
         this.graph.zoomActual();
     };
     
-    onCompactTreeLayoutClick(){
-        this.graphLayout.toggleLayout();
+    onCompactTreeLayoutClick(isHorizontal){
+        this.graphLayout.toggleLayout(isHorizontal);
         var message = Messages.TOGGLE_TREE_LAYOUT;
         message += this.graphLayout.isLayoutSpecified ? " On":" Off";
         Utils.showNotification(message);

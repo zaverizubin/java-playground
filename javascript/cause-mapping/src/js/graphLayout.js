@@ -8,21 +8,22 @@ class GraphLayout{
     };
     
     
-    toggleLayout(){
+    toggleLayout(isHorizontal){
+        
         if(!this.isLayoutSpecified){
-            this.useCompactTreeLayout();
+            this.useCompactTreeLayout(isHorizontal);
         }else{
             this.clearLayout();
         }
     };
     
-    useCompactTreeLayout(){
+    useCompactTreeLayout(isHorizontal){
         var layout = new mxCompactTreeLayout(this.graph, false);
         layout.useBoundingBox = false;
         layout.edgeRouting = false;
-        layout.levelDistance = 30;
-        layout.nodeDistance = 10;
-        
+        layout.levelDistance = 50;
+        layout.nodeDistance = 20;
+        layout.horizontal = isHorizontal;
         this.layoutMgr.getLayout = function(cell)
         {
             if (cell.getChildCount() > 0)

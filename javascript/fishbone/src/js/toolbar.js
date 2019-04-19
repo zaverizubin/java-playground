@@ -93,10 +93,6 @@ function Toolbar () {
             $('#file-input').trigger('click');
         });
         
-        $("#save-diagram").click(function(){
-            canvas.onSaveDiagramClick();
-        });
-        
         $("#load-8M-diagram").click(function(){
             canvas.on8MDiagramClick();
         });

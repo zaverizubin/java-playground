@@ -33,7 +33,8 @@ class Toolbar {
         });
         
         $("#compact-tree-layout").click(function(){
-             canvas.onCompactTreeLayoutClick();
+            var isHorizontal = $("#tree-layout-orientation").get(0).checked;
+             canvas.onCompactTreeLayoutClick(isHorizontal);
         });
         
         

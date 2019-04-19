@@ -23,7 +23,7 @@ body{
     background-color: #824ba0;
 }
 .toolbar{
-    width: 170px;
+    width: 220px;
     height: 100%;
     position: relative;
     background-color: #fff;
@@ -69,6 +69,10 @@ body{
     width:150px;
     vertical-align: middle;
     cursor: pointer;
+}
+
+.tools #tree-layout-orientation{
+    font-size: 0.8em;
 }
 
 .tools .menu-item{
