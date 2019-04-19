@@ -50,6 +50,8 @@ class GraphConfiguration
         this.graph.setCellsCloneable(false);
         this.graph.vertexLabelsMovable = true;
         this.graph.gridSize = 15;
+        this.graph.zoomFactor = 1.05;
+        this.graph.centerZoom = true;
         this.graph.setGridEnabled(true);
         this.graph.keepEdgesInBackground = true;
         this.graph.container.focus();
@@ -58,7 +60,11 @@ class GraphConfiguration
     
     
     setGraphMouseHandlers(){
-      
+        var canvas = this.canvas;
+        mxEvent.addMouseWheelListener(function (evt, up)
+        {
+            canvas.onMouseWheelZoomChange(up);
+        });
     };
     
     setGraphHandlers(){

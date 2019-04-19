@@ -59,9 +59,7 @@ body{
     cursor: pointer;
 }
 
-.tools label {
-   font-size: 0.8em; 
-}
+
 
 .tools vaadin-button{
     padding: .2em 0.2em;
@@ -72,7 +70,7 @@ body{
 }
 
 .tools #tree-layout-orientation{
-    font-size: 0.8em;
+    font-size: 14px !important;
 }
 
 .tools .menu-item{

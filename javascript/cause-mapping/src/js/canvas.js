@@ -106,8 +106,18 @@ class Canvas {
         this.graph.removeCells(this.graph.getSelectionCells());
     }
     
+    onMouseWheelZoomChange(zoomIn){
+        if(zoomIn){
+            this.graph.zoomIn();
+        }else{
+            this.graph.zoomOut();
+        }
+        $("#zoom-setting").get(0).value = this.graph.view.getScale()*100 - 100;
+        
+    };
+    
     onZoomChange(value){
-        this.graph.zoomTo(1 + (value/100), false);
+        this.graph.zoomTo(1 + (value/100), true);
     };
     
     onZoomReset(){
