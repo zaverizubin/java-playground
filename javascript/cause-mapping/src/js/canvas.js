@@ -2,6 +2,7 @@ class Canvas {
     
     graphElement;
     toolbar;
+    graphLayout;
     graph;
     
     graphConfiguration;
@@ -19,6 +20,7 @@ class Canvas {
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
         this.shapeDetailsBuilder = new ShapeDetailsBuilder(this.graph);
+        this.graphLayout = new GraphLayout(this.graph);
         this.stencilShapes = new StencilShapes();
     };
     
@@ -33,13 +35,12 @@ class Canvas {
             referenceVertex = this.graph.getSelectionCell();
         }else if(this.lastInsertedVertex !== undefined && this.graph.getModel().getCell(this.lastInsertedVertex.id) !== undefined){
             referenceVertex = this.lastInsertedVertex;
+        }else{
+            referenceVertex = this.graph.getDefaultParent();
         }
         
         var graphShapeBuilder = new GraphShapeBuilder(this.graph, shapeDefinition, referenceVertex);
         var vertex = graphShapeBuilder.getGraphShape();
-        if(referenceVertex){
-            graphShapeBuilder.positionVertex(vertex,referenceVertex);
-        }
         
         this.lastInsertedVertex = vertex;
     }; 
@@ -47,16 +48,23 @@ class Canvas {
     onToggleGrid(){
         this.graph.setGridEnabled(!this.graph.gridEnabled);
         if(this.graph.gridEnabled){
-            this.graphElement.style.backgroundImage = null;
-            this.graphElement.style.backgroundColor = "#dbd9d9";
-        }else{
             this.graphElement.style.backgroundColor = null;
             this.graphElement.style.backgroundImage = "url('../images/grid.gif')";
+        }else{
+            this.graphElement.style.backgroundImage = null;
+            this.graphElement.style.backgroundColor = "#dbd9d9";
         };
+        
+        var message = Messages.TOGGLE_GRID;
+        message += this.graph.gridEnabled ? " On":" Off";
+        Utils.showNotification(message);
     };
     
     onToggleGuide(){
         mxGraphHandler.prototype.guidesEnabled = ! mxGraphHandler.prototype.guidesEnabled;
+        var message = Messages.TOGGLE_GUIDE;
+        message +=  mxGraphHandler.prototype.guidesEnabled ? " On":" Off";
+        Utils.showNotification(message);
     };
     
     onEdgeStyleChange(cell, edgeStyle){
@@ -112,6 +120,13 @@ class Canvas {
         this.graph.zoomActual();
     };
     
+    onCompactTreeLayoutClick(){
+        this.graphLayout.toggleLayout();
+        var message = Messages.TOGGLE_TREE_LAYOUT;
+        message += this.graphLayout.isLayoutSpecified ? " On":" Off";
+        Utils.showNotification(message);
+    };
+    
     onClearDiagramClick(){
         var canvas = this;
         Utils.showConfirmationBox(Messages.CLEAR_GRAPH, null, null, function(){
@@ -142,13 +157,14 @@ class Canvas {
     };
     
     onLoadDiagram(xmlContent){
+        var graph = this.graph;
         this.graph.getModel().beginUpdate();
         try
         {   
             this.clearGraph();
             var doc = mxUtils.parseXml(xmlContent);
             var codec = new mxCodec(doc);
-            codec.lookup = function(id){return model.getCell(id);}
+            codec.lookup = function(id){return graph.getModel().getCell(id);}
             codec.decode(doc.documentElement, this.graph.getModel());
             
             var cells = this.graph.getChildVertices(this.graph.getDefaultParent());

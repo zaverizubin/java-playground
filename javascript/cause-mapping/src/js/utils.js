@@ -9,8 +9,25 @@ class Utils{
         };
     };
     
+    static showNotification(message, duration){
+        const notification =  $('#notification').get(0);
+        notification.open();
+        if(duration) {
+            notification.duration = duration;
+        }
+        notification.renderer = function(root) {
+            
+            const container = window.document.createElement('div');
+            const boldText = window.document.createElement('b');
+            boldText.textContent = message;
+            container.appendChild(boldText);
+
+            root.appendChild(container);
+      };
+    }
+    
     static showMessageDialog (message, classSelector){
-        var dialog = $("#message-window").get(0);
+        var dialog = $('#message-window').get(0);
         dialog.opened = true;
         
         if(classSelector !== undefined){

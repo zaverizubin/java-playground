@@ -32,6 +32,11 @@ class Toolbar {
             canvas.onZoomReset();
         });
         
+        $("#compact-tree-layout").click(function(){
+             canvas.onCompactTreeLayoutClick();
+        });
+        
+        
         $("#clear-diagram").click(function(){
             canvas.onClearDiagramClick();
         });

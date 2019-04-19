@@ -12,6 +12,7 @@ class GraphShapeBuilder{
         {
             this.vertex = this.buildVertex();
             this.buildEdge();
+            this.positionVertex();
             this.applyCellStyle(this.vertex);
         }
         finally
@@ -41,7 +42,7 @@ class GraphShapeBuilder{
     }
     
     buildEdge(){
-        if(this.vertexToConnect === undefined) return;
+        if(this.graph.getChildVertices(this.graph.getDefaultParent()).length == 0) return;
         
         var doc = mxUtils.createXmlDocument();
         var valueObject = doc.createElement('node')
@@ -56,7 +57,8 @@ class GraphShapeBuilder{
         cell.source = this.vertexToConnect;
         cell.target = this.vertex;
         this.edge = cell;
-        this.graph.addEdge(cell, this.graphParent);
+        this.graph.addEdge(cell, this.graph.getDefaultParent());
+        
     };
     
     applyCellStyle = function (cell){
@@ -76,14 +78,18 @@ class GraphShapeBuilder{
         this.graph.setCellStyle(style,[cell]);
     };
     
-    positionVertex(vertex, referenceVertex){
+    positionVertex(){
+        if(this.vertexToConnect === undefined || this.vertexToConnect === this.graph.getDefaultParent()){
+            return;
+        };
         
-        var geometry = new mxGeometry(referenceVertex.getGeometry().x 
-                                        + Math.round(referenceVertex.getGeometry().width/2 - vertex.getGeometry().width/2),
-                                        referenceVertex.getGeometry().y + (3/2)*referenceVertex.getGeometry().height,
-                                        vertex.getGeometry().width, vertex.getGeometry().height);
+        var geometry = new mxGeometry(this.vertexToConnect.getGeometry().x 
+                                    + Math.round(this.vertexToConnect.getGeometry().width/2 - this.vertex.getGeometry().width/2),
+                                    this.vertexToConnect.getGeometry().y + (3/2)*this.vertexToConnect.getGeometry().height,
+                                    this.vertex.getGeometry().width, this.vertex.getGeometry().height);
+
                                       
-        this.graph.getModel().setGeometry(vertex, geometry);
+        this.graph.getModel().setGeometry(this.vertex, geometry);
     };
     
     vertexSize() {

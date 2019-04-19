@@ -11,6 +11,7 @@ class GraphConfiguration
         this.setGraphKeyHandlers();
         this.buildGraphFunctions();
         this.buildGraphContextMenu();
+        
     };
     
     setGraphConstants(){
@@ -56,11 +57,12 @@ class GraphConfiguration
         this.graph.gridSize = 15;
         this.graph.setGridEnabled(true);
         this.graph.container.focus();
+        
     };
     
     
     setGraphMouseHandlers(){
-        
+      
     };
     
     setGraphKeyHandlers(){
@@ -70,6 +72,8 @@ class GraphConfiguration
             graph.removeCells();
         });
     };
+    
+    
     
     buildGraphFunctions(){
         var graph = this.graph;
