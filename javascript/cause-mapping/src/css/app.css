@@ -39,7 +39,7 @@ body{
     border:1px solid #666;
     overflow:auto;
     box-sizing: border-box;
-    background-image: url("../images/grid.gif");
+    --background-image: url("../images/grid.gif");
 }
 
 .shapes-menu .svgshapes{

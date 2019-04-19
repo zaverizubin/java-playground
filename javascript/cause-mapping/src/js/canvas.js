@@ -1,16 +1,5 @@
 class Canvas {
     
-    graphElement;
-    toolbar;
-    graphLayout;
-    graph;
-    
-    graphConfiguration;
-    shapeDetailsBuilder;
-    stencilShapes;
-    
-    lastInsertedVertex;
-    
     constructor(){
         
     };
@@ -22,6 +11,7 @@ class Canvas {
         this.shapeDetailsBuilder = new ShapeDetailsBuilder(this.graph);
         this.graphLayout = new GraphLayout(this.graph);
         this.stencilShapes = new StencilShapes();
+        this.setGridBackgroundStyle(true);
     };
     
     buildGraph(graphElement){
@@ -47,18 +37,22 @@ class Canvas {
     
     onToggleGrid(){
         this.graph.setGridEnabled(!this.graph.gridEnabled);
-        if(this.graph.gridEnabled){
-            this.graphElement.style.backgroundColor = null;
-            this.graphElement.style.backgroundImage = "url('../images/grid.gif')";
-        }else{
-            this.graphElement.style.backgroundImage = null;
-            this.graphElement.style.backgroundColor = "#dbd9d9";
-        };
+        this.setGridBackgroundStyle(this.graph.gridEnabled);
         
         var message = Messages.TOGGLE_GRID;
         message += this.graph.gridEnabled ? " On":" Off";
         Utils.showNotification(message);
     };
+    
+    setGridBackgroundStyle(enabled){
+        if(enabled){
+            this.graphElement.style.backgroundColor = null;
+            this.graphElement.style.backgroundImage = "url('images/grid.gif')";
+        }else{
+            this.graphElement.style.backgroundImage = null;
+            this.graphElement.style.backgroundColor = "#dbd9d9";
+        };
+    }
     
     onToggleGuide(){
         mxGraphHandler.prototype.guidesEnabled = ! mxGraphHandler.prototype.guidesEnabled;

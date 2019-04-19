@@ -61,7 +61,7 @@ class GraphShapeBuilder{
         
     };
     
-    applyCellStyle = function (cell){
+    applyCellStyle(cell){
         var fontStyleValue=0;
         if(this.shapeDefinition.shapeTextBold) fontStyleValue+=1;
         if(this.shapeDefinition.shapeTextItalic) fontStyleValue+=2;

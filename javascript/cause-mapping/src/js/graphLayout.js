@@ -1,9 +1,6 @@
 class GraphLayout{
     
-    graph;
-    isLayoutSpecified;
-    layoutMgr;
-    
+      
     constructor(graph){
         this.graph = graph;
         this.isLayoutSpecified = false;

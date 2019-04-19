@@ -1,45 +1,33 @@
 class ShapeDetailsBuilder{
     
-    properties;
-    
-    notesList;
-    actionsList;
-    evidenceList;
-    
-    notesGrid;
-    actionsGrid;
-    evidenceGrid;
-    
-    graph;
-    cell;
-    
-    initComplete;
-    
     constructor(graph){
         this.graph = graph;
-        this.properties = new ShapeDetailsBuilder.Properties();
+        this.properties = ShapeDetailsBuilder.Properties();
         this.notesList = [];
         this.actionsList = [];
         this.evidenceList = [];
+        this.notesGrid;
+        this.actionsGrid;
+        this.evidenceGrid;
         this.initComplete = false;
     };
     
     addNote(){
-        var note = new ShapeDetailsBuilder.Note();
+        var note = ShapeDetailsBuilder.Note();
         note.id = this.notesList.length + 1;
         this.notesList.push(note);
         this.notesGrid.clearCache();
     }
     
     addAction(){
-        var action = new ShapeDetailsBuilder.Action();
+        var action = ShapeDetailsBuilder.Action();
         action.id = this.actionsList.length + 1;
         this.actionsList.push(action);
         this.actionsGrid.clearCache();
     }
     
     addEvidence(){
-        var evidence = new ShapeDetailsBuilder.Evidence();
+        var evidence = ShapeDetailsBuilder.Evidence();
         evidence.id = this.evidenceList.length + 1;
         this.evidenceList.push(evidence);
         this.evidenceGrid.clearCache();
@@ -387,43 +375,53 @@ class ShapeDetailsBuilder{
            this.graph.getModel().endUpdate();
         }
     }
+    
+    static Properties() {
+        return {
+            text : "",
+            description : "",
+            fontFamily : "",
+            fontSize : "",
+            strokeColor : "",
+            fillColor : "",
+            fontColor : "",
+            fontBold : false,
+            fontItalic : false,
+            fontUnderline : false
+        };
+    };
+    
+    static Note() {
+        return {
+            id : "",
+            description : "",
+            comments : ""
+        };
+    };
+    
+    static Action() {
+        return {
+            id : "",
+            description : "",
+            assignedTo : "",
+            resources : "",
+            startDate : "",
+            endDate : ""
+        };
+    };
+    
+    static Evidence() {
+        return {
+            id : "",
+            description : "",
+            documentType : "",
+            people : "",
+            date : ""
+        };
+    };
 }
 
-ShapeDetailsBuilder.Properties = class Properties{
-    text = "";
-    description = "";
-    fontFamily = "";
-    fontSize = "";
-    strokeColor = "";
-    fillColor = "";
-    fontColor = "";
-    fontBold = false;
-    fontItalic = false;
-    fontUnderline = false;
-};
 
-ShapeDetailsBuilder.Note = class Note{
-    id = "";
-    description = "";
-    comments = "";
-};
-
-ShapeDetailsBuilder.Action = class Action{
-    id = "";
-    description = "";
-    assignedTo = "";
-    resources = "";
-    startDate = "";
-    endDate = "";
-};
-
-ShapeDetailsBuilder.Evidence =  class Evidence{
-    id = "";
-    description = "";
-    documentType = "";
-    people = "";
-    date = "";
-};
 
 
 
