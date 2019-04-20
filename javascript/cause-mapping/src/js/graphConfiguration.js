@@ -7,9 +7,11 @@ class GraphConfiguration
         
         this.setGraphConstants();
         this.setGraphProperties();
-        this.setGraphMouseHandlers();
-        this.setGraphHandlers();
-        this.setGraphPanningProperties();
+        this.bindMouseHandlers();
+        this.bindKeyHandlers();
+        this.bindGraphHandlers();
+        this.buildGraphPanningHandlers();
+        this.buildShapeLabelChangedHandlers();
         this.buildGraphFunctions();
         this.buildGraphContextMenu();
         //new GraphCellFolding(this.graph);
@@ -33,13 +35,6 @@ class GraphConfiguration
     setGraphProperties(){
        
         mxEvent.disableContextMenu(this.graphElement);
-        mxGraph.prototype.isCellSelectable = function(cell)
-        {
-            var state = this.view.getState(cell);
-            var style = (state !== null) ? state.style : this.getCellStyle(cell);
-            return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
-        };
-        
         
         var style = this.graph.stylesheet.getDefaultEdgeStyle();
         style[mxConstants.STYLE_EDGE] = mxEdgeStyle.TopToBottom;
@@ -59,15 +54,31 @@ class GraphConfiguration
     };
     
     
-    setGraphMouseHandlers(){
+    bindMouseHandlers(){
         var canvas = this.canvas;
         mxEvent.addMouseWheelListener(function (evt, up)
         {
-            canvas.onMouseWheelZoomChange(up);
+            if(mxEvent.isAltDown(evt)){
+                canvas.onMouseWheelZoomChange(up);
+            }
         });
     };
     
-    setGraphHandlers(){
+    bindKeyHandlers(){
+        var graph = this.graph;
+        var keyHandler = new mxKeyHandler(graph);
+        keyHandler.bindKey(46, function(evt){
+            graph.removeCells();
+        });
+    }
+    
+    bindGraphHandlers(){
+        mxGraph.prototype.isCellSelectable = function(cell)
+        {
+            var state = this.view.getState(cell);
+            var style = (state !== null) ? state.style : this.getCellStyle(cell);
+            return this.isCellsSelectable() && !this.isCellLocked(cell) && style['selectable'] !== 0;
+        };
         
         mxVertexHandler.prototype.rotationEnabled = true;
         mxGraphHandler.prototype.guidesEnabled = true;
@@ -77,15 +88,9 @@ class GraphConfiguration
         };
 	
         mxEdgeHandler.prototype.snapToTerminals = true;
-        
-        var graph = this.graph;
-        var keyHandler = new mxKeyHandler(graph);
-        keyHandler.bindKey(46, function(evt){
-            graph.removeCells();
-        });
     };
     
-    setGraphPanningProperties(){
+    buildGraphPanningHandlers(){
         this.graph.setPanning(true);
         this.graph.panningHandler.useLeftButtonForPanning = false;
         this.graph.panningHandler.addListener(mxEvent.PAN_START, function() {
@@ -97,14 +102,7 @@ class GraphConfiguration
         this.graph.panningHandler.ignoreCell = false;
     };
     
-    buildGraphFunctions(){
-        var graph = this.graph;
-        this.graph.connectionHandler.createEdgeState = function(me)
-        {
-            var edge = graph.createEdge(null, null, null, null, null);
-            return new mxCellState(graph.view, edge, graph.getCellStyle(edge));
-        };
-                                
+    buildShapeLabelChangedHandlers(){
         this.graph.convertValueToString = function(cell)
         {
             if (mxUtils.isNode(cell.value)){
@@ -120,10 +118,19 @@ class GraphConfiguration
             // Clones the value for correct undo/redo
             var elt = cell.value.cloneNode(true);
             elt.setAttribute('label', newValue);
-            newValue = elt;
+            arguments[1] = elt;
           }
 
           cellLabelChanged.apply(this, arguments);
+        };
+    }
+    
+    buildGraphFunctions(){
+        var graph = this.graph;
+        this.graph.connectionHandler.createEdgeState = function(me)
+        {
+            var edge = graph.createEdge(null, null, null, null, null);
+            return new mxCellState(graph.view, edge, graph.getCellStyle(edge));
         };
         
         this.graph.getTooltipForCell = function(cell){
@@ -133,7 +140,7 @@ class GraphConfiguration
        
     buildGraphContextMenu(){
         var canvas = this.canvas;
-        var graph = this.graph;
+        
         
         this.graph.popupMenuHandler.autoExpand = true;
         this.graph.popupMenuHandler.factoryMethod = function(menu, cell, evt)
