@@ -76,6 +76,8 @@ class GraphShapeBuilder{
         style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSTYLE, fontStyleValue);
         
         this.graph.setCellStyle(style,[cell]);
+        
+        
     };
     
     positionVertex(){

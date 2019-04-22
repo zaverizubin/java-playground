@@ -1,10 +1,17 @@
-class GraphCellFolding{
+class GraphCellFolder{
     
-    constructor(graph){
+    constructor(graph, graphLayout){
         this.graph = graph;
+        this.graphLayout = graphLayout;
+        this.setImages();
         this.defineCondition();
         this.definePosition();
         this.defineFoldEventHandler();
+    };
+    
+    setImages(){
+        mxGraph.prototype.collapsedImage = new mxImage(mxClient.imageBasePath + '/collapsed.gif', 12, 12);
+        mxGraph.prototype.expandedImage = new mxImage(mxClient.imageBasePath +  '/expanded.gif', 12, 12);  
     };
     
     defineCondition(){
@@ -23,7 +30,7 @@ class GraphCellFolding{
                 var s = state.view.scale;			
 
                 return new mxRectangle(state.x + state.width / 2 - w / 2 * s,
-                        state.y + state.height + TreeNodeShape.prototype.segment * s - h / 2 * s,
+                        state.y + state.height + 5,
                         w * s, h * s);
             }
             return null;
@@ -31,19 +38,17 @@ class GraphCellFolding{
     };
 
     defineFoldEventHandler(){
-        var graph = this.graph;
+        var graphCellFolder = this;
+        
         this.graph.foldCells = function(collapse, recurse, cells)
             {
                 this.model.beginUpdate();
                 try
                 {
-                    toggleSubtree(this, cells[0], !collapse);
+                    graphCellFolder.toggleSubtree(this, cells[0], !collapse);
                     this.model.setCollapsed(cells[0], collapse);
-
-                    // Executes the layout for the new graph since
-                    // changes to visiblity and collapsed state do
-                    // not trigger a layout in the current manager.
-                    layout.execute(graph.getDefaultParent());
+                    //graphCellFolder.graphLayout.layoutMgr.executeLayout(graphCellFolder.graphLayout.layout, graphCellFolder.graph.getDefaultParent())
+                   // graphCellFolder.layout.execute(this.getDefaultParent());
                 }
                 finally
                 {
@@ -55,8 +60,8 @@ class GraphCellFolding{
     toggleSubtree(graph, cell, show){
         show = (show != null) ? show : true;
         var cells = [];
-        var graph = this.graph;
-        this.graph.traverse(cell, true, function(vertex){
+       // var graph = this.graph;
+        graph.traverse(cell, true, function(vertex){
             if (vertex != cell)
             {
                 cells.push(vertex);
@@ -65,7 +70,7 @@ class GraphCellFolding{
             return vertex == cell || !graph.isCellCollapsed(vertex);
         });
 
-        this.graph.toggleCells(show, cells, true);
+        graph.toggleCells(show, cells, true);
     };
     
 }

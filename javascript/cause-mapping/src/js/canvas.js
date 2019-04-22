@@ -8,8 +8,6 @@ class Canvas {
         this.graphElement = graphElement;
         this.toolbar = toolbar;
         this.buildGraph(graphElement);
-        this.shapeDetailsBuilder = new ShapeDetailsBuilder(this.graph);
-        this.graphLayout = new GraphLayout(this.graph);
         this.stencilShapes = new StencilShapes();
         this.setGridBackgroundStyle(true);
     };
@@ -17,6 +15,9 @@ class Canvas {
     buildGraph(graphElement){
         this.graph = new mxGraph(graphElement);
         this.graphConfiguration = new GraphConfiguration(this.graph, this, graphElement);
+        this.shapeDetailsBuilder = new ShapeDetailsBuilder(this.graph);
+        this.graphLayout = new GraphLayout(this.graph);
+        this.graphCellFolder = new GraphCellFolder(this.graph, this.graphLayout);
     };
     
     insertShape(shapeDefinition){

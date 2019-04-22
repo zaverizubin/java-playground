@@ -28,7 +28,7 @@ class GraphLayout{
         {
             if (cell.getChildCount() > 0)
             {
-                    return layout;
+                return layout;
             }
         };
         this.layoutMgr.executeLayout(layout, this.graph.getDefaultParent())
