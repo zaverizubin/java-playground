@@ -309,7 +309,6 @@ class ShapeDetailsBuilder{
        valueObject.setAttribute('notes', JSON.stringify(this.notesList));
        valueObject.setAttribute('actions', JSON.stringify(this.actionsList));
        valueObject.setAttribute('evidence', JSON.stringify(this.evidenceList));
-       this.cell.setValue(valueObject);
        
        var fontStyle = 0;
        if(this.properties.fontBold){
@@ -322,15 +321,24 @@ class ShapeDetailsBuilder{
            fontStyle += 4;
        }
        
-       var style = this.cell.getStyle();
-       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTFAMILY, this.properties.fontFamily);
-       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSIZE, this.properties.fontSize);
-       style = mxUtils.setStyle(style, mxConstants.STYLE_STROKECOLOR, this.properties.strokeColor);
-       style = mxUtils.setStyle(style, mxConstants.STYLE_FILLCOLOR, this.properties.fillColor);
-       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTCOLOR, this.properties.fontColor);
-       style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSTYLE, fontStyle);
-       
-       this.graph.setCellStyle(style,[this.cell]);
+        var style = this.cell.getStyle();
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTFAMILY, this.properties.fontFamily);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSIZE, this.properties.fontSize);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_STROKECOLOR, this.properties.strokeColor);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FILLCOLOR, this.properties.fillColor);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTCOLOR, this.properties.fontColor);
+        style = mxUtils.setStyle(style, mxConstants.STYLE_FONTSTYLE, fontStyle);
+      
+        this.graph.getModel().beginUpdate();
+        try
+        { 
+            this.graph.model.setValue(this.cell, valueObject); 
+            this.graph.setCellStyle(style,[this.cell]);
+        }
+        finally
+        {
+           this.graph.getModel().endUpdate();
+        }
     };
     
     showCellOverlays(cell){
