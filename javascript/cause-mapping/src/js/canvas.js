@@ -125,7 +125,7 @@ class Canvas {
         }else{
             this.graph.zoomOut();
         }
-        $("#zoom-setting").get(0).value = this.graph.view.getScale()*100 - 100;
+        Utils.$("#zoom-setting").get(0).value = this.graph.view.getScale()*100 - 100;
         
     };
     
@@ -214,14 +214,14 @@ class Canvas {
             return;
         };
         var cell = cells[0];
-        var dialog = $("#properties-window").get(0);
+        var dialog = Utils.$("#properties-window").get(0);
         dialog.opened = true;
         
         var shapeProperty = new ShapeProperty();
         shapeProperty.setShapeProperties(this.graph, cell);
         
-        $('#overlay').addClass("shape-properties");
-        var grid = $('#overlay #properties-grid').get(0);
+        Utils.$('#overlay').addClass("shape-properties");
+        var grid = Utils.$('#overlay #properties-grid').get(0);
         grid.items = shapeProperty.getShapeProperties();  
     };
     

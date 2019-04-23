@@ -13,41 +13,41 @@ class Toolbar {
         var canvas = this.canvas;
         var shapeDefinitionBuilder = this.shapeDefinitionBuilder;
         
-        $('#file-input').change(function(e){
+        Utils.$('#file-input').change(function(e){
             var file = e.target.files[0];
             Utils.readFile(file, canvas.onLoadDiagram, canvas);
-            $(this).val('');
+            Utils.$(this).val('');
         });
         
-        $("#create-shape").click(function(){
+        Utils.$("#create-shape").click(function(){
             shapeDefinitionBuilder.openShapeDefinitionDialog();
         });
         
-        $("#zoom-setting").on("change", function(event) {
+        Utils.$("#zoom-setting").on("change", function(event) {
             canvas.onZoomChange(event.target.value);
         });
         
-        $("#reset-zoom").click(function(){
-            $("#zoom-setting").get(0).value = 0;
+        Utils.$("#reset-zoom").click(function(){
+            Utils.$("#zoom-setting").get(0).value = 0;
             canvas.onZoomReset();
         });
         
-        $("#compact-tree-layout").click(function(){
-            var isHorizontal = $("#tree-layout-orientation").get(0).checked;
+        Utils.$("#compact-tree-layout").click(function(){
+            var isHorizontal = Utils.$("#tree-layout-orientation").get(0).checked;
              canvas.onCompactTreeLayoutClick(isHorizontal);
         });
         
         
-        $("#clear-diagram").click(function(){
+        Utils.$("#clear-diagram").click(function(){
             canvas.onClearDiagramClick();
         });
         
-        $("#save-diagram").click(function(){
+        Utils.$("#save-diagram").click(function(){
             canvas.onSaveDiagramClick();
         });
                 
-        $("#load-diagram").click(function(){
-            $('#file-input').trigger('click');
+        Utils.$("#load-diagram").click(function(){
+            Utils.$('#file-input').trigger('click');
         });
     };
     
@@ -70,25 +70,25 @@ class Toolbar {
         var cloneNode;
         switch(shapeDefinition.shapeType){
             case "rounded-rectangle":
-                cloneNode = $("#rounded-rectangle-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#rounded-rectangle-template").get(0).content.cloneNode(true);
                 break;
             case "rectangle":
-                cloneNode = $("#rectangle-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#rectangle-template").get(0).content.cloneNode(true);
                 break;
             case "circle":
-                cloneNode = $("#circle-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#circle-template").get(0).content.cloneNode(true);
                 break;
             case "ellipse":
-                cloneNode = $("#ellipse-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#ellipse-template").get(0).content.cloneNode(true);
                 break;
             case "diamond":
-                cloneNode = $("#diamond-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#diamond-template").get(0).content.cloneNode(true);
                 break;
             case "and":
-                cloneNode = $("#and-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#and-template").get(0).content.cloneNode(true);
                 break;
             case "or":
-                cloneNode = $("#or-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#or-template").get(0).content.cloneNode(true);
                 break;
         };
         return cloneNode;
@@ -120,7 +120,7 @@ class Toolbar {
     assignShapeEventHandlers(node, shapeDefinition){
         var canvas = this.canvas;
         var element = node.children[0];
-        var plusCircle = $(element).find(".plus-circle");
+        var plusCircle = Utils.$(element).find(".plus-circle");
         plusCircle.click(function(){
             canvas.insertShape(shapeDefinition);
         });

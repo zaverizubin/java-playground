@@ -52,14 +52,14 @@ class ShapeDetailsBuilder{
     };
     
     openDialog(){
-        var dialog = $("#shape-details").get(0);
+        var dialog = Utils.$("#shape-details").get(0);
         dialog.opened = true;
-        $('#overlay').addClass("shape-details");
+        Utils.$('#overlay').addClass("shape-details");
         
-        var vsProperties = $('#overlay #vertical-layout-properties');
-        var vsNotes = $('#overlay #vertical-layout-notes');
-        var vsActions = $('#overlay #vertical-layout-actions');
-        var vsEvidence = $('#overlay #vertical-layout-evidence');
+        var vsProperties = Utils.$('#overlay #vertical-layout-properties');
+        var vsNotes = Utils.$('#overlay #vertical-layout-notes');
+        var vsActions = Utils.$('#overlay #vertical-layout-actions');
+        var vsEvidence = Utils.$('#overlay #vertical-layout-evidence');
         
         vsProperties.toggle(true);
         vsNotes.toggle(false);
@@ -70,9 +70,9 @@ class ShapeDetailsBuilder{
     };
     
     bindGrids(){
-        this.notesGrid = $('#overlay #shape-notes-grid').get(0);
-        this.actionsGrid = $('#overlay #shape-actions-grid').get(0);
-        this.evidenceGrid = $('#overlay #shape-evidence-grid').get(0);
+        this.notesGrid = Utils.$('#overlay #shape-notes-grid').get(0);
+        this.actionsGrid = Utils.$('#overlay #shape-actions-grid').get(0);
+        this.evidenceGrid = Utils.$('#overlay #shape-evidence-grid').get(0);
         
         this.notesGrid.items = this.notesList;
         this.notesGrid.clearCache();
@@ -88,7 +88,7 @@ class ShapeDetailsBuilder{
     assignEventHandlers(){
         var shapeDetailsBuilder = this;
         
-        var dialog = $("#shape-details").get(0);
+        var dialog = Utils.$("#shape-details").get(0);
         if(!this.initComplete){
             dialog.addEventListener('opened-changed', function(event){
                 if(event.detail.value === false){
@@ -99,21 +99,21 @@ class ShapeDetailsBuilder{
             });
         }
         
-        var btnClose = $('#shape-details-close-button').get(0);
+        var btnClose = Utils.$('#shape-details-close-button').get(0);
         if(btnClose.onclick === null){
            btnClose.onclick = function(){
               dialog.opened = false; 
            };
         }
         
-        var btnProperties = $('#overlay #shape-properties-button').get(0);
-        var btnNotes = $('#overlay #shape-notes-button').get(0);
-        var btnActions = $('#overlay #shape-actions-button').get(0);
-        var btnEvidence = $('#overlay #shape-evidence-button').get(0);
+        var btnProperties = Utils.$('#overlay #shape-properties-button').get(0);
+        var btnNotes = Utils.$('#overlay #shape-notes-button').get(0);
+        var btnActions = Utils.$('#overlay #shape-actions-button').get(0);
+        var btnEvidence = Utils.$('#overlay #shape-evidence-button').get(0);
         
-        var btnAddNote = $('#overlay #add-shape-note').get(0);
-        var btnAddAction = $('#overlay #add-shape-action').get(0);
-        var btnAddEvidence = $('#overlay #add-shape-evidence ').get(0);
+        var btnAddNote = Utils.$('#overlay #add-shape-note').get(0);
+        var btnAddAction = Utils.$('#overlay #add-shape-action').get(0);
+        var btnAddEvidence = Utils.$('#overlay #add-shape-evidence ').get(0);
         
         
         this.assignShowUnitClickHandler(btnProperties);
@@ -133,15 +133,15 @@ class ShapeDetailsBuilder{
     
     assignShowUnitClickHandler(button){
         
-        var btnProperties = $('#overlay #shape-properties-button').get(0);
-        var btnNotes = $('#overlay #shape-notes-button').get(0);
-        var btnActions = $('#overlay #shape-actions-button').get(0);
-        var btnEvidence = $('#overlay #shape-evidence-button').get(0);
+        var btnProperties = Utils.$('#overlay #shape-properties-button').get(0);
+        var btnNotes = Utils.$('#overlay #shape-notes-button').get(0);
+        var btnActions = Utils.$('#overlay #shape-actions-button').get(0);
+        var btnEvidence = Utils.$('#overlay #shape-evidence-button').get(0);
          
-        var vsProperties = $('#overlay #vertical-layout-properties');
-        var vsNotes = $('#overlay #vertical-layout-notes');
-        var vsActions = $('#overlay #vertical-layout-actions');
-        var vsEvidence = $('#overlay #vertical-layout-evidence');
+        var vsProperties = Utils.$('#overlay #vertical-layout-properties');
+        var vsNotes = Utils.$('#overlay #vertical-layout-notes');
+        var vsActions = Utils.$('#overlay #vertical-layout-actions');
+        var vsEvidence = Utils.$('#overlay #vertical-layout-evidence');
         
         if(button.onclick === null){
             button.onclick = function(){
@@ -171,7 +171,7 @@ class ShapeDetailsBuilder{
     
     assignAddDetailClickHandler(button, selector, addDetailFunction){
         
-        var grid = $('#overlay ' + selector).get(0);
+        var grid = Utils.$('#overlay ' + selector).get(0);
         var shapeDetailsBuilder = this;
         
         if(button.onclick === null){
@@ -190,7 +190,7 @@ class ShapeDetailsBuilder{
     };
     
     assignDeleteGridItemHandler(selector){
-        var grid = $('#overlay ' + selector).get(0);
+        var grid = Utils.$('#overlay ' + selector).get(0);
         for(let i = 0; i < grid.items.length; i++){
             this.assignDeleteHandler(i, selector);
         };
@@ -198,9 +198,9 @@ class ShapeDetailsBuilder{
     
     assignDeleteHandler(index,  selector){
         
-        var grid = $('#overlay ' + selector).get(0);
+        var grid = Utils.$('#overlay ' + selector).get(0);
         var shapeDetailsBuilder = this;
-        var deleteButton = $('#overlay ' + selector + ' #delete-' + index).get(0);
+        var deleteButton = Utils.$('#overlay ' + selector + ' #delete-' + index).get(0);
         if(deleteButton !== undefined && deleteButton.onclick === null){
             deleteButton.onclick = function() {
                 grid.items.splice(index, 1);
@@ -277,29 +277,29 @@ class ShapeDetailsBuilder{
     }
     
     setShapePropertiesToUI(){
-        $('#overlay .shape-label').get(0).value = this.properties.text;
-        $('#overlay .shape-description').get(0).value  = this.properties.description;
-        $('#overlay .shape-font-family').get(0).value = this.properties.fontFamily;
-        $('#overlay .shape-font-size').get(0).value = String(this.properties.fontSize);
-        $('#overlay .shape-stroke-color').get(0).value = this.properties.strokeColor;
-        $('#overlay .shape-fill-color').get(0).value = this.properties.fillColor;
-        $('#overlay .shape-font-color').get(0).value = this.properties.fontColor;
-        $('#overlay .shape-text-bold').get(0).checked = this.properties.fontBold;
-        $('#overlay .shape-text-italic').get(0).checked = this.properties.fontItalic;
-        $('#overlay .shape-text-underline').get(0).checked = this.properties.fontUnderline;
+        Utils.$('#overlay .shape-label').get(0).value = this.properties.text;
+        Utils.$('#overlay .shape-description').get(0).value  = this.properties.description;
+        Utils.$('#overlay .shape-font-family').get(0).value = this.properties.fontFamily;
+        Utils.$('#overlay .shape-font-size').get(0).value = String(this.properties.fontSize);
+        Utils.$('#overlay .shape-stroke-color').get(0).value = this.properties.strokeColor;
+        Utils.$('#overlay .shape-fill-color').get(0).value = this.properties.fillColor;
+        Utils.$('#overlay .shape-font-color').get(0).value = this.properties.fontColor;
+        Utils.$('#overlay .shape-text-bold').get(0).checked = this.properties.fontBold;
+        Utils.$('#overlay .shape-text-italic').get(0).checked = this.properties.fontItalic;
+        Utils.$('#overlay .shape-text-underline').get(0).checked = this.properties.fontUnderline;
     };
     
     getShapePropertiesFromUI(){
-        this.properties.text = $('#overlay .shape-label').get(0).value;
-        this.properties.description = $('#overlay .shape-description').get(0).value;
-        this.properties.fontFamily = $('#overlay .shape-font-family').get(0).value;
-        this.properties.fontSize = Number($('#overlay .shape-font-size').get(0).value);
-        this.properties.strokeColor = $('#overlay .shape-stroke-color').get(0).value;
-        this.properties.fillColor = $('#overlay .shape-fill-color').get(0).value;
-        this.properties.fontColor = $('#overlay .shape-font-color').get(0).value;
-        this.properties.fontBold = $('#overlay .shape-text-bold').get(0).checked;
-        this.properties.fontItalic = $('#overlay .shape-text-italic').get(0).checked;
-        this.properties.fontUnderline = $('#overlay .shape-text-underline').get(0).checked;
+        this.properties.text = Utils.$('#overlay .shape-label').get(0).value;
+        this.properties.description = Utils.$('#overlay .shape-description').get(0).value;
+        this.properties.fontFamily = Utils.$('#overlay .shape-font-family').get(0).value;
+        this.properties.fontSize = Number(Utils.$('#overlay .shape-font-size').get(0).value);
+        this.properties.strokeColor = Utils.$('#overlay .shape-stroke-color').get(0).value;
+        this.properties.fillColor = Utils.$('#overlay .shape-fill-color').get(0).value;
+        this.properties.fontColor = Utils.$('#overlay .shape-font-color').get(0).value;
+        this.properties.fontBold = Utils.$('#overlay .shape-text-bold').get(0).checked;
+        this.properties.fontItalic = Utils.$('#overlay .shape-text-italic').get(0).checked;
+        this.properties.fontUnderline = Utils.$('#overlay .shape-text-underline').get(0).checked;
     };
     
     updateShapeDetails(){

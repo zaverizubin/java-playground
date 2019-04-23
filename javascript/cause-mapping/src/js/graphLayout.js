@@ -28,7 +28,13 @@ class GraphLayout{
         };
         this.layoutMgr.executeLayout(layout, this.graph.getDefaultParent())
         this.isLayoutSpecified = true;
-        
+        if(isHorizontal){
+            var style = this.graph.stylesheet.getDefaultEdgeStyle();
+            style[mxConstants.STYLE_EDGE] = mxEdgeStyle.SideToSide;
+        }else{
+            var style = this.graph.stylesheet.getDefaultEdgeStyle();
+            style[mxConstants.STYLE_EDGE] = mxEdgeStyle.TopToBottom;
+        }
         
     };
     

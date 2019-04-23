@@ -118,6 +118,9 @@ class Utils{
         };
     };
     
+    static $ = function(selector){
+	return $(selector);
+    }
 }
 
 
