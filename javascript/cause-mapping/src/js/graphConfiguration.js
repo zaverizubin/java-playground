@@ -14,8 +14,6 @@ class GraphConfiguration
         this.buildShapeLabelChangedHandlers();
         this.buildGraphFunctions();
         this.buildGraphContextMenu();
-        //new GraphCellFolding(this.graph);
-        
     };
     
     setGraphConstants(){

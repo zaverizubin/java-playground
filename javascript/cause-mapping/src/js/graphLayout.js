@@ -25,10 +25,11 @@ class GraphLayout{
         layout.horizontal = isHorizontal;
         this.layoutMgr.getLayout = function(cell){
             return layout;
-            
         };
         this.layoutMgr.executeLayout(layout, this.graph.getDefaultParent())
         this.isLayoutSpecified = true;
+        
+        
     };
     
     clearLayout(){

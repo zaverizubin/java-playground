@@ -84,9 +84,8 @@ class GraphShapeBuilder{
         if(this.vertexToConnect === undefined || this.vertexToConnect === this.graph.getDefaultParent()){
             return;
         };
-        
-        var geometry = new mxGeometry(this.vertexToConnect.getGeometry().x 
-                                    + Math.round(this.vertexToConnect.getGeometry().width/2 - this.vertex.getGeometry().width/2),
+        var geometry = new mxGeometry(this.vertexToConnect.getGeometry().x  + Math.round(this.vertexToConnect.getGeometry().width/2 - this.vertex.getGeometry().width/2)
+                                    + (this.vertexToConnect.edges.length-2) * (this.vertexToConnect.getGeometry().width) + (this.vertexToConnect.edges.length-2) * 10,
                                     this.vertexToConnect.getGeometry().y + (3/2)*this.vertexToConnect.getGeometry().height,
                                     this.vertex.getGeometry().width, this.vertex.getGeometry().height);
 

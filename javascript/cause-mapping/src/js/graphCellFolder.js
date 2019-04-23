@@ -54,8 +54,6 @@ class GraphCellFolder{
                 {
                     graphCellFolder.toggleSubtree(this, cells[0], !collapse);
                     this.model.setCollapsed(cells[0], collapse);
-                    //graphCellFolder.graphLayout.layoutMgr.executeLayout(graphCellFolder.graphLayout.layout, graphCellFolder.graph.getDefaultParent())
-                   // graphCellFolder.layout.execute(this.getDefaultParent());
                 }
                 finally
                 {
@@ -67,7 +65,6 @@ class GraphCellFolder{
     toggleSubtree(graph, cell, show){
         show = (show != null) ? show : true;
         var cells = [];
-       // var graph = this.graph;
         graph.traverse(cell, true, function(vertex){
             if (vertex != cell)
             {
