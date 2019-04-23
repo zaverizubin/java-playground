@@ -384,6 +384,8 @@ class ShapeDetailsBuilder{
         }
     }
     
+    
+    
     static Properties() {
         return {
             text : "",

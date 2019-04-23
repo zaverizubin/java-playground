@@ -21,17 +21,24 @@ class GraphCellFolder{
     };
     
     definePosition(){
+        var graphLayout = this.graphLayout;
         this.graph.cellRenderer.getControlBounds = function(state){
-            if (state.control != null)
-            {
+            if (state.control != null){
+                
                 var oldScale = state.control.scale;
                 var w = state.control.bounds.width / oldScale;
                 var h = state.control.bounds.height / oldScale;
                 var s = state.view.scale;			
-
-                return new mxRectangle(state.x + state.width / 2 - w / 2 * s,
+                if(graphLayout.layoutMgr.getLayout(state.cell) instanceof mxCompactTreeLayout && graphLayout.layoutMgr.getLayout(state.cell).horizontal){
+                    return new mxRectangle(state.x + state.width + 5,
+                        state.y + state.height / 2 - h / 2 * s,
+                        w * s, h * s);
+                }else{
+                    return new mxRectangle(state.x + state.width / 2 - w / 2 * s,
                         state.y + state.height + 5,
                         w * s, h * s);
+                }
+                
             }
             return null;
         };

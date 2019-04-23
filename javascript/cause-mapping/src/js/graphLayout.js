@@ -9,7 +9,6 @@ class GraphLayout{
     
     
     toggleLayout(isHorizontal){
-        
         if(!this.isLayoutSpecified){
             this.useCompactTreeLayout(isHorizontal);
         }else{
@@ -24,12 +23,9 @@ class GraphLayout{
         layout.levelDistance = 50;
         layout.nodeDistance = 20;
         layout.horizontal = isHorizontal;
-        this.layoutMgr.getLayout = function(cell)
-        {
-            if (cell.getChildCount() > 0)
-            {
-                return layout;
-            }
+        this.layoutMgr.getLayout = function(cell){
+            return layout;
+            
         };
         this.layoutMgr.executeLayout(layout, this.graph.getDefaultParent())
         this.isLayoutSpecified = true;

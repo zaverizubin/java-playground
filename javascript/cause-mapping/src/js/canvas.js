@@ -32,9 +32,13 @@ class Canvas {
         
         var graphShapeBuilder = new GraphShapeBuilder(this.graph, shapeDefinition, referenceVertex);
         var vertex = graphShapeBuilder.getGraphShape();
+        //force display of cell folding icon.
+        this.redrawCells([referenceVertex]);
         
         this.lastInsertedVertex = vertex;
     }; 
+    
+    
     
     onToggleGrid(){
         this.graph.setGridEnabled(!this.graph.gridEnabled);
@@ -53,6 +57,12 @@ class Canvas {
             this.graphElement.style.backgroundImage = null;
             this.graphElement.style.backgroundColor = "#dbd9d9";
         };
+    }
+    
+    redrawCells(cells){
+        for(var i =0; i<cells.length ; i++){
+            this.graph.cellRenderer.redraw(this.graph.view.getState(cells[i]),false,true);
+        }
     }
     
     onToggleGuide(){
@@ -105,6 +115,8 @@ class Canvas {
     
     onDeleteClick(){
         this.graph.removeCells(this.graph.getSelectionCells());
+        //force display of cell folding icon.
+        this.redrawCells(this.graph.getChildVertices(this.graph.getDefaultParent()));
     }
     
     onMouseWheelZoomChange(zoomIn){
