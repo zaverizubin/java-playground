@@ -82,14 +82,14 @@ class ShapeDefinitionBuilder {
         dialog.opened = true;
         
         Utils.$('#overlay').addClass("shape-selector");
-        var grid = Utils.$('#overlay #shapes-grid').get(0);
+        this.grid = Utils.$('#overlay #shapes-grid').get(0);
                 
         if(!this.shapeDialogOpened){
             this.shapeDialogOpened = true;
-            grid.items = [];
-            grid.items.push.apply(grid.items, this.shapeDefinitionList);
+            this.grid.items = [];
+            this.grid.items.push.apply(this.grid.items, this.shapeDefinitionList);
             
-            grid.clearCache();
+            this.grid.clearCache();
             setTimeout(function(){
                 shapeDefinitionBuilder.assignEventListeners();
             }, 500);
@@ -99,7 +99,6 @@ class ShapeDefinitionBuilder {
     assignEventListeners(){
         var shapeDefinitionBuilder = this;
         var toolbar = this.toolbar;
-        var grid = Utils.$('#overlay #shapes-grid').get(0);
         var dialog = Utils.$('#shapes-dialog').get(0);
         
         dialog.addEventListener('opened-changed', function(event){
@@ -115,7 +114,7 @@ class ShapeDefinitionBuilder {
         var restoreDefaultButton = Utils.$('#overlay #restore-default').get(0);
         restoreDefaultButton.addEventListener('click', function(){shapeDefinitionBuilder.restoreDefaults();});
                
-        for(let i=0; i<grid.items.length; i++){
+        for(let i=0; i<this.grid.items.length; i++){
             var deleteShapeButton = Utils.$('#overlay #shapes-grid #shape-delete-' + i).get(0);
             this.assignDeleteRowEventHandler(deleteShapeButton, i);
         };
@@ -131,18 +130,17 @@ class ShapeDefinitionBuilder {
     };
     
     removeGridItem(index){
-        var grid = Utils.$('#overlay #shapes-grid').get(0);
-        grid.items.splice(index, 1);
-        grid.clearCache();
+        this.grid.items.splice(index, 1);
+        this.grid.clearCache();
     };
     
     addShapeDefinition(){
         var shapeDefinitionBuilder = this;
-        var grid = Utils.$('#overlay #shapes-grid').get(0);
-        grid.items.push(this.getShapeDefinition());
-        grid.clearCache();
         
-        var index = (grid.items.length - 1);
+        this.grid.items.push(this.getShapeDefinition());
+        this.grid.clearCache();
+        
+        var index = (this.grid.items.length - 1);
         setTimeout(function(){
             var deleteShapeButton = Utils.$('#overlay #shapes-grid #shape-delete-' + index).get(0);
             shapeDefinitionBuilder.assignDeleteRowEventHandler(deleteShapeButton, index);
@@ -151,25 +149,24 @@ class ShapeDefinitionBuilder {
     };
     
     restoreDefaults(){
-        var grid = Utils.$('#overlay #shapes-grid').get(0);
-        grid.items.splice(0, grid.items.length);
-        grid.items.push.apply(grid.items, this.getDefaultDefinitionList());
-        grid.clearCache();
+        this.grid.items.splice(0, this.grid.items.length);
+        this.grid.items.push.apply(this.grid.items, this.getDefaultDefinitionList());
+        this.grid.clearCache();
     };
        
     updateShapeDefinitions(){
-        var grid = Utils.$('#overlay #shapes-grid').get(0);
-        for(let i=0; i<grid.items.length; i++)
+        
+        for(let i=0; i<this.grid.items.length; i++)
         {
             var strokeColor = Utils.$('#overlay #shapes-grid #shape-stroke-color-' + i).get(0).value;
             var fillColor = Utils.$('#overlay #shapes-grid #shape-fill-color-' + i).get(0).value;
             var fontColor = Utils.$('#overlay #shapes-grid #shape-font-color-' + i).get(0).value;
-            grid.items[i].shapeStrokeColor = strokeColor;
-            grid.items[i].shapeFillColor = fillColor;
-            grid.items[i].shapeFontColor = fontColor;
+            this.grid.items[i].shapeStrokeColor = strokeColor;
+            this.grid.items[i].shapeFillColor = fillColor;
+            this.grid.items[i].shapeFontColor = fontColor;
         };
         this.shapeDefinitionList.splice(0, this.shapeDefinitionList.length);
-        this.shapeDefinitionList.push.apply(this.shapeDefinitionList, grid.items);
+        this.shapeDefinitionList.push.apply(this.shapeDefinitionList, this.grid.items);
     };
 }
 

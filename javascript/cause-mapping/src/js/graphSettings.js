@@ -4,7 +4,13 @@ class GraphSettings{
     static canvasHeight() {return 700;};
     static canvasTop() {return 50;};
     
+    static resourcesRoot(){
+    	return './resources/' ;
+    }
     
+    static imagesRoot(){
+    	return './images/' ;
+    }
 }
 
 

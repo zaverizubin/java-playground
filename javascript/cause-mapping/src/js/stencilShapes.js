@@ -4,7 +4,7 @@ class StencilShapes{
     };
     
     registerShapes(){
-        var req = mxUtils.load('resources/stencils.xml');
+         var req = mxUtils.load(GraphSettings.resourcesRoot() + 'stencils.xml');
         var root = req.getDocumentElement();
         var shape = root.firstChild;
         while (shape !== null)

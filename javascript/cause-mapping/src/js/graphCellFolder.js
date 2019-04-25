@@ -10,8 +10,8 @@ class GraphCellFolder{
     };
     
     setImages(){
-        mxGraph.prototype.collapsedImage = new mxImage(mxClient.imageBasePath + '/collapsed.gif', 12, 12);
-        mxGraph.prototype.expandedImage = new mxImage(mxClient.imageBasePath +  '/expanded.gif', 12, 12);  
+        mxGraph.prototype.collapsedImage = new mxImage(GraphSettings.imagesRoot() + 'collapsed.gif', 12, 12);
+        mxGraph.prototype.expandedImage = new mxImage(GraphSettings.imagesRoot() +  'expanded.gif', 12, 12);  
     };
     
     defineCondition(){

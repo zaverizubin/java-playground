@@ -69,52 +69,56 @@ class Toolbar {
     getShapeClone(shapeDefinition){
         var cloneNode;
         switch(shapeDefinition.shapeType){
-            case "rectangle":
-                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".rectangle-shape").cloneNode(true);
+           case "rectangle":
+                cloneNode = Utils.$("#shapes-template .rounded-rectangle-shape").get(0).cloneNode(true);
                 break;
             case "rounded-rectangle":
-                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".rounded-rectangle-shape").cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .rectangle-shape").get(0).cloneNode(true);
                 break;
             case "ellipse":
-                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".ellipse-shape").cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .ellipse-shape").get(0).cloneNode(true);
                 break;
             case "circle":
-                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".circle-shape").cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .circle-shape").get(0).cloneNode(true);
                 break;
             case "diamond":
-                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".diamond-shape").cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .diamond-shape").get(0).cloneNode(true);
                 break;
             case "and":
-                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".and-shape").cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .and-shape").get(0).cloneNode(true);
                 break;
             case "or":
-                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".or-shape").cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .or-shape").get(0).cloneNode(true);
                 break;
         };
         return cloneNode;
     };
     
     setShapeAttributes(node, shapeDefinition){
-        var innerHTML = node.children[0].innerHTML;
-        
-        innerHTML = innerHTML.replace("[[stroke-color]]", shapeDefinition.shapeStrokeColor);
-        innerHTML = innerHTML.replace("[[fill-color]]", shapeDefinition.shapeFillColor);
-        innerHTML = innerHTML.replace("[[font-color]]", shapeDefinition.shapeFontColor);
-        innerHTML = innerHTML.replace("[[font-size]]", shapeDefinition.shapeFontSize);
-        innerHTML = innerHTML.replace("[[font-family]]", shapeDefinition.shapeFontFamily);
-        innerHTML = innerHTML.replace("[[text]]", shapeDefinition.shapeText);
-
-
-        innerHTML = shapeDefinition.shapeTextBold
-                    ? innerHTML.replace("[[font-weight]]", "bold")
-                    : innerHTML.replace("[[font-weight]]", "normal");
-        innerHTML = shapeDefinition.shapeTextItalic
-                    ? innerHTML.replace("[[font-style]]", "italic")
-                    : innerHTML.replace("[[font-style]]", "normal");
-        innerHTML = shapeDefinition.shapeTextUnderline
-                    ? innerHTML.replace("[[text-decoration]]", "underline")
-                    : innerHTML.replace("[[text-decoration]]", "none");
-        node.children[0].innerHTML = innerHTML;
+        node.querySelector('.shape').setAttribute("stroke", shapeDefinition.shapeStrokeColor);
+    	node.querySelector('.shape').setAttribute("fill", shapeDefinition.shapeFillColor);
+    	
+    	node.querySelector('.shape-text').setAttribute("fill", shapeDefinition.shapeFontColor);
+    	node.querySelector('.shape-text').setAttribute("font-family", shapeDefinition.shapeFontFamily);
+    	node.querySelector('.shape-text').setAttribute("font-size", shapeDefinition.shapeFontSize);
+    	
+    	if(shapeDefinition.shapeTextBold){
+    		node.querySelector('.shape-text').setAttribute("font-weight", "bold");
+    	}else{
+    		node.querySelector('.shape-text').setAttribute("font-weight", "normal");
+    	}
+    	if(shapeDefinition.shapeTextItalic){
+    		node.querySelector('.shape-text').setAttribute("font-style", "italic");
+    	}else{
+    		node.querySelector('.shape-text').setAttribute("font-style", "normal");
+    	}
+    	if(shapeDefinition.shapeTextUnderline){
+    		node.querySelector('.shape-text').setAttribute("text-decoration", "underline");
+    	}else{
+    		node.querySelector('.shape-text').setAttribute("text-decoration", "none");
+    	}
+    	
+    	node.querySelector('.shape-text').innerHTML = shapeDefinition.shapeText;
     };
     
     assignShapeEventHandlers(node, shapeDefinition){

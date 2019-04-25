@@ -10,7 +10,7 @@ class Utils{
     };
     
     static showNotification(message, duration){
-        const notification =  $('#notification').get(0);
+        const notification =  Utils.$('#notification').get(0);
         notification.open();
         if(duration) {
             notification.duration = duration;
@@ -27,7 +27,7 @@ class Utils{
     }
     
     static showMessageDialog (message, classSelector){
-        var dialog = $('#message-window').get(0);
+        var dialog = Utils.$('#message-window').get(0);
         dialog.opened = true;
         
         if(classSelector !== undefined){
@@ -49,7 +49,7 @@ class Utils{
     };
     
     static showPlainTextMessageDialog (message, classSelector){
-        var dialog = $("#message-window").get(0);
+        var dialog = Utils.$("#message-window").get(0);
         dialog.opened = true;
         if(classSelector !== undefined){
             $('#overlay').get(0).className = classSelector;
