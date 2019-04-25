@@ -69,26 +69,26 @@ class Toolbar {
     getShapeClone(shapeDefinition){
         var cloneNode;
         switch(shapeDefinition.shapeType){
-            case "rounded-rectangle":
-                cloneNode = Utils.$("#rounded-rectangle-template").get(0).content.cloneNode(true);
-                break;
             case "rectangle":
-                cloneNode = Utils.$("#rectangle-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".rectangle-shape").cloneNode(true);
                 break;
-            case "circle":
-                cloneNode = Utils.$("#circle-template").get(0).content.cloneNode(true);
+            case "rounded-rectangle":
+                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".rounded-rectangle-shape").cloneNode(true);
                 break;
             case "ellipse":
-                cloneNode = Utils.$("#ellipse-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".ellipse-shape").cloneNode(true);
+                break;
+            case "circle":
+                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".circle-shape").cloneNode(true);
                 break;
             case "diamond":
-                cloneNode = Utils.$("#diamond-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".diamond-shape").cloneNode(true);
                 break;
             case "and":
-                cloneNode = Utils.$("#and-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".and-shape").cloneNode(true);
                 break;
             case "or":
-                cloneNode = Utils.$("#or-template").get(0).content.cloneNode(true);
+                cloneNode = Utils.$("#shapes-template").get(0).content.querySelector(".or-shape").cloneNode(true);
                 break;
         };
         return cloneNode;
