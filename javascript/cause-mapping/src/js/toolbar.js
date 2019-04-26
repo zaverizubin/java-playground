@@ -70,10 +70,10 @@ class Toolbar {
         var cloneNode;
         switch(shapeDefinition.shapeType){
            case "rectangle":
-                cloneNode = Utils.$("#shapes-template .rounded-rectangle-shape").get(0).cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .rectangle-shape").get(0).cloneNode(true);
                 break;
             case "rounded-rectangle":
-                cloneNode = Utils.$("#shapes-template .rectangle-shape").get(0).cloneNode(true);
+                cloneNode = Utils.$("#shapes-template .rounded-rectangle-shape").get(0).cloneNode(true);
                 break;
             case "ellipse":
                 cloneNode = Utils.$("#shapes-template .ellipse-shape").get(0).cloneNode(true);
