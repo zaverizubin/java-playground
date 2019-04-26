@@ -37,6 +37,8 @@ class ShapeDetailsBuilder{
         this.cell = cell;
         
         this.openDialog();
+        this.getElements();
+        this.showPropertiesTab();
         this.getShapeDetails(this.cell);
         this.getStyleDetails(this.cell);
         this.setShapePropertiesToUI();
@@ -55,25 +57,38 @@ class ShapeDetailsBuilder{
         var dialog = Utils.$("#shape-details").get(0);
         dialog.opened = true;
         Utils.$('#overlay').addClass("shape-details");
+    };
+    
+    getElements(){
+    	this.vsProperties = $(this.getElementFromSelector("#vertical-layout-properties"));
+    	this.vsNotes = $(this.getElementFromSelector("#vertical-layout-notes"));
+    	this.vsActions =$(this.getElementFromSelector("#vertical-layout-actions"));
+    	this.vsEvidence = $(this.getElementFromSelector("#vertical-layout-evidence"));
+    	
+    	this.notesGrid = this.getElementFromSelector("#shape-notes-grid");
+        this.actionsGrid = this.getElementFromSelector("#shape-actions-grid");
+        this.evidenceGrid = this.getElementFromSelector("#shape-evidence-grid");
         
-        var vsProperties = Utils.$('#overlay #vertical-layout-properties');
-        var vsNotes = Utils.$('#overlay #vertical-layout-notes');
-        var vsActions = Utils.$('#overlay #vertical-layout-actions');
-        var vsEvidence = Utils.$('#overlay #vertical-layout-evidence');
+        this.btnProperties = this.getElementFromSelector("#shape-properties-button");
+        this.btnNotes = this.getElementFromSelector("#shape-notes-button");
+        this.btnActions = this.getElementFromSelector("#shape-actions-button");
+        this.btnEvidence = this.getElementFromSelector("#shape-evidence-button");
         
-        vsProperties.toggle(true);
-        vsNotes.toggle(false);
-        vsActions.toggle(false);
-        vsEvidence.toggle(false);
-        
-        
+        this.btnAddNote = this.getElementFromSelector("#add-shape-note");
+        this.btnAddAction = this.getElementFromSelector("#add-shape-action");
+        this.btnAddEvidence = this.getElementFromSelector("#add-shape-evidence");
+      
+        this.btnClose = this.getElementFromSelector("#shape-details-close-button");
+    };
+    
+    showPropertiesTab(){
+    	this.vsProperties.toggle(true);
+    	this.vsNotes.toggle(false);
+    	this.vsActions.toggle(false);
+    	this.vsEvidence.toggle(false);
     };
     
     bindGrids(){
-        this.notesGrid = Utils.$('#overlay #shape-notes-grid').get(0);
-        this.actionsGrid = Utils.$('#overlay #shape-actions-grid').get(0);
-        this.evidenceGrid = Utils.$('#overlay #shape-evidence-grid').get(0);
-        
         this.notesGrid.items = this.notesList;
         this.notesGrid.clearCache();
                 
@@ -82,7 +97,6 @@ class ShapeDetailsBuilder{
                 
         this.evidenceGrid.items = this.evidenceList;
         this.evidenceGrid.clearCache();
-       
     };
     
     assignEventHandlers(){
@@ -99,49 +113,39 @@ class ShapeDetailsBuilder{
             });
         }
         
-        var btnClose = Utils.$('#shape-details-close-button').get(0);
-        if(btnClose.onclick === null){
-           btnClose.onclick = function(){
+        
+        if(this.btnClose.onclick === null){
+           this.btnClose.onclick = function(){
               dialog.opened = false; 
            };
         }
         
-        var btnProperties = Utils.$('#overlay #shape-properties-button').get(0);
-        var btnNotes = Utils.$('#overlay #shape-notes-button').get(0);
-        var btnActions = Utils.$('#overlay #shape-actions-button').get(0);
-        var btnEvidence = Utils.$('#overlay #shape-evidence-button').get(0);
+        this.assignShowUnitClickHandler(this.btnProperties);
+        this.assignShowUnitClickHandler(this.btnNotes);
+        this.assignShowUnitClickHandler(this.btnActions);
+        this.assignShowUnitClickHandler(this.btnEvidence);
         
-        var btnAddNote = Utils.$('#overlay #add-shape-note').get(0);
-        var btnAddAction = Utils.$('#overlay #add-shape-action').get(0);
-        var btnAddEvidence = Utils.$('#overlay #add-shape-evidence ').get(0);
-        
-        
-        this.assignShowUnitClickHandler(btnProperties);
-        this.assignShowUnitClickHandler(btnNotes);
-        this.assignShowUnitClickHandler(btnActions);
-        this.assignShowUnitClickHandler(btnEvidence);
-        
-        this.assignAddDetailClickHandler(btnAddNote, "#shape-notes-grid", shapeDetailsBuilder.addNote);
-        this.assignAddDetailClickHandler(btnAddAction, "#shape-actions-grid", shapeDetailsBuilder.addAction);
-        this.assignAddDetailClickHandler(btnAddEvidence, "#shape-evidence-grid", shapeDetailsBuilder.addEvidence);
+        this.assignAddDetailClickHandler(this.btnAddNote, "#shape-notes-grid", shapeDetailsBuilder.addNote);
+        this.assignAddDetailClickHandler(this.btnAddAction, "#shape-actions-grid", shapeDetailsBuilder.addAction);
+        this.assignAddDetailClickHandler(this.btnAddEvidence, "#shape-evidence-grid", shapeDetailsBuilder.addEvidence);
         
         this.assignDeleteGridItemHandler("#shape-notes-grid");
         this.assignDeleteGridItemHandler("#shape-actions-grid");
         this.assignDeleteGridItemHandler("#shape-evidence-grid");
         
-    }
+    };
     
     assignShowUnitClickHandler(button){
         
-        var btnProperties = Utils.$('#overlay #shape-properties-button').get(0);
-        var btnNotes = Utils.$('#overlay #shape-notes-button').get(0);
-        var btnActions = Utils.$('#overlay #shape-actions-button').get(0);
-        var btnEvidence = Utils.$('#overlay #shape-evidence-button').get(0);
+        var btnProperties = this.btnProperties;
+        var btnNotes = this.btnNotes;
+        var btnActions = this.btnActions;
+        var btnEvidence = this.btnEvidence;
          
-        var vsProperties = Utils.$('#overlay #vertical-layout-properties');
-        var vsNotes = Utils.$('#overlay #vertical-layout-notes');
-        var vsActions = Utils.$('#overlay #vertical-layout-actions');
-        var vsEvidence = Utils.$('#overlay #vertical-layout-evidence');
+        var vsProperties = this.vsProperties;
+        var vsNotes = this.vsNotes;
+        var vsActions = this.vsActions;
+        var vsEvidence = this.vsEvidence;
         
         if(button.onclick === null){
             button.onclick = function(){
@@ -167,11 +171,11 @@ class ShapeDetailsBuilder{
                 }
             };
         }
-    }
+    };
     
     assignAddDetailClickHandler(button, selector, addDetailFunction){
         
-        var grid = Utils.$('#overlay ' + selector).get(0);
+        var grid = this.getElementFromSelector(selector);
         var shapeDetailsBuilder = this;
         
         if(button.onclick === null){
@@ -190,7 +194,7 @@ class ShapeDetailsBuilder{
     };
     
     assignDeleteGridItemHandler(selector){
-        var grid = Utils.$('#overlay ' + selector).get(0);
+        var grid = this.getElementFromSelector(selector); 
         for(let i = 0; i < grid.items.length; i++){
             this.assignDeleteHandler(i, selector);
         };
@@ -198,7 +202,7 @@ class ShapeDetailsBuilder{
     
     assignDeleteHandler(index,  selector){
         
-        var grid = Utils.$('#overlay ' + selector).get(0);
+        var grid = this.getElementFromSelector(selector); 
         var shapeDetailsBuilder = this;
         var deleteButton = Utils.$('#overlay ' + selector + ' #delete-' + index).get(0);
         if(deleteButton !== undefined && deleteButton.onclick === null){
@@ -277,29 +281,29 @@ class ShapeDetailsBuilder{
     }
     
     setShapePropertiesToUI(){
-        Utils.$('#overlay .shape-label').get(0).value = this.properties.text;
-        Utils.$('#overlay .shape-description').get(0).value  = this.properties.description;
-        Utils.$('#overlay .shape-font-family').get(0).value = this.properties.fontFamily;
-        Utils.$('#overlay .shape-font-size').get(0).value = String(this.properties.fontSize);
-        Utils.$('#overlay .shape-stroke-color').get(0).value = this.properties.strokeColor;
-        Utils.$('#overlay .shape-fill-color').get(0).value = this.properties.fillColor;
-        Utils.$('#overlay .shape-font-color').get(0).value = this.properties.fontColor;
-        Utils.$('#overlay .shape-text-bold').get(0).checked = this.properties.fontBold;
-        Utils.$('#overlay .shape-text-italic').get(0).checked = this.properties.fontItalic;
-        Utils.$('#overlay .shape-text-underline').get(0).checked = this.properties.fontUnderline;
+        this.getElementFromSelector(".shape-label").value = this.properties.text;
+    	this.getElementFromSelector(".shape-description").value  = this.properties.description;
+    	this.getElementFromSelector(".shape-font-family").value = this.properties.fontFamily;
+    	this.getElementFromSelector(".shape-font-size").value = String(this.properties.fontSize);
+    	this.getElementFromSelector(".shape-stroke-color").value = this.properties.strokeColor;
+    	this.getElementFromSelector(".shape-fill-color").value = this.properties.fillColor;
+    	this.getElementFromSelector(".shape-font-color").value = this.properties.fontColor;
+    	this.getElementFromSelector(".shape-text-bold").checked = this.properties.fontBold;
+    	this.getElementFromSelector(".shape-text-italic").checked = this.properties.fontItalic;
+    	this.getElementFromSelector(".shape-text-underline").checked = this.properties.fontUnderline;
     };
     
     getShapePropertiesFromUI(){
-        this.properties.text = Utils.$('#overlay .shape-label').get(0).value;
-        this.properties.description = Utils.$('#overlay .shape-description').get(0).value;
-        this.properties.fontFamily = Utils.$('#overlay .shape-font-family').get(0).value;
-        this.properties.fontSize = Number(Utils.$('#overlay .shape-font-size').get(0).value);
-        this.properties.strokeColor = Utils.$('#overlay .shape-stroke-color').get(0).value;
-        this.properties.fillColor = Utils.$('#overlay .shape-fill-color').get(0).value;
-        this.properties.fontColor = Utils.$('#overlay .shape-font-color').get(0).value;
-        this.properties.fontBold = Utils.$('#overlay .shape-text-bold').get(0).checked;
-        this.properties.fontItalic = Utils.$('#overlay .shape-text-italic').get(0).checked;
-        this.properties.fontUnderline = Utils.$('#overlay .shape-text-underline').get(0).checked;
+        this.properties.text = this.getElementFromSelector(".shape-label").value;
+        this.properties.description = this.getElementFromSelector(".shape-description").value;
+        this.properties.fontFamily = this.getElementFromSelector(".shape-font-family").value;
+        this.properties.fontSize = Number(this.getElementFromSelector(".shape-font-size").value);
+        this.properties.strokeColor = this.getElementFromSelector(".shape-stroke-color").value;
+        this.properties.fillColor = this.getElementFromSelector(".shape-fill-color").value;
+        this.properties.fontColor = this.getElementFromSelector(".shape-font-color").value;
+        this.properties.fontBold = this.getElementFromSelector(".shape-text-bold").checked;
+        this.properties.fontItalic = this.getElementFromSelector(".shape-text-italic").checked;
+        this.properties.fontUnderline = this.getElementFromSelector(".shape-text-underline").checked;
     };
     
     updateShapeDetails(){
@@ -343,9 +347,9 @@ class ShapeDetailsBuilder{
     
     showCellOverlays(cell){
         var shapeDetailsBuilder = this;
-        var overlay1 = new mxCellOverlay(new mxImage('images/notes.png', 16, 16), 'Click for Notes');
-        var overlay2 = new mxCellOverlay(new mxImage('images/actions.png', 16, 16), 'Click for Actions');
-        var overlay3 = new mxCellOverlay(new mxImage('images/evidence.png', 16, 16), 'Click for Evidence');
+        var overlay1 = new mxCellOverlay(new mxImage(GraphSettings.imagesRoot() + 'notes.png', 16, 16), 'Click for Notes');
+        var overlay2 = new mxCellOverlay(new mxImage(GraphSettings.imagesRoot() + 'actions.png', 16, 16), 'Click for Actions');
+        var overlay3 = new mxCellOverlay(new mxImage(GraphSettings.imagesRoot() + 'evidence.png', 16, 16), 'Click for Evidence');
         
         overlay1.verticalAlign = mxConstants.ALIGN_BOTTOM;
         overlay2.verticalAlign = mxConstants.ALIGN_MIDDLE;
@@ -384,7 +388,9 @@ class ShapeDetailsBuilder{
         }
     }
     
-    
+    getElementFromSelector(selector){
+    	return Utils.$('#overlay ' + selector).get(0);
+    };
     
     static Properties() {
         return {
