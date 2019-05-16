@@ -2,11 +2,11 @@ package com.playground.candidate_test;
 
 import java.util.HashSet;
 
-public class TestClass {
+public class EvaluateAnswersOption1 {
 	private final String candidateResponse;
 	private final String correctAnswer;
 
-	public TestClass(final String candidateResponse, final String correctAnswer) {
+	public EvaluateAnswersOption1(final String candidateResponse, final String correctAnswer) {
 		this.candidateResponse = candidateResponse;
 		this.correctAnswer = correctAnswer;
 	}
@@ -14,15 +14,16 @@ public class TestClass {
 	public float getCandidateResult() {
 		final int maxScore = calculateCorrectAnswerScore(correctAnswer);
 		final int candidateScore = calculateCandidateScore(candidateResponse, correctAnswer);
-		return (float) (100 * (candidateScore * 1.0 / maxScore));
+		final float score = 100 * (float) candidateScore / maxScore;
+		return (float) (Math.round(score * 100.0) / 100.0);
 
 	}
 
-	public int calculateCorrectAnswerScore(String input) {
+	public int calculateCorrectAnswerScore(String correctAnswer) {
 		int score = 0;
-		input = input.trim();
-		input = input.substring(0, input.length() - 1);
-		final String[] arrOfWords = input.split(" ");
+		correctAnswer = correctAnswer.trim();
+		correctAnswer = correctAnswer.replace(".", "").replace(",", "").replace(";", "");
+		final String[] arrOfWords = correctAnswer.split(" ");
 
 		for (final String word : arrOfWords) {
 			score += getWordScore(word);
