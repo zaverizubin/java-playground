@@ -21,12 +21,11 @@ public class EvaluateAnswersOption1 {
 
 	public int calculateCorrectAnswerScore(String correctAnswer) {
 		int score = 0;
-		correctAnswer = correctAnswer.trim();
-		correctAnswer = correctAnswer.replace(".", "").replace(",", "").replace(";", "");
+		correctAnswer = correctAnswer.replaceAll("[.,!]", "");
 		final String[] arrOfWords = correctAnswer.split(" ");
 
 		for (final String word : arrOfWords) {
-			score += getWordScore(word);
+			score += getWordScore(word.trim());
 		}
 		return score;
 	}
@@ -38,7 +37,7 @@ public class EvaluateAnswersOption1 {
 
 		int score = 0;
 
-		final HashSet<String> set = new HashSet();
+		final HashSet<String> set = new HashSet<>();
 
 		for (final String word : arrOfCorrectAnswer) {
 			set.add(word.toLowerCase());
@@ -55,15 +54,13 @@ public class EvaluateAnswersOption1 {
 
 	private int getWordScore(final String word) {
 		int score = 0;
-		try {
-			Double.parseDouble(word);
+		final String regex = "^-?[0-9]+\\.[0-9]+$";
+		if (word.matches(regex)) {
 			score = 4;
-		} catch (final NumberFormatException e) {
-			if (word.length() > 7) {
-				score = 3;
-			} else if (word.length() >= 5) {
-				score = 1;
-			}
+		} else if (word.length() > 7) {
+			score = 3;
+		} else if (word.length() >= 5) {
+			score = 1;
 		}
 		return score;
 	}
