@@ -34,8 +34,8 @@ public class SortingTest {
 			final long n = (long) (java.lang.Math.random() * (maxSize - 1));
 			loadArr[j] = n;
 		}
-		final SimpleSorting sort = new SimpleSorting();
-		sort.InsertionSort(loadArr);
+		final BubbleSort bubbleSort = new BubbleSort();
+		bubbleSort.sort(loadArr);
 
 		final long[] inverseLoadArr = new long[maxSize];
 		for (int j = 0; j < maxSize; j++) {
@@ -47,8 +47,8 @@ public class SortingTest {
 
 	@Test
 	public void testBubbleSort_success() {
-		final SimpleSorting sort = new SimpleSorting();
-		sort.BubbleSort(arr);
+		final BubbleSort bubbleSort = new BubbleSort();
+		bubbleSort.sort(arr);
 
 		final long[] methodOutput = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		assertArrayEquals(arr, methodOutput);
@@ -56,8 +56,8 @@ public class SortingTest {
 
 	@Test
 	public void testSelectionSort_success() {
-		final SimpleSorting sort = new SimpleSorting();
-		sort.SelectionSort(arr);
+		final SelectionSort selectionSort = new SelectionSort();
+		selectionSort.sort(arr);
 
 		final long[] methodOutput = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		assertArrayEquals(arr, methodOutput);
@@ -65,8 +65,8 @@ public class SortingTest {
 
 	@Test
 	public void testInsertionSort_success() {
-		final SimpleSorting sort = new SimpleSorting();
-		sort.InsertionSort(arr);
+		final InsertionSort insertionSort = new InsertionSort();
+		insertionSort.sort(arr);
 
 		final long[] methodOutput = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		assertArrayEquals(arr, methodOutput);
@@ -76,24 +76,27 @@ public class SortingTest {
 	public void testLoadSort_success() {
 		final long[] arr = getLoadTestArray();
 		long[] arrClone;
-		final SimpleSorting sort = new SimpleSorting();
+		final BubbleSort bubbleSort = new BubbleSort();
+		final SelectionSort selectionSort = new SelectionSort();
+		final InsertionSort insertionSort = new InsertionSort();
+		
 		long start, end;
 
 		arrClone = arr.clone();
 		start = System.currentTimeMillis();
-		sort.BubbleSort(arrClone);
+		bubbleSort.sort(arrClone);
 		end = System.currentTimeMillis();
 		System.out.println("Array size: " + arr.length + " - Bubble sort: " + (end - start) / 1000 + "secs");
 
 		arrClone = arr.clone();
 		start = System.currentTimeMillis();
-		sort.SelectionSort(arrClone);
+		selectionSort.sort(arrClone);
 		end = System.currentTimeMillis();
 		System.out.println("Array size: " + arr.length + " - Selection sort: " + (end - start) / 1000 + "secs");
 
 		arrClone = arr.clone();
 		start = System.currentTimeMillis();
-		sort.InsertionSort(arrClone);
+		insertionSort.sort(arrClone);
 		end = System.currentTimeMillis();
 		System.out.println("Array size: " + arr.length + " - Insertion sort: " + (end - start) / 1000 + "secs");
 	}
@@ -102,13 +105,15 @@ public class SortingTest {
 	public void testLoadInverseSorted_success() {
 		final long[] arr = getInverseSortedLoadTestArray();
 		long[] arrClone;
-		final SimpleSorting sort = new SimpleSorting();
-
+		final BubbleSort bubbleSort = new BubbleSort();
+		final SelectionSort selectionSort = new SelectionSort();
+		final InsertionSort insertionSort = new InsertionSort();
+		
 		long start, end;
 
 		arrClone = arr.clone();
 		start = System.currentTimeMillis();
-		sort.BubbleSort(arrClone);
+		bubbleSort.sort(arrClone);
 		end = System.currentTimeMillis();
 		System.out
 		.println("Reverse Sorted Array size: " + arr.length + " - Bubble sort: " + (end - start) / 1000
@@ -116,14 +121,14 @@ public class SortingTest {
 
 		arrClone = arr.clone();
 		start = System.currentTimeMillis();
-		sort.SelectionSort(arrClone);
+		selectionSort.sort(arrClone);
 		end = System.currentTimeMillis();
 		System.out.println(
 				"Reverse Sorted Array size: " + arr.length + " - Selection sort: " + (end - start) / 1000 + "secs");
 
 		arrClone = arr.clone();
 		start = System.currentTimeMillis();
-		sort.InsertionSort(arrClone);
+		insertionSort.sort(arrClone);
 		end = System.currentTimeMillis();
 		System.out.println(
 				"Reverse Sorted Array size: " + arr.length + " - Insertion sort: " + (end - start) / 1000 + "secs");

@@ -73,26 +73,26 @@ public class HighArray {
 	}
 
 	public void noDuplicates() {
+		int j;
 
-		for (int j = 0; j < nElems - 1; j++) {
-			if (a[j] != Integer.MIN_VALUE) {
-				for (int k = j + 1; k < nElems; k++) {
-					if (a[k] == a[j]) {
-						a[k] = Integer.MIN_VALUE;
-					}
-				}
-			}
-
+		if (nElems <= 1) {
+			return;
 		}
 
-		for (int j = 0; j < nElems - 1; j++) {
-			while (a[j] == Integer.MIN_VALUE) {
+
+		for (j = 1; j < nElems - 1; j++) {
+			if (a[j] == a[nElems - 1]) {
+				break;
+			}
+			while (a[j - 1] == a[j]) {
 				for (int k = j; k < nElems - 1; k++) {
 					a[k] = a[k + 1];
 				}
-				nElems--;
 			}
+
 		}
+		nElems = a[j - 1] != a[j] ? j + 1 : j;
+
 	}
 
 	public void display()

@@ -52,21 +52,52 @@ public class HighArrayTest {
 
 	@Test
 	public void testNoDuplicates_success() {
-		highArray = new HighArray(9);
-		highArray.insert(3);
-		highArray.insert(3);
-		highArray.insert(3);
-		highArray.insert(4);
-		highArray.insert(4);
-		highArray.insert(4);
-		highArray.insert(5);
-		highArray.insert(5);
-		highArray.insert(5);
-
-		final int size = highArray.size();
-
+		highArray = new HighArray(2);
+		highArray.insert(1);
+		highArray.insert(1);
 		highArray.noDuplicates();
-		assertEquals(highArray.size(), size);
+		System.out.println(highArray.size());
+
+		highArray = new HighArray(3);
+		highArray.insert(1);
+		highArray.insert(1);
+		highArray.insert(2);
+		highArray.noDuplicates();
+		System.out.println(highArray.size());
+
+		highArray = new HighArray(3);
+		highArray.insert(1);
+		highArray.insert(2);
+		highArray.insert(3);
+		highArray.noDuplicates();
+		System.out.println(highArray.size());
+
+		highArray = new HighArray(8);
+		highArray.insert(1);
+		highArray.insert(1);
+		highArray.insert(2);
+		highArray.insert(3);
+		highArray.insert(5);
+		highArray.insert(5);
+		highArray.insert(6);
+		highArray.insert(6);
+		highArray.noDuplicates();
+		System.out.println(highArray.size());
+
+	}
+
+	public int removeDuplicates(final int[] nums) {
+		if (nums.length == 0) {
+			return 0;
+		}
+		int i = 0;
+		for (int j = 1; j < nums.length; j++) {
+			if (nums[j] != nums[i]) {
+				i++;
+				nums[i] = nums[j];
+			}
+		}
+		return i + 1;
 	}
 
 }
