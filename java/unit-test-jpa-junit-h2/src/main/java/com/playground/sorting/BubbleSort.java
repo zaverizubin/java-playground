@@ -2,7 +2,6 @@ package com.playground.sorting;
 
 
 import java.util.Observable;
-import java.util.concurrent.TimeUnit;
 
 public class BubbleSort extends Observable {
 

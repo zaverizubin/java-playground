@@ -1,6 +1,5 @@
 package com.playground.hibernate.basictype.enums;
 
-import static org.hibernate.testing.transaction.TransactionUtil.doInJPA;
 import static org.junit.Assert.assertNotNull;
 
 import javax.persistence.EntityManagerFactory;

@@ -15,7 +15,9 @@ public class OrderedArray {
 	}
 
 	public int find(final long searchKey) {
-		int upperBound, lowerBound;
+		int upperBound; 
+		int lowerBound;
+		
 		lowerBound = 0;
 		upperBound = nElems - 1;
 		int currIn;
