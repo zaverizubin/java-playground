@@ -1,60 +1,83 @@
-package com.playground.i18n;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class I18NProcessor {
 	
-	String rootFilePath;
+	private enum I18NLanguages {
+		de_DE, fr_FR, nl_NL,es_ES
+	}
 	
-	String pattern = "bundle.getString\\(\"(.*?)\"\\)";
+	private static final String MESSAGES_BUNDLE = "MessagesBundle";
+	private static final String MESSAGES_BUNDLE_FILE_EXTN = "properties";
+	private String rootFilePath;
 	
-	Pattern regex = Pattern.compile(pattern);
+	private String validPattern = "bundle.getString\\(\"(.*?)\"\\)";
+	private Pattern validRegex = Pattern.compile(validPattern);
+	
+	private String catchAllPattern = "bundle.getString\\(.*?\\)";
+	private Pattern catchAllRegex = Pattern.compile(catchAllPattern);
+	
+	
 	List<File> files = new ArrayList<>(2000);
 	List<String> excludedFiles = new ArrayList<>(files.size());
 	HashMap<String,String> translations = new HashMap<>();
+	HashSet<String> excludedTranslations = new HashSet<>();
 	
 	public static void main(String[] args) {
-		I18NProcessor main =  new I18NProcessor();
-		main.processFiles(args[0]);
+		
+		I18NProcessor i18nProcessor =  new I18NProcessor();
+		if(args.length >0) {
+			i18nProcessor.rootFilePath = args[0];
+		}else {
+			i18nProcessor.rootFilePath = System.getProperty("user.dir");
+		}
+		
+		i18nProcessor.findAndProcessMultiLingualContent();
+		i18nProcessor.findAndProcessI18NFiles();
+		i18nProcessor.finish();
 	}
 	
-	private void processFiles(String rootFilePath) {
-		this.rootFilePath = rootFilePath;
-		if(rootFilePathExists()) {
-			readFiles();
-			readAndExtractTranslations();
-			writeTranslationsToFile();
-			printExcludedFiles();
-			finish();
+	
+
+	private void findAndProcessMultiLingualContent() {
+		if(!rootFilePathExists()) {
+			printToStdOut("Root path does not exists");
+			return;
 		}
+		readFiles();
+		readAndExtractTranslations();
+		writeTranslationsToFile(String.format("%s.%s", MESSAGES_BUNDLE, MESSAGES_BUNDLE_FILE_EXTN) , translations);
+		writeExcludedTranslationsToFile();
+		printExcludedFiles();
 		
 	}
 	
 	private boolean rootFilePathExists() {
-		if(!Paths.get(rootFilePath).toFile().exists()) {
-			System.out.println("Given root path does not exists");
-			return false;
-		}
-		return true;
+		return Paths.get(rootFilePath).toFile().exists();
 	}
 
 	private void readFiles() {
-		System.out.println("------Reading files--------\n");
-		
-		
+		printToStdOut("\n\nReading Files");
 		
 		try (Stream<Path> pathStream = Files.walk(Paths.get(rootFilePath)))
 		{
@@ -62,7 +85,8 @@ public class I18NProcessor {
 				files.add(path.toFile());
 			});
 		} catch (IOException e) {
-			System.out.println("!!! Error Reading files." + e.getMessage());
+			printToStdErr(e);
+			
 			System.exit(0);
 		}
 		
@@ -71,8 +95,6 @@ public class I18NProcessor {
 	
 	private boolean filterFilesToRead(Path path) {
 		String filename =  path.toFile().getName();
-		
-		if( path.toString().contains("planningoptimizer")) return false;
 		
 		if(!filename.endsWith(".java")) {
 			return false;
@@ -84,11 +106,15 @@ public class I18NProcessor {
 	}
 	
 	private void readAndExtractTranslations() {
-		System.out.println("------Extracting Translations--------\n");
+		printToStdOut("\n\n"); 
 		
 		String content = null;
+		long current = 1;
+		long total = files.size();
 		
 		for(File file : files) {
+			printProgress("Extracting Translations", current, total);
+			
 			if(!file.canRead()) {
 				excludedFiles.add(file.getName());
 			}
@@ -97,53 +123,191 @@ public class I18NProcessor {
 			} catch (IOException e) {
 				excludedFiles.add(file.getName());
 			}
+			
 			extractTranslations(content);
+			current+=1;
 		}
-		
-		
 	}
 	
 	private void extractTranslations(String content) {
-		 Matcher m = regex.matcher(content);   // get a matcher object
-		 while(m.find()) {
-			 String key = m.group(1).trim().replaceAll("\\s+?", "_").replaceAll("[^a-zA-Z0-9_]", "");
-			 translations.put(key, m.group(1));
-		 }
+		HashSet<String> catchAll = new HashSet<>();
+		
+		Matcher m = catchAllRegex.matcher(content);
+		while (m.find()) {
+			catchAll.add(m.group());
+		}
+		
+		m = validRegex.matcher(content); 
+		while(m.find()) {
+			String key = m.group(1).trim().replaceAll("\\s+?", "_").replaceAll("[^a-zA-Z0-9_%]", "");
+			translations.put(key, m.group(1));
+			if(catchAll.contains(m.group())) {
+				catchAll.remove(m.group());
+			}
+		}
+		excludedTranslations.addAll(catchAll);
 	}
 
-	private void writeTranslationsToFile() {
-		System.out.println("------Writing Translations to file --------\n");
+	private void writeTranslationsToFile(String filename, HashMap<String, String> entries) {
+		printToStdOut("\n\n"); 
 		
-		File file = new File("MessagesBundle.properties");
+		File file = new File(filename);
 		if(file.exists()) {
 			file.delete();
 		}
 		try (FileWriter writer = new FileWriter(file);
-			 BufferedWriter bw = new BufferedWriter(writer)) {
-				for(Entry<String, String> entry : translations.entrySet()) {
-					bw.write(String.format("%1$s = %2$s", entry.getKey(), entry.getValue()));
-					bw.newLine();bw.newLine();
-				}
+			BufferedWriter bw = new BufferedWriter(writer)) {
+			long current = 1;
+			long total = translations.entrySet().size();
+			for(Entry<String, String> entry : entries.entrySet()) {
+				printProgress("Writing Translations to file:" + filename, current, total);
+				bw.write(String.format("%1$s = %2$s", entry.getKey(), entry.getValue()));
+				bw.newLine();bw.newLine();
+				current += 1;
+			}
 		} catch (IOException e) {
-			System.err.format("IOException: %s%n", e);
+			printToStdErr(e);
 		}
 	
 	}
 	
+	private void writeExcludedTranslationsToFile() {
+		
+		printToStdOut("\n\n"); 
+		File file = new File("excluded.properties");
+		
+		if(file.exists()) {
+			file.delete();
+		}
+		try (FileWriter writer = new FileWriter(file);
+			BufferedWriter bw = new BufferedWriter(writer)) {
+			long current = 1;
+			long total = excludedTranslations.size();
+			for(String entry : excludedTranslations) {
+				printProgress("Writing Excluded Translations to file", current, total);
+				bw.write(entry);
+				bw.newLine();bw.newLine();
+				current+=1;
+			}
+		} catch (IOException e) {
+			printToStdErr(e);
+		}
 	
-	
+	}
+		
 	private void printExcludedFiles() {
 		if(excludedFiles.isEmpty()) return;
 		
-		System.out.println("------The following files could not be processed--------\n");
+		printToStdOut("The following files could not be processed-->\n");
 		for(File file : files) {
-			System.out.println(file.getName());
+			printToStdOut(file.getName());
 		}
-		
 	}
 	
 	private void finish() {
-		System.out.println("------Processing complete--------\n");
+		printToStdOut("\n\nProcessing complete");
 	}
 	
+	
+	private void findAndProcessI18NFiles() {
+		EnumSet<I18NLanguages> languages = EnumSet.allOf(I18NLanguages.class);
+		List<Path> i18NFilePaths = findI18NFiles();
+		final LinkedHashMap<String, String> i18NEntries = new LinkedHashMap<>();
+		
+		languages.forEach(lng ->{
+			String filename = String.format("%s_%s.%s", MESSAGES_BUNDLE, lng.name(), MESSAGES_BUNDLE_FILE_EXTN);
+			Optional<Path> optionalPath = i18NFilePaths.stream().filter(p ->{
+				return p.getFileName().endsWith(filename);
+			}).findFirst();
+			
+			i18NEntries.clear();
+			if(optionalPath.isPresent()) {
+				i18NEntries.putAll(readI18NFile(optionalPath.get()));
+				reconcileI18NEntries(i18NEntries);
+			}else {
+				i18NEntries.putAll(translations);
+			}
+			writeTranslationsToFile(filename, i18NEntries);
+		});
+	}
+	
+	private List<Path> findI18NFiles() {
+		EnumSet<I18NLanguages> languages = EnumSet.allOf(I18NLanguages.class);
+		List<String> filenamesToSearch = new ArrayList<>();
+		List<Path> searchedFilePaths = new ArrayList<>();
+		
+		languages.forEach(lng ->{
+			filenamesToSearch.add(String.format("%s_%s.%s", MESSAGES_BUNDLE, lng.name(), MESSAGES_BUNDLE_FILE_EXTN)) ;
+		});
+		
+		try (Stream<Path> pathStream = Files.find(Paths.get(rootFilePath),Integer.MAX_VALUE, (filePath, fileAttr) -> fileAttr.isRegularFile())) {
+			pathStream.forEach(path->{
+	            if(path.toString().endsWith(MESSAGES_BUNDLE_FILE_EXTN) 
+            		&& path.toString().contains(MESSAGES_BUNDLE) 
+            		&& path.toString().contains("src\\main")
+            		&& !path.toString().endsWith(String.format("%s.%s", MESSAGES_BUNDLE, MESSAGES_BUNDLE_FILE_EXTN))) {
+	            	searchedFilePaths.add(path);
+	            }
+	        });
+		} catch (IOException e){
+			printToStdErr(e);
+		}
+		
+		return searchedFilePaths;
+	}
+	
+	private HashMap<String, String> readI18NFile(Path path) {
+		final HashMap<String, String> i18NEntries = new HashMap<>();
+		
+		try (Stream<String> lines = Files.lines(path, Charset.forName(StandardCharsets.UTF_8.name()))) {
+				  lines.forEachOrdered(line -> {
+					  if(line.contains("=")) {
+						  String[] arr = line.split("=");
+						  i18NEntries.put(arr[0].trim(), arr[1].trim());  
+					  }
+				  }
+			  );
+		} catch (IOException e) {
+			printToStdErr(e);
+		}
+		
+		return i18NEntries;
+	}
+	
+	private void reconcileI18NEntries(LinkedHashMap<String, String> i18nEntries) {
+		Iterator<Entry<String, String>> iterator = i18nEntries.entrySet().iterator(); 
+	    while (iterator.hasNext()) { 
+	        Entry<String, String> entry = iterator.next(); 
+	        if (!translations.containsKey(entry.getKey())) { 
+	            iterator.remove(); 
+	        } 
+	    } 
+    	
+		for(Entry<String, String> entry : translations.entrySet()) {
+			if(!i18nEntries.containsKey(entry.getKey())) {
+				i18nEntries.put(entry.getKey(),entry.getValue());
+			}
+		}
+	}
+	
+	
+	private void printProgress(String caption, long current, long total) {
+		StringBuilder stringBuilder = new StringBuilder();
+		int percent = total > 0 ? (int) (current * 100 / total): 0;
+		
+		stringBuilder.append('\r');
+		stringBuilder.append(caption);
+		stringBuilder.append("-------->");
+		stringBuilder.append((total > 0) ? String.format(" %d%%", percent): stringBuilder.append(current));
+		printToStdOut(stringBuilder.toString());
+	}
+	
+	private void printToStdOut(String message){
+		System.out.print(message);
+	}
+	
+	private void printToStdErr(Exception e){
+		System.err.format("IOException: %s", e.getMessage());
+	}
+
 }
