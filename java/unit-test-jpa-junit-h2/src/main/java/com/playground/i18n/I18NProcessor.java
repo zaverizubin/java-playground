@@ -1,3 +1,4 @@
+package com.playground.i18n;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.EnumSet;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,15 +18,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class I18NProcessor {
 	
-	private enum I18NLanguages {
-		de_DE, fr_FR, nl_NL,es_ES
-	}
+	Set<String> i18nLanguages = new HashSet<>(Arrays.asList("de_DE", "fr_FR", "nl_NL", "es_ES"));
 	
 	private static final String MESSAGES_BUNDLE = "MessagesBundle";
 	private static final String MESSAGES_BUNDLE_FILE_EXTN = "properties";
@@ -153,7 +153,10 @@ public class I18NProcessor {
 		
 		File file = new File(filename);
 		if(file.exists()) {
-			file.delete();
+			if(!file.delete()) {
+				printToStdErr(new Exception("Failed to delete file:" + filename));
+				return ;
+			}
 		}
 		try (FileWriter writer = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(writer)) {
@@ -174,10 +177,14 @@ public class I18NProcessor {
 	private void writeExcludedTranslationsToFile() {
 		
 		printToStdOut("\n\n"); 
-		File file = new File("excluded.properties");
+		String filename = "excluded.properties";
+		File file = new File(filename);
 		
 		if(file.exists()) {
-			file.delete();
+			if(!file.delete()) {
+				printToStdErr(new Exception("Failed to delete file:" + filename));
+				return ;
+			}
 		}
 		try (FileWriter writer = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(writer)) {
@@ -210,12 +217,11 @@ public class I18NProcessor {
 	
 	
 	private void findAndProcessI18NFiles() {
-		EnumSet<I18NLanguages> languages = EnumSet.allOf(I18NLanguages.class);
 		List<Path> i18NFilePaths = findI18NFiles();
 		final LinkedHashMap<String, String> i18NEntries = new LinkedHashMap<>();
 		
-		languages.forEach(lng ->{
-			String filename = String.format("%s_%s.%s", MESSAGES_BUNDLE, lng.name(), MESSAGES_BUNDLE_FILE_EXTN);
+		i18nLanguages.forEach(lng ->{
+			String filename = String.format("%s_%s.%s", MESSAGES_BUNDLE, lng, MESSAGES_BUNDLE_FILE_EXTN);
 			Optional<Path> optionalPath = i18NFilePaths.stream().filter(p ->{
 				return p.getFileName().endsWith(filename);
 			}).findFirst();
@@ -232,12 +238,12 @@ public class I18NProcessor {
 	}
 	
 	private List<Path> findI18NFiles() {
-		EnumSet<I18NLanguages> languages = EnumSet.allOf(I18NLanguages.class);
+		
 		List<String> filenamesToSearch = new ArrayList<>();
 		List<Path> searchedFilePaths = new ArrayList<>();
 		
-		languages.forEach(lng ->{
-			filenamesToSearch.add(String.format("%s_%s.%s", MESSAGES_BUNDLE, lng.name(), MESSAGES_BUNDLE_FILE_EXTN)) ;
+		i18nLanguages.forEach(lng ->{
+			filenamesToSearch.add(String.format("%s_%s.%s", MESSAGES_BUNDLE, lng, MESSAGES_BUNDLE_FILE_EXTN)) ;
 		});
 		
 		try (Stream<Path> pathStream = Files.find(Paths.get(rootFilePath),Integer.MAX_VALUE, (filePath, fileAttr) -> fileAttr.isRegularFile())) {
@@ -307,7 +313,7 @@ public class I18NProcessor {
 	}
 	
 	private void printToStdErr(Exception e){
-		System.err.format("IOException: %s", e.getMessage());
+		System.err.format("Exception: %s", e.getMessage());
 	}
 
 }
