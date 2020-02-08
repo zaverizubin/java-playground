@@ -1,4 +1,4 @@
-package com.playground.i18n;
+//package com.playground.i18n;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,10 +30,15 @@ public class I18NProcessor {
 	
 	private static final String MESSAGES_BUNDLE = "MessagesBundle";
 	private static final String MESSAGES_BUNDLE_FILE_EXTN = "properties";
+	private static final String JAVA_EXTN = ".java";
+	private static final String JASPER_EXTN = ".jrxml";
 	private String rootFilePath;
 	
-	private String validPattern = "bundle.getString\\(\"(.*?)\"\\)";
-	private Pattern validRegex = Pattern.compile(validPattern);
+	private String codePattern = "bundle.getString\\(\"(.*?)\"\\)";
+	private Pattern codeRegex = Pattern.compile(codePattern);
+	
+	private String jasperReportPattern = "\\$R\\{(.*?)\\}";
+	private Pattern jasperReportRegex = Pattern.compile(jasperReportPattern);
 	
 	private String catchAllPattern = "bundle.getString\\(.*?\\)";
 	private Pattern catchAllRegex = Pattern.compile(catchAllPattern);
@@ -47,7 +53,7 @@ public class I18NProcessor {
 		
 		I18NProcessor i18nProcessor =  new I18NProcessor();
 		if(args.length >0) {
-			i18nProcessor.rootFilePath = args[0];
+			i18nProcessor.rootFilePath = "E:\\work\\nexusglobal\\apm\\integration\\java\\apm-planningoptimizer";//args[0];
 		}else {
 			i18nProcessor.rootFilePath = System.getProperty("user.dir");
 		}
@@ -56,8 +62,6 @@ public class I18NProcessor {
 		i18nProcessor.findAndProcessI18NFiles();
 		i18nProcessor.finish();
 	}
-	
-	
 
 	private void findAndProcessMultiLingualContent() {
 		if(!rootFilePathExists()) {
@@ -89,19 +93,18 @@ public class I18NProcessor {
 			
 			System.exit(0);
 		}
-		
-	
 	}
 	
 	private boolean filterFilesToRead(Path path) {
 		String filename =  path.toFile().getName();
 		
-		if(!filename.endsWith(".java")) {
+		if(!filename.endsWith(JAVA_EXTN) && !filename.endsWith(JASPER_EXTN)) {
 			return false;
 		}
 			
-		filename = filename.split(".java")[0].toLowerCase();
-		return !(filename.endsWith("_") || filename.endsWith("test"));
+		filename = filename.split(JAVA_EXTN)[0].toLowerCase();
+		//do not include generated metamodel and test files
+		return !filename.endsWith("_") && !filename.endsWith("test");
 		
 	}
 	
@@ -123,13 +126,17 @@ public class I18NProcessor {
 			} catch (IOException e) {
 				excludedFiles.add(file.getName());
 			}
-			
-			extractTranslations(content);
+			if(file.getName().endsWith(JAVA_EXTN)) {
+				extractCodeTranslations(content);
+			}else if(file.getName().endsWith(JASPER_EXTN)) {
+				extractJasperReportTranslations(content);
+			}
+				
 			current+=1;
 		}
 	}
 	
-	private void extractTranslations(String content) {
+	private void extractCodeTranslations(String content) {
 		HashSet<String> catchAll = new HashSet<>();
 		
 		Matcher m = catchAllRegex.matcher(content);
@@ -137,7 +144,7 @@ public class I18NProcessor {
 			catchAll.add(m.group());
 		}
 		
-		m = validRegex.matcher(content); 
+		m = codeRegex.matcher(content); 
 		while(m.find()) {
 			String key = m.group(1).trim().replaceAll("\\s+?", "_").replaceAll("[^a-zA-Z0-9_%]", "");
 			translations.put(key, m.group(1));
@@ -147,16 +154,32 @@ public class I18NProcessor {
 		}
 		excludedTranslations.addAll(catchAll);
 	}
+	
+	private void extractJasperReportTranslations(String content) {
+		Matcher m = jasperReportRegex.matcher(content);
+		while(m.find()) {
+			String key = m.group(1).trim();
+			String value = upperCamelCase(m.group(1).trim().replaceAll("_", " "));
+			translations.put(key, value);
+		}
+	}
 
+	private String upperCamelCase(String value) {
+		StringBuilder sb = new StringBuilder();
+		for(String word: value.split(" ")) {
+			sb.append(word.substring(0,1).toUpperCase() + word.substring(1).toLowerCase());
+			sb.append(" ");
+		}
+		
+		return sb.toString().trim();
+	}
+	
 	private void writeTranslationsToFile(String filename, HashMap<String, String> entries) {
 		printToStdOut("\n\n"); 
 		
 		File file = new File(filename);
 		if(file.exists()) {
-			if(!file.delete()) {
-				printToStdErr(new Exception("Failed to delete file:" + filename));
-				return ;
-			}
+			file.delete();
 		}
 		try (FileWriter writer = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(writer)) {
@@ -177,14 +200,10 @@ public class I18NProcessor {
 	private void writeExcludedTranslationsToFile() {
 		
 		printToStdOut("\n\n"); 
-		String filename = "excluded.properties";
-		File file = new File(filename);
+		File file = new File("excluded.properties");
 		
 		if(file.exists()) {
-			if(!file.delete()) {
-				printToStdErr(new Exception("Failed to delete file:" + filename));
-				return ;
-			}
+			file.delete();
 		}
 		try (FileWriter writer = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(writer)) {
@@ -313,7 +332,7 @@ public class I18NProcessor {
 	}
 	
 	private void printToStdErr(Exception e){
-		System.err.format("Exception: %s", e.getMessage());
+		System.err.format("IOException: %s", e.getMessage());
 	}
 
 }
