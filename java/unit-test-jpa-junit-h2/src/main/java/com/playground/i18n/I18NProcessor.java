@@ -1,4 +1,4 @@
-//package com.playground.i18n;
+package com.playground.i18n;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,12 +11,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
@@ -48,12 +48,22 @@ public class I18NProcessor {
 	List<String> excludedFiles = new ArrayList<>(files.size());
 	HashMap<String,String> translations = new HashMap<>();
 	HashSet<String> excludedTranslations = new HashSet<>();
+	//List of label words from Jasper reports we do not want to UpperCamelCase.
+	Map<String, String> jasperReportWordExclusions = new HashMap<String, String>(){
+		{
+			put("QR", "QR");
+			put("NA", "NA");
+			put("EPACK", "ePack");
+		}
+	};
+	
 	
 	public static void main(String[] args) {
 		
 		I18NProcessor i18nProcessor =  new I18NProcessor();
 		if(args.length >0) {
-			i18nProcessor.rootFilePath = "E:\\work\\nexusglobal\\apm\\integration\\java\\apm-planningoptimizer";//args[0];
+			//"E:\\work\\nexusglobal\\apm\\integration\\java\\apm-planningoptimizer";
+			i18nProcessor.rootFilePath = args[0];
 		}else {
 			i18nProcessor.rootFilePath = System.getProperty("user.dir");
 		}
@@ -167,7 +177,11 @@ public class I18NProcessor {
 	private String upperCamelCase(String value) {
 		StringBuilder sb = new StringBuilder();
 		for(String word: value.split(" ")) {
-			sb.append(word.substring(0,1).toUpperCase() + word.substring(1).toLowerCase());
+			if(!jasperReportWordExclusions.containsKey(word)) {
+				sb.append(word.substring(0,1).toUpperCase() + word.substring(1).toLowerCase());
+			}else {
+				sb.append(jasperReportWordExclusions.get(word));
+			}
 			sb.append(" ");
 		}
 		
